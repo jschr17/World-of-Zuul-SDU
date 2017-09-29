@@ -1,4 +1,4 @@
-package worldofzuul;
+package Zuul_Framework;
 
 import java.util.Scanner;
 import java.util.StringTokenizer;
