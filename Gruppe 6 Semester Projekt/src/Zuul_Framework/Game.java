@@ -17,28 +17,46 @@ public class Game
 
     private void createRooms()
     {
-        Room outside, theatre, pub, lab, office;
+        Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
       
-        outside = new Room("outside the main entrance of the university");
-        theatre = new Room("in a lecture theatre");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
+        medbay = new Room("in a medical bay. A flickering light reveals "
+                + "a counter, and a strange medical device in the corner.");
         
-        outside.setExit("east", theatre);
-        outside.setExit("south", lab);
-        outside.setExit("west", pub);
+        keyRoom = new Room("in a dimly lit room. In the corner you see a large creature.");
+        
+        armoury = new Room("in an armoury, you see a weapon cabinet against the "
+                + "eastern wall, a bookcase against the north wall, and a table in the middle of the room.");
+        
+        hallway = new Room("in a hallway, you see a large door to the east, "
+                + "a window on the western wall, and a cabinet.");
+        
+        communicationRoom = new Room("in the communication room. A noisy radio "
+                + "array is in the middle of the room. There is a panel next to "
+                + "a large door.");
+        
+        airlock = new Room("in an airlock. There is an exit hatch in front of "
+                + "you. On the eastern wall is a panel illuminated by a small "
+                + "green LED,\n and on the western wall is a small glass cabinet.");
+        
+        medbay.setExit("north", keyRoom);
+        
+        keyRoom.setExit("south", medbay);
+        keyRoom.setExit("east", armoury);
+        keyRoom.setExit("north", hallway);
 
-        theatre.setExit("west", outside);
+        //armoury.setExit("north", communicationRoom);  Can only be accessed after the secret passage is found
+        armoury.setExit("west", keyRoom);
 
-        pub.setExit("east", outside);
+        //hallway.setExit("east", communicationRoom); Can only be accessed after getting quiz right, or unlocking from the inside
+        hallway.setExit("north", airlock);
+        hallway.setExit("south", keyRoom);
+       
+        //communicationRoom.setExit("west", hallway); Can only be accessed after unlocking the door (lever)
+        communicationRoom.setExit("south", armoury);
 
-        lab.setExit("north", outside);
-        lab.setExit("east", office);
+        airlock.setExit("south", hallway);
 
-        office.setExit("west", lab);
-
-        currentRoom = outside;
+        currentRoom = medbay;
     }
 
     public void play() 
@@ -56,8 +74,8 @@ public class Game
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+        System.out.println("Welcome to Mads Effect!");
+        System.out.println("Mads Effect is a new, incredibly exciting space-adventure game.");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
@@ -89,7 +107,7 @@ public class Game
     private void printHelp() 
     {
         System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
+        System.out.println("around an abandoned spaceship.");
         System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();
