@@ -4,21 +4,22 @@ package Zuul_Framework;
  * @author  Michael Kolling and David J. Barnes
  * @version 2006.03.30
  */
+// the Class that contains the specifics in the game and assigns values to the initialized constructors
 public class Game 
 {
-    private Parser parser;
-    private Room currentRoom;
-        
+    private Parser parser;  //declares a paser objekt, so the game can read inputs
+    private Room currentRoom;   // initialices a starting room
+    // constructor for the game class    
     public Game() 
     {
         createRooms();
         parser = new Parser();
     }
-
+    //initializing of the rooms objekts needed in the game 
     private void createRooms()
-    {
+    {   //asigning the room objects
         Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
-      
+        // The initialication of the room objekts
         medbay = new Room("in a medical bay. A flickering light reveals "
                 + "a counter, and a strange medical device in the corner.");
         
@@ -37,7 +38,8 @@ public class Game
         airlock = new Room("in an airlock. There is an exit hatch in front of "
                 + "you. On the eastern wall is a panel illuminated by a small "
                 + "green LED,\n and on the western wall is a small glass cabinet.");
-        
+       
+        // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
         medbay.setExit("north", keyRoom);
         
         keyRoom.setExit("south", medbay);
@@ -55,22 +57,22 @@ public class Game
         communicationRoom.setExit("south", armoury);
 
         airlock.setExit("south", hallway);
-
+        //the current room is assigned a room object
         currentRoom = medbay;
     }
-
+    // the method that starts the game
     public void play() 
     {            
-        printWelcome();
+        printWelcome(); //prints the welcome message
 
-        boolean finished = false;
-        while (! finished) {
-            Command command = parser.getCommand();
-            finished = processCommand(command);
+        boolean finished = false; //initiates a boolen to determine if the game is finished
+        while (! finished) {    // the main game loop, runs as long as boolean finnishd = false
+            Command command = parser.getCommand(); // gets a command from the passer Class and processes it
+            finished = processCommand(command);     // after each command is prosed the came checks if the finish command have been given,
         }
-        System.out.println("Thank you for playing.  Good bye.");
+        System.out.println("Thank you for playing.  Good bye."); //prints this line if finished == true
     }
-
+    //Method that print the welcome + long description information when game is started
     private void printWelcome()
     {
         System.out.println();
