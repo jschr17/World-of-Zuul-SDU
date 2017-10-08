@@ -7,27 +7,31 @@ import java.util.StringTokenizer;
  * @author  Michael Kolling and David J. Barnes
  * @version 2006.03.30
  */
+//The job of this class is to take a input from the console and tur it into a commandWord and a secondWord
 public class Parser 
 {
-    private CommandWords commands;
-    private Scanner reader;
-
+    private CommandWords commands;  //Creates a commandword object
+    private Scanner reader;         // Creates a Scanner objekt
+    //Constructor that initializes the CommandWord and Scanner objekts
     public Parser() 
     {
-        commands = new CommandWords();
+        commands = new CommandWords();  
         reader = new Scanner(System.in);
     }
-
+    //Method that takes two words from the scanner and turns them into command objects
     public Command getCommand() 
     {
-        String inputLine;
-        String word1 = null;
-        String word2 = null;
+        String inputLine;       //crates a variable to hold the input
+        String word1 = null;    // variable to hold the first word
+        String word2 = null;    // variable to hold the second word
 
-        System.out.print("> ");
+        System.out.print("> "); // indicater to get the player to input a line
 
-        inputLine = reader.nextLine();
-
+        inputLine = reader.nextLine();  //inputLine is equated to the Scanner input
+        
+        //StringTokenizer is a java utlity tool that brakes a Sting down into ist individual words
+        //here it is used on the InputLine variable to barke it down into a word1 and a word2,
+        //if any aditional words (more than 2) are in the Input.line they are ignored
         Scanner tokenizer = new Scanner(inputLine);
         if(tokenizer.hasNext()) {
             word1 = tokenizer.next();
@@ -36,9 +40,9 @@ public class Parser
             }
         }
 
-        return new Command(commands.getCommandWord(word1), word2);
+        return new Command(commands.getCommandWord(word1), word2);  //returnstatment that cast word1 into a CommandWord and word2 into a command 
     }
-
+    // method for returning all Commands
     public void showCommands()
     {
         commands.showAll();
