@@ -82,30 +82,32 @@ public class Game
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
     }
-
+    // this boolean method is actualy what carryes most of the ingame logic, and is the main component of the game loop
+    // any new game commands must be assigned a opperator here!
     private boolean processCommand(Command command) 
     {
-        boolean wantToQuit = false;
-
+        boolean wantToQuit = false; // here the want to quit boolean is initialized
+        // a command object is created form the first word recognized from the Parser
         CommandWord commandWord = command.getCommandWord();
-
-        if(commandWord == CommandWord.UNKNOWN) {
-            System.out.println("I don't know what you mean...");
+        //an if-statement for each of the enum objects defined in the CommandWord class
+        // here there is designated the response the statements procure
+        if(commandWord == CommandWord.UNKNOWN) {                // all strings that dosent match any of the other enum statments
+            System.out.println("I don't know what you mean..."); //returns this line in the console
             return false;
         }
-
-        if (commandWord == CommandWord.HELP) {
+        //if the input matches yne other of the enum != UNKNOWN the response ar dermined there
+        if (commandWord == CommandWord.HELP) {  // HELP results in caling th printHelp() method
             printHelp();
         }
-        else if (commandWord == CommandWord.GO) {
+        else if (commandWord == CommandWord.GO) {   // GO is assigned the goRoom(command) method
             goRoom(command);
         }
-        else if (commandWord == CommandWord.QUIT) {
+        else if (commandWord == CommandWord.QUIT) { // QUIT assigneds the wantToQuit variable the quit(command) method
             wantToQuit = quit(command);
         }
-        return wantToQuit;
+        return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
     }
-
+    // method for printing help, 
     private void printHelp() 
     {
         System.out.println("You are lost. You are alone. You wander");
@@ -114,31 +116,31 @@ public class Game
         System.out.println("Your command words are:");
         parser.showCommands();
     }
-
+    //method for moving between rooms
     private void goRoom(Command command) 
     {
-        if(!command.hasSecondWord()) {
-            System.out.println("Go where?");
+        if(!command.hasSecondWord()) {      //if statement for determining if there is a second word returned from the Parser
+            System.out.println("Go where?");// if no word is givven this line is printed in the console
             return;
         }
 
-        String direction = command.getSecondWord();
+        String direction = command.getSecondWord(); //direction is sat to be the second word from the Parser
 
-        Room nextRoom = currentRoom.getExit(direction);
+        Room nextRoom = currentRoom.getExit(direction);//initiates a new room object based on the Exit hashmap
 
-        if (nextRoom == null) {
-            System.out.println("There is no door!");
+        if (nextRoom == null) {                     //if no roomobject is found in the exit HashMap
+            System.out.println("There is no door!");// this line is printed
         }
         else {
-            currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription());
+            currentRoom = nextRoom;                                // else the new room is sat to be currentRoom
+            System.out.println(currentRoom.getLongDescription());   // and the long description is printed
         }
     }
-
+    // the quit method that returns wantToQuit true if quit has ben sent from the Parser
     private boolean quit(Command command) 
     {
-        if(command.hasSecondWord()) {
-            System.out.println("Quit what?");
+        if(command.hasSecondWord()) {           // if the Parser sends a second word along with quit
+            System.out.println("Quit what?");   //this line is printed and wantToQuit returns false
             return false;
         }
         else {
