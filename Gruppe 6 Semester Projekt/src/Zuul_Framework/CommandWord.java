@@ -13,7 +13,9 @@ package Zuul_Framework;
 public enum CommandWord
 {   // declaration of enum constants which are assign a string value,
     //UNKNOWN is assigned (“?”) which relates that all other values, besides those assigned to another enum variable, is assigned to UNKNOWN
-    GO("go"), QUIT("quit"), HELP("help"), UNKNOWN("?");
+    GO("go"),QUIT("quit"), HELP("help"), INSPECT("inspect"), UNKNOWN("?"),
+    SEARCH("search"), USE("use"), TAKE("take"), DROP("drop"), 
+    SHOOT("Shoot"), LOOK("look"), BREAK("break");
     
     private String commandString;   // all the above constants refers back to this variable
     

@@ -19,6 +19,7 @@ public class Game
     private void createRooms()
     {   //asigning the room objects
         Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
+        Interactables kettle, stick, sword;
         // The initialication of the room objects
         medbay = new Room("in a medical bay. A flickering light reveals "
                 + "a counter, and a strange medical device in the corner.");
@@ -38,6 +39,12 @@ public class Game
         airlock = new Room("in an airlock. There is an exit hatch in front of "
                 + "you. On the eastern wall is a panel illuminated by a small "
                 + "green LED,\n and on the western wall is a small glass cabinet.");
+        kettle = new Interactables("kettle","This is a fucking kettle");
+        stick = new Interactables("stick","This is a fucking stick");
+        sword = new Interactables("sword","This is a fucking sword");
+        medbay.setInteractables(kettle);
+        medbay.setInteractables(stick);
+        medbay.setInteractables(sword);
        
         // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
         medbay.setExit("north", keyRoom);
@@ -105,6 +112,11 @@ public class Game
         else if (commandWord == CommandWord.QUIT) { // QUIT assigneds the wantToQuit variable the quit(command) method
             wantToQuit = quit(command);
         }
+        else if (commandWord == CommandWord.INSPECT){
+            getItemDescription(command);
+        }
+        else if (commandWord == CommandWord.SEARCH)
+            currentRoom.searchRoom();
         return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
     }
     // method for printing help, 
@@ -146,5 +158,15 @@ public class Game
         else {
             return true;
         }
+    }
+    private void getItemDescription(Command command) {
+        if(!command.hasSecondWord()) {
+            //Hvis der ikke er to ord, understående bliver printet og man
+            //bliver bedt om at prøve igen.
+            System.out.println("Which item?");
+            return;
+        }
+        String item = command.getSecondWord();
+        System.out.println(currentRoom.checkItems(item));
     }
 }

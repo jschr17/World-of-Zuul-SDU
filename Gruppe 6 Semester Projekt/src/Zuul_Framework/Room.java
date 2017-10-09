@@ -1,5 +1,6 @@
 package Zuul_Framework;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,10 +16,13 @@ public class Room
     private String description;             //a string that will carry the description of the room
     private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
     //constructor that sets the rooms description
+    private Interactables interactables;
+    private ArrayList<Interactables> interactList;
     public Room(String description) 
     {
         this.description = description;
-        exits = new HashMap<String, Room>();    // a new exit HashMap is crated for each instance of room
+        exits = new HashMap<>();    // a new exit HashMap is crated for each instance of room
+        interactList = new ArrayList<>();
     }
     //method for setting the exits of a room with a direction (key) and a neighbor room object
     public void setExit(String direction, Room neighbor) 
@@ -50,5 +54,37 @@ public class Room
     {
         return exits.get(direction);
     }
+    public void searchRoom(){
+        if(this.interactList.isEmpty()){
+            System.out.println("There is nothing in the room");
+        } else {
+            System.out.println("You notice the following stuff in the room:");
+            for(Interactables i : this.interactList){
+                System.out.println(i.getItemName());
+            }
+        }
+        
+    }
+    public void setInteractables(Interactables interactables){
+        this.interactList.add(interactables);
+    }
+
+    public String checkItems(String itemName){
+        if(this.interactList.isEmpty()){
+            return "Placeholder";
+        } else {
+        String itemDescription = "";
+        for(Interactables i : this.interactList){
+            if(i.getItemName().equals(itemName)){
+                itemDescription = i.getItemDescription();
+                return itemDescription;
+            }else{
+                itemDescription = "What item are you carrying?";
+            }
+        }
+        return itemDescription;
+        }
+    
+}
 }
 
