@@ -5,7 +5,7 @@ package Zuul_Framework;
  * @version 2006.03.30
  */
 /**
- * this classe is of the enum data type:
+ * this class is of the enum data type:
  * enum  is a special data type that enables for a variable to be a set of predefined constants.
  * The variable must be equal to one of the values that have been predefined for it.
  * This class is used for declaring which words are considered a CommandWord
@@ -15,7 +15,7 @@ public enum CommandWord
     //UNKNOWN is assigned (“?”) which relates that all other values, besides those assigned to another enum variable, is assigned to UNKNOWN
     GO("go"), QUIT("quit"), HELP("help"), UNKNOWN("?");
     
-    private String commandString;   // all the above constants referees back to this variable
+    private String commandString;   // all the above constants refers back to this variable
     
     //constructor 
     CommandWord(String commandString)
