@@ -21,7 +21,7 @@ public class CommandWords
             }
         }
     }
-    //Method that uses the HashMap vaildCommands to return the enuem command when its feed the coresponding string key
+    //Method that uses the HashMap vaildCommands to return the enuem command when its fed the coresponding string key
     public CommandWord getCommandWord(String commandWord)
     {
         CommandWord command = validCommands.get(commandWord);
