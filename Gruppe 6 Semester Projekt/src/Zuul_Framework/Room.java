@@ -12,7 +12,7 @@ import java.util.Iterator;
 // this class is used for crating room objects for the player to transition between
 public class Room 
 {
-    private String description;             //a sting that will carry the description of the room
+    private String description;             //a string that will carry the description of the room
     private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
     //constructor that sets the rooms description
     public Room(String description) 
