@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
  * @author  Michael Kolling and David J. Barnes
  * @version 2006.03.30
  */
-//The job of this class is to take a input from the console and tur it into a commandWord and a secondWord
+//The job of this class is to take a input from the console and turn it into a commandWord and a secondWord
 public class Parser 
 {
     private CommandWords commands;  //Creates a commandword object
@@ -29,8 +29,8 @@ public class Parser
 
         inputLine = reader.nextLine();  //inputLine is equated to the Scanner input
         
-        //StringTokenizer is a java utlity tool that brakes a Sting down into ist individual words
-        //here it is used on the InputLine variable to barke it down into a word1 and a word2,
+        //StringTokenizer is a java utlity tool that breaks a String down into its individual words
+        //here it is used on the InputLine variable to break it down into a word1 and a word2,
         //if any aditional words (more than 2) are in the Input.line they are ignored
         Scanner tokenizer = new Scanner(inputLine);
         if(tokenizer.hasNext()) {
