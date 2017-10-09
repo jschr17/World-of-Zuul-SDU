@@ -7,19 +7,19 @@ package Zuul_Framework;
 // the Class that contains the specifics in the game and assigns values to the initialized constructors
 public class Game 
 {
-    private Parser parser;  //declares a paser objekt, so the game can read inputs
-    private Room currentRoom;   // initialices a starting room
+    private Parser parser;  //declares a parser objekt, so the game can read inputs
+    private Room currentRoom;   // initialises a starting room
     // constructor for the game class    
     public Game() 
     {
         createRooms();
         parser = new Parser();
     }
-    //initializing of the rooms objekts needed in the game 
+    //initializing of the rooms objects needed in the game 
     private void createRooms()
     {   //asigning the room objects
         Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
-        // The initialication of the room objekts
+        // The initialication of the room objects
         medbay = new Room("in a medical bay. A flickering light reveals "
                 + "a counter, and a strange medical device in the corner.");
         
@@ -66,8 +66,8 @@ public class Game
         printWelcome(); //prints the welcome message
 
         boolean finished = false; //initiates a boolen to determine if the game is finished
-        while (! finished) {    // the main game loop, runs as long as boolean finnishd = false
-            Command command = parser.getCommand(); // gets a command from the passer Class and processes it
+        while (! finished) {    // the main game loop, runs as long as boolean finished = false
+            Command command = parser.getCommand(); // gets a command from the parser Class and processes it
             finished = processCommand(command);     // after each command is prosed the came checks if the finish command have been given,
         }
         System.out.println("Thank you for playing.  Good bye."); //prints this line if finished == true
@@ -82,7 +82,7 @@ public class Game
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
     }
-    // this boolean method is actualy what carryes most of the ingame logic, and is the main component of the game loop
+    // this boolean method is actualy what carries most of the ingame logic, and is the main component of the game loop
     // any new game commands must be assigned a opperator here!
     private boolean processCommand(Command command) 
     {
@@ -91,12 +91,12 @@ public class Game
         CommandWord commandWord = command.getCommandWord();
         //an if-statement for each of the enum objects defined in the CommandWord class
         // here there is designated the response the statements procure
-        if(commandWord == CommandWord.UNKNOWN) {                // all strings that dosent match any of the other enum statments
+        if(commandWord == CommandWord.UNKNOWN) {                // all strings that doesn't match any of the other enum statments
             System.out.println("I don't know what you mean..."); //returns this line in the console
             return false;
         }
-        //if the input matches yne other of the enum != UNKNOWN the response ar dermined there
-        if (commandWord == CommandWord.HELP) {  // HELP results in caling th printHelp() method
+        //if the input matches one other of the enum != UNKNOWN the response is determined there
+        if (commandWord == CommandWord.HELP) {  // HELP results in caling the printHelp() method
             printHelp();
         }
         else if (commandWord == CommandWord.GO) {   // GO is assigned the goRoom(command) method
@@ -120,7 +120,7 @@ public class Game
     private void goRoom(Command command) 
     {
         if(!command.hasSecondWord()) {      //if statement for determining if there is a second word returned from the Parser
-            System.out.println("Go where?");// if no word is givven this line is printed in the console
+            System.out.println("Go where?");// if no word is given this line is printed in the console
             return;
         }
 
