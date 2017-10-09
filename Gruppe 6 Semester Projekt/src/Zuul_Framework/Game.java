@@ -4,121 +4,143 @@ package Zuul_Framework;
  * @author  Michael Kolling and David J. Barnes
  * @version 2006.03.30
  */
+// the Class that contains the specifics in the game and assigns values to the initialized constructors
 public class Game 
 {
-    private Parser parser;
-    private Room currentRoom;
-        
+    private Parser parser;  //declares a parser objekt, so the game can read inputs
+    private Room currentRoom;   // initialises a starting room
+    // constructor for the game class    
     public Game() 
     {
         createRooms();
         parser = new Parser();
     }
-
+    //initializing of the rooms objects needed in the game 
     private void createRooms()
-    {
-        Room outside, theatre, pub, lab, office;
-      
-        outside = new Room("outside the main entrance of the university");
-        theatre = new Room("in a lecture theatre");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
+    {   //asigning the room objects
+        Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
+        // The initialication of the room objects
+        medbay = new Room("in a medical bay. A flickering light reveals "
+                + "a counter, and a strange medical device in the corner.");
         
-        outside.setExit("east", theatre);
-        outside.setExit("south", lab);
-        outside.setExit("west", pub);
+        keyRoom = new Room("in a dimly lit room. In the corner you see a large creature.");
+        
+        armoury = new Room("in an armoury, you see a weapon cabinet against the "
+                + "eastern wall, a bookcase against the north wall, and a table in the middle of the room.");
+        
+        hallway = new Room("in a hallway, you see a large door to the east, "
+                + "a window on the western wall, and a cabinet.");
+        
+        communicationRoom = new Room("in the communication room. A noisy radio "
+                + "array is in the middle of the room. There is a panel next to "
+                + "a large door.");
+        
+        airlock = new Room("in an airlock. There is an exit hatch in front of "
+                + "you. On the eastern wall is a panel illuminated by a small "
+                + "green LED,\n and on the western wall is a small glass cabinet.");
+       
+        // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
+        medbay.setExit("north", keyRoom);
+        
+        keyRoom.setExit("south", medbay);
+        keyRoom.setExit("east", armoury);
+        keyRoom.setExit("north", hallway);
 
-        theatre.setExit("west", outside);
+        //armoury.setExit("north", communicationRoom);  Can only be accessed after the secret passage is found
+        armoury.setExit("west", keyRoom);
 
-        pub.setExit("east", outside);
+        //hallway.setExit("east", communicationRoom); Can only be accessed after getting quiz right, or unlocking from the inside
+        hallway.setExit("north", airlock);
+        hallway.setExit("south", keyRoom);
+       
+        //communicationRoom.setExit("west", hallway); Can only be accessed after unlocking the door (lever)
+        communicationRoom.setExit("south", armoury);
 
-        lab.setExit("north", outside);
-        lab.setExit("east", office);
-
-        office.setExit("west", lab);
-
-        currentRoom = outside;
+        airlock.setExit("south", hallway);
+        //the current room is assigned a room object
+        currentRoom = medbay;
     }
-
+    // the method that starts the game
     public void play() 
     {            
-        printWelcome();
+        printWelcome(); //prints the welcome message
 
-        boolean finished = false;
-        while (! finished) {
-            Command command = parser.getCommand();
-            finished = processCommand(command);
+        boolean finished = false; //initiates a boolen to determine if the game is finished
+        while (! finished) {    // the main game loop, runs as long as boolean finished = false
+            Command command = parser.getCommand(); // gets a command from the parser Class and processes it
+            finished = processCommand(command);     // after each command is prosed the came checks if the finish command have been given,
         }
-        System.out.println("Thank you for playing.  Good bye.");
+        System.out.println("Thank you for playing.  Good bye."); //prints this line if finished == true
     }
-
+    //Method that print the welcome + long description information when game is started
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+        System.out.println("Welcome to Mads Effect!");
+        System.out.println("Mads Effect is a new, incredibly exciting space-adventure game.");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
     }
-
+    // this boolean method is actualy what carries most of the ingame logic, and is the main component of the game loop
+    // any new game commands must be assigned a opperator here!
     private boolean processCommand(Command command) 
     {
-        boolean wantToQuit = false;
-
+        boolean wantToQuit = false; // here the want to quit boolean is initialized
+        // a command object is created form the first word recognized from the Parser
         CommandWord commandWord = command.getCommandWord();
-
-        if(commandWord == CommandWord.UNKNOWN) {
-            System.out.println("I don't know what you mean...");
+        //an if-statement for each of the enum objects defined in the CommandWord class
+        // here there is designated the response the statements procure
+        if(commandWord == CommandWord.UNKNOWN) {                // all strings that doesn't match any of the other enum statments
+            System.out.println("I don't know what you mean..."); //returns this line in the console
             return false;
         }
-
-        if (commandWord == CommandWord.HELP) {
+        //if the input matches one other of the enum != UNKNOWN the response is determined there
+        if (commandWord == CommandWord.HELP) {  // HELP results in caling the printHelp() method
             printHelp();
         }
-        else if (commandWord == CommandWord.GO) {
+        else if (commandWord == CommandWord.GO) {   // GO is assigned the goRoom(command) method
             goRoom(command);
         }
-        else if (commandWord == CommandWord.QUIT) {
+        else if (commandWord == CommandWord.QUIT) { // QUIT assigneds the wantToQuit variable the quit(command) method
             wantToQuit = quit(command);
         }
-        return wantToQuit;
+        return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
     }
-
+    // method for printing help, 
     private void printHelp() 
     {
         System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
+        System.out.println("around an abandoned spaceship.");
         System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();
     }
-
+    //method for moving between rooms
     private void goRoom(Command command) 
     {
-        if(!command.hasSecondWord()) {
-            System.out.println("Go where?");
+        if(!command.hasSecondWord()) {      //if statement for determining if there is a second word returned from the Parser
+            System.out.println("Go where?");// if no word is given this line is printed in the console
             return;
         }
 
-        String direction = command.getSecondWord();
+        String direction = command.getSecondWord(); //direction is sat to be the second word from the Parser
 
-        Room nextRoom = currentRoom.getExit(direction);
+        Room nextRoom = currentRoom.getExit(direction);//initiates a new room object based on the Exit hashmap
 
-        if (nextRoom == null) {
-            System.out.println("There is no door!");
+        if (nextRoom == null) {                     //if no roomobject is found in the exit HashMap
+            System.out.println("There is no door!");// this line is printed
         }
         else {
-            currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription());
+            currentRoom = nextRoom;                                // else the new room is sat to be currentRoom
+            System.out.println(currentRoom.getLongDescription());   // and the long description is printed
         }
     }
-
+    // the quit method that returns wantToQuit true if quit has ben sent from the Parser
     private boolean quit(Command command) 
     {
-        if(command.hasSecondWord()) {
-            System.out.println("Quit what?");
+        if(command.hasSecondWord()) {           // if the Parser sends a second word along with quit
+            System.out.println("Quit what?");   //this line is printed and wantToQuit returns false
             return false;
         }
         else {
