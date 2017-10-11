@@ -1,5 +1,7 @@
 package Zuul_Framework;
 
+import java.awt.Desktop;
+
 /**
  * @author  Michael Kolling and David J. Barnes
  * @version 2006.03.30
@@ -19,7 +21,6 @@ public class Game
     private void createRooms()
     {   //asigning the room objects
         Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
-        Interactables kettle, stick, sword;
         // The initialication of the room objects
         medbay = new Room("in a medical bay. A flickering light reveals "
                 + "a counter, and a strange medical device in the corner.");
@@ -39,12 +40,18 @@ public class Game
         airlock = new Room("in an airlock. There is an exit hatch in front of "
                 + "you. On the eastern wall is a panel illuminated by a small "
                 + "green LED,\n and on the western wall is a small glass cabinet.");
-        kettle = new Interactables("kettle","This is a fucking kettle");
-        stick = new Interactables("stick","This is a fucking stick");
-        sword = new Interactables("sword","This is a fucking sword");
+        InteractablesObject desk = new Destructables("Desk", 
+                "This is a desk. Seems like it can be broken", 
+                "The desk breaks down, and reveals a door behind it"); 
+        InteractablesObject kettle = new Items("kettle","This is a fucking kettle");
+        InteractablesObject stick = new Items("stick","This is a fucking stick");
+        InteractablesObject sword = new Items("sword","This is a fucking sword");
         medbay.setInteractables(kettle);
         medbay.setInteractables(stick);
         medbay.setInteractables(sword);
+        medbay.setInteractables(desk);
+        System.out.println(desk.isPickupable());
+        System.out.println(kettle.isPickupable());
        
         // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
         medbay.setExit("north", keyRoom);
@@ -115,8 +122,13 @@ public class Game
         else if (commandWord == CommandWord.INSPECT){
             getItemDescription(command);
         }
-        else if (commandWord == CommandWord.SEARCH)
+        else if (commandWord == CommandWord.SEARCH) {
             currentRoom.searchRoom();
+        }
+        else if (commandWord == CommandWord.LOOK){
+
+        }
+            
         return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
     }
     // method for printing help, 

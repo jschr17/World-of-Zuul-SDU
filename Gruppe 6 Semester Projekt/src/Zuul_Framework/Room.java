@@ -16,8 +16,8 @@ public class Room
     private String description;             //a string that will carry the description of the room
     private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
     //constructor that sets the rooms description
-    private Interactables interactables;
-    private ArrayList<Interactables> interactList;
+    private Items interactables;
+    private ArrayList<InteractablesObject> interactList;
     public Room(String description) 
     {
         this.description = description;
@@ -59,13 +59,13 @@ public class Room
             System.out.println("There is nothing in the room");
         } else {
             System.out.println("You notice the following stuff in the room:");
-            for(Interactables i : this.interactList){
-                System.out.println(i.getItemName());
+            for(InteractablesObject i : this.interactList){
+                System.out.println(i.getName());
             }
         }
         
     }
-    public void setInteractables(Interactables interactables){
+    public void setInteractables(InteractablesObject interactables){
         this.interactList.add(interactables);
     }
 
@@ -74,9 +74,9 @@ public class Room
             return "Placeholder";
         } else {
         String itemDescription = "";
-        for(Interactables i : this.interactList){
-            if(i.getItemName().equals(itemName)){
-                itemDescription = i.getItemDescription();
+        for(InteractablesObject i : this.interactList){
+            if(i.getName().equals(itemName)){
+                itemDescription = i.getDescription();
                 return itemDescription;
             }else{
                 itemDescription = "What item are you carrying?";
