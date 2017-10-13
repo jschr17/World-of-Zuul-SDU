@@ -1,3 +1,2 @@
-hallo:Gad vide om det virker?
-1234:haaber det gør
-rum3:Welcome to space
+medbay:in a medical bay. A flickering light reveals a counter, and a strange medical device in the corner.
+keyRoom:in a dimly lit room. In the corner you see a large creature
