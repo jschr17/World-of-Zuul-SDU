@@ -8,7 +8,7 @@ public class Immovable implements Interactables /*extends Destructables*/{
     private String name, description, useDescription;
     private boolean destructible, flag;
     private final boolean isPickupable = false;
-    private Items item;
+    private Item item;
     
     /**
      *
@@ -78,12 +78,12 @@ public class Immovable implements Interactables /*extends Destructables*/{
     }
     
     // sets any items the immovable might contain
-    public void setItems(Items item){
+    public void setItems(Item item){
         this.item = item;
     }
     
-    public Items takeItem(){
-        Items returnItem = this.item;
+    public Item takeItem(){
+        Item returnItem = this.item;
         this.item = null;
         return returnItem;
     }
