@@ -26,19 +26,10 @@ public class Game
         // The initialication of the room objects
         medbay = new Room(text.getText("medbay"));
         keyRoom = new Room(text.getText("keyRoom"));
-        armoury = new Room("in an armoury, you see a weapon cabinet against the "
-                + "eastern wall, a bookcase against the north wall, and a table in the middle of the room.");
-        
-        hallway = new Room("in a hallway, you see a large door to the east, "
-                + "a window on the western wall, and a cabinet.");
-        
-        communicationRoom = new Room("in the communication room. A noisy radio "
-                + "array is in the middle of the room. There is a panel next to "
-                + "a large door.");
-        
-        airlock = new Room("in an airlock. There is an exit hatch in front of "
-                + "you. On the eastern wall is a panel illuminated by a small "
-                + "green LED,\n and on the western wall is a small glass cabinet.");
+        armoury = new Room(text.getText("armory"));
+        hallway = new Room(text.getText("hallway"));
+        communicationRoom = new Room(text.getText("communicationRoom"));
+        airlock = new Room(text.getText("airlock"));
         kettle = new Interactables("kettle","This is a fucking kettle");
         stick = new Interactables("stick","This is a fucking stick");
         sword = new Interactables("sword","This is a fucking sword");
