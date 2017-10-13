@@ -74,6 +74,14 @@ public class Game
         //the current room is assigned a room object
         currentRoom = medbay;
     }
+    
+    //this method needs to create the immovables within specified rooms
+    private void createImmovables() 
+    {   Immovable counter, device, table, weaponCabinet, bookshelf, closet, glassCabinet, airlockPanel, doorLockPanel, radioArray;
+        counter = new Immovable("Counter", "There's a medkit on the countertop.", "You can't use this.", false, false);
+        medbay.setImmovables(counter);
+                
+    }
     // the method that starts the game
     public void play() 
     {            
