@@ -4,7 +4,7 @@ package Zuul_Framework;
  *
  * @author Wilde
  */
-public class Immovable implements Interactables /*extends Destructables*/{
+public class Immovable /*implements Interactables extends Destructables*/{
     private String name, description, useDescription;
     private boolean destructible, flag;
     private final boolean isPickupable = false;
@@ -77,6 +77,9 @@ public class Immovable implements Interactables /*extends Destructables*/{
         this.flag = false;
     }
     
+    public void setFlag(boolean flag){
+        this.flag = flag;
+    }
     // sets any items the immovable might contain
     public void setItems(Item item){
         this.item = item;

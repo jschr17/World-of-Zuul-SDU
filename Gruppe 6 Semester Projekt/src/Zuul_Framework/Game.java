@@ -40,18 +40,18 @@ public class Game
         airlock = new Room("in an airlock. There is an exit hatch in front of "
                 + "you. On the eastern wall is a panel illuminated by a small "
                 + "green LED,\n and on the western wall is a small glass cabinet.");
-        InteractablesObject desk = new Destructables("Desk", 
-                "This is a desk. Seems like it can be broken", 
-                "The desk breaks down, and reveals a door behind it"); 
-        InteractablesObject kettle = new Items("kettle","This is a fucking kettle");
-        InteractablesObject stick = new Items("stick","This is a fucking stick");
-        InteractablesObject sword = new Items("sword","This is a fucking sword");
-        medbay.setInteractables(kettle);
-        medbay.setInteractables(stick);
-        medbay.setInteractables(sword);
-        medbay.setInteractables(desk);
-        System.out.println(desk.isPickupable());
-        System.out.println(kettle.isPickupable());
+//        InteractablesObject desk = new Destructables("Desk", 
+//                "This is a desk. Seems like it can be broken", 
+//                "The desk breaks down, and reveals a door behind it"); 
+//        InteractablesObject kettle = new Item("kettle","This is a fucking kettle");
+//        InteractablesObject stick = new Item("stick","This is a fucking stick");
+//        InteractablesObject sword = new Item("sword","This is a fucking sword");
+//        medbay.setInteractables(kettle);
+//        medbay.setInteractables(stick);
+//        medbay.setInteractables(sword);
+//        medbay.setInteractables(desk);
+//        System.out.println(desk.isPickupable());
+//        System.out.println(kettle.isPickupable());
        
         // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
         medbay.setExit("north", keyRoom);
@@ -71,17 +71,19 @@ public class Game
         communicationRoom.setExit("south", armoury);
 
         airlock.setExit("south", hallway);
+        //creating immovables
+        
+        Immovable counter, device, table, weaponCabinet, bookshelf, closet, glassCabinet, airlockPanel, doorLockPanel, radioArray;
+        counter = new Immovable("Counter", "There's a medkit on the countertop.", "You can't use this.", false, false);
+        device = new Immovable ("Medical device", "A strange medical device. There's an oxygen tank attatched to it", "you don't know how to use this", false, false);
+        
+        medbay.setImmovables(counter);
+        medbay.setImmovables(device);
+        
         //the current room is assigned a room object
         currentRoom = medbay;
     }
     
-    //this method needs to create the immovables within specified rooms
-    private void createImmovables() 
-    {   Immovable counter, device, table, weaponCabinet, bookshelf, closet, glassCabinet, airlockPanel, doorLockPanel, radioArray;
-        counter = new Immovable("Counter", "There's a medkit on the countertop.", "You can't use this.", false, false);
-        medbay.setImmovables(counter);
-                
-    }
     // the method that starts the game
     public void play() 
     {            

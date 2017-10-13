@@ -16,7 +16,7 @@ public class Room
     private String description;             //a string that will carry the description of the room
     private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
     //constructor that sets the rooms description
-    private Items interactables;
+    private Item interactables;
     private ArrayList<Immovable> interactList;
     public Room(String description) 
     {

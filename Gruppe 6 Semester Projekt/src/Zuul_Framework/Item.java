@@ -11,9 +11,10 @@ package Zuul_Framework;
  */
 //The item class.
 //This is where the pickupable item objects is created.
-public class Item extends Pickups {
+public abstract class Item extends Pickups {
     //Name, description, and use description is defined.
     private String itemName, itemDescription, useDescription;
+    private boolean flag;
     
     //This is the method that created the item object.
     public Item(String itemName, String itemDescription) {
@@ -45,6 +46,10 @@ public class Item extends Pickups {
     //returns a 
     public boolean isPickupable() {
        return pickup;
+    }
+    
+    public void setFlag(boolean flag){
+        this.flag = flag;
     }
 }
 
