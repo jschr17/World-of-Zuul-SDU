@@ -16,7 +16,12 @@ public class Immovable extends Destructables{
         
          
     }
+    
+    //public method to open cabinets (amoury/ hallway)
+    public void openCabinet(){
         
+    }   
+    
     //public method to break the table in the armoury
     public void breakTable(){
         //check to see if table is destructible before running the rest
