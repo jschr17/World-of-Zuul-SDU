@@ -1,4 +1,6 @@
 package Zuul_Framework;
+import Persistens.*;
+import java.io.IOException;
 
 /**
  * @author  Michael Kolling and David J. Barnes
@@ -7,10 +9,11 @@ package Zuul_Framework;
 // the Class that contains the specifics in the game and assigns values to the initialized constructors
 public class Game 
 {
+    InputHashmap text = new InputHashmap();
     private Parser parser;  //declares a parser objekt, so the game can read inputs
     private Room currentRoom;   // initialises a starting room
     // constructor for the game class    
-    public Game() 
+    public Game()throws IOException 
     {
         createRooms();
         parser = new Parser();
@@ -21,11 +24,8 @@ public class Game
         Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
         Interactables kettle, stick, sword;
         // The initialication of the room objects
-        medbay = new Room("in a medical bay. A flickering light reveals "
-                + "a counter, and a strange medical device in the corner.");
-        
-        keyRoom = new Room("in a dimly lit room. In the corner you see a large creature.");
-        
+        medbay = new Room(text.getText("medbay"));
+        keyRoom = new Room(text.getText("keyRoom"));
         armoury = new Room("in an armoury, you see a weapon cabinet against the "
                 + "eastern wall, a bookcase against the north wall, and a table in the middle of the room.");
         
