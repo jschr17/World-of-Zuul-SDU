@@ -9,8 +9,9 @@ package Zuul_Framework;
  *
  * @author SteamyBlizzard
  */
-public class Destructables extends Immovables {
+public abstract class Destructables extends Immovables {
     private String name, description, useDescription;
+    private boolean flag;
     
     public Destructables(String name, String description, 
             String useDescription){
@@ -38,5 +39,9 @@ public class Destructables extends Immovables {
         return pickup;
     }
     
+    @Override
+    public void setFlag(Boolean flag){
+        this.flag = flag;
+    }
     
 }

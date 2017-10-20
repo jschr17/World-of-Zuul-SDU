@@ -73,12 +73,37 @@ public class Game
         airlock.setExit("south", hallway);
         //creating immovables
         
-        Immovable counter, device, table, weaponCabinet, bookshelf, closet, glassCabinet, airlockPanel, doorLockPanel, radioArray;
-        counter = new Immovable("Counter", "There's a medkit on the countertop.", "You can't use this.", false, false);
-        device = new Immovable ("Medical device", "A strange medical device. There's an oxygen tank attatched to it", "you don't know how to use this", false, false);
+        /* Immovable(String name, String description, String useDescription, boolean destructible, boolean flag) */
+        Immovable counter, device, table, weaponCabinet, bookcase, closet, glassCabinet, airlockPanel, doorLockPanel, radioArray;
+        counter = new Immovable("counter", "A medical counter. There's a medkit on the countertop.", "You can't use this.", false, false);
+        device = new Immovable("device", "A strange medical device. There's an oxygen tank attatched to it", "you don't know how to use this.", false, false);
         
+        table = new Immovable("table", "A small table. There are a bunch of notes on top", "You can't use this.", true, false);
+        weaponCabinet = new Immovable("cabinet","A weapon cabinet. There seems to be something inside","It's locked", false, true);
+        bookcase = new Immovable("bookcase","A bookcase. There are no books left in it.","You move the bookcase to the side, and unveil hole in the wall.",false,false);
+        
+        closet = new Immovable("closet","A tall closet.","You open the closet, and a bunch of knives slide out. One of them hits your oxygen line.",false ,false);
+        
+        glassCabinet = new Immovable("cabinet","A glass cabinet. There is an oxygen tank inside.","You open the cabinet.",false ,false);
+        airlockPanel = new Immovable("panel","A panel with a red light, and a large red button. ","You press the large button. The light turns green",false ,false); // needs to have added the death/rescue effect on use
+        
+        doorLockPanel = new Immovable("panel","A panel with a single lever on it. A label says \" door lock\" ","You pull the lever, and a loud clunk is heard.",false ,false);
+        radioArray = new Immovable("radio","A radio array. Maybe you can use this to call for help.","Nothing happens, maybe the keyhole has something to do with it",false ,true);
+                
         medbay.setImmovables(counter);
         medbay.setImmovables(device);
+        
+        armoury.setImmovables(table);
+        armoury.setImmovables(weaponCabinet);
+        armoury.setImmovables(bookcase);
+        
+        hallway.setImmovables(closet);
+        
+        airlock.setImmovables(glassCabinet);
+        airlock.setImmovables(airlockPanel);
+        
+        communicationRoom.setImmovables(doorLockPanel);
+        communicationRoom.setImmovables(radioArray);
         
         //the current room is assigned a room object
         currentRoom = medbay;
