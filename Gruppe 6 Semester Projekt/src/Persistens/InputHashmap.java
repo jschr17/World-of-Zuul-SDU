@@ -9,6 +9,9 @@ import java.util.HashMap;
  *
  * @author Rasmus Jensen
  */
+// we use a FileReader to read a file as a string input, and wrap it in the BufferedReader to get it line by line and then preforms a split at the first occurrence of : in the line
+// this code forgoes any error detection based on Wrong syntax in the file, therefore it is important that each change in the file gets cheeked by the ImputFileHashmapTest class before the revisions are shipped
+
 public class InputHashmap  {
 
     

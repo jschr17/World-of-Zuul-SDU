@@ -14,7 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
-
+// works the same way as the ImputHashmap but tis is a mainclass that test for any errors in the file and prints the hasmap for reviu, so remember to test any changes to the file before shipping
 public class InputFileToHashmapTest 
 {
 public static void main( String[] args ) throws IOException
@@ -33,7 +33,7 @@ public static void main( String[] args ) throws IOException
             String value = parts[1];
             textMap.put(key, value);
         } else {
-            System.out.println("ignoring line: " + line);
+            System.out.println("this line wil be ignored fix it /!: " + line);
         }
     }
 
