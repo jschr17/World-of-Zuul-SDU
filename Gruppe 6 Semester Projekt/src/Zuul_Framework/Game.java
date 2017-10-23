@@ -166,6 +166,9 @@ public class Game
         else if (commandWord == CommandWord.BREAK){
             breakObject(command);
         }
+        else if (commandWord == CommandWord.CHECKBAG){
+            System.out.println("You are carrying: " + player.getInventory());
+        }
             
         return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
     }
