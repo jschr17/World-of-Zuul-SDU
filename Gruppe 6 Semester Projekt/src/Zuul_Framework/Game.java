@@ -11,6 +11,7 @@ public class Game
 {
     private Parser parser;  //declares a parser objekt, so the game can read inputs
     private Room currentRoom;   // initialises a starting room
+    private Player player = new Player(100, 100);
     // constructor for the game class    
     public Game() 
     {
