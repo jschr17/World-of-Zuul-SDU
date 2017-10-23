@@ -7,19 +7,15 @@ package Zuul_Framework;
 
 /**
  *
- * @author bruger
+ * @author SteamyBlizzard
  */
-public class Interactables {
-    private String itemName, itemDescription, useDescription;
-
-    public Interactables(String itemName, String itemDescription) {
-        this.itemName = itemName;
-        this.itemDescription = itemDescription;
-    }
-    public String getItemName(){
-        return itemName;
-    }
-    public String getItemDescription(){
-        return itemDescription;
-    }
+//An interface with the set methods our interactable objects use.
+public interface Interactables {
+    public abstract String getName();
+    public abstract String getDescription();
+    public abstract String getUseDescription();
+    public abstract boolean isPickupable();
+    public abstract boolean getFlag();
+    public abstract void setFlag(Boolean flag);
+    
 }

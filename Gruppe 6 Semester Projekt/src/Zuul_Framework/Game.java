@@ -2,6 +2,8 @@ package Zuul_Framework;
 import Persistens.*;
 import java.io.IOException;
 
+import java.awt.Desktop;
+
 /**
  * @author  Michael Kolling and David J. Barnes
  * @version 2006.03.30
@@ -22,7 +24,6 @@ public class Game
     private void createRooms()
     {   //asigning the room objects
         Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
-        Interactables kettle, stick, sword;
         // The initialication of the room objects
         medbay = new Room(text.getText("medbay"));
         keyRoom = new Room(text.getText("keyRoom"));
@@ -30,12 +31,18 @@ public class Game
         hallway = new Room(text.getText("hallway"));
         communicationRoom = new Room(text.getText("communicationRoom"));
         airlock = new Room(text.getText("airlock"));
-        kettle = new Interactables("kettle","This is a fucking kettle");
-        stick = new Interactables("stick","This is a fucking stick");
-        sword = new Interactables("sword","This is a fucking sword");
-        medbay.setInteractables(kettle);
-        medbay.setInteractables(stick);
-        medbay.setInteractables(sword);
+//        InteractablesObject desk = new Destructables("Desk", 
+//                "This is a desk. Seems like it can be broken", 
+//                "The desk breaks down, and reveals a door behind it"); 
+//        InteractablesObject kettle = new Item("kettle","This is a fucking kettle");
+//        InteractablesObject stick = new Item("stick","This is a fucking stick");
+//        InteractablesObject sword = new Item("sword","This is a fucking sword");
+//        medbay.setInteractables(kettle);
+//        medbay.setInteractables(stick);
+//        medbay.setInteractables(sword);
+//        medbay.setInteractables(desk);
+//        System.out.println(desk.isPickupable());
+//        System.out.println(kettle.isPickupable());
        
         // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
         medbay.setExit("north", keyRoom);
@@ -55,9 +62,44 @@ public class Game
         communicationRoom.setExit("south", armoury);
 
         airlock.setExit("south", hallway);
+        //creating immovables
+        
+        /* Creating and setting immovables for all the rooms */
+        Immovable counter, device, table, weaponCabinet, bookcase, closet, glassCabinet, airlockPanel, doorLockPanel, radioArray;
+        counter = new Immovable("counter", "A medical counter. There's a medkit on the countertop.", "You can't use this.", false, false);
+        device = new Immovable("device", "A strange medical device. There's an oxygen tank attatched to it", "you don't know how to use this.", false, false);
+        
+        table = new Immovable("table", "A small table. There are a bunch of notes on top", "You can't use this.", true, false);
+        weaponCabinet = new Immovable("cabinet","A weapon cabinet. There seems to be something inside","It's locked", false, true);
+        bookcase = new Immovable("bookcase","A bookcase. There are no books left in it.","You move the bookcase to the side, and unveil hole in the wall.",false,false);
+        
+        closet = new Immovable("closet","A tall closet.","You open the closet, and a bunch of knives slide out. One of them hits your oxygen line.",false ,false);
+        
+        glassCabinet = new Immovable("cabinet","A glass cabinet. There is an oxygen tank inside.","You open the cabinet.",false ,false);
+        airlockPanel = new Immovable("panel","A panel with a red light, and a large red button. ","You press the large button. The light turns green",false ,false); // needs to have added the death/rescue effect on use
+        
+        doorLockPanel = new Immovable("panel","A panel with a single lever on it. A label says \" door lock\" ","You pull the lever, and a loud clunk is heard.",false ,false);
+        radioArray = new Immovable("radio","A radio array. Maybe you can use this to call for help.","Nothing happens, maybe the keyhole has something to do with it",false ,true);
+                
+        medbay.setImmovables(counter);
+        medbay.setImmovables(device);
+        
+        armoury.setImmovables(table);
+        armoury.setImmovables(weaponCabinet);
+        armoury.setImmovables(bookcase);
+        
+        hallway.setImmovables(closet);
+        
+        airlock.setImmovables(glassCabinet);
+        airlock.setImmovables(airlockPanel);
+        
+        communicationRoom.setImmovables(doorLockPanel);
+        communicationRoom.setImmovables(radioArray);
+        
         //the current room is assigned a room object
         currentRoom = medbay;
     }
+    
     // the method that starts the game
     public void play() 
     {            
@@ -106,8 +148,16 @@ public class Game
         else if (commandWord == CommandWord.INSPECT){
             getItemDescription(command);
         }
-        else if (commandWord == CommandWord.SEARCH)
+        else if (commandWord == CommandWord.SEARCH) {
             currentRoom.searchRoom();
+        }
+        else if (commandWord == CommandWord.LOOK){
+
+        }
+        else if (commandWord == CommandWord.BREAK){
+            breakObject(command);
+        }
+            
         return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
     }
     // method for printing help, 
@@ -159,5 +209,18 @@ public class Game
         }
         String item = command.getSecondWord();
         System.out.println(currentRoom.checkItems(item));
+    }
+    
+    private void breakObject(Command command) {
+        if(!command.hasSecondWord()) {
+            System.out.println("break what?");
+            return;
+        }
+        String object = command.getSecondWord();
+        if(currentRoom.getImmovable(object) != null)
+            currentRoom.getImmovable(object).breakTable();
+        else
+            System.out.println("There is no " + object + " in this room");
+        
     }
 }

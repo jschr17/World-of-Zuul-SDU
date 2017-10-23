@@ -16,8 +16,8 @@ public class Room
     private String description;             //a string that will carry the description of the room
     private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
     //constructor that sets the rooms description
-    private Interactables interactables;
-    private ArrayList<Interactables> interactList;
+    private Item immovables;
+    private ArrayList<Immovable> interactList;
     public Room(String description) 
     {
         this.description = description;
@@ -59,24 +59,42 @@ public class Room
             System.out.println("There is nothing in the room");
         } else {
             System.out.println("You notice the following stuff in the room:");
-            for(Interactables i : this.interactList){
-                System.out.println(i.getItemName());
+            for(Immovable i : this.interactList){
+                System.out.println(i.getName());
             }
         }
         
     }
-    public void setInteractables(Interactables interactables){
-        this.interactList.add(interactables);
+    public void setImmovables(Immovable immovables){
+        this.interactList.add(immovables);
     }
+    
+    public Immovable getImmovable(String immovable) {
+        Immovable object = null;
+        for (Immovable i : this.interactList){
+            if (i.getName().equals(immovable)) {
+                object = i;   
+            } 
+            if (object != null){
+                return object;
+            } else {
+                break;
+            }
+        }
+        return object; //object might not have been initialised, but this method is not used if the object isn't found
+    }
+    
+    
 
     public String checkItems(String itemName){
         if(this.interactList.isEmpty()){
             return "Placeholder";
-        } else {
+        } 
+        else {
         String itemDescription = "";
-        for(Interactables i : this.interactList){
-            if(i.getItemName().equals(itemName)){
-                itemDescription = i.getItemDescription();
+        for(Immovable i : this.interactList){
+            if(i.getName().equals(itemName)){
+                itemDescription = i.getDescription();
                 return itemDescription;
             }else{
                 itemDescription = "What item are you carrying?";
@@ -84,7 +102,6 @@ public class Room
         }
         return itemDescription;
         }
-    
+    }
+   
 }
-}
-
