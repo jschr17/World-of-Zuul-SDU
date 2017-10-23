@@ -232,4 +232,12 @@ public class Game
             System.out.println("There is no " + object + " in this room");
         
     }
+    private void addInventory(Command command){
+        if(!command.hasSecondWord()) {
+            System.out.println("break what?");
+            return;
+        }
+        
+    
+    }
 }
