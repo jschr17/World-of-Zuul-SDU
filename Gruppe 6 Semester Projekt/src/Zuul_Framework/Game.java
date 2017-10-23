@@ -73,7 +73,7 @@ public class Game
         airlock.setExit("south", hallway);
         //creating immovables
         
-        /* Immovable(String name, String description, String useDescription, boolean destructible, boolean flag) */
+        /* Creating and setting immovables for all the rooms */
         Immovable counter, device, table, weaponCabinet, bookcase, closet, glassCabinet, airlockPanel, doorLockPanel, radioArray;
         counter = new Immovable("counter", "A medical counter. There's a medkit on the countertop.", "You can't use this.", false, false);
         device = new Immovable("device", "A strange medical device. There's an oxygen tank attatched to it", "you don't know how to use this.", false, false);
@@ -163,6 +163,9 @@ public class Game
         else if (commandWord == CommandWord.LOOK){
 
         }
+        else if (commandWord == CommandWord.BREAK){
+            breakObject(command);
+        }
             
         return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
     }
@@ -215,5 +218,16 @@ public class Game
         }
         String item = command.getSecondWord();
         System.out.println(currentRoom.checkItems(item));
+    }
+    
+    private void breakObject(Command command) {
+        if(!command.hasSecondWord()) {
+            System.out.println("break what?");
+            return;
+        }
+        String object = command.getSecondWord();
+        if (currentRoom.findImmovable(object)){
+            currentRoom.getImmovable(object).breakTable();
+        }
     }
 }

@@ -16,7 +16,7 @@ public class Room
     private String description;             //a string that will carry the description of the room
     private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
     //constructor that sets the rooms description
-    private Item interactables;
+    private Item immovables;
     private ArrayList<Immovable> interactList;
     public Room(String description) 
     {
@@ -65,14 +65,27 @@ public class Room
         }
         
     }
-    public void setImmovables(Immovable interactables){
-        this.interactList.add(interactables);
+    public void setImmovables(Immovable immovables){
+        this.interactList.add(immovables);
     }
+    
+    public Immovable getImmovable(String immovable) {
+        Immovable object = null;
+        for (Immovable i : this.interactList){
+            if (findImmovable(immovable)) {
+                object = i;   
+            }
+        }
+        return object; //object might not have been initialised, but this method is not used if the object isn't found
+    }
+    
+    
 
     public String checkItems(String itemName){
         if(this.interactList.isEmpty()){
             return "Placeholder";
-        } else {
+        } 
+        else {
         String itemDescription = "";
         for(Immovable i : this.interactList){
             if(i.getName().equals(itemName)){
@@ -84,7 +97,19 @@ public class Room
         }
         return itemDescription;
         }
+    }
     
+    public boolean findImmovable(String immovable) {
+        boolean bool = false;
+        for(Immovable i : this.interactList){
+            if(i.getName().equals(immovable)){
+                bool = true;
+                break;
+            }
+            else{
+                bool = false;
+            }
+        }
+        return bool;
+    }
 }
-}
-

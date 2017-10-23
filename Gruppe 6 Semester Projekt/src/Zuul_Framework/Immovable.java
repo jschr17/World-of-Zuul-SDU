@@ -4,7 +4,7 @@ package Zuul_Framework;
  *
  * @author Wilde
  */
-public class Immovable /*implements Interactables extends Destructables*/{
+public class Immovable extends Immovables{
     private String name, description, useDescription;
     private boolean destructible, flag;
     private final boolean isPickupable = false;
@@ -47,12 +47,12 @@ public class Immovable /*implements Interactables extends Destructables*/{
                     + "notes fall on the floor.");
             //changes the description of the table.
             this.description = "There is a leg missing from the table";
-            destructible = false; // since the immovable is broken, it can't eb broken more.
-        /*    
-        **event when breaking table
-        **remove notes from table
-        **pickup table leg
-        */               
+            this.destructible = false; // since the immovable is broken, it can't be broken more.
+            /*    
+            **event when breaking table
+            **remove notes from table
+            **pickup table leg
+            */               
         }
         else
             System.out.println("You can't break this.");
@@ -76,10 +76,7 @@ public class Immovable /*implements Interactables extends Destructables*/{
     public void unlock(){
         this.flag = false;
     }
-    
-    public void setFlag(boolean flag){
-        this.flag = flag;
-    }
+
     // sets any items the immovable might contain
     public void setItems(Item item){
         this.item = item;
@@ -89,5 +86,24 @@ public class Immovable /*implements Interactables extends Destructables*/{
         Item returnItem = this.item;
         this.item = null;
         return returnItem;
+    }
+    
+    public boolean getDestructible() {
+        return this.destructible;
+    }
+
+    @Override
+    public boolean isPickupable() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean getFlag() {
+        return this.flag;
+    }
+
+    @Override
+    public void setFlag(Boolean flag) {
+        this.flag = flag;
     }
 }
