@@ -43,7 +43,7 @@ public class Immovable extends Immovables{
     public void breakTable(){
         //check to see if table is destructible before running the rest
         if (this.destructible == true) {
-            System.out.println("You break the leg off the table \n a bunch of"
+            System.out.println("You break the leg off the table \n a bunch of "
                     + "notes fall on the floor.");
             //changes the description of the table.
             this.description = "There is a leg missing from the table";

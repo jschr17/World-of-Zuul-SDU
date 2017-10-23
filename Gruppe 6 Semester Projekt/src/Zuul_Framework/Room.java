@@ -72,8 +72,13 @@ public class Room
     public Immovable getImmovable(String immovable) {
         Immovable object = null;
         for (Immovable i : this.interactList){
-            if (findImmovable(immovable)) {
+            if (i.getName().equals(immovable)) {
                 object = i;   
+            } 
+            if (object != null){
+                return object;
+            } else {
+                break;
             }
         }
         return object; //object might not have been initialised, but this method is not used if the object isn't found
@@ -98,18 +103,5 @@ public class Room
         return itemDescription;
         }
     }
-    
-    public boolean findImmovable(String immovable) {
-        boolean bool = false;
-        for(Immovable i : this.interactList){
-            if(i.getName().equals(immovable)){
-                bool = true;
-                break;
-            }
-            else{
-                bool = false;
-            }
-        }
-        return bool;
-    }
+   
 }

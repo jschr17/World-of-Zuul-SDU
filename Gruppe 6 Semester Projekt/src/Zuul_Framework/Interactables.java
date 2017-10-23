@@ -17,4 +17,5 @@ public interface Interactables {
     public abstract boolean isPickupable();
     public abstract boolean getFlag();
     public abstract void setFlag(Boolean flag);
+    
 }

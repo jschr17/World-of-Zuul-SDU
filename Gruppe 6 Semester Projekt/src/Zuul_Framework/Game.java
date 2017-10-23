@@ -226,8 +226,10 @@ public class Game
             return;
         }
         String object = command.getSecondWord();
-        if (currentRoom.findImmovable(object)){
+        if(currentRoom.getImmovable(object) != null)
             currentRoom.getImmovable(object).breakTable();
-        }
+        else
+            System.out.println("There is no " + object + " in this room");
+        
     }
 }
