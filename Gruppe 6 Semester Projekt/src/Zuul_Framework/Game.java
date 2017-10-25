@@ -12,7 +12,8 @@ public class Game
     private Parser parser;  //declares a parser objekt, so the game can read inputs
     private Room currentRoom;   // initialises a starting room
     private Player player = new Player(100, 100);
-    
+    //private Items items;
+    //private Game game;
     // constructor for the game class    
     public Game() 
     {
@@ -42,19 +43,23 @@ public class Game
         airlock = new Room("in an airlock. There is an exit hatch in front of "
                 + "you. On the eastern wall is a panel illuminated by a small "
                 + "green LED,\n and on the western wall is a small glass cabinet.");
-//        InteractablesObject desk = new Destructables("Desk", 
-//                "This is a desk. Seems like it can be broken", 
-//                "The desk breaks down, and reveals a door behind it"); 
-//        InteractablesObject kettle = new Item("kettle","This is a fucking kettle");
-//        InteractablesObject stick = new Item("stick","This is a fucking stick");
-//        InteractablesObject sword = new Item("sword","This is a fucking sword");
-//        medbay.setInteractables(kettle);
-//        medbay.setInteractables(stick);
-//        medbay.setInteractables(sword);
-//        medbay.setInteractables(desk);
-//        System.out.println(desk.isPickupable());
-//        System.out.println(kettle.isPickupable());
-       
+
+        //For testing!!!
+        Item kettle, stick, sword;
+
+        kettle = new Item("kettle","This is a fucking kettle");
+        stick = new Item("stick","This is a fucking stick");
+        sword = new Item("sword","This is a fucking sword");
+        medbay.setItem(sword);
+        medbay.setItem(kettle);
+        medbay.setItem(stick);
+        
+        keyRoom.setItem(stick);
+        
+        armoury.setItem(kettle);
+        armoury.setItem(sword);
+        //For testing !!!
+        
         // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
         medbay.setExit("north", keyRoom);
         
@@ -171,6 +176,9 @@ public class Game
         else if (commandWord == CommandWord.CHECKBAG){
             System.out.println("You are carrying: " + player.getInventory());
         }
+        else if (commandWord == CommandWord.TAKE){
+            addInventory(command);
+        }
             
         return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
     }
@@ -237,4 +245,29 @@ public class Game
             System.out.println("There is no " + object + " in this room");
         
     }
+    private void addInventory(Command command){
+        String object = command.getSecondWord();
+        if(!command.hasSecondWord()) {
+            System.out.println("Take what?");
+            return;
+        }
+        else{
+
+            if (currentRoom.getItem(object) == null) {
+                System.out.println("Can't take that!");
+                return;
+            }
+            for(Object i : currentRoom.getItemList()){
+            if(currentRoom.getItem(object).getName().equalsIgnoreCase(command.getSecondWord())){
+                Item item = currentRoom.getItem(command.getSecondWord());
+
+                    player.addToInventory(item.getName());
+                    System.out.println("You have added " + item.getName() + " to your inventory.");
+                    currentRoom.removeItem(item);
+                    return;
+                }
+                
+            }      
+        }
+    }    
 }

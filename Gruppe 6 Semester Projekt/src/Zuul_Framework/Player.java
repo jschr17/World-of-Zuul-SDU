@@ -13,10 +13,11 @@ import java.util.ArrayList;
  */
 public class Player {
     private int hp, air;
-    private ArrayList<String> inventory = new ArrayList<>();
+    private ArrayList<String> inventory;
     public Player(int newHP, int newAir) {
         this.hp = newHP;
         this.air = newAir;
+        inventory = new ArrayList<>();
     }
     public int getAir(){
     return air;
@@ -35,8 +36,13 @@ public class Player {
     return inventory.toString();
     }
     public void addToInventory(String newItem){
-    inventory.add(newItem);
-    
+        if (inventory.contains(newItem)) {
+            System.out.println("You already have that!");
+            return;
+        }
+        else{
+            inventory.add(newItem);
+        }
     }
     public void removeFromInventory(String newItem){
     inventory.remove(newItem);
