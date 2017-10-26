@@ -50,9 +50,7 @@ public class Game
         kettle = new Item("kettle","This is a fucking kettle");
         stick = new Item("stick","This is a fucking stick");
         sword = new Item("sword","This is a fucking sword");
-        medbay.setItem(sword);
-        medbay.setItem(kettle);
-        medbay.setItem(stick);
+        medbay.setItem(sword); medbay.setItem(kettle); medbay.setItem(stick);
         
         keyRoom.setItem(stick);
         
