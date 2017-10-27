@@ -119,9 +119,9 @@ public class Room
     public void removeItem(Item item){
         itemList.remove(item);
     }
-    public ArrayList getItemList(){
-        return this.itemList;
-    }
+    //public ArrayList getItemList(){
+    //    return itemList.;
+    //}
     
     public String checkItems(String itemName){
         if(this.interactList.isEmpty()){
