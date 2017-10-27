@@ -15,6 +15,7 @@ public class Room
 {
     private String description;             //a string that will carry the description of the room
     private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
+    private HashMap<String, Room> secretExits;
     //constructor that sets the rooms description
     private Item pickups;
     private ArrayList<Immovable> interactList;
@@ -23,11 +24,15 @@ public class Room
         this.description = description;
         exits = new HashMap<>();    // a new exit HashMap is crated for each instance of room
         interactList = new ArrayList<>();
+        secretExits = new HashMap<>();
     }
     //method for setting the exits of a room with a direction (key) and a neighbor room object
     public void setExit(String direction, Room neighbor) 
     {
         exits.put(direction, neighbor);
+    }
+    public void addSecretExit(String key, Room destination){
+        secretExits.put(key, destination);
     }
     //method for returning a rooms description
     public String getShortDescription()
@@ -54,19 +59,18 @@ public class Room
     {
         return exits.get(direction);
     }
+    public Room getSecretDestination(String key){
+        return secretExits.get(key);
+    }
     public void searchRoom(){
         if(this.interactList.isEmpty()){
             System.out.println("There is nothing in the room");
         } else {
             System.out.println("You notice the following stuff in the room:");
-            System.out.println("");
-            System.out.println("Items you can't pick up: ");
             for(Immovable i : this.interactList){
                 
                 System.out.println(i.getName());
             }
-            System.out.println("");
-            System.out.println("Items you can pick up: ");
             
         }
         
@@ -78,15 +82,11 @@ public class Room
     public Immovable getImmovable(String immovable) {
         Immovable object = null;
         for (Immovable i : this.interactList){
-            if (i.getName().equals(immovable)) {
-                object = i;   
-            } 
-            if (object != null){
-                return object;
-            } else {
-                break;
+            if (i!=null &&i.getName().equals(immovable)) {
+                object = i; 
             }
-        }
+        
+    }
         return object; //object might not have been initialised, but this method is not used if the object isn't found
     }
    

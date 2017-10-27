@@ -17,6 +17,7 @@ public class Events {
     private Room room;
     private InteractablesObject interactables;
     
+    
     //Initialization of a hashmap that will pair up objects and/or rooms that
     //interacts with eachother to do some sort of an event. This will make 
     //checking if you have the right item easier

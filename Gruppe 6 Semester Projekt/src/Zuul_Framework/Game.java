@@ -1,6 +1,7 @@
 package Zuul_Framework;
 
 import java.awt.Desktop;
+import java.util.Scanner;
 
 /**
  * @author  Michael Kolling and David J. Barnes
@@ -11,6 +12,7 @@ public class Game
 {
     private Parser parser;  //declares a parser objekt, so the game can read inputs
     private Room currentRoom;   // initialises a starting room
+    private Events events;
     private Player player = new Player(100, 100);
 //    private Immovable immovable = new Immovable("name", "description", "use description", false, false);
 
@@ -68,11 +70,18 @@ public class Game
         airlock.setExit("south", hallway);
         //creating immovables
         
+        //Exits and pathways that need to be unlocked
+        armoury.addSecretExit("notes", communicationRoom);
+        hallway.addSecretExit("quiz", communicationRoom);
+        communicationRoom.addSecretExit("lever", hallway);
+        
         /* Creating and setting immovables for all the rooms */
-        Immovable counter, device, table, weaponCabinet, bookcase, closet, glassCabinet, airlockPanel, doorLockPanel, radioArray;
+        Immovable counter, device, table, weaponCabinet, bookcase, hiddenpanel, closet, glassCabinet, airlockPanel, doorLockPanel, radioArray;
         counter = new Immovable("counter", "A medical counter. There's a medkit on the countertop.", "You can't use this.", false, false);
         device = new Immovable("device", "A strange medical device. There's an oxygen tank attatched to it", "you don't know how to use this.", false, false);
         
+        hiddenpanel = new Immovable("panel", "Looks just like all the other panels, but with closer inspection "
+                + "you find a small keypad near the floor. you might be able to find a code somewhere...", "The keypad flashes green and the panel slides to the side, opening up a hidden passage", false, true);
         table = new Immovable("table", "A small table. There are a bunch of notes on top", "You can't use this.", true, false);
         weaponCabinet = new Immovable("cabinet","A weapon cabinet. There seems to be something inside","It's locked", false, true);
         bookcase = new Immovable("bookcase","A bookcase. There are no books left in it.","You move the bookcase to the side, and unveil hole in the wall.",false,false);
@@ -91,6 +100,7 @@ public class Game
         armoury.setImmovables(table);
         armoury.setImmovables(weaponCabinet);
         armoury.setImmovables(bookcase);
+        armoury.setImmovables(hiddenpanel);
         
         hallway.setImmovables(closet);
         
@@ -106,9 +116,11 @@ public class Game
         stick = new Item("stick","This is a fucking stick");
         sword = new Item("sword","This is a fucking sword");
         
+        
         weaponCabinet.setItems(stick);
         
         counter.setItems(kettle); bookcase.setItems(sword);
+        
         
         //the current room is assigned a room object
         currentRoom = medbay;
@@ -160,7 +172,7 @@ public class Game
             wantToQuit = quit(command);
         }
         else if (commandWord == CommandWord.INSPECT){
-            getItemDescription(command);
+            getDescription(command);
         }
         else if (commandWord == CommandWord.SEARCH) {
             search(command);
@@ -185,6 +197,9 @@ public class Game
         }
         else if (commandWord == CommandWord.TAKE){
             addInventory(command);
+        }
+        else if (commandWord == CommandWord.UNLOCK){
+            unlockDoor(command);
         }
             
         return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
@@ -229,19 +244,27 @@ public class Game
             return true;
         }
     }
-    private void getItemDescription(Command command) {
+    private void getDescription(Command command) {
         if(!command.hasSecondWord()) {
             //Hvis der ikke er to ord, understående bliver printet og man
             //bliver bedt om at prøve igen.
             System.out.println("Which item?");
             return;
-        }
+        }   
         String item = command.getSecondWord();
         for(Item i : player.getInventory()){
              if(i.getName().equals(item)){
-                 System.out.println(item);
-             }
+                 System.out.println(i.getDescription());
+                 return;
+             }       
         }
+        for(Immovable i : currentRoom.getInteractList()){
+             if(i.getName().equals(item)){
+                 System.out.println(i.getDescription());
+                 return;
+             }       
+        }
+        System.out.println("What are you trying to inspect?");
     }
     
     private void breakObject(Command command) {
@@ -250,11 +273,22 @@ public class Game
             return;
         }
         String object = command.getSecondWord();
-        if(currentRoom.getImmovable(object) != null)
+        if(currentRoom.getImmovable(object) != null) {
+            if(currentRoom.getImmovable(object).getName().equals("table") &&
+                    currentRoom.getImmovable(object).getDestructible()==true){
+                Item tableleg = new Item("tableleg", "A broken off leg from a table. "
+                + "Might be useful as a weapon");
+                Item notes = new Item("notes", "The notes have a series of numbers written"
+                + " on it. The numbers are 28374. You should probably "
+                + "remember them.");
+                player.addToInventory(notes);
+                player.addToInventory(tableleg);
+            }      
             currentRoom.getImmovable(object).breakTable();
-        else
+            
+        }else{
             System.out.println("There is no " + object + " in this room");
-        
+        }
     }
     private void addInventory(Command command){
         String object = command.getSecondWord();
@@ -291,11 +325,54 @@ public class Game
                     return;
                 } 
             }
-            System.out.println("You found nothing searching " + searchTarget);
-                
+            System.out.println("You found nothing searching " + searchTarget);      
         }
     }
+    private void unlockDoor(Command command) {
+        if(!command.hasSecondWord()) {
+            //Hvis der ikke er to ord, understående bliver printet og man
+            //bliver bedt om at prøve igen.
+            System.out.println("Unlock what?");
+            return;
+        }
+        if(command.getSecondWord().equals("panel") && currentRoom.getImmovable("panel").getFlag()==true){
+            System.out.println("You go down to the small keypad");
+            System.out.println("'Please type in the password'");
+            System.out.println("'You have 3 attempts'");
+            Scanner scanner = new Scanner(System.in);
+            int code = 0;
+            int attempts = 3;
+            while(true){ 
+                code = scanner.nextInt();
+                if(attempts > 0 && code == 28374){
+                    System.out.println("'Acces granted'");
+                    System.out.println("The panel slides to the side, opening up");
+                    currentRoom.getImmovable("panel").setFlag(false);
+                    currentRoom.setExit("north", currentRoom.getSecretDestination("notes"));
+                    currentRoom.getImmovable("panel").setDescription("Where the once was a panel, there now is a "
+                            + "small opening to another room");
+                    break;
+                } else if(attempts == 0){
+                    System.out.println("'Out of attempts, the codelock will now"
+                            + "self-destruct'");
+                    currentRoom.getImmovable("panel").setFlag(false);
+                    break;
+                } else if (attempts > 0 && code != 28374){
+                    System.out.println("Wrong pin");
+                    attempts--;
+                    System.out.println("'You have " + attempts + " attempts left'");
+                }
+                
+                
+            }
+        } else if(command.getSecondWord().equals("panel") && currentRoom.getImmovable("panel").getFlag()==false){
+            System.out.println("The codelock is broken beyond repair...");
+        }
+        
+        
+    
+      
 }
-
+}
 
 
