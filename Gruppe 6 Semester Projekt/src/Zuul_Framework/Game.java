@@ -219,6 +219,7 @@ public class Game
             return true;
         }
     }
+    //Returns the description of the word after the commandWord.
     private void getItemDescription(Command command) {
         if(!command.hasSecondWord()) {
             //Hvis der ikke er to ord, understående bliver printet og man
@@ -229,7 +230,7 @@ public class Game
         String item = command.getSecondWord();
         System.out.println(currentRoom.checkItems(item));
     }
-    
+    //Breaks the specified object by running the breakTable method
     private void breakObject(Command command) {
         if(!command.hasSecondWord()) {
             System.out.println("break what?");
@@ -242,6 +243,7 @@ public class Game
             System.out.println("There is no " + object + " in this room");
         
     }
+    //Adds the item comming after the commandWord to the players inventory.
     private void addInventory(Command command){
         String object = command.getSecondWord();
         if(!command.hasSecondWord()) {
@@ -258,8 +260,7 @@ public class Game
                 System.out.println("Can't take that!");
                 return;
             }
-            //for(Object i : currentRoom.getItemList()){
-            if(currentRoom.getItem(object).getName().equalsIgnoreCase(command.getSecondWord()) && currentRoom.getItem(object).getName() != player.getInventory()){
+            if(currentRoom.getItem(object).getName().equalsIgnoreCase(command.getSecondWord())){
                 Item item = currentRoom.getItem(command.getSecondWord());
 
                     player.addToInventory(item.getName());
@@ -267,8 +268,6 @@ public class Game
                     currentRoom.removeItem(item);
                     return;
                 }
-                
-            //}      
         }
     }    
 }
