@@ -183,6 +183,9 @@ public class Game
         else if (commandWord == CommandWord.TAKE){
             addInventory(command);
         }
+        else if (commandWord == CommandWord.DROP){
+//            removeFromInventory(command);
+        }
             
         return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
     }
@@ -316,4 +319,19 @@ public class Game
             System.out.println("You found nothing searching " + searchTarget);     
         }
     }
+    /*
+    private void removeFromInventory(Command command){
+        String object = command.getSecondWord();
+        if (!command.hasSecondWord()) {
+            System.out.println("Drop what?");
+        }
+        
+        for(Item i : player.getInventory()){
+            if (i.getName().equalsIgnoreCase(object)) {
+                player.removeFromInventory(i);
+                currentRoom.setItem(i);
+                System.out.println("You put " + i.getName() + " on the floor.");
+            }
+        }
+    }*/
 }
