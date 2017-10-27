@@ -12,8 +12,8 @@ public class Game
     private Parser parser;  //declares a parser objekt, so the game can read inputs
     private Room currentRoom;   // initialises a starting room
     private Player player = new Player(100, 100);
-    //private Items items;
-    //private Game game;
+//    private Immovable immovable = new Immovable("name", "description", "use description", false, false);
+
     // constructor for the game class    
     public Game() 
     {
@@ -54,8 +54,7 @@ public class Game
         
         keyRoom.setItem(stick);
         
-        armoury.setItem(kettle);
-        armoury.setItem(sword);
+        armoury.setItem(kettle); armoury.setItem(sword);
         //For testing !!!
         
         // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
@@ -160,13 +159,13 @@ public class Game
             wantToQuit = quit(command);
         }
         else if (commandWord == CommandWord.INSPECT){
-            getItemDescription(command);
+                getItemDescription(command);
         }
         else if (commandWord == CommandWord.SEARCH) {
             currentRoom.searchRoom();
         }
         else if (commandWord == CommandWord.LOOK){
-
+//            immovable.getDescription();
         }
         else if (commandWord == CommandWord.BREAK){
             breakObject(command);
@@ -255,8 +254,12 @@ public class Game
                 System.out.println("Can't take that!");
                 return;
             }
-            for(Object i : currentRoom.getItemList()){
-            if(currentRoom.getItem(object).getName().equalsIgnoreCase(command.getSecondWord())){
+            else if (currentRoom.getItem(object).getName().equalsIgnoreCase(player.getInventory())) {
+                System.out.println("Can't take that!");
+                return;
+            }
+            //for(Object i : currentRoom.getItemList()){
+            if(currentRoom.getItem(object).getName().equalsIgnoreCase(command.getSecondWord()) && currentRoom.getItem(object).getName() != player.getInventory()){
                 Item item = currentRoom.getItem(command.getSecondWord());
 
                     player.addToInventory(item.getName());
@@ -265,7 +268,7 @@ public class Game
                     return;
                 }
                 
-            }      
+            //}      
         }
     }    
 }
