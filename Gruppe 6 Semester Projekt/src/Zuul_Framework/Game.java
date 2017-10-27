@@ -1,4 +1,6 @@
 package Zuul_Framework;
+import Persistens.*;
+import java.io.IOException;
 
 import java.awt.Desktop;
 
@@ -9,6 +11,7 @@ import java.awt.Desktop;
 // the Class that contains the specifics in the game and assigns values to the initialized constructors
 public class Game 
 {
+    InputHashmap text = new InputHashmap();
     private Parser parser;  //declares a parser objekt, so the game can read inputs
     private Room currentRoom;   // initialises a starting room
     private Player player = new Player(100, 100);
@@ -16,7 +19,7 @@ public class Game
     private Immovable immovable;
 
     // constructor for the game class    
-    public Game() 
+    public Game()throws IOException 
     {
         createRooms();
         parser = new Parser();
@@ -26,25 +29,14 @@ public class Game
     {   //asigning the room objects
         Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
         // The initialication of the room objects
-        medbay = new Room("in a medical bay. A flickering light reveals "
-                + "a counter, and a strange medical device in the corner.");
-        
-        keyRoom = new Room("in a dimly lit room. In the corner you see a large creature.");
-        
-        armoury = new Room("in an armoury, you see a weapon cabinet against the "
-                + "eastern wall, a bookcase against the north wall, and a table in the middle of the room.");
-        
-        hallway = new Room("in a hallway, you see a large door to the east, "
-                + "a window on the western wall, and a cabinet.");
-        
-        communicationRoom = new Room("in the communication room. A noisy radio "
-                + "array is in the middle of the room. There is a panel next to "
-                + "a large door.");
-        
-        airlock = new Room("in an airlock. There is an exit hatch in front of "
-                + "you. On the eastern wall is a panel illuminated by a small "
-                + "green LED,\n and on the western wall is a small glass cabinet.");
-        
+
+        medbay = new Room(text.getText("medbay"));
+        keyRoom = new Room(text.getText("keyRoom"));
+        armoury = new Room(text.getText("armory"));
+        hallway = new Room(text.getText("hallway"));
+        communicationRoom = new Room(text.getText("communicationRoom"));
+        airlock = new Room(text.getText("airlock"));
+
         // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
         medbay.setExit("north", keyRoom);
         
