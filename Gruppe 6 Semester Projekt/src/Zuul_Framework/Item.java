@@ -11,7 +11,7 @@ package Zuul_Framework;
  */
 //The item class.
 //This is where the pickupable item objects is created.
-public abstract class Item implements Interactables{
+public class Item implements Interactables {
     //Name, description, and use description is defined.
     private String itemName, itemDescription, useDescription;
     private boolean flag;
@@ -24,7 +24,7 @@ public abstract class Item implements Interactables{
     }
     
     //The following methods are the methods implemented from our interactables
-    //interface.
+    //interface. These are also used in the Destructables class.
     @Override
     //returns the name of the object
     public String getName() {
@@ -44,12 +44,18 @@ public abstract class Item implements Interactables{
     }
 
     @Override
+    //returns a 
     public boolean isPickupable() {
        return this.isPickupable;
     }
     
-    public void setFlag(boolean flag){
+    @Override
+    public void setFlag(Boolean flag){
         this.flag = flag;
     }
-}
 
+    @Override
+    public boolean getFlag() {
+        return this.flag; //To change body of generated methods, choose Tools | Templates.
+    }
+}

@@ -55,8 +55,11 @@ public class Immovable implements Interactables{
             */               
         }
         else
-            System.out.println("You can't break this.");
-        
+            System.out.println("You can't break this.");        
+    }
+
+    public String getItemDescription(){
+        return item.getDescription();
     }
 
         
@@ -83,6 +86,9 @@ public class Immovable implements Interactables{
     // sets any items the immovable might contain
     public void setItems(Item item){
         this.item = item;
+    }
+    public Item getItems(){
+        return item;
     }
     
     public Item takeItem(){

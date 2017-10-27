@@ -11,6 +11,10 @@ public class Game
 {
     private Parser parser;  //declares a parser objekt, so the game can read inputs
     private Room currentRoom;   // initialises a starting room
+    private Player player = new Player(100, 100);
+    private int inventorySpace = 2;
+    private Immovable immovable;
+
     // constructor for the game class    
     public Game() 
     {
@@ -40,19 +44,7 @@ public class Game
         airlock = new Room("in an airlock. There is an exit hatch in front of "
                 + "you. On the eastern wall is a panel illuminated by a small "
                 + "green LED,\n and on the western wall is a small glass cabinet.");
-//        InteractablesObject desk = new Destructables("Desk", 
-//                "This is a desk. Seems like it can be broken", 
-//                "The desk breaks down, and reveals a door behind it"); 
-//        InteractablesObject kettle = new Item("kettle","This is a fucking kettle");
-//        InteractablesObject stick = new Item("stick","This is a fucking stick");
-//        InteractablesObject sword = new Item("sword","This is a fucking sword");
-//        medbay.setInteractables(kettle);
-//        medbay.setInteractables(stick);
-//        medbay.setInteractables(sword);
-//        medbay.setInteractables(desk);
-//        System.out.println(desk.isPickupable());
-//        System.out.println(kettle.isPickupable());
-       
+        
         // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
         medbay.setExit("north", keyRoom);
         
@@ -104,6 +96,16 @@ public class Game
         
         communicationRoom.setImmovables(doorLockPanel);
         communicationRoom.setImmovables(radioArray);
+        
+        Item kettle, stick, sword;
+
+        kettle = new Item("kettle","This is a fucking kettle");
+        stick = new Item("stick","This is a fucking stick");
+        sword = new Item("sword","This is a fucking sword");
+        
+        weaponCabinet.setItems(stick);
+        
+        counter.setItems(kettle); bookcase.setItems(sword);
         
         //the current room is assigned a room object
         currentRoom = medbay;
@@ -158,13 +160,31 @@ public class Game
             getItemDescription(command);
         }
         else if (commandWord == CommandWord.SEARCH) {
-            currentRoom.searchRoom();
+            search(command);
         }
         else if (commandWord == CommandWord.LOOK){
-
+            //immovable.getDescription();
         }
         else if (commandWord == CommandWord.BREAK){
             breakObject(command);
+        }
+        else if (commandWord == CommandWord.CHECKBAG){
+            if(player.getInventory().isEmpty()){
+                System.out.println("You have nothing in your inventory");
+            } else {
+               System.out.println("You are carrying:");
+                for(Item i : player.getInventory()){
+                    if(i != null){
+                        System.out.println(i.getName());
+                    }                     
+                } 
+            }  
+        }
+        else if (commandWord == CommandWord.TAKE){
+            addInventory(command);
+        }
+        else if (commandWord == CommandWord.DROP){
+//            removeFromInventory(command);
         }
             
         return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
@@ -209,6 +229,7 @@ public class Game
             return true;
         }
     }
+    //Returns the description of the word after the commandWord.
     private void getItemDescription(Command command) {
         if(!command.hasSecondWord()) {
             //Hvis der ikke er to ord, understående bliver printet og man
@@ -217,9 +238,29 @@ public class Game
             return;
         }
         String item = command.getSecondWord();
-        System.out.println(currentRoom.checkItems(item));
+        for(Item i : player.getInventory()){
+             if(i.getName().equals(item)){
+                 System.out.println(i.getDescription());
+                 return;
+             }
+             else if(i.getName() != item){
+                 continue;
+             }
+        }
+        for(Immovable i : currentRoom.getInteractList()){
+            if(i.getName().equals(item)){
+                 System.out.println(i.getDescription());
+                 return;
+            }
+            else if(i.getName() != item){
+                continue;
+            }
+        }
+        if(item != currentRoom.getInteractList().toString() && item != player.getInventory().toString()){
+            System.out.println("You can't inspect that!");
+        }
     }
-    
+    //Breaks the specified object by running the breakTable method
     private void breakObject(Command command) {
         if(!command.hasSecondWord()) {
             System.out.println("break what?");
@@ -232,4 +273,65 @@ public class Game
             System.out.println("There is no " + object + " in this room");
         
     }
+    //Adds the item comming after the commandWord to the players inventory.
+    private void addInventory(Command command){
+        String object = command.getSecondWord();
+        if(!command.hasSecondWord()) {
+            System.out.println("Take what?");
+            return;
+        }
+        
+        for(Immovable i : currentRoom.getInteractList()){
+            if (player.getInventory().size() < inventorySpace) {
+                if(i.getItems() != null && i.getItems().getName().equals(object)){
+                System.out.println("You have added " + i.getItems().getName() + " to your inventory.");
+                player.addToInventory(i.getItems());
+                i.takeItem();
+                return;         
+                }
+            }
+        }
+        for(Immovable i : currentRoom.getInteractList()){
+        if(i.getItems() != null && player.getInventory().size() == inventorySpace && i.getItems().getName().equals(object)){
+            System.out.println("No more space in the inventory!");
+            return;
+            }
+        }
+        System.out.println("There is no " + object + " here");  
+    }
+    private void search(Command command){
+        if(!command.hasSecondWord()) {
+            //If there is only one word, this will be printed and you will be
+            //asked to try again.
+            System.out.println("Search what?");
+            return;
+        }
+        String searchTarget = command.getSecondWord();
+        if(searchTarget.equals("room")){
+            currentRoom.searchRoom();
+        } else {
+            for(Immovable i : currentRoom.getInteractList()){
+                if(i.getItems()!=null && searchTarget.equals(i.getName())){
+                    System.out.println(i.getItems().getName());
+                    return;
+                } 
+            }
+            System.out.println("You found nothing searching " + searchTarget);     
+        }
+    }
+    /*
+    private void removeFromInventory(Command command){
+        String object = command.getSecondWord();
+        if (!command.hasSecondWord()) {
+            System.out.println("Drop what?");
+        }
+        
+        for(Item i : player.getInventory()){
+            if (i.getName().equalsIgnoreCase(object)) {
+                player.removeFromInventory(i);
+                currentRoom.setItem(i);
+                System.out.println("You put " + i.getName() + " on the floor.");
+            }
+        }
+    }*/
 }
