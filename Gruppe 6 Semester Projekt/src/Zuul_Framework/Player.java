@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Nick
+ * @author Nick, Jonas
  */
 public class Player {
     private int hp, air;
@@ -20,31 +20,31 @@ public class Player {
         this.air = newAir;
         inventory = new ArrayList<>();
     }
+    //Return the players remaining air.
     public int getAir(){
     return air;
     }
-    
-   public void setAir(int newAir){
+    //Sets the players air. Adding to it or reducing it.
+    public void setAir(int newAir){
     air = newAir;
-   }
-   public int getHp(){
-   return hp;
-   }
+    }
+    //Returns the players HP.
+    public int getHp(){
+    return hp;
+    }
+    //Sets the players HP. Adding to it or reducing it.
     public void setHp(int newHp){
     hp = newHp;
     }
+    //Returns the players inventory as a string, so that the player can see what he/she has in their inventory.
     public String getInventory(){
     return inventory.toString();
     }
+    //Adds the specified item(String) to the players inventory as a string.
     public void addToInventory(String newItem){
-        //if (inventory.contains(newItem)) {
-        //    System.out.println("You already have that!");
-        //    return;
-        //}
-        //else if(!inventory.contains(newItem)){
           inventory.add(newItem);
-        //}
     }
+    //Removes the specified item(string) from the players inventory.
     public void removeFromInventory(String newItem){
     inventory.remove(newItem);
     }

@@ -56,6 +56,8 @@ public class Room
     {
         return exits.get(direction);
     }
+    //This method returns everything in a given room that the player can interact with (Immovables)
+    //and take with them(Items)
     public void searchRoom(){
         if(this.interactList.isEmpty()){
             System.out.println("There is nothing in the room");
@@ -76,10 +78,11 @@ public class Room
         }
         
     }
+    //This method adds a specified immovable to the arraylist interactlist.
     public void setImmovables(Immovable immovables){
         this.interactList.add(immovables);
     }
-    
+    //This method returns an immovable as an object, when given the correct name.
     public Immovable getImmovable(String immovable) {
         Immovable object = null;
         for (Immovable i : this.interactList){
@@ -94,9 +97,11 @@ public class Room
         }
         return object; //object might not have been initialised, but this method is not used if the object isn't found
     }
+    //This method adds a specified item(item) to the arrayList itemList.
     public void setItem(Item item){
         itemList.add(item);
     }
+    //This method returns an item as an object, when given the correct name.
     public Item getItem(String item){
         Item object = null;
         for (Item i : itemList){
@@ -113,16 +118,15 @@ public class Room
         }
         return object;
     }
+    //Returns the entire itemList ArrayList as a string.
     public String getItemName(){
         return itemList.toString();
     }
+    //Removes a specified item(item) from the itemList ArrayList.
     public void removeItem(Item item){
         itemList.remove(item);
     }
-    //public ArrayList getItemList(){
-    //    return itemList.;
-    //}
-    
+    //
     public String checkItems(String itemName){
         if(this.interactList.isEmpty()){
             return "Placeholder";
