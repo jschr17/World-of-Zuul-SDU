@@ -59,4 +59,3 @@ public class Item implements Interactables {
         return this.flag; //To change body of generated methods, choose Tools | Templates.
     }
 }
-
