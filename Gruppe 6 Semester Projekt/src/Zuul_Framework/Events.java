@@ -39,7 +39,7 @@ public class Events {
         else
             System.out.println("Nothing happens...");       
     }
-    //Another placeholder method. Dont look to deeply into this shit
+    //Another placeholder method. Dont look too deeply into this shit
     public void checkPrerequisite(){
       interactables.setFlag(true);
     }
