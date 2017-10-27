@@ -15,7 +15,7 @@ import java.util.HashMap;
 // this code forgoes any error detection based on Wrong syntax in the file, therefore it is important that each change in the file gets cheeked by the ImputFileHashmapTest class before the revisions are shipped
 public class InputHashmap {
 
-    private final String filePath = "files/test.txt";     // sets the filepath based on the projectfolder else it can be set from scratch like C:/Users/Documents/......
+    private final String filePath = "files/text.txt";     // sets the filepath based on the projectfolder else it can be set from scratch like C:/Users/Documents/......
     private HashMap<String, String> textMap;  // crates a hasmap for storing keys and their corresponding string value
     String line;
 
