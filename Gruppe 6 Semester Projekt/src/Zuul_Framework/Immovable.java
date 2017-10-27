@@ -59,7 +59,9 @@ public class Immovable extends Immovables{
         
     }
 
-        
+    public String getItemDescription(){
+        return item.getDescription();
+    }
     public String getName(){
         return name;
     }
@@ -80,6 +82,9 @@ public class Immovable extends Immovables{
     // sets any items the immovable might contain
     public void setItems(Item item){
         this.item = item;
+    }
+    public Item getItems(){
+        return item;
     }
     
     public Item takeItem(){

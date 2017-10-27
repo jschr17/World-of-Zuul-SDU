@@ -16,15 +16,13 @@ public class Room
     private String description;             //a string that will carry the description of the room
     private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
     //constructor that sets the rooms description
-    private Item immovables;
+    private Item pickups;
     private ArrayList<Immovable> interactList;
-    private ArrayList<Item> itemList;
     public Room(String description) 
     {
         this.description = description;
         exits = new HashMap<>();    // a new exit HashMap is crated for each instance of room
         interactList = new ArrayList<>();
-        itemList = new ArrayList<>();
     }
     //method for setting the exits of a room with a direction (key) and a neighbor room object
     public void setExit(String direction, Room neighbor) 
@@ -64,19 +62,11 @@ public class Room
         } else {
             System.out.println("You notice the following stuff in the room:");
             System.out.println("");
-            System.out.println("Items you can't pick up: ");
             for(Immovable i : this.interactList){
                 
                 System.out.println(i.getName());
             }
-            System.out.println("");
-            System.out.println("Items you can pick up: ");
-            for(Item i : itemList){
-                
-                System.out.println(i.getName());
-            }
         }
-        
     }
     //This method adds a specified immovable to the arraylist interactlist.
     public void setImmovables(Immovable immovables){
@@ -97,52 +87,8 @@ public class Room
         }
         return object; //object might not have been initialised, but this method is not used if the object isn't found
     }
-    //This method adds a specified item(item) to the arrayList itemList.
-    public void setItem(Item item){
-        itemList.add(item);
-    }
-    //This method returns an item as an object, when given the correct name.
-    public Item getItem(String item){
-        Item object = null;
-        for (Item i : itemList){
-            if (i.getName().equals(item)) {
-                object = i;
-                }
-            
-            if (object != null) {
-                return object;
-            }
-            else{
-                break;
-            }
-        }
-        return object;
-    }
-    //Returns the entire itemList ArrayList as a string.
-    public String getItemName(){
-        return itemList.toString();
-    }
-    //Removes a specified item(item) from the itemList ArrayList.
-    public void removeItem(Item item){
-        itemList.remove(item);
-    }
-    //
-    public String checkItems(String itemName){
-        if(this.interactList.isEmpty()){
-            return "Placeholder";
-        } 
-        else {
-        String itemDescription = "";
-        for(Item i : this.itemList){
-            if(i.getName().equals(itemName)){
-                itemDescription = i.getDescription();
-                return itemDescription;
-            }else{
-                itemDescription = "What item are you carrying?";
-            }
-        }
-        return itemDescription;
-        }
-    }
    
+    public ArrayList<Immovable> getInteractList(){
+        return interactList;
+    }
 }

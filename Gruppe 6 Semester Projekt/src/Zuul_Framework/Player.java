@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Player {
     private int hp, air;
-    private ArrayList<String> inventory;
+    private ArrayList<Item> inventory;
     
     public Player(int newHP, int newAir) {
         this.hp = newHP;
@@ -36,16 +36,13 @@ public class Player {
     public void setHp(int newHp){
     hp = newHp;
     }
-    //Returns the players inventory as a string, so that the player can see what he/she has in their inventory.
-    public String getInventory(){
-    return inventory.toString();
+    public ArrayList<Item> getInventory(){
+    return inventory;
     }
-    //Adds the specified item(String) to the players inventory as a string.
-    public void addToInventory(String newItem){
-          inventory.add(newItem);
+    public void addToInventory(Item newItem){
+            inventory.add(newItem);          
     }
-    //Removes the specified item(string) from the players inventory.
-    public void removeFromInventory(String newItem){
+    public void removeFromInventory(Item newItem){
     inventory.remove(newItem);
     }
 }
