@@ -13,7 +13,7 @@ public class Game
     private Room currentRoom;   // initialises a starting room
     private Player player = new Player(100, 100);
     private int inventorySpace = 2;
-//    private Immovable immovable = new Immovable("name", "description", "use description", false, false);
+    private Immovable immovable;
 
     // constructor for the game class    
     public Game() 
@@ -44,10 +44,6 @@ public class Game
         airlock = new Room("in an airlock. There is an exit hatch in front of "
                 + "you. On the eastern wall is a panel illuminated by a small "
                 + "green LED,\n and on the western wall is a small glass cabinet.");
-
-        //For testing!!!
-        
-        //For testing !!!
         
         // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
         medbay.setExit("north", keyRoom);
@@ -167,7 +163,7 @@ public class Game
             search(command);
         }
         else if (commandWord == CommandWord.LOOK){
-//            immovable.getDescription();
+            //immovable.getDescription();
         }
         else if (commandWord == CommandWord.BREAK){
             breakObject(command);
@@ -241,8 +237,24 @@ public class Game
         String item = command.getSecondWord();
         for(Item i : player.getInventory()){
              if(i.getName().equals(item)){
-                 System.out.println(item);
+                 System.out.println(i.getDescription());
+                 return;
              }
+             else if(i.getName() != item){
+                 continue;
+             }
+        }
+        for(Immovable i : currentRoom.getInteractList()){
+            if(i.getName().equals(item)){
+                 System.out.println(i.getDescription());
+                 return;
+            }
+            else if(i.getName() != item){
+                continue;
+            }
+        }
+        if(item != currentRoom.getInteractList().toString() && item != player.getInventory().toString()){
+            System.out.println("You can't inspect that!");
         }
     }
     //Breaks the specified object by running the breakTable method
@@ -268,11 +280,10 @@ public class Game
         
         for(Immovable i : currentRoom.getInteractList()){
             if (player.getInventory().size() < inventorySpace) {
-                if(i.getItems()!=null && i.getItems().getName().equals(object)){
+                if(i.getItems() != null && i.getItems().getName().equals(object)){
                 System.out.println("You have added " + i.getItems().getName() + " to your inventory.");
                 player.addToInventory(i.getItems());
                 i.takeItem();
-                    System.out.println(player.getInventory().size());
                 return;         
                 }
             }
@@ -287,8 +298,8 @@ public class Game
     }
     private void search(Command command){
         if(!command.hasSecondWord()) {
-            //Hvis der ikke er to ord, understående bliver printet og man
-            //bliver bedt om at prøve igen.
+            //If there is only one word, this will be printed and you will be
+            //asked to try again.
             System.out.println("Search what?");
             return;
         }
