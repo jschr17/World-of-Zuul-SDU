@@ -16,7 +16,6 @@ public class Room
     private String description;             //a string that will carry the description of the room
     private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
     //constructor that sets the rooms description
-    private Item immovables;
     private ArrayList<Immovable> interactList;
     public Room(String description) 
     {
@@ -54,21 +53,25 @@ public class Room
     {
         return exits.get(direction);
     }
+    //This method returns everything in a given room that the player can interact with (Immovables)
+    //and take with them(Items)
     public void searchRoom(){
         if(this.interactList.isEmpty()){
             System.out.println("There is nothing in the room");
         } else {
             System.out.println("You notice the following stuff in the room:");
+            System.out.println("");
             for(Immovable i : this.interactList){
+                
                 System.out.println(i.getName());
             }
         }
-        
     }
+    //This method adds a specified immovable to the arraylist interactlist.
     public void setImmovables(Immovable immovables){
         this.interactList.add(immovables);
     }
-    
+    //This method returns an immovable as an object, when given the correct name.
     public Immovable getImmovable(String immovable) {
         Immovable object = null;
         for (Immovable i : this.interactList){
@@ -83,25 +86,8 @@ public class Room
         }
         return object; //object might not have been initialised, but this method is not used if the object isn't found
     }
-    
-    
-
-    public String checkItems(String itemName){
-        if(this.interactList.isEmpty()){
-            return "Placeholder";
-        } 
-        else {
-        String itemDescription = "";
-        for(Immovable i : this.interactList){
-            if(i.getName().equals(itemName)){
-                itemDescription = i.getDescription();
-                return itemDescription;
-            }else{
-                itemDescription = "What item are you carrying?";
-            }
-        }
-        return itemDescription;
-        }
-    }
    
+    public ArrayList<Immovable> getInteractList(){
+        return interactList;
+    }
 }

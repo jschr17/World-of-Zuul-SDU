@@ -4,7 +4,7 @@ package Zuul_Framework;
  *
  * @author Wilde
  */
-public class Immovable extends Immovables{
+public class Immovable implements Interactables{
     private String name, description, useDescription;
     private boolean destructible, flag;
     private final boolean isPickupable = false;
@@ -55,19 +55,25 @@ public class Immovable extends Immovables{
             */               
         }
         else
-            System.out.println("You can't break this.");
-        
+            System.out.println("You can't break this.");        
+    }
+
+    public String getItemDescription(){
+        return item.getDescription();
     }
 
         
+    @Override
     public String getName(){
         return name;
     }
         
+    @Override
     public String getDescription(){
         return description;
     }
         
+    @Override
     public String getUseDescription(){
         return useDescription;
     }
@@ -80,6 +86,9 @@ public class Immovable extends Immovables{
     // sets any items the immovable might contain
     public void setItems(Item item){
         this.item = item;
+    }
+    public Item getItems(){
+        return item;
     }
     
     public Item takeItem(){
@@ -94,7 +103,7 @@ public class Immovable extends Immovables{
 
     @Override
     public boolean isPickupable() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.isPickupable; //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

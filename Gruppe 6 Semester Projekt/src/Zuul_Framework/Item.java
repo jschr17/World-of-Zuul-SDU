@@ -11,10 +11,11 @@ package Zuul_Framework;
  */
 //The item class.
 //This is where the pickupable item objects is created.
-public abstract class Item extends Pickups {
+public class Item implements Interactables {
     //Name, description, and use description is defined.
     private String itemName, itemDescription, useDescription;
     private boolean flag;
+    private final boolean isPickupable = true;
     
     //This is the method that created the item object.
     public Item(String itemName, String itemDescription) {
@@ -45,11 +46,16 @@ public abstract class Item extends Pickups {
     @Override
     //returns a 
     public boolean isPickupable() {
-       return pickup;
+       return this.isPickupable;
     }
     
-    public void setFlag(boolean flag){
+    @Override
+    public void setFlag(Boolean flag){
         this.flag = flag;
     }
-}
 
+    @Override
+    public boolean getFlag() {
+        return this.flag; //To change body of generated methods, choose Tools | Templates.
+    }
+}
