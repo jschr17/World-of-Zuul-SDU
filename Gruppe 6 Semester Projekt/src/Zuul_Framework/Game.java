@@ -100,10 +100,13 @@ public class Game
         
         counter.setItems(kettle); bookcase.setItems(sword);
         /* Adding NPCs to rooms*/
-        NPC Britney;
+        NPC britney, keyMonster;
         
-        Britney = new NPC("britney", false, true);
-        medbay.addNPC(Britney);
+        britney = new NPC("britney", false, true);
+        keyMonster = new NPC("monster", true, false);
+        
+        communicationRoom.addNPC(britney);
+        keyRoom.addNPC(keyMonster);
         
         //the current room is assigned a room object
         currentRoom = medbay;
