@@ -1,19 +1,18 @@
 package Zuul_Framework;
 
 /**
- *
  * @author Wilde
  */
-public class FriendlyNPC {
+public class NPC {
     private String name;
     private boolean hostile, movable;
-    private Room currentRoom;
+    private int health;
     
-    public FriendlyNPC(String name, boolean hostile, boolean movable, Room room){
+    public NPC(String name, boolean hostile, boolean movable){
         this.name = name;
         this.hostile = hostile;
         this.movable = movable;
-        this.currentRoom = room;
+        this.health = 100;
     }
     
     public String getName(){
@@ -27,12 +26,14 @@ public class FriendlyNPC {
     public void setHostility(boolean hostile){
         this.hostile = hostile;
     }
-    /*
-    public String getRoom(){
-        return currentRoom.; //needs to extract string name of room instead of a room object
+    
+    public boolean getMovability(){
+        return this.movable;
     }
     
-    public void setRoom(Room room){
-        this.currentRoom = room;
+    /*public void moveNPC(Room newRoom){
+        if (movable) {
+            
+        }
     }*/
 }

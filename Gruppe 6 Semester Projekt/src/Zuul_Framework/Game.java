@@ -89,6 +89,7 @@ public class Game
         communicationRoom.setImmovables(doorLockPanel);
         communicationRoom.setImmovables(radioArray);
         
+        /* These items are placehodler items*/
         Item kettle, stick, sword;
 
         kettle = new Item("kettle","This is a fucking kettle");
@@ -98,6 +99,11 @@ public class Game
         weaponCabinet.setItems(stick);
         
         counter.setItems(kettle); bookcase.setItems(sword);
+        /* Adding NPCs to rooms*/
+        NPC Britney;
+        
+        Britney = new NPC("britney", false, true);
+        medbay.addNPC(Britney);
         
         //the current room is assigned a room object
         currentRoom = medbay;
