@@ -72,6 +72,11 @@ public class NPC {
     }
     
     public void takeHit(int hit) {
-        this.health -= hit;
+        if (this.health > 0) {
+            this.health -= hit;
+        }
+        if (this.health <= 0) {
+            System.out.println(this.name + " has been killed.");
+        }
     }
 }
