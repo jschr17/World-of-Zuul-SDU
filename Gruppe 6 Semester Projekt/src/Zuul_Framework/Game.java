@@ -89,8 +89,9 @@ public class Game
         communicationRoom.setImmovables(doorLockPanel);
         communicationRoom.setImmovables(radioArray);
         
-        Item kettle, stick, sword, medkit, oxygen, gun, rifle;
+        Item kettle, stick, sword, medkit, oxygen, gun, rifle, tableleg;
 
+//      Items bliver "iniatileret"
         kettle = new Item("kettle","This is a fucking kettle",0,0,0);
         stick = new Item("stick","This is a fucking stick",0,0,0);
         sword = new Item("sword","This is a fucking sword",10,0,0);
@@ -98,15 +99,24 @@ public class Game
         oxygen = new Item("oxygen-tank","An oxygen-tank, that can refill the users own oxygen-tank",0,0,35);
         gun = new Item("gun","A small gun, that can deal 20 dmg",20,0,0);
         rifle = new Item("rifle","A rifle, that has 40 dmg",40,0,0);
-        
-        weaponCabinet.setItems(stick);
-        closet.setItems(medkit);
-        //closet.setItems(oxygen);
+        tableleg = new Item("tableleg","A broken tableleg, from the table you just broke",1,0,0);
+//      Items bliver sat i de forskellige immovables, i de forskellige rum:
+//      Medbay items
         counter.setItems(medkit);
+        device.setItems(oxygen); 
         
-        device.setItems(oxygen);
-        bookcase.setItems(sword);
+//      keyroom items:
+
+//      Armoury items:
+        weaponCabinet.setItems(rifle);
         
+//      Hallway items:
+        
+//      Communicationroom items:
+        
+//      Airlock room items:
+        glassCabinet.setItems(oxygen);
+
         //the current room is assigned a room object
         currentRoom = medbay;
     }
