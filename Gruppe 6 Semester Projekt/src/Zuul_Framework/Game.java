@@ -99,14 +99,17 @@ public class Game
         weaponCabinet.setItems(stick);
         
         counter.setItems(kettle); bookcase.setItems(sword);
+        
         /* Adding NPCs to rooms*/
         NPC britney, keyMonster;
         
-        britney = new NPC("britney", false, true);
-        keyMonster = new NPC("monster", true, false);
-        
+        britney = new NPC("britney", "A blonde woman", false, true);
+        keyMonster = new NPC("monster", "A large alien creature.", true, false);
+                
         communicationRoom.addNPC(britney);
         keyRoom.addNPC(keyMonster);
+        keyMonster.setDamage(12);
+        //keyMonster.addItem(key);
         
         //the current room is assigned a room object
         currentRoom = medbay;
