@@ -89,16 +89,49 @@ public class Game
         communicationRoom.setImmovables(doorLockPanel);
         communicationRoom.setImmovables(radioArray);
         
-        Item kettle, stick, sword;
+        /* Adding NPCs to rooms*/
+        NPC britney, keyMonster;
+        
+        britney = new NPC("britney", "A blonde woman", false, true);
+        keyMonster = new NPC("monster", "A large alien creature.", true, false);
+                
+        communicationRoom.addNPC(britney);
+        keyRoom.addNPC(keyMonster);
+        keyMonster.setDamage(12);
+        //keyMonster.addItem(key);
+        
+        Item kettle, stick, sword, medkit, oxygen, gun, rifle, tableleg;
 
-        kettle = new Item("kettle","This is a fucking kettle");
-        stick = new Item("stick","This is a fucking stick");
-        sword = new Item("sword","This is a fucking sword");
+//      Items bliver initialiseret
+        kettle = new Item("kettle","This is a fucking kettle",0,0,0);
+        stick = new Item("stick","This is a fucking stick",0,0,0);
+        sword = new Item("sword","This is a fucking sword",10,0,0);
+        medkit = new Item("medkit","A medkit that can heal the user upon use",0,40,0);
+        oxygen = new Item("oxygen-tank","An oxygen-tank, that can refill the users own oxygen-tank",0,0,35);
+        gun = new Item("gun","A small gun, that can deal 20 dmg",20,0,0);
+        rifle = new Item("rifle","A rifle, that has 40 dmg",40,0,0);
+        tableleg = new Item("tableleg","A broken tableleg, from the table you just broke",1,0,0);
+//      Items bliver sat i de forskellige immovables, i de forskellige rum:
+//      Medbay items
+        counter.setItems(medkit);
+        device.setItems(oxygen); 
         
-        weaponCabinet.setItems(stick);
+//      keyroom items:
+
+//      Armoury items:
+        weaponCabinet.setItems(rifle);
         
+//      Hallway items:
+        
+
         counter.setItems(kettle); counter.setItems(stick); bookcase.setItems(sword);
+
+//      Communicationroom items:
+
         
+//      Airlock room items:
+        glassCabinet.setItems(oxygen);
+
         //the current room is assigned a room object
         currentRoom = medbay;
     }
@@ -178,6 +211,15 @@ public class Game
         else if (commandWord == CommandWord.DROP){
             removeFromInventory(command);
         }
+        else if(commandWord == CommandWord.STATUS){
+        checkStatus(command);
+        }
+        else if(commandWord == CommandWord.USE){
+            useItem(command);
+        }
+        else if (commandWord == CommandWord.TAKEDMG){
+            takeDMG(command);
+        }
             
         return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
     }
@@ -247,6 +289,14 @@ public class Game
             else if(i.getName() != item){
                 continue;
             }
+        }
+        for(NPC n : currentRoom.getNPCList()){
+            if(n.getName().equals(item)){
+                System.out.println(n.getDescription());
+                return;
+            }
+            else
+                continue;
         }
         if(item != currentRoom.getInteractList().toString() && item != player.getInventory().toString()){
             System.out.println("You can't inspect that!");
@@ -336,8 +386,86 @@ public class Game
                 return;
             }
         }
+
         if (object != player.getInventory().toString()) {
             System.out.println("Can't drop that!");
         }
     }
 }
+
+    }
+    // a command that prints out the status, of the player
+    private void checkStatus(Command command){
+        System.out.println("Your air tank is filled: " + player.getAir() + "% up");
+        System.out.println("Your current HP is: " + player.getHp());
+    
+    }
+    
+    private void useItem(Command command){
+        String object = command.getSecondWord();
+        int air = player.getAir();
+        int HP = player.getHp();
+        String medkit = "medkit";
+        String oxygen = "oxygen-tank";
+        
+        if(!command.hasSecondWord()) {
+            System.out.println("Use what?");
+            return;
+        }
+        for (Item i : player.getInventory()){
+            if (i.getName().equalsIgnoreCase(object)){
+                if (air < 65 && i.getName().equalsIgnoreCase(oxygen)){
+                    System.out.println("You used the " + object);
+                    player.setAir(air + i.getAir());
+                    player.removeFromInventory(i);
+                    return;
+                }
+                else if(HP < 60 && i.getName().equalsIgnoreCase(medkit)){
+                    System.out.println("You used the " + object);
+                    player.setHp(HP + i.getHP());
+                    player.removeFromInventory(i);
+                    return;
+                }              
+                else if(air > 65 && air != 100 || HP > 60 && HP != 100){
+                    if(i.getName().equalsIgnoreCase(medkit)){
+                        System.out.println("You used the: " + object);
+                        player.setHp(100);
+                        player.removeFromInventory(i);
+                        return;
+                    }
+                    if(i.getName().equalsIgnoreCase(oxygen)){
+                        System.out.println("You used the:: " + object);
+                        player.setAir(100);
+                        player.removeFromInventory(i);
+                        return;
+                    }
+                }
+                
+                else if(air == 100){
+                        System.out.println("Your oxygen-tank is already full");
+                        return;
+                    }
+                    else if(HP == 100){
+                        System.out.println("Your HP is already full");
+                        return;
+                    }
+            }
+        }
+        // usikker på om jeg stadig har brug for denne failsafe
+        for (Item i : player.getInventory()){
+            if(!object.equalsIgnoreCase(i.getName())){
+                System.out.println("Use what??");
+                return;
+            }
+          
+        }
+        // usikker på om jeg har brug for denne failsafe, eller den lige over
+            System.out.println("That item isnt in your inventory"); 
+    }
+    // a test command, to let the player take some dmg
+    private void takeDMG(Command command){
+        player.setHp(50);
+        player.setAir(50);
+    }
+}
+
