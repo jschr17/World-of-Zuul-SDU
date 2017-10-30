@@ -31,6 +31,7 @@ public class Player {
         this.hp = newHP;
         this.air = newAir;
         inventory = new ArrayList<>();
+        oxygenTimer();
     }
     //Return the players remaining air.
     public int getAir(){
@@ -63,7 +64,7 @@ public class Player {
         return hp;
     }
     public void setCurrentHP(int healing, int damage){
-        this.hp = hp + damage - healing;
+        this.hp = hp + healing - damage;
     }
     
     public int getMaxHP(){
@@ -102,7 +103,7 @@ public class Player {
         TimerTask timerTaskOxygen = new TimerTask() { 
             @Override
             public void run() {
-                System.out.println("You have " + air + " oxygen remaining.");
+                // System.out.println("You have " + air + " oxygen remaining.");
                 setCurrentOxygen(0,1);
                 //currentOxygen--;
             }
@@ -111,7 +112,7 @@ public class Player {
         final TimerTask timerTaskHP = new TimerTask() { 
             @Override
             public void run() {
-                System.out.println("you are at " + hp + " health");
+                // System.out.println("you are at " + hp + " health");
                 setCurrentHP(0,1);
                 // currentHP--;
             }
@@ -125,7 +126,7 @@ public class Player {
                 while(true){
                     try{
                         if (air == 0){
-                            System.out.println("You've ran out of oxygen!");
+                            // System.out.println("You've ran out of oxygen!");
                             timerOxygen.cancel();
                             timerHP.scheduleAtFixedRate(timerTaskHP, 30, 1000); // timerHP starts when timerOxygen stops.
                             break;
@@ -145,7 +146,7 @@ public class Player {
                 while(true){
                     try{
                         if (hp == 0){
-                            System.out.println("You've ran out of health!");
+                            // System.out.println("You've ran out of health!");
                             timerHP.cancel();
                             break;
                         }
