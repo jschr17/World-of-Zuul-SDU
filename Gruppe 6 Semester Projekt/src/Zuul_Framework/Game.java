@@ -58,7 +58,7 @@ public class Game
         //creating immovables
         
         /* Creating and setting immovables for all the rooms */
-        Immovable counter, device, table, weaponCabinet, bookcase, closet, glassCabinet, airlockPanel, doorLockPanel, radioArray;
+        Immovable counter, device, table, weaponCabinet, bookcase, closet, glassCabinet, airlockPanel, doorLockPanel, radioArray, floor;
         counter = new Immovable("counter", "A medical counter. There's a medkit on the countertop.", "You can't use this.", false, false);
         device = new Immovable("device", "A strange medical device. There's an oxygen tank attatched to it", "you don't know how to use this.", false, false);
         
@@ -73,7 +73,7 @@ public class Game
         
         doorLockPanel = new Immovable("panel","A panel with a single lever on it. A label says \" door lock\" ","You pull the lever, and a loud clunk is heard.",false ,false);
         radioArray = new Immovable("radio","A radio array. Maybe you can use this to call for help.","Nothing happens, maybe the keyhole has something to do with it",false ,true);
-                
+        
         medbay.setImmovables(counter);
         medbay.setImmovables(device);
         
@@ -123,7 +123,11 @@ public class Game
         
 //      Hallway items:
         
+
+        counter.setItems(kettle); counter.setItems(stick); bookcase.setItems(sword);
+
 //      Communicationroom items:
+
         
 //      Airlock room items:
         glassCabinet.setItems(oxygen);
@@ -205,7 +209,7 @@ public class Game
             addInventory(command);
         }
         else if (commandWord == CommandWord.DROP){
-//            removeFromInventory(command);
+            removeFromInventory(command);
         }
         else if(commandWord == CommandWord.STATUS){
         checkStatus(command);
@@ -335,7 +339,17 @@ public class Game
             return;
             }
         }
+        for(Item i : currentRoom.getItemList()){
+             if (player.getInventory().size() < inventorySpace) {
+                 if(currentRoom.getItem(i.getName()) != null){
+                System.out.println("You have added " + object + " to your inventory.");
+                player.addToInventory(currentRoom.getItem(i.getName()));
+                currentRoom.removeItem(i);
+                return;
+                }
+            }
         System.out.println("There is no " + object + " here");  
+      }
     }
     private void search(Command command){
         if(!command.hasSecondWord()) {
@@ -357,7 +371,7 @@ public class Game
             System.out.println("You found nothing searching " + searchTarget);     
         }
     }
-    /*
+    
     private void removeFromInventory(Command command){
         String object = command.getSecondWord();
         if (!command.hasSecondWord()) {
@@ -366,12 +380,20 @@ public class Game
         
         for(Item i : player.getInventory()){
             if (i.getName().equalsIgnoreCase(object)) {
-                player.removeFromInventory(i);
                 currentRoom.setItem(i);
                 System.out.println("You put " + i.getName() + " on the floor.");
+                player.removeFromInventory(i);
+                return;
             }
         }
-    }*/
+
+        if (object != player.getInventory().toString()) {
+            System.out.println("Can't drop that!");
+        }
+    }
+}
+
+    }
     // a command that prints out the status, of the player
     private void checkStatus(Command command){
         System.out.println("Your air tank is filled: " + player.getAir() + "% up");
@@ -446,3 +468,4 @@ public class Game
         player.setAir(50);
     }
 }
+
