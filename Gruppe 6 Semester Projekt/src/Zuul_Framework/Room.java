@@ -11,17 +11,18 @@ import java.util.Iterator;
  * @version 2006.03.30
  */
 // this class is used for crating room objects for the player to transition between
-public class Room 
-{
+public class Room {
     private String description;             //a string that will carry the description of the room
     private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
     //constructor that sets the rooms description
-    private ArrayList<Immovable> interactList;
-    public Room(String description) 
-    {
+    private ArrayList<Immovable> interactList;  // list of the immovables in the room
+    private ArrayList<NPC> npcList;             // list of NPCs in the room
+
+    public Room(String description) {
         this.description = description;
         exits = new HashMap<>();    // a new exit HashMap is crated for each instance of room
         interactList = new ArrayList<>();
+	npcList = new ArrayList<>();
     }
     //method for setting the exits of a room with a direction (key) and a neighbor room object
     public void setExit(String direction, Room neighbor) 
@@ -56,14 +57,15 @@ public class Room
     //This method returns everything in a given room that the player can interact with (Immovables)
     //and take with them(Items)
     public void searchRoom(){
-        if(this.interactList.isEmpty()){
+        if(this.interactList.isEmpty() && this.npcList.isEmpty()){
             System.out.println("There is nothing in the room");
         } else {
             System.out.println("You notice the following stuff in the room:");
-            System.out.println("");
             for(Immovable i : this.interactList){
-                
                 System.out.println(i.getName());
+            }
+            for(NPC n : this.npcList){
+                System.out.println(n.getName());
             }
         }
     }
@@ -89,5 +91,29 @@ public class Room
    
     public ArrayList<Immovable> getInteractList(){
         return interactList;
+    }
+
+	public NPC getNPC(String npc) {
+        NPC object = null;
+        for (NPC n : this.npcList){
+            if (n.getName().equals(npc)) {
+                object = n;   
+            } 
+            /*if (object != null){
+                return object;
+            }*/ 
+            else {
+                break;
+            }
+        }
+        return object; //object might not have been initialised, but this method is not used if the object isn't found
+    }    
+    
+    public void addNPC(NPC npc){
+        this.npcList.add(npc);
+    }
+    
+    public ArrayList<NPC> getNPCList(){
+        return npcList;
     }
 }
