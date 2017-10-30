@@ -32,6 +32,7 @@ public class Player {
         this.air = newAir;
         inventory = new ArrayList<>();
         oxygenTimer();
+        totalTimePlayed();
     }
     //Return the players remaining air.
     public int getAir(){
