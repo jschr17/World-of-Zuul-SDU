@@ -122,9 +122,7 @@ public class Game
         weaponCabinet.setItems(rifle);
         
 //      Hallway items:
-        
 
-        counter.setItems(kettle); counter.setItems(stick); bookcase.setItems(sword);
 
 //      Communicationroom items:
 
@@ -188,7 +186,7 @@ public class Game
             search(command);
         }
         else if (commandWord == CommandWord.LOOK){
-            //immovable.getDescription();
+//            immovable.getDescription();
         }
         else if (commandWord == CommandWord.BREAK){
             breakObject(command);
@@ -376,6 +374,7 @@ public class Game
         String object = command.getSecondWord();
         if (!command.hasSecondWord()) {
             System.out.println("Drop what?");
+            return;
         }
         
         for(Item i : player.getInventory()){
@@ -439,11 +438,11 @@ public class Game
                     }
                 }
                 
-                else if(air == 100){
+                else if(air == 100 && i.getName().equalsIgnoreCase(oxygen)){
                         System.out.println("Your oxygen-tank is already full");
                         return;
                     }
-                    else if(HP == 100){
+                    else if(HP == 100 && i.getName().equalsIgnoreCase(medkit)){
                         System.out.println("Your HP is already full");
                         return;
                     }
