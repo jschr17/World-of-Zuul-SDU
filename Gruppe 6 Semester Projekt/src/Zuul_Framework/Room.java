@@ -17,11 +17,13 @@ public class Room
     private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
     //constructor that sets the rooms description
     private ArrayList<Immovable> interactList;
+    private ArrayList<Item> itemList;
     public Room(String description) 
     {
         this.description = description;
         exits = new HashMap<>();    // a new exit HashMap is crated for each instance of room
         interactList = new ArrayList<>();
+        itemList = new ArrayList<>();
     }
     //method for setting the exits of a room with a direction (key) and a neighbor room object
     public void setExit(String direction, Room neighbor) 
@@ -65,6 +67,15 @@ public class Room
                 
                 System.out.println(i.getName());
             }
+            if (itemList.isEmpty() == true) {
+                System.out.println("Nothing on the floor.");
+            }
+            else{
+                System.out.println("You find these items on the floor:");
+                for(Item i : this.itemList){
+                    System.out.println(i.getName());
+                }
+            }
         }
     }
     //This method adds a specified immovable to the arraylist interactlist.
@@ -89,5 +100,28 @@ public class Room
    
     public ArrayList<Immovable> getInteractList(){
         return interactList;
+    }
+    public ArrayList<Item> getItemList(){
+        return itemList;
+    }
+    public void setItem(Item item){
+        this.itemList.add(item);
+    }
+    public Item getItem(String item){
+    Item object = null;
+        for (Item i : this.itemList){
+            if (i.getName().equals(item)) {
+                object = i;   
+            } 
+            if (object != null){
+                return object;
+            } else {
+                break;
+            }   
+    }
+        return object;
+}
+    public void removeItem(Item item){
+        this.itemList.remove(item);
     }
 }
