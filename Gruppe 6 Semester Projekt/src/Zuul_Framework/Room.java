@@ -81,6 +81,7 @@ public class Room {
             }
         }
     }
+}
     //This method adds a specified immovable to the arraylist interactlist.
     public void setImmovables(Immovable immovables){
         this.interactList.add(immovables);
@@ -126,7 +127,7 @@ public class Room {
 }
     public void removeItem(Item item){
         this.itemList.remove(item);
-
+    }
 	public NPC getNPC(String npc) {
         NPC object = null;
         for (NPC n : this.npcList){

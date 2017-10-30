@@ -391,9 +391,7 @@ public class Game
             System.out.println("Can't drop that!");
         }
     }
-}
 
-    }
     // a command that prints out the status, of the player
     private void checkStatus(Command command){
         System.out.println("Your air tank is filled: " + player.getAir() + "% up");
