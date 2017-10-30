@@ -6,6 +6,9 @@
 package Zuul_Framework;
 
 import java.util.ArrayList;
+import static java.lang.Math.E;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
@@ -14,6 +17,15 @@ import java.util.ArrayList;
 public class Player {
     private int hp, air;
     private ArrayList<Item> inventory;
+    
+    /* By Mads */
+    public static String playerName = "Mads"; // Non-negotiable
+    public int maxHP = hp;    
+    // public int currentHP = maxHP;
+    public int maxOxygen = air;
+    public int currentOxygen = maxOxygen; 
+    public int awesomePoints = 0;
+    public int totalTimePlayed = 0;
     
     public Player(int newHP, int newAir) {
         this.hp = newHP;
@@ -45,4 +57,145 @@ public class Player {
     public void removeFromInventory(Item newItem){
     inventory.remove(newItem);
     }
+    
+    /* By Mads */
+        public int getCurrentHP(){
+        return hp;
+    }
+    public void setCurrentHP(int healing, int damage){
+        this.hp = hp + damage - healing;
+    }
+    
+    public int getMaxHP(){
+        return maxHP;
+    }
+    public void setMaxHP(int modifier){
+        this.maxHP = maxHP + modifier;
+    }
+    
+    public int getCurrentOxygen(){
+        return air;
+    }
+    public void setCurrentOxygen(int add, int sub){
+        this.air = air + add - sub;
+    }
+    
+    public int getMaxOxygen(){
+        return maxOxygen;
+    }
+    public void setMaxOxygen(int modifier){
+        this.maxOxygen = maxOxygen + modifier;
+    }
+    
+    
+    /* 
+    Subtracts one Oxygen-point per sek
+    If currentOxygen == 0 => subtract one Hp per sek 
+    */
+    
+    static Timer timerOxygen;
+    static Timer timerHP;
+    
+    public void oxygenTimer(){
+        
+        /*Operation to increment counter*/
+        TimerTask timerTaskOxygen = new TimerTask() { 
+            @Override
+            public void run() {
+                System.out.println("You have " + air + " oxygen remaining.");
+                setCurrentOxygen(0,1);
+                //currentOxygen--;
+            }
+        };
+        
+        final TimerTask timerTaskHP = new TimerTask() { 
+            @Override
+            public void run() {
+                System.out.println("you are at " + hp + " health");
+                setCurrentHP(0,1);
+                // currentHP--;
+            }
+        };
+        
+        /* Create thread to print counter value */
+        Thread threadOxygen = new Thread(new Runnable(){
+            
+            @Override
+            public void run() {
+                while(true){
+                    try{
+                        if (air == 0){
+                            System.out.println("You've ran out of oxygen!");
+                            timerOxygen.cancel();
+                            timerHP.scheduleAtFixedRate(timerTaskHP, 30, 1000); // timerHP starts when timerOxygen stops.
+                            break;
+                        }
+                        Thread.sleep(1000);
+                    } catch(InterruptedException ex){
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+        
+        Thread threadHP = new Thread(new Runnable(){
+
+            @Override
+            public void run() {
+                while(true){
+                    try{
+                        if (hp == 0){
+                            System.out.println("You've ran out of health!");
+                            timerHP.cancel();
+                            break;
+                        }
+                        Thread.sleep(1000);
+                    } catch(InterruptedException ex){
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+        
+        /* Builds the timers for oxygen & HP */
+        timerOxygen = new Timer("MyTimer1");
+        timerOxygen.scheduleAtFixedRate(timerTaskOxygen, 30, 1000); 
+        threadOxygen.start();
+
+        timerHP = new Timer("MyTimer2");
+        threadHP.start();
+
+    }
+    
+    /* Total play time. */
+    public int totalTimePlayed(){
+        
+        class playedTimeCounter extends TimerTask {
+            public void run() {
+                totalTimePlayed++; 
+            }
+        }
+
+        Timer timePlayed = new Timer();
+        timePlayed.schedule(new playedTimeCounter(), 10, 1000);
+        
+        return totalTimePlayed;
+    }
+    
+    /* End game points */
+    public int getAwesomePoint(){
+                //###########   TODO; en værdi for Britney    ##############
+        
+        // timepoints = e ^ ( A - ( timeplayed / B) ), logorithmic decreasing scale.
+        double A = 4.6;
+        double B = 200;
+        double doubleTimePoints = Math.pow(E, A - totalTimePlayed / B);
+        int intTimePoints = ( (Double) Math.ceil( doubleTimePoints ) ).intValue();
+
+        // End game points 
+        int awesomePoints = getCurrentHP() + getCurrentOxygen() - intTimePoints;
+
+        return awesomePoints;
+    }
+    
 }
