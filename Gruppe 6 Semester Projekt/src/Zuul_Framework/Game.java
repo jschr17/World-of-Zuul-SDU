@@ -286,6 +286,14 @@ public class Game
                 continue;
             }
         }
+        for(NPC n : currentRoom.getNPCList()){
+            if(n.getName().equals(item)){
+                System.out.println(n.getDescription());
+                return;
+            }
+            else
+                continue;
+        }
         if(item != currentRoom.getInteractList().toString() && item != player.getInventory().toString()){
             System.out.println("You can't inspect that!");
         }
