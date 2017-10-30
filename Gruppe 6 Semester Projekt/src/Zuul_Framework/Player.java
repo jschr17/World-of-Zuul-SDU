@@ -61,7 +61,7 @@ public class Player {
     }
     
     /* By Mads */
-        public int getCurrentHP(){
+    public int getCurrentHP(){
         return hp;
     }
     public void setCurrentHP(int healing, int damage){
