@@ -91,7 +91,7 @@ public class Game
         
         Item kettle, stick, sword, medkit, oxygen, gun, rifle, tableleg;
 
-//      Items bliver "iniatileret"
+//      Items bliver initialiseret
         kettle = new Item("kettle","This is a fucking kettle",0,0,0);
         stick = new Item("stick","This is a fucking stick",0,0,0);
         sword = new Item("sword","This is a fucking sword",10,0,0);
@@ -353,7 +353,7 @@ public class Game
             }
         }
     }*/
-    
+    // a command that prints out the status, of the player
     private void checkStatus(Command command){
         System.out.println("Your air tank is filled: " + player.getAir() + "% up");
         System.out.println("Your current HP is: " + player.getHp());
@@ -421,7 +421,7 @@ public class Game
         // usikker på om jeg har brug for denne failsafe, eller den lige over
             System.out.println("That item isnt in your inventory"); 
     }
-    
+    // a test command, to let the player take some dmg
     private void takeDMG(Command command){
         player.setHp(50);
         player.setAir(50);
