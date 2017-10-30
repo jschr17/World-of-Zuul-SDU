@@ -16,12 +16,29 @@ public class Item implements Interactables {
     private String itemName, itemDescription, useDescription;
     private boolean flag;
     private final boolean isPickupable = true;
+    private int dmg, HP, air; 
     
     //This is the method that created the item object.
-    public Item(String itemName, String itemDescription) {
+    public Item(String itemName, String itemDescription, int dmg, int HP, int air) {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
+        this.dmg = dmg;
+        this.HP = HP;
+        this.air = air;
     }
+
+    public int getDmg() {
+        return dmg;
+    }
+
+    public int getHP() {
+        return HP;
+    }
+
+    public int getAir() {
+        return air;
+    }
+    
     
     //The following methods are the methods implemented from our interactables
     //interface. These are also used in the Destructables class.
