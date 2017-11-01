@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class Player {
     private int hp, air;
     private ArrayList<Item> inventory;
+    private boolean hasCalledHelp = false;
     
     public Player(int newHP, int newAir) {
         this.hp = newHP;
@@ -44,5 +45,11 @@ public class Player {
     }
     public void removeFromInventory(Item newItem){
     inventory.remove(newItem);
+    }
+    public void setCallHelp(boolean hasCalledHelp){
+        this.hasCalledHelp = hasCalledHelp;
+    }
+    public boolean hasCalledHelp(){
+        return hasCalledHelp;
     }
 }

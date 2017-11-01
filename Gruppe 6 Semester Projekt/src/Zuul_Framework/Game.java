@@ -82,7 +82,7 @@ public class Game {
         airlockPanel = new Immovable("switch", "A large red switch with a red light beside it. ", "You press the switch. The light turns green", false, false); // needs to have added the death/rescue effect on use
 
         doorLockPanel = new Immovable("panel", "A panel with a single lever on it. A label says \" door lock\" ", "You pull the lever, and a loud clunk is heard.", false, false);
-        radioArray = new Immovable("radio", "A radio array. Maybe you can use this to call for help.", "Nothing happens, maybe the keyhole has something to do with it", false, true);
+        radioArray = new Immovable("radio", "A radio array. Maybe you can use this to call for help.", "Nothing happens, maybe the empty slot named keymodule has something to do with it", false, false);
 
         medbay.setImmovables(counter);
         medbay.setImmovables(device);
@@ -112,7 +112,7 @@ public class Game {
         keyMonster.setDamage(12);
         //keyMonster.addItem(key);
 
-        Item kettle, stick, sword, medkit, oxygen, gun, rifle, tableleg;
+        Item kettle, stick, sword, medkit, oxygen, gun, rifle, tableleg,key;
 
 //      Items bliver initialiseret
         kettle = new Item("kettle", "This is a fucking kettle", 0, 0, 0);
@@ -123,18 +123,14 @@ public class Game {
         gun = new Item("gun", "A small gun, that can deal 20 dmg", 20, 0, 0);
         rifle = new Item("rifle", "A rifle, that has 40 dmg", 40, 0, 0);
         tableleg = new Item("tableleg", "A broken tableleg, from the table you just broke", 1, 0, 0);
-//      Items bliver sat i de forskellige immovables, i de forskellige rum:
-//      Medbay items
-        counter.setItems(medkit);
+        key = new Item("keymodule", "A small electronic device with keymodule printed on it", 0, 0, 0); //      Items bliver sat i de forskellige immovables, i de forskellige rum:
+                //      Medbay items
+        counter.setItems(medkit); 
         device.setItems(oxygen);
-
-        weaponCabinet.setItems(stick);
 
 //      keyroom items:
 //      Armoury items:
         weaponCabinet.setItems(rifle);
-
-        counter.setItems(kettle);
         bookcase.setItems(sword);
 
 //      Hallway items:
@@ -542,6 +538,12 @@ public class Game {
                 } else if (HP == 100 && i.getName().equalsIgnoreCase(medkit)) {
                     System.out.println("Your HP is already full");
                     return;
+                    // use the key at the radio to get it to be able to call help. and removes the key from inventory.
+                } else if (object.equalsIgnoreCase("keymodule") && currentRoom.getImmovable("radio").getFlag() == false){
+                    currentRoom.getImmovable("radio").setFlag(true);
+                    player.removeFromInventory(i);
+                    System.out.println("You take the keymodule and slot it into the radio, as soon as the module clicks in place the radio come to life with a static buzz.");
+                    return;                    
                 }
             }
         }
@@ -564,17 +566,41 @@ public class Game {
     }
 
     private boolean activate(Command command) {
-       // failsafe for if there is no second word
+        // failsafe for if there is no second word
+        String object = command.getSecondWord();
         if (!command.hasSecondWord()) {
             System.out.println("Activate what?");
             return false;
         }
-        if (command.getSecondWord().equals("switch") && currentRoom.getImmovable("switch").getFlag()==false){
-            System.out.println(text.getText("airlockfail"));
-            return true;
-    }
-        else if (command.getSecondWord().equals("switch") && currentRoom.getImmovable("switch").getFlag()==true){
-            System.out.println(text.getText("airlocksuccess"));
-        return true;
+        // this for loop helps to only acces imovables that are in the current room
+        for (Immovable i : currentRoom.getInteractList()) {
+
+            // logic for what hapends when switch is activated
+            if (command.getSecondWord().equals("switch") && i.getName().equals("switch")) {
+                if (player.hasCalledHelp() == true) {                                       // the call for help bool is changed when the radio in com-room is used
+                    System.out.println(text.getText("airlocksuccess"));
+                    return true;
+
+                } else{
+                    System.out.println(text.getText("airlockfail"));
+                    return true;
+                    
+                } //logic for what hapends when radi is activated
+            } else if (command.getSecondWord().equals("radio") && i.getName().equals("radio")) {
+                if (currentRoom.getImmovable("radio").getFlag() == false) {
+                    System.out.println(currentRoom.getImmovable("radio").getUseDescription());
+                    return false;
+
+                } else if (currentRoom.getImmovable("radio").getFlag() == true) {
+                    System.out.println("You use the radio to call for help, a nerby spacecaft responds to your sos and wil be there to pick you up shortly.");
+                    player.setCallHelp(true);
+                    return false;
+                }
+                return false;
+            }
+
+        }
+        System.out.println("there is no " + object + " here");
+        return false;
     }
 }
