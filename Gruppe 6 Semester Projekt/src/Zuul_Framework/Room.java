@@ -12,7 +12,7 @@ import java.util.Iterator;
  */
 // this class is used for crating room objects for the player to transition between
 public class Room {
-    private String description;             //a string that will carry the description of the room
+    private String name, description;             //a string that will carry the description of the room
     private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
     //constructor that sets the rooms description
 
@@ -20,14 +20,19 @@ public class Room {
     private ArrayList<Item> itemList;
     private ArrayList<NPC> npcList;             // list of NPCs in the room
   
-    public Room(String description) 
+    public Room(String name, String description) 
     {
+        this.name = name;
         this.description = description;
         exits = new HashMap<>();    // a new exit HashMap is crated for each instance of room
         interactList = new ArrayList<>();
         itemList = new ArrayList<>();
         npcList = new ArrayList<>();
     }
+    public String getName(){
+        return this.name;
+    }
+    
     //method for setting the exits of a room with a direction (key) and a neighbor room object
     public void setExit(String direction, Room neighbor) 
     {
@@ -61,27 +66,22 @@ public class Room {
     //This method returns everything in a given room that the player can interact with (Immovables)
     //and take with them(Items)
     public void searchRoom(){
-        if(this.interactList.isEmpty() && this.npcList.isEmpty()){
+        if(this.interactList.isEmpty() && this.npcList.isEmpty() && itemList.isEmpty()){
             System.out.println("There is nothing in the room");
         } else {
             System.out.println("You notice the following stuff in the room:");
             for(Immovable i : this.interactList){
                 System.out.println(i.getName());
             }
-            if (itemList.isEmpty() == true) {
-                System.out.println("Nothing on the floor.");
-            }
-            else{
-                System.out.println("You find these items on the floor:");
-                for(Item i : this.itemList){
-                    System.out.println(i.getName());
-                }
             for(NPC n : this.npcList){
                 System.out.println(n.getName());
             }
+            for(Item i : this.itemList){
+                System.out.println(i.getName());
+            }
         }
     }
-}
+
     //This method adds a specified immovable to the arraylist interactlist.
     public void setImmovables(Immovable immovables){
         this.interactList.add(immovables);
@@ -128,7 +128,7 @@ public class Room {
     public void removeItem(Item item){
         this.itemList.remove(item);
     }
-	public NPC getNPC(String npc) {
+    public NPC getNPC(String npc) {
         NPC object = null;
         for (NPC n : this.npcList){
             if (n.getName().equals(npc)) {
@@ -145,6 +145,10 @@ public class Room {
     }   
     public void addNPC(NPC npc){
         this.npcList.add(npc);
+    }
+    
+    public void removeNPC(NPC npc) {
+        this.npcList.remove(npc);
     }
     public ArrayList<NPC> getNPCList(){
         return npcList;
