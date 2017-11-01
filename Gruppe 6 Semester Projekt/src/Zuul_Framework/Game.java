@@ -339,15 +339,15 @@ public class Game
         }
         for(Item i : currentRoom.getItemList()){
              if (player.getInventory().size() < inventorySpace) {
-                 if(currentRoom.getItem(i.getName()) != null){
+                 if(currentRoom.getItem(i.getName()) != null && i.getName().equals(object)){
                 System.out.println("You have added " + object + " to your inventory.");
                 player.addToInventory(currentRoom.getItem(i.getName()));
                 currentRoom.removeItem(i);
                 return;
                 }
-            }
-        System.out.println("There is no " + object + " here");  
-      }
+            } 
+        }
+    System.out.println("There is no " + object + " here");
     }
     private void search(Command command){
         if(!command.hasSecondWord()) {
