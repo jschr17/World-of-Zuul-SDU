@@ -103,12 +103,12 @@ public class Game
         Item sword, medkit, oxygen, gun, rifle, tableleg;
 
 //      Items bliver initialiseret
-        sword = new Item("sword","This is a fucking sword",10,0,0);
-        medkit = new Item("medkit","A medkit that can heal the user upon use",0,40,0);
-        oxygen = new Item("oxygen-tank","An oxygen-tank, that can refill the users own oxygen-tank",0,0,35);
-        gun = new Item("gun","A small gun, that can deal 20 dmg",20,0,0);
-        rifle = new Item("rifle","A rifle, that has 40 dmg",40,0,0);
-        tableleg = new Item("tableleg","A broken tableleg, from the table you just broke",1,0,0);
+        sword = new Item("sword","This is a fucking sword.",10,0,0);
+        medkit = new Item("medkit","A medkit that can heal the user upon use.",0,40,0);
+        oxygen = new Item("oxygen-tank","An oxygen-tank, that can refill the users own oxygen-tank.",0,0,35);
+        gun = new Item("gun","A small gun. It deals 20 dmg.",20,0,0);
+        rifle = new Item("rifle","A rifle. It does 40 dmg.",40,0,0);
+        tableleg = new Item("tableleg","A broken tableleg, from the table you just broke.",1,0,0);
 //      Items bliver sat i de forskellige immovables, i de forskellige rum:
 //      Medbay items
         counter.setItems(medkit);
