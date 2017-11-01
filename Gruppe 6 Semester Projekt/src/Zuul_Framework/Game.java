@@ -599,7 +599,7 @@ public class Game {
                 currentRoom.removeNPC(monster);
         }
     }
-}
+
 
     private boolean activate(Command command) {
         // failsafe for if there is no second word
