@@ -59,7 +59,7 @@ public class Game
         //creating immovables
         
         /* Creating and setting immovables for all the rooms */
-        Immovable counter, device, table, weaponCabinet, bookcase, closet, glassCabinet, airlockPanel, doorLockPanel, radioArray, floor;
+        Immovable counter, device, table, weaponCabinet, bookcase, closet, glassCabinet, airlockPanel, doorLockPanel, radioArray;
         counter = new Immovable("counter", "A medical counter. There's a medkit on the countertop.", "You can't use this.", false, false);
         device = new Immovable("device", "A strange medical device. There's an oxygen tank attatched to it", "you don't know how to use this.", false, false);
         
@@ -99,17 +99,15 @@ public class Game
         keyMonster.setDamage(12);
         //keyMonster.addItem(key);
         
-        Item kettle, stick, sword, medkit, oxygen, gun, rifle, tableleg;
+        Item sword, medkit, oxygen, gun, rifle, tableleg;
 
 //      Items bliver initialiseret
-        kettle = new Item("kettle","This is a fucking kettle",0,0,0);
-        stick = new Item("stick","This is a fucking stick",0,0,0);
-        sword = new Item("sword","This is a fucking sword",10,0,0);
-        medkit = new Item("medkit","A medkit that can heal the user upon use",0,40,0);
-        oxygen = new Item("oxygen-tank","An oxygen-tank, that can refill the users own oxygen-tank",0,0,35);
-        gun = new Item("gun","A small gun, that can deal 20 dmg",20,0,0);
-        rifle = new Item("rifle","A rifle, that has 40 dmg",40,0,0);
-        tableleg = new Item("tableleg","A broken tableleg, from the table you just broke",1,0,0);
+        sword = new Item("sword","This is a fucking sword.",10,0,0);
+        medkit = new Item("medkit","A medkit that can heal the user upon use.",0,40,0);
+        oxygen = new Item("oxygen-tank","An oxygen-tank, that can refill the users own oxygen-tank.",0,0,35);
+        gun = new Item("gun","A small gun. It deals 20 dmg.",20,0,0);
+        rifle = new Item("rifle","A rifle. It does 40 dmg.",40,0,0);
+        tableleg = new Item("tableleg","A broken tableleg, from the table you just broke.",1,0,0);
 //      Items bliver sat i de forskellige immovables, i de forskellige rum:
 //      Medbay items
         counter.setItems(medkit);
@@ -343,15 +341,15 @@ public class Game
         }
         for(Item i : currentRoom.getItemList()){
              if (player.getInventory().size() < inventorySpace) {
-                 if(currentRoom.getItem(i.getName()) != null){
+                 if(currentRoom.getItem(i.getName()) != null && i.getName().equals(object)){
                 System.out.println("You have added " + object + " to your inventory.");
                 player.addToInventory(currentRoom.getItem(i.getName()));
                 currentRoom.removeItem(i);
                 return;
                 }
-            }
-        System.out.println("There is no " + object + " here");  
-      }
+            } 
+        }
+    System.out.println("There is no " + object + " here");
     }
     private void search(Command command){
         if(!command.hasSecondWord()) {
@@ -366,6 +364,7 @@ public class Game
         } else {
             for(Immovable i : currentRoom.getInteractList()){
                 if(i.getItems()!=null && searchTarget.equals(i.getName())){
+                    System.out.println("You found the following in the " + searchTarget);
                     System.out.println(i.getItems().getName());
                     return;
                 } 
@@ -396,8 +395,8 @@ public class Game
     }
 
     // a command that prints out the status, of the player
-    private void checkStatus(Command command){
-        System.out.println("Your air tank is filled: " + player.getAir() + "% up");
+    private void checkStatus(Command command){ //<-- Command command bliver ikke brugt, så det skulle måske fjernes.
+        System.out.println("Your air tank is at: " + player.getAir() + "%");
         System.out.println("Your current HP is: " + player.getHp());
     
     }
@@ -416,18 +415,19 @@ public class Game
         for (Item i : player.getInventory()){
             if (i.getName().equalsIgnoreCase(object)){
                 if (air < 65 && i.getName().equalsIgnoreCase(oxygen)){
-                    System.out.println("You used the " + object);
+                    System.out.println("You used the " + object + ". It gave you " + i.getAir() + " air.");
                     player.setAir(air + i.getAir());
                     player.removeFromInventory(i);
                     return;
                 }
                 else if(HP < 60 && i.getName().equalsIgnoreCase(medkit)){
-                    System.out.println("You used the " + object);
+                    System.out.println("You used the " + object + ". It gave you " + i.getHP() + " HP.");
                     player.setHp(HP + i.getHP());
                     player.removeFromInventory(i);
                     return;
-                }              
-                else if(air > 65 && air != 100 || HP > 60 && HP != 100){
+                }        
+                //Disse to er overflødige så vi jeg kan se.
+                /*else if(air > 65 && air != 100 || HP > 60 && HP != 100){
                     if(i.getName().equalsIgnoreCase(medkit)){
                         System.out.println("You used the: " + object);
                         player.setHp(100);
@@ -440,13 +440,13 @@ public class Game
                         player.removeFromInventory(i);
                         return;
                     }
-                }
+                }*/
                 
-                else if(air == 100 && i.getName().equalsIgnoreCase(oxygen)){
+                else if(air >= 100 && i.getName().equalsIgnoreCase(oxygen)){
                         System.out.println("Your oxygen-tank is already full");
                         return;
                     }
-                    else if(HP == 100 && i.getName().equalsIgnoreCase(medkit)){
+                    else if(HP >= 100 && i.getName().equalsIgnoreCase(medkit)){
                         System.out.println("Your HP is already full");
                         return;
                     }
@@ -464,7 +464,7 @@ public class Game
             System.out.println("That item isnt in your inventory"); 
     }
     // a test command, to let the player take some dmg
-    private void takeDMG(Command command){
+    private void takeDMG(Command command){ //<-- Command command bliver ikke brugt, så det skulle måske fjernes.
         player.setHp(50);
         player.setAir(50);
     }
