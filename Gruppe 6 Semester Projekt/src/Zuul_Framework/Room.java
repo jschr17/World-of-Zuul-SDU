@@ -69,6 +69,7 @@ public class Room {
                 System.out.println(i.getName());
             }
             if (itemList.isEmpty() == true) {
+                System.out.println("");
                 System.out.println("Nothing on the floor.");
             }
             else{

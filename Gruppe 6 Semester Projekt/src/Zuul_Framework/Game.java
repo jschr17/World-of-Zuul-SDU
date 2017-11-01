@@ -362,6 +362,7 @@ public class Game
         } else {
             for(Immovable i : currentRoom.getInteractList()){
                 if(i.getItems()!=null && searchTarget.equals(i.getName())){
+                    System.out.println("You found the following in the " + searchTarget);
                     System.out.println(i.getItems().getName());
                     return;
                 } 
@@ -392,7 +393,7 @@ public class Game
     }
 
     // a command that prints out the status, of the player
-    private void checkStatus(Command command){
+    private void checkStatus(Command command){ //<-- Command command bliver ikke brugt, så det skulle måske fjernes.
         System.out.println("Your air tank is filled: " + player.getAir() + "% up");
         System.out.println("Your current HP is: " + player.getHp());
     
@@ -412,13 +413,13 @@ public class Game
         for (Item i : player.getInventory()){
             if (i.getName().equalsIgnoreCase(object)){
                 if (air < 65 && i.getName().equalsIgnoreCase(oxygen)){
-                    System.out.println("You used the " + object);
+                    System.out.println("You used the " + object + ". It gave you " + i.getAir() + " air.");
                     player.setAir(air + i.getAir());
                     player.removeFromInventory(i);
                     return;
                 }
                 else if(HP < 60 && i.getName().equalsIgnoreCase(medkit)){
-                    System.out.println("You used the " + object);
+                    System.out.println("You used the " + object + ". It gave you " + i.getHP() + " HP.");
                     player.setHp(HP + i.getHP());
                     player.removeFromInventory(i);
                     return;
@@ -460,7 +461,7 @@ public class Game
             System.out.println("That item isnt in your inventory"); 
     }
     // a test command, to let the player take some dmg
-    private void takeDMG(Command command){
+    private void takeDMG(Command command){ //<-- Command command bliver ikke brugt, så det skulle måske fjernes.
         player.setHp(50);
         player.setAir(50);
     }
