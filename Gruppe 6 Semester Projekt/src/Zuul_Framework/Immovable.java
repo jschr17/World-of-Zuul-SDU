@@ -10,6 +10,7 @@ public class Immovable implements Interactables{
     private final boolean isPickupable = false;
     private Item item;
     
+    
     /**
      *
      * @param name is the name of the Immovable being made, e.g. "table".
@@ -48,11 +49,7 @@ public class Immovable implements Interactables{
             //changes the description of the table.
             this.description = "There is a leg missing from the table";
             this.destructible = false; // since the immovable is broken, it can't be broken more.
-            /*    
-            **event when breaking table
-            **remove notes from table
-            **pickup table leg
-            */               
+            System.out.println("You pickup the notes and the tableleg"); 
         }
         else
             System.out.println("You can't break this.");        
@@ -114,5 +111,10 @@ public class Immovable implements Interactables{
     @Override
     public void setFlag(Boolean flag) {
         this.flag = flag;
+    }
+
+    @Override
+    public void setDescription(String string) {
+        this.description = string;
     }
 }

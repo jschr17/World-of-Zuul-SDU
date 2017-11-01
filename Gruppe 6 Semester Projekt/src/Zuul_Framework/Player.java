@@ -18,6 +18,7 @@ public class Player {
     private volatile int hp;
     private int air;
     private ArrayList<Item> inventory;
+    private boolean hasCalledHelp = false;
     
     /* By Mads */
     public static String playerName = "Mads"; // Non-negotiable
@@ -59,6 +60,13 @@ public class Player {
     }
     public void removeFromInventory(Item newItem){
     inventory.remove(newItem);
+    }
+
+    public void setCallHelp(boolean hasCalledHelp){
+        this.hasCalledHelp = hasCalledHelp;
+    }
+    public boolean hasCalledHelp(){
+        return hasCalledHelp;
     }
     
     /* By Mads */

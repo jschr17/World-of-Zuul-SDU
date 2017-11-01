@@ -71,6 +71,10 @@ public class NPC {
         return inventory;
     }
     
+    public void setHealth(int hp){
+        this.health = hp;
+    }
+    
     public void takeHit(int hit) {
         if (this.health > 0) {
             this.health -= hit;
