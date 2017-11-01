@@ -260,6 +260,8 @@ public class Game
             return false;
         }
         else {
+            player.terminateAllPlayerThreads();
+            player.terminateAllPlayerTimers();
             return true;
         }
     }
