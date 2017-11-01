@@ -19,6 +19,7 @@ public class Game {
     private Player player = new Player(100, 100);
     private int inventorySpace = 2;
     private Immovable immovable;
+    private NPC britney, keyMonster;
 
     // constructor for the game class    
     public Game() throws IOException {
@@ -31,12 +32,12 @@ public class Game {
         Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
         // The initialication of the room objects
 
-        medbay = new Room(text.getText("medbay"));
-        keyRoom = new Room(text.getText("keyRoom"));
-        armoury = new Room(text.getText("armory"));
-        hallway = new Room(text.getText("hallway"));
-        communicationRoom = new Room(text.getText("communicationRoom"));
-        airlock = new Room(text.getText("airlock"));
+        medbay = new Room("medbay", text.getText("medbay"));
+        keyRoom = new Room("keyRoom", text.getText("keyRoom"));
+        armoury = new Room("armoury", text.getText("armory"));
+        hallway = new Room("hallway", text.getText("hallway"));
+        communicationRoom = new Room("communicationRoom", text.getText("communicationRoom"));
+        airlock = new Room("airlock",text.getText("airlock"));
 
         // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
         medbay.setExit("north", keyRoom);
@@ -100,10 +101,8 @@ public class Game {
 
         communicationRoom.setImmovables(doorLockPanel);
         communicationRoom.setImmovables(radioArray);
-
-        /* Adding NPCs to rooms*/
-        NPC britney, keyMonster;
-
+ 
+        /* Adding NPCs to rooms*/       
         britney = new NPC("britney", "A blonde woman", false, true);
         keyMonster = new NPC("monster", "A large alien creature.", true, false);
 
@@ -112,22 +111,23 @@ public class Game {
         keyMonster.setDamage(12);
         //keyMonster.addItem(key);
 
-        Item kettle, stick, sword, medkit, oxygen, gun, rifle, tableleg,key;
+        
+        Item sword, medkit, oxygen, gun, rifle, tableleg, key;
 
 //      Items bliver initialiseret
-        kettle = new Item("kettle", "This is a fucking kettle", 0, 0, 0);
-        stick = new Item("stick", "This is a fucking stick", 0, 0, 0);
-        sword = new Item("sword", "This is a fucking sword", 10, 0, 0);
-        medkit = new Item("medkit", "A medkit that can heal the user upon use", 0, 40, 0);
-        oxygen = new Item("oxygen-tank", "An oxygen-tank, that can refill the users own oxygen-tank", 0, 0, 35);
-        gun = new Item("gun", "A small gun, that can deal 20 dmg", 20, 0, 0);
-        rifle = new Item("rifle", "A rifle, that has 40 dmg", 40, 0, 0);
-        tableleg = new Item("tableleg", "A broken tableleg, from the table you just broke", 1, 0, 0);
-        key = new Item("keymodule", "A small electronic device with keymodule printed on it", 0, 0, 0); //      Items bliver sat i de forskellige immovables, i de forskellige rum:
-                //      Medbay items
-        counter.setItems(medkit); 
-        device.setItems(oxygen);
+        sword = new Item("sword","This is a fucking sword.",10,0,0);
+        medkit = new Item("medkit","A medkit that can heal the user upon use.",0,40,0);
+        oxygen = new Item("oxygen-tank","An oxygen-tank, that can refill the users own oxygen-tank.",0,0,35);
+        gun = new Item("gun","A small gun. It deals 20 dmg.",20,0,0);
+        rifle = new Item("rifle","A rifle. It does 40 dmg.",40,0,0);
+        tableleg = new Item("tableleg","A broken tableleg, from the table you just broke.",1,0,0);
+        key = new Item("keymodule", "A small electronic device with keymodule printed on it", 0, 0, 0);
 
+//      Items bliver sat i de forskellige immovables, i de forskellige rum:
+//      Medbay items
+        counter.setItems(medkit);
+        device.setItems(oxygen); 
+        
 //      keyroom items:
 //      Armoury items:
         weaponCabinet.setItems(rifle);
@@ -150,6 +150,9 @@ public class Game {
         while (!finished) {    // the main game loop, runs as long as boolean finished = false
             Command command = parser.getCommand(); // gets a command from the parser Class and processes it
             finished = processCommand(command);     // after each command is prosed the came checks if the finish command have been given,
+            if (!"communicationRoom".equals(currentRoom.getName())) {
+                monsterTravel(keyMonster);
+            }
         }
         System.out.println("Thank you for playing.  Good bye."); //prints this line if finished == true
     }
@@ -255,7 +258,11 @@ public class Game {
         if (command.hasSecondWord()) {           // if the Parser sends a second word along with quit
             System.out.println("Quit what?");   //this line is printed and wantToQuit returns false
             return false;
-        } else {
+
+        }
+        else {
+            player.terminateAllPlayerThreads();
+            player.terminateAllPlayerTimers();
             return true;
         }
     }
@@ -347,17 +354,18 @@ public class Game {
                 return;
             }
         }
-        for (Item i : currentRoom.getItemList()) {
-            if (player.getInventory().size() < inventorySpace) {
-                if (currentRoom.getItem(i.getName()) != null) {
-                    System.out.println("You have added " + object + " to your inventory.");
-                    player.addToInventory(currentRoom.getItem(i.getName()));
-                    currentRoom.removeItem(i);
-                    return;
+
+        for(Item i : currentRoom.getItemList()){
+             if (player.getInventory().size() < inventorySpace) {
+                 if(currentRoom.getItem(i.getName()) != null && i.getName().equals(object)){
+                System.out.println("You have added " + object + " to your inventory.");
+                player.addToInventory(currentRoom.getItem(i.getName()));
+                currentRoom.removeItem(i);
+                return;
                 }
-            }
-            System.out.println("There is no " + object + " here");
+            } 
         }
+    System.out.println("There is no " + object + " here");
     }
 
     private void search(Command command) {
@@ -371,8 +379,10 @@ public class Game {
         if (searchTarget.equals("room")) {
             currentRoom.searchRoom();
         } else {
-            for (Immovable i : currentRoom.getInteractList()) {
-                if (i.getItems() != null && searchTarget.equals(i.getName())) {
+
+            for(Immovable i : currentRoom.getInteractList()){
+                if(i.getItems()!=null && searchTarget.equals(i.getName())){
+                    System.out.println("You found the following in the " + searchTarget);
                     System.out.println(i.getItems().getName());
                     return;
                 }
@@ -490,8 +500,9 @@ public class Game {
     }
 
     // a command that prints out the status, of the player
-    private void checkStatus(Command command) {
-        System.out.println("Your air tank is filled: " + player.getAir() + "% up");
+
+    private void checkStatus(Command command){ //<-- Command command bliver ikke brugt, så det skulle måske fjernes.
+        System.out.println("Your air tank is at: " + player.getAir() + "%");
         System.out.println("Your current HP is: " + player.getHp());
 
     }
@@ -507,20 +518,24 @@ public class Game {
             System.out.println("Use what?");
             return;
         }
-        for (Item i : player.getInventory()) {
-            if (i.getName().equalsIgnoreCase(object)) {
-                if (air < 65 && i.getName().equalsIgnoreCase(oxygen)) {
-                    System.out.println("You used the " + object);
+
+        for (Item i : player.getInventory()){
+            if (i.getName().equalsIgnoreCase(object)){
+                if (air < 65 && i.getName().equalsIgnoreCase(oxygen)){
+                    System.out.println("You used the " + object + ". It gave you " + i.getAir() + " air.");
                     player.setAir(air + i.getAir());
                     player.removeFromInventory(i);
                     return;
-                } else if (HP < 60 && i.getName().equalsIgnoreCase(medkit)) {
-                    System.out.println("You used the " + object);
+                }
+                else if(HP < 60 && i.getName().equalsIgnoreCase(medkit)){
+                    System.out.println("You used the " + object + ". It gave you " + i.getHP() + " HP.");
                     player.setHp(HP + i.getHP());
                     player.removeFromInventory(i);
                     return;
-                } else if (air > 65 && air != 100 || HP > 60 && HP != 100) {
-                    if (i.getName().equalsIgnoreCase(medkit)) {
+                }        
+                //Disse to er overflødige så vi jeg kan se.
+                /*else if(air > 65 && air != 100 || HP > 60 && HP != 100){
+                    if(i.getName().equalsIgnoreCase(medkit)){
                         System.out.println("You used the: " + object);
                         player.setHp(100);
                         player.removeFromInventory(i);
@@ -532,14 +547,19 @@ public class Game {
                         player.removeFromInventory(i);
                         return;
                     }
-                } else if (air == 100 && i.getName().equalsIgnoreCase(oxygen)) {
-                    System.out.println("Your oxygen-tank is already full");
-                    return;
-                } else if (HP == 100 && i.getName().equalsIgnoreCase(medkit)) {
-                    System.out.println("Your HP is already full");
-                    return;
-                    // use the key at the radio to get it to be able to call help. and removes the key from inventory.
-                } else if (object.equalsIgnoreCase("keymodule") && currentRoom.getImmovable("radio").getFlag() == false){
+
+                }*/
+                
+                else if(air >= 100 && i.getName().equalsIgnoreCase(oxygen)){
+                        System.out.println("Your oxygen-tank is already full");
+                        return;
+                    }
+                    else if(HP >= 100 && i.getName().equalsIgnoreCase(medkit)){
+                        System.out.println("Your HP is already full");
+                        return;
+                    }
+                // use the key at the radio to get it to be able to call help. and removes the key from inventory.
+                else if (object.equalsIgnoreCase("keymodule") && currentRoom.getImmovable("radio").getFlag() == false){
                     currentRoom.getImmovable("radio").setFlag(true);
                     player.removeFromInventory(i);
                     System.out.println("You take the keymodule and slot it into the radio, as soon as the module clicks in place the radio come to life with a static buzz.");
@@ -560,10 +580,26 @@ public class Game {
     }
 
     // a test command, to let the player take some dmg
-    private void takeDMG(Command command) {
+
+    private void takeDMG(Command command){ //<-- Command command bliver ikke brugt, så det skulle måske fjernes.
         player.setHp(50);
         player.setAir(50);
     }
+    
+    
+    private void monsterTravel(NPC monster) {
+        if (monster.getMovability()){
+            String[] allowedRooms = {"airlock", "hallway", "keyRoom", "armoury", "medbay"};
+            int rngRoom = (int) (4 * Math.random());
+            if (currentRoom.getName().equals(allowedRooms[rngRoom])) {
+                monster.setHealth(200);
+                currentRoom.addNPC(monster);
+            }
+            else
+                currentRoom.removeNPC(monster);
+        }
+    }
+}
 
     private boolean activate(Command command) {
         // failsafe for if there is no second word
