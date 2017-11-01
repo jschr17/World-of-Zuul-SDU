@@ -14,6 +14,7 @@ import java.util.Iterator;
 public class Room {
     private String name, description;             //a string that will carry the description of the room
     private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
+    private HashMap<String, Room> secretExits;
     //constructor that sets the rooms description
 
     private ArrayList<Immovable> interactList; // list of the immovables in the room
@@ -28,6 +29,7 @@ public class Room {
         interactList = new ArrayList<>();
         itemList = new ArrayList<>();
         npcList = new ArrayList<>();
+        secretExits = new HashMap<>();
     }
     public String getName(){
         return this.name;
@@ -37,6 +39,9 @@ public class Room {
     public void setExit(String direction, Room neighbor) 
     {
         exits.put(direction, neighbor);
+    }
+    public void addSecretExit(String key, Room destination){
+        secretExits.put(key, destination);
     }
     //method for returning a rooms description
     public String getShortDescription()
@@ -90,15 +95,11 @@ public class Room {
     public Immovable getImmovable(String immovable) {
         Immovable object = null;
         for (Immovable i : this.interactList){
-            if (i.getName().equals(immovable)) {
-                object = i;   
-            } 
-            if (object != null){
-                return object;
-            } else {
-                break;
+            if (i!=null &&i.getName().equals(immovable)) {
+                object = i; 
             }
-        }
+        
+    }
         return object; //object might not have been initialised, but this method is not used if the object isn't found
     }
    
@@ -153,4 +154,10 @@ public class Room {
     public ArrayList<NPC> getNPCList(){
         return npcList;
     }
+
+
+    Room getSecretDestination(String notes) {
+        return secretExits.get(notes);
+    }
+
 }

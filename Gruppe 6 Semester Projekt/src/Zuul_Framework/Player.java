@@ -17,6 +17,7 @@ import java.util.TimerTask;
 public class Player {
     private int hp, air;
     private ArrayList<Item> inventory;
+    private boolean hasCalledHelp = false;
     
     /* By Mads */
     public static String playerName = "Mads"; // Non-negotiable
@@ -58,6 +59,13 @@ public class Player {
     }
     public void removeFromInventory(Item newItem){
     inventory.remove(newItem);
+    }
+
+    public void setCallHelp(boolean hasCalledHelp){
+        this.hasCalledHelp = hasCalledHelp;
+    }
+    public boolean hasCalledHelp(){
+        return hasCalledHelp;
     }
     
     /* By Mads */
