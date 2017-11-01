@@ -58,7 +58,7 @@ public class Game
         //creating immovables
         
         /* Creating and setting immovables for all the rooms */
-        Immovable counter, device, table, weaponCabinet, bookcase, closet, glassCabinet, airlockPanel, doorLockPanel, radioArray, floor;
+        Immovable counter, device, table, weaponCabinet, bookcase, closet, glassCabinet, airlockPanel, doorLockPanel, radioArray;
         counter = new Immovable("counter", "A medical counter. There's a medkit on the countertop.", "You can't use this.", false, false);
         device = new Immovable("device", "A strange medical device. There's an oxygen tank attatched to it", "you don't know how to use this.", false, false);
         
@@ -394,7 +394,7 @@ public class Game
 
     // a command that prints out the status, of the player
     private void checkStatus(Command command){ //<-- Command command bliver ikke brugt, så det skulle måske fjernes.
-        System.out.println("Your air tank is filled: " + player.getAir() + "% up");
+        System.out.println("Your air tank is at: " + player.getAir() + "%");
         System.out.println("Your current HP is: " + player.getHp());
     
     }
@@ -423,8 +423,9 @@ public class Game
                     player.setHp(HP + i.getHP());
                     player.removeFromInventory(i);
                     return;
-                }              
-                else if(air > 65 && air != 100 || HP > 60 && HP != 100){
+                }        
+                //Disse to er overflødige så vi jeg kan se.
+                /*else if(air > 65 && air != 100 || HP > 60 && HP != 100){
                     if(i.getName().equalsIgnoreCase(medkit)){
                         System.out.println("You used the: " + object);
                         player.setHp(100);
@@ -437,13 +438,13 @@ public class Game
                         player.removeFromInventory(i);
                         return;
                     }
-                }
+                }*/
                 
-                else if(air == 100 && i.getName().equalsIgnoreCase(oxygen)){
+                else if(air >= 100 && i.getName().equalsIgnoreCase(oxygen)){
                         System.out.println("Your oxygen-tank is already full");
                         return;
                     }
-                    else if(HP == 100 && i.getName().equalsIgnoreCase(medkit)){
+                    else if(HP >= 100 && i.getName().equalsIgnoreCase(medkit)){
                         System.out.println("Your HP is already full");
                         return;
                     }
