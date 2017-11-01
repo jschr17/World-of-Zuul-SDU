@@ -17,6 +17,7 @@ public class Game
     private Player player = new Player(100, 100);
     private int inventorySpace = 2;
     private Immovable immovable;
+    private NPC britney, keyMonster;
 
     // constructor for the game class    
     public Game()throws IOException 
@@ -30,12 +31,12 @@ public class Game
         Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
         // The initialication of the room objects
 
-        medbay = new Room(text.getText("medbay"));
-        keyRoom = new Room(text.getText("keyRoom"));
-        armoury = new Room(text.getText("armory"));
-        hallway = new Room(text.getText("hallway"));
-        communicationRoom = new Room(text.getText("communicationRoom"));
-        airlock = new Room(text.getText("airlock"));
+        medbay = new Room("medbay", text.getText("medbay"));
+        keyRoom = new Room("keyRoom", text.getText("keyRoom"));
+        armoury = new Room("armoury", text.getText("armory"));
+        hallway = new Room("hallway", text.getText("hallway"));
+        communicationRoom = new Room("communicationRoom", text.getText("communicationRoom"));
+        airlock = new Room("airlock",text.getText("airlock"));
 
         // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
         medbay.setExit("north", keyRoom);
@@ -89,9 +90,7 @@ public class Game
         communicationRoom.setImmovables(doorLockPanel);
         communicationRoom.setImmovables(radioArray);
         
-        /* Adding NPCs to rooms*/
-        NPC britney, keyMonster;
-        
+        /* Adding NPCs to rooms*/       
         britney = new NPC("britney", "A blonde woman", false, true);
         keyMonster = new NPC("monster", "A large alien creature.", true, false);
                 
@@ -141,6 +140,9 @@ public class Game
         while (! finished) {    // the main game loop, runs as long as boolean finished = false
             Command command = parser.getCommand(); // gets a command from the parser Class and processes it
             finished = processCommand(command);     // after each command is prosed the came checks if the finish command have been given,
+            if (!"communicationRoom".equals(currentRoom.getName())) {
+                monsterTravel(keyMonster);
+            }
         }
         System.out.println("Thank you for playing.  Good bye."); //prints this line if finished == true
     }
@@ -467,5 +469,18 @@ public class Game
         player.setAir(50);
     }
     
+    
+    private void monsterTravel(NPC monster) {
+        if (monster.getMovability()){
+            String[] allowedRooms = {"airlock", "hallway", "keyRoom", "armoury", "medbay"};
+            int rngRoom = (int) (4 * Math.random());
+            if (currentRoom.getName().equals(allowedRooms[rngRoom])) {
+                monster.setHealth(200);
+                currentRoom.addNPC(monster);
+            }
+            else
+                currentRoom.removeNPC(monster);
+        }
+    }
 }
 
