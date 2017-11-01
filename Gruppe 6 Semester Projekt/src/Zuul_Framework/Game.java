@@ -258,6 +258,8 @@ public class Game
             return false;
         }
         else {
+            player.terminateAllPlayerThreads();
+            player.terminateAllPlayerTimers();
             return true;
         }
     }
@@ -464,5 +466,6 @@ public class Game
         player.setHp(50);
         player.setAir(50);
     }
+    
 }
 

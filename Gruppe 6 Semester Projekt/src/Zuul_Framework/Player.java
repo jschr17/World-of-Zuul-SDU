@@ -23,7 +23,7 @@ public class Player {
     public int maxHP = hp;    
     // public int currentHP = maxHP;
     public int maxOxygen = air;
-    public int currentOxygen = maxOxygen; 
+    // public int currentOxygen = maxOxygen; 
     public int awesomePoints = 0;
     public int totalTimePlayed = 0;
     
@@ -64,8 +64,8 @@ public class Player {
     public int getCurrentHP(){
         return hp;
     }
-    public void setCurrentHP(int healing, int damage){
-        this.hp = hp + healing - damage;
+    public void setCurrentHP(int add, int sub){
+        this.hp = hp + add - sub;
     }
     
     public int getMaxHP(){
@@ -97,6 +97,16 @@ public class Player {
     
     static Timer timerOxygen;
     static Timer timerHP;
+    static Timer timePlayed;
+    public boolean terminateThreads = false;
+    private volatile boolean stopThreadOxygen = false;
+    private volatile boolean stopThreadHP = false;
+    
+    public void terminateAllPlayerThreads() {
+        stopThreadHP = true;
+        stopThreadOxygen = true;
+        terminateThreads = true;     
+    }
     
     public void oxygenTimer(){
         
@@ -120,14 +130,19 @@ public class Player {
         };
         
         /* Create thread to print counter value */
+        
         Thread threadOxygen = new Thread(new Runnable(){
+            
+                public void terminateThreadOxygen() {
+                    stopThreadOxygen = true;
+                }
             
             @Override
             public void run() {
-                while(true){
+                while(!stopThreadOxygen || !terminateThreads){
                     try{
-                        if (air == 0){
-                            // System.out.println("You've ran out of oxygen!");
+                        if (air == 0 ){
+                            System.out.println("You've ran out of oxygen!!!");
                             timerOxygen.cancel();
                             timerHP.scheduleAtFixedRate(timerTaskHP, 30, 1000); // timerHP starts when timerOxygen stops.
                             break;
@@ -135,16 +150,22 @@ public class Player {
                         Thread.sleep(1000);
                     } catch(InterruptedException ex){
                         ex.printStackTrace();
+                        terminateThreadOxygen();
                     }
                 }
             }
         });
         
+        
         Thread threadHP = new Thread(new Runnable(){
 
+            public void terminateThreadHP(){
+                stopThreadHP = true;
+            }        
+        
             @Override
             public void run() {
-                while(true){
+                while(!stopThreadHP || !terminateThreads){
                     try{
                         if (hp == 0){
                             // System.out.println("You've ran out of health!");
@@ -154,20 +175,23 @@ public class Player {
                         Thread.sleep(1000);
                     } catch(InterruptedException ex){
                         ex.printStackTrace();
+                        terminateThreadHP();
                     }
                 }
             }
         });
+    
         
         /* Builds the timers for oxygen & HP */
-        timerOxygen = new Timer("MyTimer1");
+        timerOxygen = new Timer("MyTimerOxygen");
         timerOxygen.scheduleAtFixedRate(timerTaskOxygen, 30, 1000); 
         threadOxygen.start();
 
-        timerHP = new Timer("MyTimer2");
+        timerHP = new Timer("MyTimerHP");
         threadHP.start();
-
+        
     }
+
     
     /* Total play time. */
     public int totalTimePlayed(){
@@ -178,26 +202,35 @@ public class Player {
             }
         }
 
-        Timer timePlayed = new Timer();
+        timePlayed = new Timer();
         timePlayed.schedule(new playedTimeCounter(), 10, 1000);
         
         return totalTimePlayed;
     }
+
     
     /* End game points */
     public int getAwesomePoint(){
                 //###########   TODO; en værdi for Britney    ##############
         
-        // timepoints = e ^ ( A - ( timeplayed / B) ), logorithmic decreasing scale.
+        /* Natural logatithm function which is deaccelerating, used to calculate the time points into the endgame points.
+        TimePoints = e ^ ( A - ( t / B) ): A, B are constants, t = totalTimePlayed. */
         double A = 4.6;
         double B = 200;
         double doubleTimePoints = Math.pow(E, A - totalTimePlayed / B);
         int intTimePoints = ( (Double) Math.ceil( doubleTimePoints ) ).intValue();
 
         // End game points 
-        int awesomePoints = getCurrentHP() + getCurrentOxygen() - intTimePoints;
+        int awesomePoints = getCurrentHP() + getCurrentOxygen() + intTimePoints;
 
         return awesomePoints;
+    }
+    
+    /* Kills of threads */
+    public void terminateAllPlayerTimers(){
+        timerOxygen.cancel();
+        timerHP.cancel();
+        timePlayed.cancel();
     }
     
 }
