@@ -17,7 +17,7 @@ public class Game
     private Player player = new Player(100, 100);
     private int inventorySpace = 2;
     private Immovable immovable;
-
+    
     // constructor for the game class    
     public Game()throws IOException 
     {
@@ -138,13 +138,39 @@ public class Game
     public void play() 
     {            
         printWelcome(); //prints the welcome message
-
+       
         boolean finished = false; //initiates a boolen to determine if the game is finished
+        
+        
+        
         while (! finished) {    // the main game loop, runs as long as boolean finished = false
+
             Command command = parser.getCommand(); // gets a command from the parser Class and processes it
-            finished = processCommand(command);     // after each command is prosed the came checks if the finish command have been given,
+            if(loseCondition() == true){
+                finished = true;
+                break;
+            }
+            
+            finished = processCommand(command);     // after each command is prosed the game checks if the finish command have been given,
+            
         }
+        
+        
+        
+        System.out.println("Your total points is: " + player.getAwesomePoint());
         System.out.println("Thank you for playing.  Good bye."); //prints this line if finished == true
+    }
+    private boolean loseCondition(){
+         if(player.getHp() <= 0){
+                player.terminateAllPlayerThreads();
+                player.terminateAllPlayerTimers();
+                System.out.println("You have died!!!!!!");
+                
+                
+           return true;  
+           
+            }
+         return false;
     }
     //Method that print the welcome + long description information when game is started
     private void printWelcome()
@@ -463,8 +489,9 @@ public class Game
     }
     // a test command, to let the player take some dmg
     private void takeDMG(Command command){
-        player.setHp(50);
-        player.setAir(50);
+        
+        player.setHp( player.getHp() - 30);
+        player.setAir(player.getAir() - 30);
     }
     
 }
