@@ -100,11 +100,9 @@ public class Game
         keyMonster.setDamage(12);
         //keyMonster.addItem(key);
         
-        Item kettle, stick, sword, medkit, oxygen, gun, rifle, tableleg;
+        Item sword, medkit, oxygen, gun, rifle, tableleg;
 
 //      Items bliver initialiseret
-        kettle = new Item("kettle","This is a fucking kettle",0,0,0);
-        stick = new Item("stick","This is a fucking stick",0,0,0);
         sword = new Item("sword","This is a fucking sword",10,0,0);
         medkit = new Item("medkit","A medkit that can heal the user upon use",0,40,0);
         oxygen = new Item("oxygen-tank","An oxygen-tank, that can refill the users own oxygen-tank",0,0,35);
