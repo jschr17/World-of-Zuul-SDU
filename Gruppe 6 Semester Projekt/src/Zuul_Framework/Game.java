@@ -156,14 +156,14 @@ public class Game
         }
         
         
-        
+        player.terminateAllPlayerThreads();
+        player.terminateAllPlayerTimers();
         System.out.println("Your total points is: " + player.getAwesomePoint());
         System.out.println("Thank you for playing.  Good bye."); //prints this line if finished == true
     }
     private boolean loseCondition(){
          if(player.getHp() <= 0){
-                player.terminateAllPlayerThreads();
-                player.terminateAllPlayerTimers();
+                
                 System.out.println("You have died!!!!!!");
                 
                 
