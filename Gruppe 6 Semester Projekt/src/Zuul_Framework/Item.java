@@ -11,17 +11,34 @@ package Zuul_Framework;
  */
 //The item class.
 //This is where the pickupable item objects is created.
-public class Item extends Pickups {
+public class Item implements Interactables {
     //Name, description, and use description is defined.
     private String itemName, itemDescription, useDescription;
     private boolean flag;
-    private Item item;
+    private final boolean isPickupable = true;
+    private int dmg, HP, air; 
     
     //This is the method that created the item object.
-    public Item(String itemName, String itemDescription) {
+    public Item(String itemName, String itemDescription, int dmg, int HP, int air) {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
+        this.dmg = dmg;
+        this.HP = HP;
+        this.air = air;
     }
+
+    public int getDmg() {
+        return dmg;
+    }
+
+    public int getHP() {
+        return HP;
+    }
+
+    public int getAir() {
+        return air;
+    }
+    
     
     //The following methods are the methods implemented from our interactables
     //interface. These are also used in the Destructables class.
@@ -46,7 +63,7 @@ public class Item extends Pickups {
     @Override
     //returns a 
     public boolean isPickupable() {
-       return pickup;
+       return this.isPickupable;
     }
     
     @Override
@@ -56,7 +73,7 @@ public class Item extends Pickups {
 
     @Override
     public boolean getFlag() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.flag; //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -64,4 +81,3 @@ public class Item extends Pickups {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
-
