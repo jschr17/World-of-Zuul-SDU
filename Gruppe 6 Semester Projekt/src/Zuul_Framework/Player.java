@@ -15,12 +15,13 @@ import java.util.TimerTask;
  * @author Nick, Jonas
  */
 public class Player {
-    private int hp, air;
+    private volatile int hp;
+    private int air;
     private ArrayList<Item> inventory;
     
     /* By Mads */
     public static String playerName = "Mads"; // Non-negotiable
-    public int maxHP = hp;    
+    public volatile int maxHP = hp;    
     // public int currentHP = maxHP;
     public int maxOxygen = air;
     // public int currentOxygen = maxOxygen; 
@@ -169,7 +170,10 @@ public class Player {
                     try{
                         if (hp == 0){
                             // System.out.println("You've ran out of health!");
+                            //System.out.println("You died");
+                            
                             timerHP.cancel();
+                            
                             break;
                         }
                         Thread.sleep(1000);
