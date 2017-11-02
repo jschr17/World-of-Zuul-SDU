@@ -113,7 +113,7 @@ public class Game {
         communicationRoom.addNPC(britney);
         keyRoom.addNPC(keyMonster);
         keyMonster.setDamage(12);
-        //keyMonster.addItem(key);
+        
 
         
         Item sword, medkit, oxygen, gun, rifle, tableleg, key;
@@ -126,7 +126,7 @@ public class Game {
         rifle = new Item("rifle","A rifle. It does 40 dmg.",40,0,0);
         tableleg = new Item("tableleg","A broken tableleg, from the table you just broke.",1,0,0);
         key = new Item("keymodule", "A small electronic device with keymodule printed on it", 0, 0, 0);
-
+        keyMonster.addItem(key);
 //      Items bliver sat i de forskellige immovables, i de forskellige rum:
 //      Medbay items
         counter.setItems(medkit);
@@ -150,11 +150,7 @@ public class Game {
     public void play() {
         printWelcome(); //prints the welcome message
        
-        boolean finished = false; //initiates a boolen to determine if the game is finished
-
-        
-        
-        
+        boolean finished = false; //initiates a boolen to determine if the game is fi
         while (! finished) {    // the main game loop, runs as long as boolean finished = false
 
             Command command = parser.getCommand(); // gets a command from the parser Class and processes it
@@ -217,6 +213,7 @@ public class Game {
             printHelp();
         } else if (commandWord == CommandWord.GO) {   // GO is assigned the goRoom(command) method
             goRoom(command);
+            awakenMonster();
         } else if (commandWord == CommandWord.QUIT) { // QUIT assigneds the wantToQuit variable the quit(command) method
             wantToQuit = quit(command);
         } else if (commandWord == CommandWord.INSPECT) {
@@ -246,7 +243,7 @@ public class Game {
         } else if (commandWord == CommandWord.DROP) {
             removeFromInventory(command);
         } else if (commandWord == CommandWord.STATUS) {
-            checkStatus(command);
+            checkStatus();
         } else if (commandWord == CommandWord.USE) {
             useItem(command);
         } else if (commandWord == CommandWord.TAKEDMG) {
@@ -411,6 +408,7 @@ public class Game {
         String searchTarget = command.getSecondWord();
         if (searchTarget.equals("room")) {
             currentRoom.searchRoom();
+            combat();
         } else {
 
             for(Immovable i : currentRoom.getInteractList()){
@@ -534,7 +532,7 @@ public class Game {
 
     // a command that prints out the status, of the player
 
-    private void checkStatus(Command command){ //<-- Command command bliver ikke brugt, så det skulle måske fjernes.
+    private void checkStatus(){ //<-- Command command bliver ikke brugt, så det skulle måske fjernes.
         System.out.println("Your air tank is at: " + player.getAir() + "%");
         System.out.println("Your current HP is: " + player.getHp());
 
@@ -545,7 +543,7 @@ public class Game {
         int air = player.getAir();
         int HP = player.getHp();
         String medkit = "medkit";
-        String oxygen = "oxygen-tank";
+        String oxygen = "oxygen";
 
         if (!command.hasSecondWord()) {
             System.out.println("Use what?");
@@ -623,15 +621,18 @@ public class Game {
     
     
     private void monsterTravel(NPC monster) {
-        if (monster.getMovability()){
+        if (monster.getMovability() && monster.getHostility()){
             String[] allowedRooms = {"airlock", "hallway", "keyRoom", "armoury", "medbay"};
             int rngRoom = (int) (4 * Math.random());
             if (currentRoom.getName().equals(allowedRooms[rngRoom])) {
+                if(currentRoom.getNPC("monster")!=keyMonster){
                 monster.setHealth(200);
                 currentRoom.addNPC(monster);
-            }
-            else
+            }     
+            }else{
                 currentRoom.removeNPC(monster);
+            }
+            
         }
     }
 
@@ -673,5 +674,70 @@ public class Game {
         }
         System.out.println("there is no " + object + " here");
         return false;
+    }
+    public void awakenMonster(){
+        if(keyMonster.getMovability()==false && currentRoom.getName().equals("keyRoom")){
+            keyMonster.setMovability(true);
+            System.out.println("The monster awakens and growls at you, but it doesn't attack..");
+        }
+    }
+    public void combat(){
+        if(currentRoom.getNPC("monster")==keyMonster && keyMonster.getMovability()==true){
+            System.out.println("You are attacked by the monster!");
+            CommandWord commandWord;
+            String secondWord;
+            boolean yourTurn = true;
+            while(true){
+                Command command = parser.getCommand();
+                commandWord = command.getCommandWord();
+                secondWord = command.getSecondWord();
+                if(commandWord==CommandWord.FLEE && yourTurn==true){
+                    System.out.println("You fled from battle but lost a lot of oxygen");
+                    System.out.println("The monster moved to another room");
+                    player.setAir(player.getAir()-40);
+                    currentRoom.removeNPC(keyMonster);
+                    break;
+                }else if(commandWord==CommandWord.STATUS && yourTurn==true){
+                    checkStatus();
+                }else if(commandWord==CommandWord.USE && yourTurn==true){
+                    if (!command.hasSecondWord()) {
+                        System.out.println("What weapon?");
+                    } else {
+                        for (Item i : player.getInventory()) {
+                        if(secondWord.equals(i.getName())){
+                            keyMonster.setHealth(keyMonster.getHealth()-i.getDmg());
+                            System.out.println("You attacked the monster with " 
+                                    + i.getName() + " and damaged it for " 
+                                    + i.getDmg());
+                            yourTurn = false;
+                        }
+                    }
+                    }
+                    
+                    if(keyMonster.getHealth()<=0){
+                        System.out.println("The monster is defeated");
+                        keyMonster.setHostility(false);
+                        keyMonster.setMovability(false);
+                        System.out.println("A key drops from the monsters corpse"
+                                + "and unto the floor");
+                        currentRoom.addItem(keyMonster.getItem());
+                        currentRoom.removeNPC(keyMonster);
+                        break;
+                    }
+                }else{
+                    System.out.println("You cant do that");
+                }
+                if(yourTurn == false){
+                    player.setHp(player.getHp()-keyMonster.getDamage());
+                    System.out.println("The monster damages you for " 
+                        + keyMonster.getDamage());
+                    yourTurn = true;
+                    if(player.getCurrentHP()<=0){
+                        break;
+                    }
+                }
+                
+            }
+        }      
     }
 }

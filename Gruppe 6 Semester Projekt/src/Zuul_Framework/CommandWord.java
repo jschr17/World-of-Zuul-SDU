@@ -15,9 +15,9 @@ public enum CommandWord
     //UNKNOWN is assigned (“?”) which relates that all other values, besides those assigned to another enum variable, is assigned to UNKNOWN
     GO("go"),QUIT("quit"), HELP("help"), INSPECT("inspect"), UNKNOWN("?"),
     SEARCH("search"), USE("use"), TAKE("take"), DROP("drop"), 
-
     SHOOT("shoot"), LOOK("look"), BREAK("break"), CHECKBAG("check-bag"), 
-    UNLOCK("unlock"),STATUS("status"),TAKEDMG("takedmg"),ACTIVATE("activate");
+    UNLOCK("unlock"),STATUS("status"),TAKEDMG("takedmg"),ACTIVATE("activate"), 
+    FLEE("flee");
     
     private String commandString;   // all the above constants refers back to this variable
     

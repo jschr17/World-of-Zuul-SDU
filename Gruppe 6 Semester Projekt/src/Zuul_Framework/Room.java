@@ -48,6 +48,7 @@ public class Room {
     {
         return description;
     }
+    
     // method for getting a rooms description and which exits it has.
     public String getLongDescription()
     {
@@ -147,6 +148,9 @@ public class Room {
     public void addNPC(NPC npc){
         this.npcList.add(npc);
     }
+    public void addItem(Item item){
+        this.itemList.add(item);
+    }
     
     public void removeNPC(NPC npc) {
         this.npcList.remove(npc);
@@ -154,8 +158,6 @@ public class Room {
     public ArrayList<NPC> getNPCList(){
         return npcList;
     }
-
-
     Room getSecretDestination(String notes) {
         return secretExits.get(notes);
     }

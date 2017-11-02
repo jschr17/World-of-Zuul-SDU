@@ -13,6 +13,7 @@ public class NPC {
     private int health;
     private int baseDamage;
     private ArrayList<Item> inventory;
+    private Item item;
     
     /**
      *
@@ -28,7 +29,7 @@ public class NPC {
         this.movable = movable;
         this.health = 100;
         this.baseDamage = 0;
-        inventory = new ArrayList<>();
+        this.item = item;
     }
     
     public String getName(){
@@ -64,15 +65,18 @@ public class NPC {
     }
     
     public void addItem(Item item) {
-        inventory.add(item);
+        this.item = item;
     }
     
-    public ArrayList getItem() {
-        return inventory;
+    public Item getItem() {
+        return item;
     }
     
     public void setHealth(int hp){
         this.health = hp;
+    }
+    public int getHealth(){
+        return this.health;
     }
     
     public void takeHit(int hit) {
@@ -82,5 +86,9 @@ public class NPC {
         if (this.health <= 0) {
             System.out.println(this.name + " has been killed.");
         }
+    }
+
+    public void setMovability(Boolean movable) {
+        this.movable = movable;
     }
 }
