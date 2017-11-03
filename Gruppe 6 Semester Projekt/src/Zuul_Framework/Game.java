@@ -59,6 +59,7 @@ public class Game {
 
         //communicationRoom.setExit("west", hallway); Can only be accessed after unlocking the door (lever)
         communicationRoom.setExit("south", armoury);
+        communicationRoom.setExit("west", hallway);
 
         airlock.setExit("south", hallway);
         //creating immovables
@@ -107,7 +108,7 @@ public class Game {
         communicationRoom.setImmovables(radioArray);
  
         /* Adding NPCs to rooms*/       
-        britney = new NPC("britney", "A blonde woman", false, true);
+        britney = new NPC("britney", "A blonde woman.", false, true);
         keyMonster = new NPC("monster", "A large alien creature.", true, false);
 
         communicationRoom.addNPC(britney);
@@ -220,8 +221,6 @@ public class Game {
             getItemDescription(command);
         } else if (commandWord == CommandWord.SEARCH) {
             search(command);
-        } else if (commandWord == CommandWord.LOOK) {
-//            immovable.getDescription();
         } else if (commandWord == CommandWord.BREAK) {
             breakObject(command);
         } else if (commandWord == CommandWord.CHECKBAG) {
@@ -250,6 +249,8 @@ public class Game {
             takeDMG(command);
         } else if (commandWord == CommandWord.ACTIVATE) {
             wantToQuit = activate(command);
+        } else if (commandWord == CommandWord.SHOOT){
+            
         }
 
         return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
@@ -379,7 +380,7 @@ public class Game {
             }
         }
         for (Immovable i : currentRoom.getInteractList()) {
-            if (i.getItems() != null && player.getInventory().size() == inventorySpace && i.getItems().getName().equals(object)) {
+            if (i.getItems() != null && player.getInventory().size() >= inventorySpace && i.getItems().getName().equals(object)) {
                 System.out.println("No more space in the inventory!");
                 return;
             }
@@ -475,14 +476,14 @@ public class Game {
         if (command.getSecondWord().equals("lockeddoor") && currentRoom.getImmovable("lockeddoor").getFlag() == true) {
             System.out.println("'What do you want?' A female voice questions");
             System.out.println("'Listen i dont even know if you're human, so you have to answer my questions"
-                    + "correctly or you aint getting in here");
+                    + " correctly or you aint getting in here");
             Scanner scanner = new Scanner(System.in);
             String answer;
             System.out.println("Do you even know how to speak english?");
             answer = scanner.nextLine();
             if (!answer.equals("yes")) {
                 System.out.println("Yea fuck off monster");
-                currentRoom.getImmovable("lockeddoor").setDescription("'No you aint fooling me monster. Get out of here'");
+                currentRoom.getImmovable("lockeddoor").setDescription("'No, you aint fooling me monster. Get out of here'");
                 currentRoom.getImmovable("lockeddoor").setFlag(Boolean.FALSE);
                 return;
             }
@@ -490,7 +491,7 @@ public class Game {
             answer = scanner.nextLine();
             if (!answer.equals("4")) {
                 System.out.println("Yea fuck off monster");
-                currentRoom.getImmovable("lockeddoor").setDescription("'No you aint fooling me monster. Get out of here'");
+                currentRoom.getImmovable("lockeddoor").setDescription("'No, you aint fooling me monster. Get out of here'");
                 currentRoom.getImmovable("lockeddoor").setFlag(Boolean.FALSE);
                 return;
             }
@@ -498,7 +499,7 @@ public class Game {
             answer = scanner.nextLine();
             if (!answer.equals("to survive")) {
                 System.out.println("Yea fuck off monster");
-                currentRoom.getImmovable("lockeddoor").setDescription("'No you aint fooling me monster. Get out of here'");
+                currentRoom.getImmovable("lockeddoor").setDescription("'No, you aint fooling me monster. Get out of here'");
                 currentRoom.getImmovable("lockeddoor").setFlag(Boolean.FALSE);
                 return;
             }
@@ -532,7 +533,7 @@ public class Game {
 
     // a command that prints out the status, of the player
 
-    private void checkStatus(){ //<-- Command command bliver ikke brugt, så det skulle måske fjernes.
+    private void checkStatus(){
         System.out.println("Your air tank is at: " + player.getAir() + "%");
         System.out.println("Your current HP is: " + player.getHp());
 
@@ -564,8 +565,8 @@ public class Game {
                     player.removeFromInventory(i);
                     return;
                 }        
-                //Disse to er overflødige så vi jeg kan se.
-                /*else if(air > 65 && air != 100 || HP > 60 && HP != 100){
+
+                else if(air > 65 && air != 100 || HP > 60 && HP != 100){
                     if(i.getName().equalsIgnoreCase(medkit)){
                         System.out.println("You used the: " + object);
                         player.setHp(100);
@@ -579,7 +580,7 @@ public class Game {
                         return;
                     }
 
-                }*/
+                }
                 
                 else if(air >= 100 && i.getName().equalsIgnoreCase(oxygen)){
                         System.out.println("Your oxygen-tank is already full");
