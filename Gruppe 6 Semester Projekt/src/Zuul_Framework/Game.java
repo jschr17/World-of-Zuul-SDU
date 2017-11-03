@@ -537,7 +537,7 @@ public class Game {
         System.out.println("Your current HP is: " + player.getHp());
 
     }
-
+    // This method, handles using ones items, that are in the players inventory
     private void useItem(Command command) {
         String object = command.getSecondWord();
         int air = player.getAir();
@@ -549,23 +549,26 @@ public class Game {
             System.out.println("Use what?");
             return;
         }
-
+        // it checks for the items in the inventory
         for (Item i : player.getInventory()){
+            //here it checks if, an item is in the inventory
             if (i.getName().equalsIgnoreCase(object)){
+                //here it checks an statement, that checks for either the players hp or air, for the item that the user wants to use, and then uses the item, if the statement is fulfilled, and removes the item from the users inventory
                 if (air < 65 && i.getName().equalsIgnoreCase(oxygen)){
                     System.out.println("You used the " + object + ". It gave you " + i.getAir() + " air.");
                     player.setAir(air + i.getAir());
                     player.removeFromInventory(i);
                     return;
                 }
+                
                 else if(HP < 60 && i.getName().equalsIgnoreCase(medkit)){
                     System.out.println("You used the " + object + ". It gave you " + i.getHP() + " HP.");
                     player.setHp(HP + i.getHP());
                     player.removeFromInventory(i);
                     return;
                 }        
-                //Disse to er overflødige så vi jeg kan se.
-                /*else if(air > 65 && air != 100 || HP > 60 && HP != 100){
+                //these two, makes sure that, when the player uses a medkit/oxygen, that the players air/HP cant go over 100
+                else if(air > 65 && air != 100 || HP > 60 && HP != 100){
                     if(i.getName().equalsIgnoreCase(medkit)){
                         System.out.println("You used the: " + object);
                         player.setHp(100);
@@ -579,8 +582,8 @@ public class Game {
                         return;
                     }
 
-                }*/
-                
+                }
+                //Here it checks, if the players hp or air is already full, that the player cant use the medkits or oxygen tanks.
                 else if(air >= 100 && i.getName().equalsIgnoreCase(oxygen)){
                         System.out.println("Your oxygen-tank is already full");
                         return;
