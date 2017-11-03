@@ -31,7 +31,7 @@ public class NPC {
         this.health = 100;
         this.baseDamage = 0;
         this.item = item;
-        this.toldToEvacuate;
+        this.toldToEvacuate = false;
     }
     
     public String getName(){
