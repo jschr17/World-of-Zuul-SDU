@@ -20,6 +20,7 @@ public class Room {
     private ArrayList<Immovable> interactList; // list of the immovables in the room
     private ArrayList<Item> itemList;
     private ArrayList<NPC> npcList;             // list of NPCs in the room
+    private boolean firstTimeEntered;           
   
     public Room(String name, String description) 
     {
@@ -30,6 +31,7 @@ public class Room {
         itemList = new ArrayList<>();
         npcList = new ArrayList<>();
         secretExits = new HashMap<>();
+        firstTimeEntered = false;
     }
     public String getName(){
         return this.name;
@@ -160,6 +162,14 @@ public class Room {
     }
     Room getSecretDestination(String notes) {
         return secretExits.get(notes);
+    }
+    
+    public Boolean getFirstTimeEntered() {
+        return this.firstTimeEntered;
+    }
+    
+    public void setFirstTimeEntered(Boolean entered) {
+        this.firstTimeEntered = entered;
     }
 
 }

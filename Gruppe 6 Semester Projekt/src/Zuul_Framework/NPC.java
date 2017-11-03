@@ -14,6 +14,7 @@ public class NPC {
     private int baseDamage;
     private ArrayList<Item> inventory;
     private Item item;
+    private boolean toldToEvacuate;
     
     /**
      *
@@ -30,6 +31,7 @@ public class NPC {
         this.health = 100;
         this.baseDamage = 0;
         this.item = item;
+        this.toldToEvacuate = false;
     }
     
     public String getName(){
@@ -90,5 +92,13 @@ public class NPC {
 
     public void setMovability(Boolean movable) {
         this.movable = movable;
+    }
+    
+    public void setEvacuate(Boolean evacuate) {
+        this.toldToEvacuate = evacuate;
+    }
+    
+    public Boolean getEvacuate() {
+        return this.toldToEvacuate;
     }
 }
