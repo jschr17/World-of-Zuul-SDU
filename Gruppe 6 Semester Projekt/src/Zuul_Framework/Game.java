@@ -2,10 +2,8 @@ package Zuul_Framework;
 
 import Persistens.*;
 import java.io.IOException;
-
 import java.awt.Desktop;
 import java.util.Scanner;
-
 /**
  * @author Michael Kolling and David J. Barnes
  * @version 2006.03.30
