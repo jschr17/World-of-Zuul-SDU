@@ -739,20 +739,20 @@ public class Game {
             // logic for how britneay responds
             // maby current room argument can be omittet? 
         } else if (command.getSecondWord().equalsIgnoreCase("britney") && currentRoom.getNPC("britney") == britney) {
-            if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == false) {
+            if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == false) { //responds befor radi is fixed
                 System.out.println(text.getText("britney1"));
-            } else if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == true && player.hasCalledHelp() == false) {
+            } else if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == true && player.hasCalledHelp() == false) { //respons after radi is fixed
                 System.out.println(text.getText("britney2"));
-            } else if (currentRoom == communicationRoom && player.hasCalledHelp()) {
+            } else if (currentRoom == communicationRoom && player.hasCalledHelp()) {    //responds after help is called sets evacuate boolean true
                 System.out.println(text.getText("britney3"));
                 britney.setEvacuate(Boolean.TRUE);
-            } else if (currentRoom == airlock) {
+            } else if (currentRoom == airlock) {    // response in airlock
                 System.out.println(text.getText("britney4"));
             } else{
                 System.out.println("Britney isent here.");
             }
-        } else {
-            System.out.println("You are trying to talk to the " + command.getSecondWord() + " maybe the lack of oxygen is affecting your brain.");
+        } else {    // respans for all other posible second words (EVERYTHIN THAT IS INPUTTET INTO THE CONSOLE AS SECONDWORD)
+            System.out.println("You are trying to talk to something that can't response. Maybe the lack of oxygen is affecting your brain.");
         }
 
     }
