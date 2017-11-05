@@ -4,6 +4,7 @@ import Persistens.*;
 import java.io.IOException;
 import java.awt.Desktop;
 import java.util.Scanner;
+import java.util.Timer;
 /**
  * @author Michael Kolling and David J. Barnes
  * @version 2006.03.30
@@ -155,6 +156,7 @@ public class Game {
             finished = processCommand(command);     // after each command is prosed the game checks if the finish command have been given,
             if (!"communicationRoom".equals(currentRoom.getName())) {
                 monsterTravel(keyMonster);
+                System.out.println("Monster moved.");
             }
         }
        
@@ -235,7 +237,14 @@ public class Game {
         } else if (commandWord == CommandWord.ACTIVATE) {
             wantToQuit = activate(command);
         } else if (commandWord == CommandWord.ATTACK){
-              combat();  
+            System.out.println("Test");
+            if (currentRoom.getNPC("monster").getName() == keyMonster.getName()) {
+                combat();
+                System.out.println("Test 2");
+            }
+            else{
+                System.out.println("Can't attack.");
+            }
         }
         return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
     }
@@ -592,7 +601,7 @@ public class Game {
         player.setHp( player.getHp() - 30);
         player.setAir(player.getAir() - 30);
     }
-      
+    
     private void monsterTravel(NPC monster) {
         if (monster.getMovability() && monster.getHostility()){
             String[] allowedRooms = {"airlock", "hallway", "keyRoom", "armoury", "medbay"};
@@ -601,11 +610,11 @@ public class Game {
                 if(currentRoom.getNPC("monster")!=keyMonster){
                 monster.setHealth(200);
                 currentRoom.addNPC(monster);
-            }     
+                }     
             }else{
                 currentRoom.removeNPC(monster);
-            }            
-        }
+                }            
+        }                
     }
 
     private boolean activate(Command command) {
