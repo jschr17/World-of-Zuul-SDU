@@ -143,7 +143,9 @@ public class Game {
     // the method that starts the game
     public void play() {
         printWelcome(); //prints the welcome message
-       
+        int i = 0;
+        int monsterTurnWait = 3;
+        
         boolean finished = false; //initiates a boolen to determine if the game is fi
         while (! finished) {    // the main game loop, runs as long as boolean finished = false
 
@@ -154,9 +156,12 @@ public class Game {
             }
             
             finished = processCommand(command);     // after each command is prosed the game checks if the finish command have been given,
-            if (!"communicationRoom".equals(currentRoom.getName())) {
+            if (i != monsterTurnWait) {
+                i++;
+            }
+            else if (!"communicationRoom".equals(currentRoom.getName())) {
                 monsterTravel(keyMonster);
-                System.out.println("Monster moved.");
+                i = 0;
             }
         }
        
@@ -237,13 +242,14 @@ public class Game {
         } else if (commandWord == CommandWord.ACTIVATE) {
             wantToQuit = activate(command);
         } else if (commandWord == CommandWord.ATTACK){
-            System.out.println("Test");
-            if (currentRoom.getNPC("monster").getName() == keyMonster.getName()) {
-                combat();
-                System.out.println("Test 2");
+            if (!command.hasSecondWord()) {
+                System.out.println("Attack what?");
             }
-            else{
-                System.out.println("Can't attack.");
+            else if (currentRoom.getNPC("monster") == null){
+                System.out.println("No monster here.");
+            }
+            else {
+                combat();
             }
         }
         return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
@@ -662,7 +668,7 @@ public class Game {
     }
     public void combat(){
         if(currentRoom.getNPC("monster")==keyMonster && keyMonster.getMovability()==true){
-            System.out.println("You are attacked by the monster!");
+            System.out.println("You attacked the monster!");
             CommandWord commandWord;
             String secondWord;
             boolean yourTurn = true;
