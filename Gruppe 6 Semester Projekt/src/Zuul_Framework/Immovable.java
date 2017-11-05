@@ -46,8 +46,6 @@ public class Immovable implements Interactables{
         if (this.destructible == true) {
             System.out.println("You break the leg off the table \n a bunch of "
                     + "notes fall on the floor.");
-            //changes the description of the table.
-            this.description = "There is a leg missing from the table";
             this.destructible = false; // since the immovable is broken, it can't be broken more.
             System.out.println("You pickup the notes and the tableleg"); 
         }
@@ -73,6 +71,10 @@ public class Immovable implements Interactables{
     @Override
     public String getUseDescription(){
         return useDescription;
+    }
+    
+    public void setUseDescription(String useDescription) {
+        this.useDescription = useDescription;
     }
     
     // method to unlock radio array and weapon cabinet (break the lock - use this method)
