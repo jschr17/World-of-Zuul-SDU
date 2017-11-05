@@ -17,6 +17,7 @@ public class Game {
     private Room currentRoom;   // initialises a starting room
     private Player player = new Player(100, 100);
     private int inventorySpace = 2;
+    private boolean hasBeenKilled = false;
 
     private NPC britney, keyMonster;
 
@@ -144,7 +145,7 @@ public class Game {
     public void play() {
         printWelcome(); //prints the welcome message
         int i = 0;
-        int monsterTurnWait = 3;
+        int monsterTurnWait = 2;
         
         boolean finished = false; //initiates a boolen to determine if the game is fi
         while (! finished) {    // the main game loop, runs as long as boolean finished = false
@@ -238,7 +239,7 @@ public class Game {
         } else if (commandWord == CommandWord.USE) {
             useItem(command);
         } else if (commandWord == CommandWord.TAKEDMG) {
-            takeDMG(command);
+            takeDMG();
         } else if (commandWord == CommandWord.ACTIVATE) {
             wantToQuit = activate(command);
         } else if (commandWord == CommandWord.ATTACK){
@@ -603,13 +604,13 @@ public class Game {
 
     // a test command, to let the player take some dmg
 
-    private void takeDMG(Command command){        
+    private void takeDMG(){        
         player.setHp( player.getHp() - 30);
         player.setAir(player.getAir() - 30);
     }
     
     private void monsterTravel(NPC monster) {
-        if (monster.getMovability() && monster.getHostility()){
+        if (monster.getMovability() == true && monster.getHostility() == true){
             String[] allowedRooms = {"airlock", "hallway", "keyRoom", "armoury", "medbay"};
             int rngRoom = (int) (4 * Math.random());
             if (currentRoom.getName().equals(allowedRooms[rngRoom])) {
@@ -662,12 +663,12 @@ public class Game {
     }
     public void awakenMonster(){
         if(keyMonster.getMovability()==false && currentRoom.getName().equals("keyRoom")){
-            keyMonster.setMovability(true);
+            //keyMonster.setMovability(true);
             System.out.println("The monster awakens and growls at you, but it doesn't attack..");
         }
     }
     public void combat(){
-        if(currentRoom.getNPC("monster")==keyMonster && keyMonster.getMovability()==true){
+        if(currentRoom.getNPC("monster")==keyMonster /*&& keyMonster.getMovability()==true*/){
             System.out.println("You attacked the monster!");
             CommandWord commandWord;
             String secondWord;
@@ -698,16 +699,30 @@ public class Game {
                         }
                       }
                     }                   
-                    if(keyMonster.getHealth()<=0){
+                    if(keyMonster.getHealth()<=0 /*&& hasBeenKilled == false*/){
                         System.out.println("The monster is defeated");
-                        keyMonster.setHostility(false);
-                        keyMonster.setMovability(false);
-                        System.out.println("A key drops from the monsters corpse"
-                                + "and unto the floor");
-                        currentRoom.addItem(keyMonster.getItem());
-                        currentRoom.removeNPC(keyMonster);
-                        break;
+                        keyMonster.setHostility(true);
+                        keyMonster.setMovability(true);
+                        if (hasBeenKilled == false) {
+                            System.out.println("A key drops from the monsters corpse"
+                            + " and unto the floor");
+                            currentRoom.addItem(keyMonster.getItem());
+                            currentRoom.removeNPC(keyMonster);
+                            hasBeenKilled = true;
+                            break;
+                        }
+                        else if (hasBeenKilled == true) {
+                            currentRoom.removeNPC(keyMonster);
+                            break;
+                        }
                     }
+//                    if (keyMonster.getHealth()<=0 && hasBeenKilled == true) {
+//                        System.out.println("The monster is defeated");
+//                        keyMonster.setHostility(true);
+//                        keyMonster.setMovability(true);
+//                        currentRoom.removeNPC(keyMonster);
+//                        break;
+//                    }
                 }else{
                     System.out.println("You cant do that");
                 }
