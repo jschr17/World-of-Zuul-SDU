@@ -716,13 +716,6 @@ public class Game {
                             break;
                         }
                     }
-//                    if (keyMonster.getHealth()<=0 && hasBeenKilled == true) {
-//                        System.out.println("The monster is defeated");
-//                        keyMonster.setHostility(true);
-//                        keyMonster.setMovability(true);
-//                        currentRoom.removeNPC(keyMonster);
-//                        break;
-//                    }
                 }else{
                     System.out.println("You cant do that");
                 }
