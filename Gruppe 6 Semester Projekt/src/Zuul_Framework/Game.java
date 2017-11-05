@@ -152,7 +152,7 @@ public class Game {
        
         boolean finished = false; //initiates a boolen to determine if the game is fi
         while (! finished) {    // the main game loop, runs as long as boolean finished = false
-
+            roomLogic();
             Command command = parser.getCommand(); // gets a command from the parser Class and processes it
             if(loseCondition() == true){
                 finished = true;
