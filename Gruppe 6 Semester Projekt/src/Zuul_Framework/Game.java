@@ -23,6 +23,7 @@ public class Game {
             hiddenpanel, closet, lockedDoor, glassCabinet, airlockPanel, 
             doorLockPanel, radioArray;
     private NPC britney, keyMonster;
+    private Item sword, medkit, oxygen, gun, rifle, tableleg, key;
 
 
     // constructor for the game class    
@@ -115,13 +116,11 @@ public class Game {
         
 
         
-        Item sword, medkit, oxygen, gun, rifle, tableleg, key;
-
 //      Items bliver initialiseret
         sword = new Item("sword","This is a fucking sword.",10,0,0);
         medkit = new Item("medkit","A medkit that can heal the user upon use.",0,40,0);
         oxygen = new Item("oxygen","An oxygen tank, that can refill the users own oxygen tank.",0,0,35);
-        gun = new Item("gun","A small gun. It deals 20 dmg.",20,0,0);
+        //gun = new Item("gun","A small gun. It deals 20 dmg.",20,0,0);
         rifle = new Item("rifle","A rifle. It does 40 dmg.",40,0,0);
         tableleg = new Item("tableleg","A broken tableleg, from the table you just broke.",1,0,0);
         key = new Item("keymodule", "A small electronic device with keymodule printed on it", 0, 0, 0);
@@ -779,11 +778,11 @@ public class Game {
         
         // medbay
         if (currentRoom == medbay){
-            if (!"medkit".equals(currentRoom.getImmovable("counter").getItems().getName())) {
-                currentRoom.getImmovable("counter").setDescription("A medical counter.");
+            if (counter.getItems() == null) {
+                counter.setDescription("A medical counter.");
             }
-            if (!"oxygen".equals(currentRoom.getImmovable("device").getItems().getName())) {
-                currentRoom.getImmovable("oxygen").setDescription("A strange medical device.");
+            if (device.getItems() == null) {
+                device.setDescription("A strange medical device.");
             }
         }
         
