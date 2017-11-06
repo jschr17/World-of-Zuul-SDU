@@ -15,6 +15,7 @@ public class NPC {
     private ArrayList<Item> inventory;
     private Item item;
     private boolean toldToEvacuate;
+    private boolean defeated;
     
     /**
      *
@@ -32,6 +33,7 @@ public class NPC {
         this.baseDamage = 0;
         this.item = item;
         this.toldToEvacuate = false;
+        this.defeated = false;
     }
     
     public String getName(){
@@ -94,11 +96,19 @@ public class NPC {
         this.movable = movable;
     }
     
-    public void setEvacuate(Boolean evacuate) {
+    public void setToldToEvacuate(Boolean evacuate) {
         this.toldToEvacuate = evacuate;
     }
     
-    public Boolean getEvacuate() {
+    public Boolean toldToEvacuate() {
         return this.toldToEvacuate;
+    }
+    
+    public boolean getDefeated() {
+        return this.defeated;
+    }
+    
+    public void setDefeated(Boolean defeat) {
+        this.defeated = defeat;
     }
 }
