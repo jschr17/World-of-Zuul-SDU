@@ -31,7 +31,7 @@ public class Room {
         itemList = new ArrayList<>();
         npcList = new ArrayList<>();
         secretExits = new HashMap<>();
-        firstTimeEntered = false;
+        firstTimeEntered = true;
     }
     public String getName(){
         return this.name;

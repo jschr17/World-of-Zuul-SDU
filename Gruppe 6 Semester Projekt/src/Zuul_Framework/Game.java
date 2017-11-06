@@ -563,7 +563,7 @@ public class Game {
                 // players hp or air, for the item that the user wants to use, 
                 // and then uses the item, if the statement is fulfilled, and 
                 // removes the item from the users inventory
-                if (air < 65 && i.getName().equalsIgnoreCase(oxygen){
+                if (air < 65 && i.getName().equalsIgnoreCase(oxygen)){
                     System.out.println("You used the " + object + ". It gave you " + i.getAir() + " air.");
                     player.setAir(air + i.getAir());
                     player.removeFromInventory(i);
@@ -774,7 +774,7 @@ public class Game {
                 System.out.println(text.getText("britney2"));
             } else if (currentRoom == communicationRoom && player.hasCalledHelp()) {    //responds after help is called sets evacuate boolean true
                 System.out.println(text.getText("britney3"));
-                britney.setEvacuate(Boolean.TRUE);
+                britney.setToldToEvacuate(Boolean.TRUE);
             } else if (currentRoom == airlock) {    // response in airlock
                 System.out.println(text.getText("britney4"));
             } else{
@@ -828,8 +828,7 @@ public class Game {
         // communicationRoom
         if (currentRoom == communicationRoom){
             // Positive NPC response
-            if (!currentRoom.getImmovable("panel").getFlag() 
-                && currentRoom.getFirstTimeEntered()) {        
+            if (!doorLockPanel.getFlag() && currentRoom.getFirstTimeEntered()) {        
                 System.out.println("Britney: Hi " + player.getName() + ", so "
                         + "great to see you're alright. Can you help me with "
                         + "this radio? we need a key for it to call for help.");
