@@ -18,7 +18,6 @@ public class Game {
     private Room currentRoom;   // initialises a starting room
     private Player player = new Player(100, 100);
     private int inventorySpace = 2;
-    private Immovable immovable;
     private Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
     private Immovable counter, device, table, weaponCabinet, bookcase, 
             hiddenpanel, closet, lockedDoor, glassCabinet, airlockPanel, 
@@ -149,24 +148,28 @@ public class Game {
     // the method that starts the game
     public void play() {
         printWelcome(); //prints the welcome message
-       
+        
+        int i = 0;
+        int monsterTurnWait = 2;
+        
         boolean finished = false; //initiates a boolen to determine if the game is fi
         while (! finished) {    // the main game loop, runs as long as boolean finished = false
-            roomLogic();
-            Command command = parser.getCommand(); // gets a command from the parser Class and processes it
             if(loseCondition() == true){
                 finished = true;
                 break;
             }
+            roomLogic();
+            Command command = parser.getCommand(); // gets a command from the parser Class and processes it
             
             finished = processCommand(command);     // after each command is prosed the game checks if the finish command have been given,
-            if (!"communicationRoom".equals(currentRoom.getName())) {
-                monsterTravel(keyMonster);
+            if (i != monsterTurnWait) {
+                i++;
             }
-
-
+            else if (!"communicationRoom".equals(currentRoom.getName())) {
+                monsterTravel(keyMonster);
+                i = 0;
+            }
         }
-        
         
         player.terminateAllPlayerThreads();
         player.terminateAllPlayerTimers();
@@ -244,8 +247,16 @@ public class Game {
             takeDMG(command);
         } else if (commandWord == CommandWord.ACTIVATE) {
             wantToQuit = activate(command);
-        } else if (commandWord == CommandWord.SHOOT){
-            
+        } else if (commandWord == CommandWord.ATTACK){
+            if (!command.hasSecondWord()) {
+                System.out.println("Attack what?");
+            }
+            else if (currentRoom.getNPC("monster") == null){
+                System.out.println("No monster here.");
+            }
+            else {
+                combat();
+            }
         }
 
         return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
@@ -404,7 +415,6 @@ public class Game {
         String searchTarget = command.getSecondWord();
         if (searchTarget.equals("room")) {
             currentRoom.searchRoom();
-            combat();
         } else {
 
             for(Immovable i : currentRoom.getInteractList()){
@@ -716,18 +726,25 @@ public class Game {
                                     + i.getDmg());
                             yourTurn = false;
                         }
-                    }
+                        }
                     }
                     
                     if(keyMonster.getHealth()<=0){
                         System.out.println("The monster is defeated");
-                        keyMonster.setHostility(false);
-                        keyMonster.setMovability(false);
-                        System.out.println("A key drops from the monsters corpse"
-                                + "and unto the floor");
-                        currentRoom.addItem(keyMonster.getItem());
-                        currentRoom.removeNPC(keyMonster);
-                        break;
+                        keyMonster.setHostility(true);
+                        keyMonster.setMovability(true);
+                        keyMonster.setDefeated(true);
+                        if (keyMonster.getDefeated()) {
+                            System.out.println("A key drops from the monsters corpse"
+                            + " and unto the floor");
+                            currentRoom.addItem(keyMonster.getItem());
+                            currentRoom.removeNPC(keyMonster);
+                            break;
+                        }
+                        else if (keyMonster.getDefeated()) {
+                            currentRoom.removeNPC(keyMonster);
+                            break;
+                        } 
                     }
                 }else{
                     System.out.println("You cant do that");
@@ -755,7 +772,7 @@ public class Game {
         // All rooms
         if (currentRoom.getNPCList().contains(keyMonster)) {
             System.out.println("There is a monster in this room.");
-            if (keyMonster.getHostility()) {
+            if (keyMonster.getHostility() && keyMonster.getDefeated()) {
                 combat();
             }
         }
