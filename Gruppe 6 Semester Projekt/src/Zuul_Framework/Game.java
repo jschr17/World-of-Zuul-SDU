@@ -778,7 +778,7 @@ public class Game {
             } else if (currentRoom == airlock) {    // response in airlock
                 System.out.println(text.getText("britney4"));
             } else{
-                System.out.println("Britney isent here.");
+                System.out.println("Britney isn't here.");
             }
         } else {    // respans for all other posible second words (EVERYTHIN THAT IS INPUTTET INTO THE CONSOLE AS SECONDWORD)
             System.out.println("You are trying to talk to something that can't response. Maybe the lack of oxygen is affecting your brain.");
