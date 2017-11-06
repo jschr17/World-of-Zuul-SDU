@@ -20,7 +20,6 @@ public class Room {
     private ArrayList<NPC> npcList;             // list of NPCs in the room
     private boolean firstTimeEntered;           
     
-    
     //constructor that sets the rooms description
     public Room(String name, String description) 
     {

@@ -2,10 +2,8 @@ package Zuul_Framework;
 
 import Persistens.*;
 import java.io.IOException;
-
 import java.awt.Desktop;
 import java.util.Scanner;
-
 /**
  * @author Michael Kolling and David J. Barnes
  * @version 2006.03.30
@@ -18,13 +16,9 @@ public class Game {
     private Room currentRoom;   // initialises a starting room
     private Player player = new Player(100, 100);
     private int inventorySpace = 2;
-    private Immovable immovable;
+    private boolean hasBeenKilled = false;
     private Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
-    private Immovable counter, device, table, weaponCabinet, bookcase, 
-            hiddenpanel, closet, lockedDoor, glassCabinet, airlockPanel, 
-            doorLockPanel, radioArray;
     private NPC britney, keyMonster;
-
 
     // constructor for the game class    
     public Game() throws IOException {
@@ -70,6 +64,7 @@ public class Game {
         communicationRoom.addSecretExit("lever", hallway);
 
         /* Creating and setting immovables for all the rooms */
+        Immovable counter, device, table, weaponCabinet, bookcase, hiddenpanel, closet, lockedDoor, glassCabinet, airlockPanel, doorLockPanel, radioArray;
 
         counter = new Immovable("counter", "A medical counter. There's a medkit on the countertop.", "You can't use this.", false, false);
         device = new Immovable("device", "A strange medical device. There's an oxygen tank attatched to it", "you don't know how to use this.", false, false);
@@ -84,7 +79,7 @@ public class Game {
         lockedDoor = new Immovable("lockeddoor", "A huge metal door", "The door is locked shut, however you can hear someone inside...", false, true);
 
         glassCabinet = new Immovable("cabinet", "A glass cabinet. There is an oxygen tank inside.", "You open the cabinet.", false, false);
-        airlockPanel = new Immovable("switch", "A large red switch with a red light beside it. ", "You press the switch. The light turns red", false, false); 
+        airlockPanel = new Immovable("switch", "A large red switch with a red light beside it. ", "You press the switch. The light turns green", false, false); // needs to have added the death/rescue effect on use
 
         doorLockPanel = new Immovable("panel", "A panel with a single lever on it. A label says \" door lock\" ", "You pull the lever, and a loud clunk is heard.", false, false);
         radioArray = new Immovable("radio", "A radio array. Maybe you can use this to call for help.", "Nothing happens, maybe the empty slot named keymodule has something to do with it", false, false);
@@ -113,9 +108,7 @@ public class Game {
         communicationRoom.addNPC(britney);
         keyRoom.addNPC(keyMonster);
         keyMonster.setDamage(12);
-        
-
-        
+            
         Item sword, medkit, oxygen, gun, rifle, tableleg, key;
 
 //      Items bliver initialiseret
@@ -149,10 +142,12 @@ public class Game {
     // the method that starts the game
     public void play() {
         printWelcome(); //prints the welcome message
-       
+        int i = 0;
+        int monsterTurnWait = 2;
+        
         boolean finished = false; //initiates a boolen to determine if the game is fi
         while (! finished) {    // the main game loop, runs as long as boolean finished = false
-            roomLogic();
+
             Command command = parser.getCommand(); // gets a command from the parser Class and processes it
             if(loseCondition() == true){
                 finished = true;
@@ -160,14 +155,15 @@ public class Game {
             }
             
             finished = processCommand(command);     // after each command is prosed the game checks if the finish command have been given,
-            if (!"communicationRoom".equals(currentRoom.getName())) {
-                monsterTravel(keyMonster);
+            if (i != monsterTurnWait) {
+                i++;
             }
-
-
+            else if (!"communicationRoom".equals(currentRoom.getName())) {
+                monsterTravel(keyMonster);
+                i = 0;
+            }
         }
-        
-        
+       
         player.terminateAllPlayerThreads();
         player.terminateAllPlayerTimers();
         System.out.println("Your total points is: " + player.getAwesomePoint());
@@ -175,11 +171,11 @@ public class Game {
     }
 
     private boolean loseCondition(){
-        if(player.getHp() <= 0){
-           System.out.println("You have died!");     
-           return true;  
+        if(player.getHp() <= 0){   
+            System.out.println("You have died!");    
+            return true;           
         }
-         return false;
+        return false;
     }
 
     //Method that print the welcome + long description information when game is started
@@ -241,13 +237,20 @@ public class Game {
         } else if (commandWord == CommandWord.USE) {
             useItem(command);
         } else if (commandWord == CommandWord.TAKEDMG) {
-            takeDMG(command);
+            takeDMG();
         } else if (commandWord == CommandWord.ACTIVATE) {
             wantToQuit = activate(command);
-        } else if (commandWord == CommandWord.SHOOT){
-            
+        } else if (commandWord == CommandWord.ATTACK){
+            if (!command.hasSecondWord()) {
+                System.out.println("Attack what?");
+            }
+            else if (currentRoom.getNPC("monster") == null){
+                System.out.println("No monster here.");
+            }
+            else {
+                combat();
+            }
         }
-
         return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
     }
 
@@ -284,7 +287,6 @@ public class Game {
         if (command.hasSecondWord()) {           // if the Parser sends a second word along with quit
             System.out.println("Quit what?");   //this line is printed and wantToQuit returns false
             return false;
-
         }
         else {
             player.terminateAllPlayerThreads();
@@ -363,7 +365,6 @@ public class Game {
             System.out.println("Take what?");
             return;
         }
-
         for (Immovable i : currentRoom.getInteractList()) {
             if (player.getInventory().size() < inventorySpace) {
                 if (i.getItems() != null && i.getItems().getName().equals(object)) {
@@ -380,7 +381,6 @@ public class Game {
                 return;
             }
         }
-
         for(Item i : currentRoom.getItemList()){
              if (player.getInventory().size() < inventorySpace) {
                  if(currentRoom.getItem(i.getName()) != null && i.getName().equals(object)){
@@ -404,9 +404,8 @@ public class Game {
         String searchTarget = command.getSecondWord();
         if (searchTarget.equals("room")) {
             currentRoom.searchRoom();
-            combat();
+            //combat();
         } else {
-
             for(Immovable i : currentRoom.getInteractList()){
                 if(i.getItems()!=null && searchTarget.equals(i.getName())){
                     System.out.println("You found the following in the " + searchTarget);
@@ -414,9 +413,7 @@ public class Game {
                     return;
                 }
             }
-
             System.out.println("You found nothing searching " + searchTarget);
-
         }
     }
 
@@ -454,7 +451,6 @@ public class Game {
                     attempts--;
                     System.out.println("'You have " + attempts + " attempts left'");
                 }
-
             }
         } else if (command.getSecondWord().equals("panel") && currentRoom.getImmovable("panel").getFlag() == false) {
             System.out.println("The codelock is broken beyond repair...");
@@ -512,7 +508,6 @@ public class Game {
             System.out.println("Drop what?");
             return;
         }
-
         for (Item i : player.getInventory()) {
             if (i.getName().equalsIgnoreCase(object)) {
                 currentRoom.setItem(i);
@@ -527,12 +522,11 @@ public class Game {
     }
 
     // a command that prints out the status, of the player
-
     private void checkStatus(){
         System.out.println("Your air tank is at: " + player.getAir() + "%");
         System.out.println("Your current HP is: " + player.getHp());
-
     }
+    
     // This method, handles using ones items, that are in the players inventory
     private void useItem(Command command) {
         String object = command.getSecondWord();
@@ -549,25 +543,20 @@ public class Game {
         for (Item i : player.getInventory()){
             //here it checks if, an item is in the inventory
             if (i.getName().equalsIgnoreCase(object)){
-                //here it checks an statement, that checks for either the 
-                // players hp or air, for the item that the user wants to use, 
-                // and then uses the item, if the statement is fulfilled, and 
-                // removes the item from the users inventory
+                //here it checks an statement, that checks for either the players hp or air, for the item that the user wants to use, and then uses the item, if the statement is fulfilled, and removes the item from the users inventory
                 if (air < 65 && i.getName().equalsIgnoreCase(oxygen)){
                     System.out.println("You used the " + object + ". It gave you " + i.getAir() + " air.");
                     player.setAir(air + i.getAir());
                     player.removeFromInventory(i);
                     return;
-                }
-                
+                }                
                 else if(HP < 60 && i.getName().equalsIgnoreCase(medkit)){
                     System.out.println("You used the " + object + ". It gave you " + i.getHP() + " HP.");
                     player.setHp(HP + i.getHP());
                     player.removeFromInventory(i);
                     return;
                 }        
-                //these two, makes sure that, when the player uses a medkit/
-                // oxygen, that the players air/HP cant go over 100
+                //these two, makes sure that, when the player uses a medkit/oxygen, that the players air/HP cant go over 100
                 else if(air > 65 && air != 100 || HP > 60 && HP != 100){
                     if(i.getName().equalsIgnoreCase(medkit)){
                         System.out.println("You used the: " + object);
@@ -581,10 +570,8 @@ public class Game {
                         player.removeFromInventory(i);
                         return;
                     }
-
                 }
-                //Here it checks, if the players hp or air is already full, 
-                // that the player cant use the medkits or oxygen tanks.
+                //Here it checks, if the players hp or air is already full, that the player cant use the medkits or oxygen tanks.
                 else if(air >= 100 && i.getName().equalsIgnoreCase(oxygen)){
                         System.out.println("Your oxygen-tank is already full");
                         return;
@@ -593,8 +580,7 @@ public class Game {
                         System.out.println("Your HP is already full");
                         return;
                     }
-                // use the key at the radio to get it to be able to call help. 
-                // And removes the key from inventory.
+                // use the key at the radio to get it to be able to call help. and removes the key from inventory.
                 else if (object.equalsIgnoreCase("keymodule") && currentRoom.getImmovable("radio").getFlag() == false){
                     currentRoom.getImmovable("radio").setFlag(true);
                     player.removeFromInventory(i);
@@ -609,7 +595,6 @@ public class Game {
                 System.out.println("Use what??");
                 return;
             }
-
         }
         // usikker på om jeg har brug for denne failsafe, eller den lige over
         System.out.println("That item isnt in your inventory");
@@ -617,30 +602,25 @@ public class Game {
 
     // a test command, to let the player take some dmg
 
-    private void takeDMG(Command command){
-        
+    private void takeDMG(){        
         player.setHp( player.getHp() - 30);
         player.setAir(player.getAir() - 30);
-
     }
     
-    
     private void monsterTravel(NPC monster) {
-        if (monster.getMovability() && monster.getHostility()){
+        if (monster.getMovability() == true && monster.getHostility() == true){
             String[] allowedRooms = {"airlock", "hallway", "keyRoom", "armoury", "medbay"};
             int rngRoom = (int) (4 * Math.random());
             if (currentRoom.getName().equals(allowedRooms[rngRoom])) {
                 if(currentRoom.getNPC("monster")!=keyMonster){
                 monster.setHealth(200);
                 currentRoom.addNPC(monster);
-            }     
+                }     
             }else{
                 currentRoom.removeNPC(monster);
-            }
-            
-        }
+                }            
+        }                
     }
-
 
     private boolean activate(Command command) {
         // failsafe for if there is no second word
@@ -675,20 +655,19 @@ public class Game {
                 }
                 return false;
             }
-
         }
         System.out.println("there is no " + object + " here");
         return false;
     }
     public void awakenMonster(){
         if(keyMonster.getMovability()==false && currentRoom.getName().equals("keyRoom")){
-            keyMonster.setMovability(true);
+            //keyMonster.setMovability(true);
             System.out.println("The monster awakens and growls at you, but it doesn't attack..");
         }
     }
     public void combat(){
-        if(currentRoom.getNPC("monster")==keyMonster && keyMonster.getMovability()==true){
-            System.out.println("You are attacked by the monster!");
+        if(currentRoom.getNPC("monster")==keyMonster /*&& keyMonster.getMovability()==true*/){
+            System.out.println("You attacked the monster!");
             CommandWord commandWord;
             String secondWord;
             boolean yourTurn = true;
@@ -716,18 +695,24 @@ public class Game {
                                     + i.getDmg());
                             yourTurn = false;
                         }
-                    }
-                    }
-                    
-                    if(keyMonster.getHealth()<=0){
+                      }
+                    }                   
+                    if(keyMonster.getHealth()<=0 /*&& hasBeenKilled == false*/){
                         System.out.println("The monster is defeated");
-                        keyMonster.setHostility(false);
-                        keyMonster.setMovability(false);
-                        System.out.println("A key drops from the monsters corpse"
-                                + "and unto the floor");
-                        currentRoom.addItem(keyMonster.getItem());
-                        currentRoom.removeNPC(keyMonster);
-                        break;
+                        keyMonster.setHostility(true);
+                        keyMonster.setMovability(true);
+                        if (hasBeenKilled == false) {
+                            System.out.println("A key drops from the monsters corpse"
+                            + " and unto the floor");
+                            currentRoom.addItem(keyMonster.getItem());
+                            currentRoom.removeNPC(keyMonster);
+                            hasBeenKilled = true;
+                            break;
+                        }
+                        else if (hasBeenKilled == true) {
+                            currentRoom.removeNPC(keyMonster);
+                            break;
+                        }
                     }
                 }else{
                     System.out.println("You cant do that");
@@ -741,100 +726,7 @@ public class Game {
                         break;
                     }
                 }
-                
             }
         }      
-    }
-    
-    
-    public void roomLogic() {
-        /* This method is meant to hold all the logic that should be checked for
-        ** each command cycle. These checks will run without needing any user 
-        ** input
-        */
-        // All rooms
-        if (currentRoom.getNPCList().contains(keyMonster)) {
-            System.out.println("There is a monster in this room.");
-            if (keyMonster.getHostility()) {
-                combat();
-            }
-        }
-        
-        // medbay
-        if (currentRoom == medbay){
-            if (!"medkit".equals(currentRoom.getImmovable("counter").getItems().getName())) {
-                currentRoom.getImmovable("counter").setDescription("A medical counter.");
-            }
-            if (!"oxygen".equals(currentRoom.getImmovable("device").getItems().getName())) {
-                currentRoom.getImmovable("oxygen").setDescription("A strange medical device.");
-            }
-        }
-        
-        // keyRoom
-        if (currentRoom == keyRoom) {
-            if (keyMonster.getDefeated()) {
-                currentRoom.removeNPC(keyMonster);
-            }
-        }
-        
-        // armoury
-        if (currentRoom == armoury) {
-            if (!currentRoom.getImmovable("table").getDestructible()){
-                currentRoom.getImmovable("table").setDescription("There is a "
-                        + "leg missing from the table");
-            }
-        }
-        
-        // communicationRoom
-        if (currentRoom == communicationRoom){
-            // Positive NPC response
-            if (!currentRoom.getImmovable("panel").getFlag() 
-                && currentRoom.getFirstTimeEntered()) {        
-                System.out.println("Britney: Hi " + player.getName() + ", so "
-                        + "great to see you're alright. Can you help me with "
-                        + "this radio? we need a key for it to call for help.");
-                communicationRoom.setFirstTimeEntered(false);
-            }
-            // Negative NPC response
-            else if (currentRoom.getImmovable("panel").getFlag() 
-                && currentRoom.getFirstTimeEntered()) {
-                System.out.println("Britney: Oh my god, " + player.getName() + 
-                        " i almost shot you! Do something useful for a change "
-                                + "and fix this radio already!");
-                communicationRoom.setFirstTimeEntered(false);
-            }
-            if (player.hasCalledHelp() && britney.toldToEvacuate()
-                    && currentRoom.getNPCList().contains(britney)) {
-                currentRoom.removeNPC(britney);
-            }
-        }
-        
-        // hallway
-        if (currentRoom == hallway) {
-            if (currentRoom.getImmovable("closet").getFlag()) {
-                currentRoom.getImmovable("closet").setUseDescription("Probably "
-                        + "shouldn't have opened this.");
-            }
-        }
-        
-        // airlock
-        if (currentRoom == airlock) {
-            if (player.hasCalledHelp()) {
-                currentRoom.getImmovable("switch").setUseDescription("You press"
-                        + " the switch. The light turns green");
-                // Message printed after help has been called
-                if (!britney.toldToEvacuate()){
-                    System.out.println("Another ship has been attached to the "
-                            + "airlock");
-                }
-                else {
-                    currentRoom.addNPC(britney);
-                    System.out.println("Britney: There you are! The help has "
-                            + "already arrived, now let's get off this ship!");
-                }
-            }            
-        }
-    
-        // end of method.
     }
 }
