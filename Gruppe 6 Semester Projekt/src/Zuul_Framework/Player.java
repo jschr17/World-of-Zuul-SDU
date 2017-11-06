@@ -36,6 +36,11 @@ public class Player {
         oxygenTimer();
         totalTimePlayed();
     }
+    
+    public String getName() {
+        return this.playerName;
+    }
+    
     //Return the players remaining air.
     public int getAir(){
     return air;
