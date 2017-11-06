@@ -17,7 +17,7 @@ public class Game {
     private Player player = new Player(100, 100);
     private int inventorySpace = 2;
     private boolean hasBeenKilled = false;
-
+    private Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
     private NPC britney, keyMonster;
 
     // constructor for the game class    
@@ -28,7 +28,6 @@ public class Game {
 
     //initializing of the rooms objects needed in the game 
     private void createRooms() {   //asigning the room objects
-        Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
         // The initialication of the room objects
 
         medbay = new Room("medbay", text.getText("medbay"));
