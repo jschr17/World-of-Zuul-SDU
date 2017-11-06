@@ -25,7 +25,7 @@ public class Game {
             doorLockPanel, radioArray;
     private NPC britney, keyMonster;
     private Item sword, medkit, oxygen, gun, rifle, tableleg, key;
-
+    private int enterRoomCounter1, enterRoomCounter2 = 0;
 
     // constructor for the game class    
     public Game() throws IOException {
@@ -862,15 +862,20 @@ public class Game {
                 currentRoom.getImmovable("switch").setUseDescription("You press"
                         + " the switch. The light turns green");
                 // Message printed after help has been called
-                if (!britney.toldToEvacuate()){
-                    System.out.println("Another ship has been attached to the "
-                            + "airlock");
-                }
-                else {
-                    currentRoom.addNPC(britney);
-                    System.out.println("Britney: There you are! The help has "
-                            + "already arrived, now let's get off this ship!");
-                }
+                    if (!britney.toldToEvacuate()){
+                        for (;enterRoomCounter1 < 1; enterRoomCounter1++) {
+                            System.out.println("Another ship has been attached to the "
+                                + "airlock");
+                        }
+                    }
+                    else {
+                        for (;enterRoomCounter2 < 1; enterRoomCounter2++) {
+                            currentRoom.addNPC(britney);
+                            System.out.println("Britney: There you are! The help has "
+                                + "already arrived, now let's get off this ship!");
+                        }
+                    }
+                
             }            
         }
     
