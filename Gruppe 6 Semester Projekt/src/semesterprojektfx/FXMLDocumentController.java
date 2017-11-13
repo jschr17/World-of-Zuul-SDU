@@ -87,12 +87,6 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        HashmapFile = new InputFileToHashmapTest();
-//        try {
-//            textInput = new InputHashmap();
-//        } catch (IOException ex) {
-//            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
         textOut = new TextOut();
         try {
             game = new Game();
