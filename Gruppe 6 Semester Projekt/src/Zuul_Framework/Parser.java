@@ -43,8 +43,8 @@ public class Parser
         return new Command(commands.getCommandWord(word1), word2);  //returnstatment that cast word1 into a CommandWord and word2 into a command 
     }
     // method for returning all Commands
-    public void showCommands()
+    public String showCommands()
     {
-        commands.showAll();
+        return commands.showAll();
     }
 }

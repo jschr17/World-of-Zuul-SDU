@@ -38,11 +38,19 @@ public class CommandWords
         return validCommands.containsKey(aString);
     }
     // method for printing all the commands in the validCommands HashMap
-    public void showAll() 
+    public String showAll() 
     {
-        for(String command : validCommands.keySet()) {  // for-each loop that prints each command value in the HashMap
-            System.out.print(command + "  ");
-        }
-        System.out.println();
+        String words = " ";
+//        int i = 0;
+//        for(String command : validCommands.keySet()) {  // for-each loop that prints each command value in the HashMap
+//            System.out.print(command + "  ");
+//        }
+//        System.out.println();
+            for(String command : validCommands.keySet()) {  // for-each loop that prints each command value in the HashMap
+                //System.out.print(command + "  ");
+                words += "\n" + command + " ";
+            }
+        //System.out.println();
+        return words;
     }
 }

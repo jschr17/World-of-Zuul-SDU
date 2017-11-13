@@ -16,7 +16,7 @@ public class Game {
     InputHashmap text = new InputHashmap();
     private Parser parser;  //declares a parser objekt, so the game can read inputs
     private Room currentRoom;   // initialises a starting room
-    private Player player = new Player(100, 100);
+    public Player player = new Player(100, 100);
     private int inventorySpace = 2;
 
     private Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
@@ -207,7 +207,7 @@ public class Game {
         }
         //if the input matches one other of the enum != UNKNOWN the response is determined there
         if (commandWord == CommandWord.HELP) {  // HELP results in caling the printHelp() method
-            printHelp();
+            System.out.println(printHelp());
         } else if (commandWord == CommandWord.GO) {   // GO is assigned the goRoom(command) method
             goRoom(command);
             awakenMonster();
@@ -263,12 +263,14 @@ public class Game {
     }
 
     // method for printing help, 
-    private void printHelp() {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around an abandoned spaceship.");
-        System.out.println();
-        System.out.println("Your command words are:");
-        parser.showCommands();
+    public String printHelp() {
+//        System.out.println("You are lost. You are alone. You wander");
+//        System.out.println("around an abandoned spaceship.");
+//        System.out.println();
+//        System.out.println("Your command words are:");
+//        parser.showCommands();
+          return "You are lost. You are alone. You wander around an abandoned spaceship."
+                  + "\nYour commands are: " + parser.showCommands();
     }
 
     //method for moving between rooms
