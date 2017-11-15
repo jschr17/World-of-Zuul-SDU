@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -8,39 +9,68 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" cache="true" cacheHint="SCALE" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="semesterprojektfx.FXMLDocumentController">
+
+<GridPane prefHeight="535.0" prefWidth="821.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="semesterprojektfx.FXMLDocumentController">
+  <columnConstraints>
+    <ColumnConstraints />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="444.0" minWidth="10.0" prefWidth="406.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="444.0" minWidth="10.0" prefWidth="150.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="444.0" minWidth="10.0" prefWidth="315.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="498.0" minHeight="10.0" prefHeight="324.0" vgrow="SOMETIMES" />
+    <RowConstraints fillHeight="false" maxHeight="281.0" minHeight="0.0" prefHeight="281.0" vgrow="SOMETIMES" />
+  </rowConstraints>
    <children>
-      <Pane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Group GridPane.columnIndex="2" GridPane.rowIndex="1">
          <children>
-            <Button fx:id="eastButton" layoutX="669.0" layoutY="470.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="48.0" text="East" />
-            <Button fx:id="southButton" layoutX="621.0" layoutY="485.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="48.0" text="South" />
-            <Button fx:id="northButton" layoutX="621.0" layoutY="456.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="48.0" text="North" />
-            <Button fx:id="westButton" layoutX="572.0" layoutY="470.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="48.0" text="West" />
-            <TextArea fx:id="textOutArea" editable="false" layoutX="7.0" layoutY="419.0" prefHeight="96.0" prefWidth="465.0" />
-            <Button fx:id="helpButton" layoutX="498.0" layoutY="472.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="48.0" text="Help" />
-            <ImageView fx:id="mainMap" fitHeight="351.0" fitWidth="450.0" layoutX="40.0" layoutY="44.0" onMouseClicked="#mouseClickAction" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/test.png" />
-               </image>
-            </ImageView>
-            <ProgressBar fx:id="AirBar" accessibleText="HP" layoutX="572.0" layoutY="199.0" prefHeight="20.0" prefWidth="200.0" progress="0.0" />
-            <ProgressBar fx:id="HPbar" accessibleText="Air" layoutX="572.0" layoutY="156.0" prefHeight="20.0" prefWidth="200.0" progress="0.0" />
-            <ImageView fx:id="miniMap" fitHeight="150.0" fitWidth="200.0" layoutX="597.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/Minimap_map.png" />
-               </image>
-            </ImageView>
-            <ListView fixedCellSize="1.0" layoutX="572.0" layoutY="247.0" prefHeight="209.0" prefWidth="200.0" />
-            <Label layoutX="571.0" layoutY="142.0" text="HP" />
-            <Label layoutX="572.0" layoutY="182.0" text="Air" />
-            <Label layoutX="572.0" layoutY="230.0" text="Inventory" />
+            <Button fx:id="eastButton" layoutX="165.0" layoutY="189.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="48.0" text="East" />
+            <Button fx:id="southButton" layoutX="116.0" layoutY="204.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="50.0" text="South" />
+            <Button fx:id="northButton" layoutX="116.0" layoutY="175.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="50.0" text="North" />
+            <Button fx:id="westButton" layoutX="68.0" layoutY="189.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="50.0" text="West" />
+            <Button fx:id="helpButton" layoutX="117.0" layoutY="255.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="48.0" text="Help" />
          </children>
-      </Pane>
+         <GridPane.margin>
+            <Insets left="17.0" right="17.0" />
+         </GridPane.margin>
+      </Group>
+      <TextArea fx:id="textOutArea" editable="false" prefHeight="211.0" prefWidth="444.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <ImageView fx:id="mainMap" fitHeight="351.0" fitWidth="450.0" onMouseClicked="#mouseClickAction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+         <image>
+            <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/test.png" />
+         </image>
+      </ImageView>
+      <Group GridPane.columnIndex="2">
+         <children>
+            <ProgressBar fx:id="AirBar" accessibleText="HP" layoutY="344.0" prefHeight="20.0" prefWidth="140.0" progress="0.0" />
+            <ProgressBar fx:id="HPbar" accessibleText="Air" layoutY="303.0" prefHeight="20.0" prefWidth="140.0" progress="0.0" />
+            <Label layoutX="-1.0" layoutY="286.0" text="HP" />
+            <Label layoutY="327.0" text="Air" />
+         </children>
+         <GridPane.margin>
+            <Insets left="10.0" right="10.0" />
+         </GridPane.margin>
+      </Group>
+      <ImageView fx:id="miniMap" fitHeight="192.0" fitWidth="191.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
+         <image>
+            <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/Minimap_map.png" />
+         </image>
+         <GridPane.margin>
+            <Insets left="50.0" />
+         </GridPane.margin>
+      </ImageView>
+      <Group GridPane.columnIndex="3" GridPane.rowIndex="1">
+         <children>
+            <ListView fixedCellSize="1.0" layoutY="16.0" prefHeight="209.0" prefWidth="200.0" />
+            <Label text="Inventory" />
+         </children>
+         <GridPane.margin>
+            <Insets left="50.0" />
+         </GridPane.margin>
+      </Group>
    </children>
-   <padding>
-      <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-   </padding>
-</AnchorPane>
+</GridPane>

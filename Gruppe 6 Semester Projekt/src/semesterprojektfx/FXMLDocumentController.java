@@ -29,8 +29,9 @@ public class FXMLDocumentController implements Initializable {
     
     private TextOut textOut;
     private Game game;
-//    private InputFileToHashmapTest HashmapFile;
-//    private InputHashmap textInput;
+    private Parser parser;
+    private CommandWords commands;
+    private Command command;
     
     @FXML
     TextArea textOutArea;
@@ -56,19 +57,25 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleButtonAction(ActionEvent event) {
         String toAppend = "";
-        if (event.getSource() == northButton) {   
-            toAppend = textOut.getNorthMessage();
-            HPbar.setProgress(game.player.getHp());
-            AirBar.setProgress(game.player.getAir());
+        if (event.getSource() == northButton) {
+            textOutArea.clear();
+            command.setSecondWord("north");
+            toAppend = game.goRoom(command);
         }
         else if (event.getSource() == eastButton) {
-            toAppend = textOut.getEastMessage();
+            textOutArea.clear();
+            command.setSecondWord("east");
+            toAppend = game.goRoom(command);
         }
         else if (event.getSource() == westButton) {
-            toAppend = textOut.getWestMessage();
+            textOutArea.clear();
+            command.setSecondWord("west");
+            toAppend = game.goRoom(command);
         }
         else if (event.getSource() == southButton) {
-            toAppend = textOut.getSouthMessage();
+            textOutArea.clear();
+            command.setSecondWord("south");
+            toAppend = game.goRoom(command);
         }
         else if (event.getSource() == helpButton){
             textOutArea.clear();
@@ -93,5 +100,8 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        parser = new Parser();
+        commands = new CommandWords();
+        command = parser.getCommand();
     } 
 }

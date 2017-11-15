@@ -33,13 +33,5 @@ public class SemesterProjektFX extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-//        Game game;
-//        try {       // we are trying to catch the ioexeption trown from InputHasmap from persistens.
-//            game = new Game();
-//            game.play();
-//        } catch (IOException e) {       // this is the catch where if an error from reading from the file shuld occur we want an errormessage printed
-//            System.err.println("Caught IOException: " + e.getMessage());    // the printline for the error messeage
-        //launch(args);
     }    
   }
-//}

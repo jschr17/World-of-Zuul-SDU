@@ -184,13 +184,14 @@ public class Game {
     }
 
     //Method that print the welcome + long description information when game is started
-    private void printWelcome() {
-        System.out.println();
-        System.out.println("Welcome to Mads Effect!");
-        System.out.println("Mads Effect is a new, incredibly exciting space-adventure game.");
-        System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
-        System.out.println();
-        System.out.println(currentRoom.getLongDescription());
+    public String printWelcome() {
+//        System.out.println();
+//        System.out.println("Welcome to Mads Effect!");
+//        System.out.println("Mads Effect is a new, incredibly exciting space-adventure game.");
+//        System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
+//        System.out.println();
+//        System.out.println(currentRoom.getLongDescription());
+          return "Welcome to Mads Effect!" + "\nMads Effect is a new, incredibly exciting space-adventure game." + "\nType " + CommandWord.HELP + " if you need help.";
     }
 
     // this boolean method is actualy what carries most of the ingame logic, and is the main component of the game loop
@@ -274,10 +275,10 @@ public class Game {
     }
 
     //method for moving between rooms
-    private void goRoom(Command command) {
+    public String goRoom(Command command) {
         if (!command.hasSecondWord()) {      //if statement for determining if there is a second word returned from the Parser
             System.out.println("Go where?");// if no word is given this line is printed in the console
-            return;
+            return "Go where?";
         }
 
         String direction = command.getSecondWord(); //direction is sat to be the second word from the Parser
@@ -286,9 +287,11 @@ public class Game {
 
         if (nextRoom == null) {                     //if no roomobject is found in the exit HashMap
             System.out.println("There is no door!");// this line is printed
+            return "There is no door!";
         } else {
             currentRoom = nextRoom;                                // else the new room is sat to be currentRoom
             System.out.println(currentRoom.getLongDescription());   // and the long description is printed
+            return currentRoom.getLongDescription();
         }
     }
 

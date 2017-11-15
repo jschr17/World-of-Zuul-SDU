@@ -29,6 +29,9 @@ public class Command
     {
         return secondWord;
     }
+    public void setSecondWord(String word){
+        this.secondWord = word;
+    }
     //Method for validating if a received commanWord corresponds to the commandwords defined in the CommandWord Class
     public boolean isUnknown()
     {

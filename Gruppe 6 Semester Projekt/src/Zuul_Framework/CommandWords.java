@@ -48,7 +48,7 @@ public class CommandWords
 //        System.out.println();
             for(String command : validCommands.keySet()) {  // for-each loop that prints each command value in the HashMap
                 //System.out.print(command + "  ");
-                words += "\n" + command + " ";
+                words += command + " ";
             }
         //System.out.println();
         return words;
