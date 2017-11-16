@@ -15,7 +15,7 @@ public class Game {
 
     InputHashmap text = new InputHashmap();
     private Parser parser;  //declares a parser objekt, so the game can read inputs
-    private Room currentRoom;   // initialises a starting room
+    public Room currentRoom;   // initialises a starting room
     public Player player = new Player(100, 100);
     private int inventorySpace = 2;
 
@@ -185,12 +185,6 @@ public class Game {
 
     //Method that print the welcome + long description information when game is started
     public String printWelcome() {
-//        System.out.println();
-//        System.out.println("Welcome to Mads Effect!");
-//        System.out.println("Mads Effect is a new, incredibly exciting space-adventure game.");
-//        System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
-//        System.out.println();
-//        System.out.println(currentRoom.getLongDescription());
           return "Welcome to Mads Effect!" + "\nMads Effect is a new, incredibly exciting space-adventure game." + "\nType " + CommandWord.HELP + " if you need help.";
     }
 
@@ -265,11 +259,6 @@ public class Game {
 
     // method for printing help, 
     public String printHelp() {
-//        System.out.println("You are lost. You are alone. You wander");
-//        System.out.println("around an abandoned spaceship.");
-//        System.out.println();
-//        System.out.println("Your command words are:");
-//        parser.showCommands();
           return "You are lost. You are alone. You wander around an abandoned spaceship."
                   + "\nYour commands are: " + parser.showCommands();
     }

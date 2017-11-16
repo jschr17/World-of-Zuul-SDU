@@ -16,9 +16,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -32,6 +35,8 @@ public class FXMLDocumentController implements Initializable {
     private Parser parser;
     private CommandWords commands;
     private Command command;
+    
+    private int flag = 0;
     
     @FXML
     TextArea textOutArea;
@@ -47,6 +52,15 @@ public class FXMLDocumentController implements Initializable {
     private Button helpButton;
     @FXML
     private ImageView mainMap;
+    private void initContextMenu() {
+        final ContextMenu contextMenu = new ContextMenu();
+        final MenuItem item1 = new MenuItem("Take");
+        final MenuItem item2 = new MenuItem("Drop");
+        
+        contextMenu.getItems().addAll(item1, item2);
+        mainMap.setOnContextMenuRequested(e -> contextMenu.show(mainMap, e.getScreenX(), e.getScreenY()));
+    }
+    
     @FXML
     private ProgressBar AirBar;
     @FXML
@@ -87,7 +101,9 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void mouseClickAction(MouseEvent event) {
+        textOutArea.setText("You clicked!");
     } 
+    
     private String helpText(){
         return game.printHelp();
     }
@@ -104,4 +120,23 @@ public class FXMLDocumentController implements Initializable {
         commands = new CommandWords();
         command = parser.getCommand();
     } 
+    
+    
+    //Reconsider this method later!!!! Function is to print the welcome text when
+    //the mouse enters the application area.
+    @FXML
+    private void mouseEnter(MouseEvent event) {
+        if (flag == 0) {
+            textOutArea.appendText(game.printWelcome());
+            textOutArea.appendText("\n");
+            textOutArea.appendText("\n");            
+            textOutArea.appendText(game.currentRoom.getLongDescription());
+            flag = 1;
+        }
+    }
+
+    @FXML
+    private void mouseMenuOpen(ContextMenuEvent event) {
+            
+    }
 }

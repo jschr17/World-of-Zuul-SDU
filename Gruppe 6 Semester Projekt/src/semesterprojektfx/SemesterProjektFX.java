@@ -32,6 +32,9 @@ public class SemesterProjektFX extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        //Launches the GUI 
         launch(args);
+        //Closes the rest of the program, after you have exited the GUI.
+        System.exit(0);
     }    
   }
