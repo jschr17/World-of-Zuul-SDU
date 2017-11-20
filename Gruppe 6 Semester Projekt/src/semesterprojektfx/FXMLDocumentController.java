@@ -24,11 +24,9 @@ import javafx.scene.input.*;
  */
 public class FXMLDocumentController implements Initializable {
     
-    private TextOut textOut;
     Game game;
     Player player;
     private Parser parser;
-    private CommandWords commands;
     private Command command;
     
     private int flag = 0;
@@ -51,7 +49,6 @@ public class FXMLDocumentController implements Initializable {
     private Button inspectButton;
     @FXML
     ImageView mainMap;
-    
     @FXML
     private ProgressBar AirBar;
     @FXML
@@ -68,6 +65,8 @@ public class FXMLDocumentController implements Initializable {
     ListProperty<String> listProperty1 = new SimpleListProperty<>();
     ListProperty<String> listProperty2 = new SimpleListProperty<>();    
     
+    //This method controlls the functions of the player movement buttons, and the
+    //help button.
     @FXML
     private void handleButtonAction(ActionEvent event) {
         String toAppend = "";
@@ -101,6 +100,10 @@ public class FXMLDocumentController implements Initializable {
         toAppend += System.lineSeparator();
         textOutArea.appendText(toAppend);
     }
+    
+    //This method is used by the search funktion in the game. It gets the items
+    //in the room the player is currently in, and adds their names to the GUI's
+    //listviews.
     @FXML
     private void listAction(ActionEvent event){
         if (event.getSource() == searchButton){
@@ -127,18 +130,20 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
+    //A test method for the functionality of the main viewport
     @FXML
     private void mouseClickAction(MouseEvent event) {
         textOutArea.setText("You clicked!");
     } 
     
+    //Gets the help text string from the game class, so it can be used by the GUI
     private String helpText(){
         return game.printHelp();
     }
     
+    //This method initializes all the relevant classes that are needed by the GUI
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        textOut = new TextOut();
         try {
             game = new Game();
             game.createRooms();
@@ -146,7 +151,6 @@ public class FXMLDocumentController implements Initializable {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         parser = new Parser();
-        commands = new CommandWords();
         command = parser.getCommand();        
     } 
     //Reconsider this method later!!!! Function is to print the welcome text when
