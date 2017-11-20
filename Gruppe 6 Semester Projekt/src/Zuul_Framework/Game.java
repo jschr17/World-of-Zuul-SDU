@@ -17,7 +17,7 @@ public class Game {
     private Parser parser;  //declares a parser objekt, so the game can read inputs
     public Room currentRoom;   // initialises a starting room
     public Player player = new Player(100, 100);
-    private int inventorySpace = 2;
+    private int inventorySpace = 3;
 
     public Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
     private Immovable counter, device, table, weaponCabinet, bookcase, 
@@ -360,7 +360,7 @@ public class Game {
     }
 
     //Adds the item comming after the commandWord to the players inventory.
-    private void addInventory(Command command) {
+    public void addInventory(Command command) {
         String object = command.getSecondWord();
         if (!command.hasSecondWord()) {
             System.out.println("Take what?");
@@ -508,7 +508,7 @@ public class Game {
         }
     }
 
-    private void removeFromInventory(Command command) {
+    public void removeFromInventory(Command command) {
         String object = command.getSecondWord();
         if (!command.hasSecondWord()) {
             System.out.println("Drop what?");

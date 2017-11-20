@@ -88,6 +88,12 @@ public class Immovable implements Interactables{
     public Item getItems(){
         return item;
     }
+    public Item getItemWithName(String name){
+        if (name == item.getName()) {
+            return item;
+        }
+            return null;
+    }
     
     public Item takeItem(){
         Item returnItem = this.item;

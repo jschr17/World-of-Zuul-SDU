@@ -34,9 +34,11 @@
             <Button fx:id="southButton" layoutX="116.0" layoutY="204.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="50.0" text="South" />
             <Button fx:id="northButton" layoutX="116.0" layoutY="175.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="50.0" text="North" />
             <Button fx:id="westButton" layoutX="68.0" layoutY="189.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="50.0" text="West" />
-            <Button fx:id="helpButton" layoutX="117.0" layoutY="233.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="48.0" text="Help" />
+            <Button fx:id="helpButton" layoutX="117.0" layoutY="233.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="50.0" text="Help" />
             <Button fx:id="searchButton" layoutX="82.0" layoutY="262.0" mnemonicParsing="false" onAction="#listAction" prefHeight="29.0" prefWidth="58.0" text="Search" />
             <Button fx:id="inspectButton" layoutX="145.0" layoutY="262.0" mnemonicParsing="false" onAction="#listAction" prefHeight="29.0" prefWidth="58.0" text="Inspect" />
+            <Button fx:id="takeButton" layoutX="67.0" layoutY="233.0" mnemonicParsing="false" onAction="#takeInventoryAction" prefHeight="29.0" prefWidth="50.0" text="Take" />
+            <Button fx:id="dropButton" layoutX="165.0" layoutY="233.0" mnemonicParsing="false" onAction="#dropButtonAction" prefHeight="29.0" prefWidth="50.0" text="Drop" />
          </children>
          <GridPane.margin>
             <Insets left="12.0" right="10.0" />

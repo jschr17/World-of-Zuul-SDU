@@ -64,6 +64,10 @@ public class FXMLDocumentController implements Initializable {
     
     ListProperty<String> listProperty1 = new SimpleListProperty<>();
     ListProperty<String> listProperty2 = new SimpleListProperty<>();    
+    @FXML
+    private Button takeButton;
+    @FXML
+    private Button dropButton;
     
     //This method controlls the functions of the player movement buttons, and the
     //help button.
@@ -115,20 +119,40 @@ public class FXMLDocumentController implements Initializable {
             }
             listProperty1.set(FXCollections.observableList(roomInv));
             roomInventory.itemsProperty().bind(listProperty1);    
-            if (game.player.getInventory() != null) {
-                for (Item i : game.player.getInventory()) {
-                        playerInv.add(i.getName());
-                }               
-            }
-            else System.out.println("Nothing here.");
-            listProperty2.set(FXCollections.observableList(playerInv));
-            playerInventory.itemsProperty().bind(listProperty2);
+//            if (game.player.getInventory() != null) {
+//                for (Item i : game.player.getInventory()) {
+//                        playerInv.add(i.getName());
+//                }               
+//            }
+//            else System.out.println("Nothing here.");
+//            listProperty2.set(FXCollections.observableList(playerInv));
+//            playerInventory.itemsProperty().bind(listProperty2);
         }
         else if (event.getSource() == inspectButton) {
            String immovableName = roomInventory.getSelectionModel().getSelectedItem();
-//           Immovable object = immovable.
         }
     }
+    
+    @FXML
+    private void takeInventoryAction(ActionEvent event){
+        String itemName = roomInventory.getSelectionModel().getSelectedItem();
+        if (event.getSource() == takeButton) {
+//            for (Immovable i : game.currentRoom.getInteractList()){
+//               game.player.addToInventory(i.getItemWithName(itemName));
+//            } 
+                if (itemName == null) {
+                    System.out.println("Is null");
+                }
+                else{
+                    playerInv.add(itemName);
+                    command.setSecondWord(itemName);
+                    game.addInventory(command);
+                }
+            }
+            roomInventory.getItems().remove(itemName);
+            listProperty2.set(FXCollections.observableList(playerInv));
+            playerInventory.itemsProperty().bind(listProperty2);
+        }
     
     //A test method for the functionality of the main viewport
     @FXML
@@ -164,5 +188,16 @@ public class FXMLDocumentController implements Initializable {
             textOutArea.appendText(game.currentRoom.getLongDescription());
             flag = 1;
         }
+    }
+
+    @FXML
+    private void dropButtonAction(ActionEvent event) {        
+        String itemName = playerInventory.getSelectionModel().getSelectedItem();
+        command.setSecondWord(itemName);
+        game.removeFromInventory(command);
+        playerInventory.getItems().remove(itemName);
+        roomInv.add(itemName);
+        listProperty1.set(FXCollections.observableList(roomInv));
+        roomInventory.itemsProperty().bind(listProperty1);  
     }
 }
