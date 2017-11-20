@@ -1,4 +1,4 @@
-package Zuul_Framework;
+package Logic;
 
 import java.io.IOException;
 import java.util.logging.Level;

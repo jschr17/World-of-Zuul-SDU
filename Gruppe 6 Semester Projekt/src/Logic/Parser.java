@@ -1,4 +1,4 @@
-package Zuul_Framework;
+package Logic;
 
 import java.util.Scanner;
 import java.util.StringTokenizer;
