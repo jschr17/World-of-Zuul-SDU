@@ -9,20 +9,15 @@ import Zuul_Framework.*;
 import Persistens.*;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.*;
+import java.util.logging.*;
+import javafx.beans.property.*;
+import javafx.collections.*;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextArea;
+import javafx.fxml.*;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 
 /**
  *
@@ -31,7 +26,8 @@ import javafx.scene.input.MouseEvent;
 public class FXMLDocumentController implements Initializable {
     
     private TextOut textOut;
-    private Game game;
+    Game game;
+    Player player;
     private Parser parser;
     private CommandWords commands;
     private Command command;
@@ -51,15 +47,11 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button helpButton;
     @FXML
-    private ImageView mainMap;
-    private void initContextMenu() {
-        final ContextMenu contextMenu = new ContextMenu();
-        final MenuItem item1 = new MenuItem("Take");
-        final MenuItem item2 = new MenuItem("Drop");
-        
-        contextMenu.getItems().addAll(item1, item2);
-        mainMap.setOnContextMenuRequested(e -> contextMenu.show(mainMap, e.getScreenX(), e.getScreenY()));
-    }
+    private Button searchButton;
+    @FXML
+    private Button inspectButton;
+    @FXML
+    ImageView mainMap;
     
     @FXML
     private ProgressBar AirBar;
@@ -67,13 +59,22 @@ public class FXMLDocumentController implements Initializable {
     private ProgressBar HPbar;
     @FXML
     private ImageView miniMap;
+    @FXML
+    private ListView<String> roomInventory = new ListView<>();
+    private ObservableList<String> roomInv = FXCollections.observableArrayList();
+    @FXML
+    private ListView<String> playerInventory = new ListView<>();
+    private ObservableList<String> playerInv = FXCollections.observableArrayList();
+    
+    ListProperty<String> listProperty1 = new SimpleListProperty<>();
+    ListProperty<String> listProperty2 = new SimpleListProperty<>();    
     
     @FXML
     private void handleButtonAction(ActionEvent event) {
         String toAppend = "";
         if (event.getSource() == northButton) {
             textOutArea.clear();
-            command.setSecondWord("north");
+            command.setSecondWord("north");          
             toAppend = game.goRoom(command);
         }
         else if (event.getSource() == eastButton) {
@@ -98,6 +99,30 @@ public class FXMLDocumentController implements Initializable {
         toAppend += System.lineSeparator();
         textOutArea.appendText(toAppend);
     }
+    @FXML
+    private void listAction(ActionEvent event){
+        if (event.getSource() == searchButton){
+            for (Immovable i : game.currentRoom.getInteractList()){
+                if (game.currentRoom.getInteractList() != null) {
+                    roomInv.add(i.getItems().getName());   
+                }
+                else if (game.currentRoom.getInteractList() == null) {
+                    textOutArea.appendText("Nothing here!");
+                }
+            }
+            listProperty1.set(FXCollections.observableList(roomInv));
+            roomInventory.itemsProperty().bind(listProperty1);                
+        }
+        else if (event.getSource() == inspectButton){
+            System.out.println("Test 3");
+            playerInv.add("Same");
+            playerInv.add("For");
+            playerInv.add("You!");
+            listProperty2.set(FXCollections.observableList(playerInv));
+            playerInventory.itemsProperty().bind(listProperty2);
+            System.out.println(playerInv);
+        }
+    }
     
     @FXML
     private void mouseClickAction(MouseEvent event) {
@@ -113,15 +138,14 @@ public class FXMLDocumentController implements Initializable {
         textOut = new TextOut();
         try {
             game = new Game();
+            game.createRooms();
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         parser = new Parser();
         commands = new CommandWords();
-        command = parser.getCommand();
+        command = parser.getCommand();        
     } 
-    
-    
     //Reconsider this method later!!!! Function is to print the welcome text when
     //the mouse enters the application area.
     @FXML
@@ -133,10 +157,5 @@ public class FXMLDocumentController implements Initializable {
             textOutArea.appendText(game.currentRoom.getLongDescription());
             flag = 1;
         }
-    }
-
-    @FXML
-    private void mouseMenuOpen(ContextMenuEvent event) {
-            
     }
 }

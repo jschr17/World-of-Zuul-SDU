@@ -10,7 +10,6 @@ public class Immovable implements Interactables{
     private final boolean isPickupable = false;
     private Item item;
     
-    
     /**
      *
      * @param name is the name of the Immovable being made, e.g. "table".

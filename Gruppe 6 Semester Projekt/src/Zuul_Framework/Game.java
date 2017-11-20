@@ -19,7 +19,7 @@ public class Game {
     public Player player = new Player(100, 100);
     private int inventorySpace = 2;
 
-    private Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
+    public Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
     private Immovable counter, device, table, weaponCabinet, bookcase, 
             hiddenpanel, closet, lockedDoor, glassCabinet, airlockPanel, 
             doorLockPanel, radioArray;
@@ -34,8 +34,7 @@ public class Game {
     }
 
     //initializing of the rooms objects needed in the game 
-    private void createRooms() {   //asigning the room objects
-
+    public void createRooms() {   //asigning the room objects
 
         // The initialication of the room objects
         medbay = new Room("medbay", text.getText("medbay"));
