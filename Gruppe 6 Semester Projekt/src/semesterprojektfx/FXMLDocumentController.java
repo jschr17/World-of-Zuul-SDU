@@ -6,7 +6,6 @@
 package semesterprojektfx;
 
 import Zuul_Framework.*;
-import Persistens.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -96,31 +95,35 @@ public class FXMLDocumentController implements Initializable {
             textOutArea.clear();
             toAppend = helpText();
         }
+        else if (event.getSource() == inspectButton) {
+            
+        }
         toAppend += System.lineSeparator();
         textOutArea.appendText(toAppend);
     }
     @FXML
     private void listAction(ActionEvent event){
         if (event.getSource() == searchButton){
+            roomInv.clear();
             for (Immovable i : game.currentRoom.getInteractList()){
-                if (game.currentRoom.getInteractList() != null) {
+                if (i.getItems() != null) {
                     roomInv.add(i.getItems().getName());   
-                }
-                else if (game.currentRoom.getInteractList() == null) {
-                    textOutArea.appendText("Nothing here!");
                 }
             }
             listProperty1.set(FXCollections.observableList(roomInv));
-            roomInventory.itemsProperty().bind(listProperty1);                
-        }
-        else if (event.getSource() == inspectButton){
-            System.out.println("Test 3");
-            playerInv.add("Same");
-            playerInv.add("For");
-            playerInv.add("You!");
+            roomInventory.itemsProperty().bind(listProperty1);    
+            if (game.player.getInventory() != null) {
+                for (Item i : game.player.getInventory()) {
+                        playerInv.add(i.getName());
+                }               
+            }
+            else System.out.println("Nothing here.");
             listProperty2.set(FXCollections.observableList(playerInv));
             playerInventory.itemsProperty().bind(listProperty2);
-            System.out.println(playerInv);
+        }
+        else if (event.getSource() == inspectButton) {
+           String immovableName = roomInventory.getSelectionModel().getSelectedItem();
+//           Immovable object = immovable.
         }
     }
     
