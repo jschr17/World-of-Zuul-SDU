@@ -19,6 +19,7 @@ public class Player {
     private int air;
     private ArrayList<Item> inventory;
     private boolean hasCalledHelp = false;
+    private boolean wonGame = false;
     
     /* By Mads */
     public static String playerName = "Mads"; // Non-negotiable
@@ -72,6 +73,13 @@ public class Player {
     }
     public boolean hasCalledHelp(){
         return hasCalledHelp;
+    }
+    
+    void setWonGame(boolean b) {
+        this.wonGame = true;
+    }
+    boolean hasWonGame(){
+        return this.wonGame;
     }
     
     /* By Mads */
@@ -248,6 +256,5 @@ public class Player {
         timerOxygen.cancel();
         timerHP.cancel();
         timePlayed.cancel();
-    }
-    
+    }  
 }

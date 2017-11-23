@@ -151,6 +151,7 @@ public class Game {
         int i = 0;
         int monsterTurnWait = 2;
         
+        
         boolean finished = false; //initiates a boolen to determine if the game is fi
         while (! finished) {    // the main game loop, runs as long as boolean finished = false
             if(loseCondition() == true){
@@ -170,15 +171,24 @@ public class Game {
         }
         player.terminateAllPlayerThreads();
         player.terminateAllPlayerTimers();
-        System.out.println("Your total points is: " + player.getAwesomePoint());
+        if (player.hasWonGame() == true){
+            Highscore.addNewScore(player.getName(), player.getAwesomePoint());
+            System.out.println("Your total points is: " + player.getAwesomePoint());
+        }
+        else{
+        System.out.println("You have died!"); 
+        }
+        System.out.println("Highscore:");
+        for (Object hs : Highscore.getHighscoreString()) {
+            System.out.println(hs.toString());
+        }
         System.out.println("Thank you for playing.  Good bye."); //prints this line if finished == true
     }
 
 
     private boolean loseCondition(){
-        if(player.getHp() <= 0){
-           System.out.println("You have died!");     
-           return true;  
+        if(player.getHp() <= 0){    
+        return true;  
         }
          return false;
     }
@@ -660,6 +670,7 @@ public class Game {
             // logic for what hapends when switch is activated
             if (command.getSecondWord().equals("switch") && i.getName().equals("switch")) {
                 if (player.hasCalledHelp() == true) {                                       // the call for help bool is changed when the radio in com-room is used
+                    player.setWonGame(true);
                     System.out.println(text.getText("airlocksuccess"));
                     return true;
 
@@ -667,7 +678,7 @@ public class Game {
                     System.out.println(text.getText("airlockfail"));
                     return true;
 
-                } //logic for what hapends when radi is activated
+                } //logic for what hapends when radio is activated
             } else if (command.getSecondWord().equals("radio") && i.getName().equals("radio")) {
                 if (currentRoom.getImmovable("radio").getFlag() == false) {
                     System.out.println(currentRoom.getImmovable("radio").getUseDescription());

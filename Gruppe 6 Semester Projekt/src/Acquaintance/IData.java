@@ -5,10 +5,18 @@
  */
 package Acquaintance;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Rasmus Jensen
  */
 public interface IData {
+
+    public boolean saveHighscore(ArrayList list) ;
+
+    public ArrayList loadHighscore();
     
+    
+
 }
