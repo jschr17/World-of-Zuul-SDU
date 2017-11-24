@@ -246,10 +246,14 @@ public class Game {
         } else if (commandWord == CommandWord.STATUS) {
             checkStatus();
         } else if (commandWord == CommandWord.USE) {
-            useItem(command);
-            unlockDoor(command);
-            quizToOpenDoor(command);
-            wantToQuit = activate(command);
+            if ("medkit".equals(command.getSecondWord()) || "oxygen".equals(command.getSecondWord()) || "keymodule".equals(command.getSecondWord())) {
+                useItem(command);
+            } else if ("lockeddoor".equals(command.getSecondWord())) {
+                unlockDoor(command);
+                quizToOpenDoor(command);
+            } else if ("switch".equals(command.getSecondWord()) || "radio".equals(command.getSecondWord())) {
+                wantToQuit = activate(command);
+            }
         } else if (commandWord == CommandWord.TAKEDMG) {
             takeDMG(command);
         } else if (commandWord == CommandWord.TALK) {
@@ -564,7 +568,12 @@ public class Game {
         // it checks for the items in the inventory
         for (Item i : player.getInventory()) {
             //here it checks if, an item is in the inventory
-
+            if (object.equalsIgnoreCase("keymodule") && radioArray.getFlag() == false && currentRoom == communicationRoom){
+                    radioArray.setFlag(true);
+                    player.removeFromInventory(i);
+                    System.out.println("You take the keymodule and slot it into the radio, as soon as the module clicks in place the radio come to life with a static buzz.");
+                    return;
+            }
             if (i.getName().equalsIgnoreCase(object)){
                 //here it checks an statement, that checks for either the 
                 // players hp or air, for the item that the user wants to use, 
@@ -603,23 +612,18 @@ public class Game {
                 else if(air >= 100 && i.getName().equalsIgnoreCase(oxygen)){
                         System.out.println("Your oxygen-tank is already full");
                         return;
-                    }
-                    else if(HP >= 100 && i.getName().equalsIgnoreCase(medkit)){
+                }
+                else if(HP >= 100 && i.getName().equalsIgnoreCase(medkit)){
                         System.out.println("Your HP is already full");
                         return;
-                    }
+                }
                 // use the key at the radio to get it to be able to call help. 
                 // And removes the key from inventory.
-                else if (object.equalsIgnoreCase("keymodule") && currentRoom.getImmovable("radio").getFlag() == false){
-                    currentRoom.getImmovable("radio").setFlag(true);
-                    player.removeFromInventory(i);
-                    System.out.println("You take the keymodule and slot it into the radio, as soon as the module clicks in place the radio come to life with a static buzz.");
-                    return;
-                }
+                
             }
         }
         // usikker på om jeg stadig har brug for denne failsafe
-        /*
+        
         for (Item i : player.getInventory()) {
             if (!object.equalsIgnoreCase(i.getName())) {
                 System.out.println("Use what??");
@@ -628,7 +632,7 @@ public class Game {
 
         }
         // usikker på om jeg har brug for denne failsafe, eller den lige over
-        System.out.println("That item isnt in your inventory"); */
+        System.out.println("That item isnt in your inventory"); 
     }
 
     // a test command, to let the player take some dmg
