@@ -27,6 +27,7 @@ public class Starter {
        try {       // we are trying to catch the ioexeption trown from InputHasmap from persistens.
             Game game1 = new Game();
             game1.play();
+            logic.saveHighscore();
         } catch (IOException e) {       // this is the catch where if an error from reading from the file shuld occur we want an errormessage printed
                 System.err.println("Caught IOException: " + e.getMessage());    // the printline for the error messeage
 }  

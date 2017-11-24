@@ -172,8 +172,8 @@ public class Game {
         player.terminateAllPlayerThreads();
         player.terminateAllPlayerTimers();
         if (player.hasWonGame() == true){
-            Highscore.addNewScore(player.getName(), player.getAwesomePoint());
-            System.out.println("Your total points is: " + player.getAwesomePoint());
+            Highscore.addNewScore(player.getName(), player.getAwesomePoint(britney.toldToEvacuate()));
+            System.out.println("Your total points is: " + player.getAwesomePoint(britney.toldToEvacuate()));
         }
         else{
         System.out.println("You have died!"); 
@@ -220,7 +220,6 @@ public class Game {
             printHelp();
         } else if (commandWord == CommandWord.GO) {   // GO is assigned the goRoom(command) method
             goRoom(command);
-            awakenMonster();
         } else if (commandWord == CommandWord.QUIT) { // QUIT assigneds the wantToQuit variable the quit(command) method
             wantToQuit = quit(command);
         } else if (commandWord == CommandWord.INSPECT) {
@@ -622,6 +621,7 @@ public class Game {
             }
         }
         // usikker på om jeg stadig har brug for denne failsafe
+        /*
         for (Item i : player.getInventory()) {
             if (!object.equalsIgnoreCase(i.getName())) {
                 System.out.println("Use what??");
@@ -630,7 +630,7 @@ public class Game {
 
         }
         // usikker på om jeg har brug for denne failsafe, eller den lige over
-        System.out.println("That item isnt in your inventory");
+        System.out.println("That item isnt in your inventory"); */
     }
 
     // a test command, to let the player take some dmg
@@ -705,7 +705,7 @@ public class Game {
     }
 
     public void combat() {
-        if (currentRoom.getNPC("monster") == keyMonster && keyMonster.getMovability() == true) {
+        if (currentRoom.getNPC("monster") == keyMonster) {
             System.out.println("You are attacked by the monster!");
             CommandWord commandWord;
             String secondWord;

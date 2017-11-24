@@ -30,7 +30,7 @@ public class LogicFasade implements ILogic {
        
     @Override
     public boolean saveHighscore(){
-        return data.saveHighscore(score.saveHighscore());
+        return data.saveHighscore(Highscore.saveHighscore());
     }
     
     @Override

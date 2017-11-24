@@ -235,15 +235,15 @@ public class Player {
 
     
     /* End game points */
-    public int getAwesomePoint(){
-                //###########   TODO; en værdi for Britney    ##############
-        
-        /* Natural logatithm function which is deaccelerating, used to calculate the time points into the endgame points.
-        TimePoints = e ^ ( A - ( t / B) ): A, B are constants, t = totalTimePlayed. */
+    public int getAwesomePoint(boolean toldtoevacuate){
+        int bonus = 0;
+        if (toldtoevacuate){
+            bonus = 100;
+        }
         double A = 4.6;
         double B = 200;
         double doubleTimePoints = Math.pow(E, A - totalTimePlayed / B);
-        int intTimePoints = ( (Double) Math.ceil( doubleTimePoints ) ).intValue();
+        int intTimePoints = ( (Double) Math.ceil( doubleTimePoints ) ).intValue() + bonus;
 
         // End game points 
         int awesomePoints = getCurrentHP() + getCurrentOxygen() + intTimePoints;
