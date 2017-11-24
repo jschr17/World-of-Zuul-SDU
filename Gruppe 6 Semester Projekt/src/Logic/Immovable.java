@@ -9,7 +9,7 @@ public class Immovable implements Interactables{
     private boolean destructible, flag;
     private final boolean isPickupable = false;
     private Item item;
-    
+    private int itemDmg;
     
     /**
      *
@@ -24,7 +24,8 @@ public class Immovable implements Interactables{
         this.description = description; 
         this.useDescription = useDescription; 
         this.destructible = destructible; 
-        this.flag = flag; 
+        this.flag = flag;
+        this.itemDmg = 80;
     }
     
     //public method to open cabinets (amoury/ hallway/ airlock)
@@ -61,6 +62,10 @@ public class Immovable implements Interactables{
     @Override
     public String getName(){
         return name;
+    }
+    
+    public int getItemDmg() {
+        return itemDmg;
     }
         
     @Override

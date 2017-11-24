@@ -10,6 +10,7 @@ package Acquaintance;
  * @author Rasmus Jensen
  */
 public interface IGUI {
+
     void injectLogic(ILogic logicLayer);
-    
+    void startApplication(String[] args);
 }
