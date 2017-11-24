@@ -101,8 +101,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private AnchorPane mainPane;
     @FXML
-    private StackPane sceneStackPane;
-    @FXML
     private ImageView playerImg;
     @FXML
     private ImageView tableImg;
@@ -110,6 +108,20 @@ public class FXMLDocumentController implements Initializable {
     private ImageView northDoor;
     @FXML
     private Pane keyRoom;
+    @FXML
+    private Pane armory;
+    @FXML
+    private ImageView secretDoor;
+    @FXML
+    private ImageView breakableTable;
+    @FXML
+    private ImageView rifleImg;
+    @FXML
+    private ImageView noteImg;
+    @FXML
+    private Pane hallway;
+    @FXML
+    private Pane airlock;
     
     //This method controlls the functions of the player movement buttons, and the
     //help button.
@@ -121,22 +133,26 @@ public class FXMLDocumentController implements Initializable {
             textOutArea.clear();
             command.setSecondWord("north");          
             toAppend = game.goRoom(command);
-//            roomChange(event);
+//            System.out.println(game.currentRoom.getName());
+            roomChange();
         }
         else if (event.getSource() == eastButton) {
             textOutArea.clear();
             command.setSecondWord("east");
             toAppend = game.goRoom(command);
+            roomChange();
         }
         else if (event.getSource() == westButton) {
             textOutArea.clear();
             command.setSecondWord("west");
             toAppend = game.goRoom(command);
+            roomChange();
         }
         else if (event.getSource() == southButton) {
             textOutArea.clear();
             command.setSecondWord("south");
             toAppend = game.goRoom(command);
+            roomChange();
         }
         else if (event.getSource() == helpButton){
             textOutArea.clear();
@@ -225,9 +241,13 @@ public class FXMLDocumentController implements Initializable {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         parser = new Parser();
-        command = parser.getCommand();        
-        stage = new Stage();
-        medbay.toFront();
+        command = parser.getCommand(); 
+        
+        textOutArea.appendText(game.printWelcome());
+        textOutArea.appendText("\n");
+        textOutArea.appendText("\n");            
+        textOutArea.appendText(game.currentRoom.getLongDescription());
+        flag = 1;
     } 
     
     //Reconsider this method later!!!! Function is to print the welcome text when
@@ -260,8 +280,7 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
-    @FXML
-    private void roomChange(ActionEvent event) throws IOException{
+    private void roomChange() throws IOException{
 //        String _roomName = "FXML" + roomName + ".fxml";
 //        System.out.println(_roomName);
 //        if (!starter.getFXML().equalsIgnoreCase(_roomName)) {   
@@ -282,8 +301,45 @@ public class FXMLDocumentController implements Initializable {
 //            newStage.show();            
 //            System.out.println("Test 4");
 //        }
-        
-        
+        String roomName = game.currentRoom.getName();
+        if (roomName.equalsIgnoreCase("medbay")) {
+            armory.setVisible(false);
+            keyRoom.setVisible(false);
+            medbay.setVisible(true);
+            hallway.setVisible(false);
+            airlock.setVisible(false);
+        }
+        else if (roomName.equalsIgnoreCase("keyRoom")) {
+            armory.setVisible(false);
+            keyRoom.setVisible(true);
+            medbay.setVisible(false);
+            hallway.setVisible(false);
+            airlock.setVisible(false);            
+        }
+        else if (roomName.equalsIgnoreCase("armoury")) {
+            armory.setVisible(true);
+            keyRoom.setVisible(false);
+            medbay.setVisible(false);
+            hallway.setVisible(false);
+            airlock.setVisible(false);            
+        }
+        else if (roomName.equalsIgnoreCase("hallway")) {
+            armory.setVisible(false);
+            keyRoom.setVisible(false);
+            medbay.setVisible(false); 
+            hallway.setVisible(true);
+            airlock.setVisible(false);
+        }
+        else if (roomName.equalsIgnoreCase("airlock")) {
+            armory.setVisible(false);
+            keyRoom.setVisible(false);
+            medbay.setVisible(false); 
+            hallway.setVisible(false);
+            airlock.setVisible(true);
+        }
+        else if (roomName.equalsIgnoreCase("communicationRoom")) {
+            
+        }
 
     }
 }
