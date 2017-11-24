@@ -416,28 +416,31 @@ public class Game {
     }
 
     private void search(Command command) {
+        String closet = "closet";
         if (!command.hasSecondWord()) {
-            //If there is only one word, this will be printed and you will be
-            //asked to try again.
-            System.out.println("Search what?");
+            //If there is only one word, this will be printed
+            currentRoom.searchRoom();
+            currentRoom.getItemList();
+            currentRoom.getNPCList();
             return;
         }
         String searchTarget = command.getSecondWord();
-        if (searchTarget.equals("room")) {
-            currentRoom.searchRoom();
-        } else {
-
-            for (Immovable i : currentRoom.getInteractList()) {
-                if (i.getItems() != null && searchTarget.equals(i.getName())) {
+        
+        for(Immovable i : currentRoom.getInteractList()){
+            if(i.getName().equalsIgnoreCase(closet) && searchTarget.equalsIgnoreCase(closet)){
+                System.out.println(i.getDescription());
+                System.out.println(i.getUseDescription());
+                player.setAir(player.getAir() - i.getItemDmg());
+                return;
+            }
+                else if(i.getItems()!=null && searchTarget.equals(i.getName())){
+                    System.out.println("You search the " + i.getDescription());
                     System.out.println("You found the following in the " + searchTarget);
                     System.out.println(i.getItems().getName());
                     return;
-                }
-            }
-
-            System.out.println("You found nothing searching " + searchTarget);
-
+            }        
         }
+            System.out.println("You found nothing searching the " + searchTarget);
     }
 
     private void unlockDoor(Command command) {
