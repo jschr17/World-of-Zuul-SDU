@@ -241,19 +241,17 @@ public class Game {
             }
         } else if (commandWord == CommandWord.TAKE) {
             addInventory(command);
-        } else if (commandWord == CommandWord.UNLOCK) {
-            unlockDoor(command);
-            quizToOpenDoor(command);
         } else if (commandWord == CommandWord.DROP) {
             removeFromInventory(command);
         } else if (commandWord == CommandWord.STATUS) {
             checkStatus();
         } else if (commandWord == CommandWord.USE) {
             useItem(command);
+            unlockDoor(command);
+            quizToOpenDoor(command);
+            wantToQuit = activate(command);
         } else if (commandWord == CommandWord.TAKEDMG) {
             takeDMG(command);
-        } else if (commandWord == CommandWord.ACTIVATE) {
-            wantToQuit = activate(command);
         } else if (commandWord == CommandWord.TALK) {
             talk(command);
         } else if (commandWord == CommandWord.ATTACK){
