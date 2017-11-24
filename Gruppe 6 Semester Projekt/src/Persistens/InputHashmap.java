@@ -1,9 +1,12 @@
 package Persistens;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,18 +19,21 @@ import java.util.HashMap;
 public class InputHashmap {
 
     private final String filePath = "files/text.txt";     // sets the filepath based on the projectfolder else it can be set from scratch like C:/Users/Documents/......
-    private HashMap<String, String> textMap;  // crates a hasmap for storing keys and their corresponding string value
+    private static HashMap<String, String> textMap;  // crates a hasmap for storing keys and their corresponding string value
     String line;
 
     // Constructor that initiates the HashMap that is needed to import the text into the game.
-    public InputHashmap() throws IOException {
+    public InputHashmap(){
         createTextMap();
     }
 
     // the creations of the hasmap by reading the file
-    private void createTextMap() throws IOException {
+    private void createTextMap() {
         textMap = new HashMap<>();      // initiation of the hashmap
-        BufferedReader reader = new BufferedReader(new FileReader(filePath));  // the file is read by a FileReader which is wrapped in a bufferedReader to read one line of a time.
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(filePath)); // the file is read by a FileReader which is wrapped in a bufferedReader to read one line of a time.
+        
         while ((line = reader.readLine()) != null) { // while-loop that operands on each line of the text file
             String[] parts = line.split(":", 2);    // creates a string array that splits the line into 2 at the first occurrence of :
             {
@@ -36,10 +42,15 @@ public class InputHashmap {
                 textMap.put(key, value);    // the key and varable is assigne to the hasmap
             }
         }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(InputHashmap.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(InputHashmap.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // method for getting the value(the text that is the descriptions.) out of the hashmap
-    public String getText(String key) {
+    static public String getText(String key) {
         return textMap.get(key);
     }
 }

@@ -14,6 +14,7 @@ import Acquaintance.IData;
  */
 public class PersistenceFasade implements IData{
     DataHighscore dataHs = new DataHighscore();
+    InputHashmap textIn = new InputHashmap();
     
     
     
@@ -25,5 +26,10 @@ public class PersistenceFasade implements IData{
     @Override
     public ArrayList loadHighscore(){
         return dataHs.loadHighscore();
+        }
+    
+    @Override
+    public String getDescriptionText(String key){
+        return InputHashmap.getText(key);
     }
 }

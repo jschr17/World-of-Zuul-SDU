@@ -1,6 +1,5 @@
 package Logic;
 
-import Persistens.*;
 import java.io.IOException;
 
 import java.awt.Desktop;
@@ -13,7 +12,6 @@ import java.util.Scanner;
 // the Class that contains the specifics in the game and assigns values to the initialized constructors
 public class Game {
 
-    InputHashmap text = new InputHashmap();
     private Parser parser;  //declares a parser objekt, so the game can read inputs
     private Room currentRoom;   // initialises a starting room
     private Player player = new Player(100, 100);
@@ -38,12 +36,12 @@ public class Game {
 
 
         // The initialication of the room objects
-        medbay = new Room("medbay", text.getText("medbay"));
-        keyRoom = new Room("keyRoom", text.getText("keyRoom"));
-        armoury = new Room("armoury", text.getText("armory"));
-        hallway = new Room("hallway", text.getText("hallway"));
-        communicationRoom = new Room("communicationRoom", text.getText("communicationRoom"));
-        airlock = new Room("airlock", text.getText("airlock"));
+        medbay = new Room("medbay", LogicFasade.getDescriptionText("medbay"));
+        keyRoom = new Room("keyRoom", LogicFasade.getDescriptionText("keyRoom"));
+        armoury = new Room("armoury", LogicFasade.getDescriptionText("armory"));
+        hallway = new Room("hallway", LogicFasade.getDescriptionText("hallway"));
+        communicationRoom = new Room("communicationRoom", LogicFasade.getDescriptionText("communicationRoom"));
+        airlock = new Room("airlock", LogicFasade.getDescriptionText("airlock"));
 
         // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
         medbay.setExit("north", keyRoom);
@@ -676,11 +674,11 @@ public class Game {
             if (command.getSecondWord().equals("switch") && i.getName().equals("switch")) {
                 if (player.hasCalledHelp() == true) {                                       // the call for help bool is changed when the radio in com-room is used
                     player.setWonGame(true);
-                    System.out.println(text.getText("airlocksuccess"));
+                    System.out.println(LogicFasade.getDescriptionText("airlocksuccess"));
                     return true;
 
                 } else {
-                    System.out.println(text.getText("airlockfail"));
+                    System.out.println(LogicFasade.getDescriptionText("airlockfail"));
                     return true;
 
                 } //logic for what hapends when radio is activated
@@ -778,21 +776,21 @@ public class Game {
     // method for the commandword talk
     private void talk(Command command) {
         if (!command.hasSecondWord()) {                         //What hapends if no second word is given
-            System.out.println(text.getText("talkNoArgument"));
+            System.out.println(LogicFasade.getDescriptionText("talkNoArgument"));
             return;
 
             // logic for how britneay responds
             // maby current room argument can be omittet? 
         } else if (command.getSecondWord().equalsIgnoreCase("britney") && currentRoom.getNPC("britney") == britney) {
             if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == false) { //responds befor radi is fixed
-                System.out.println(text.getText("britney1"));
+                System.out.println(LogicFasade.getDescriptionText("britney1"));
             } else if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == true && player.hasCalledHelp() == false) { //respons after radi is fixed
-                System.out.println(text.getText("britney2"));
+                System.out.println(LogicFasade.getDescriptionText("britney2"));
             } else if (currentRoom == communicationRoom && player.hasCalledHelp()) {    //responds after help is called sets evacuate boolean true
-                System.out.println(text.getText("britney3"));
+                System.out.println(LogicFasade.getDescriptionText("britney3"));
                 britney.setToldToEvacuate(Boolean.TRUE);
             } else if (currentRoom == airlock) {    // response in airlock
-                System.out.println(text.getText("britney4"));
+                System.out.println(LogicFasade.getDescriptionText("britney4"));
             } else{
                 System.out.println("Britney isn't here.");
             }
