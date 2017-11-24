@@ -14,11 +14,11 @@ import javafx.stage.Stage;
  * @author goope
  */
 public class SemesterProjektFX extends Application {
-    
+    private String fxmlDocument = "FXMLmedbay.fxml";
     @Override
     public void start(Stage stage) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));          
+        Parent root = FXMLLoader.load(getClass().getResource(fxmlDocument));    
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -31,5 +31,12 @@ public class SemesterProjektFX extends Application {
         launch(args);
         //Closes the rest of the program, after you have exited the GUI.
         System.exit(0);
-    }    
+    }
+    public String getFXML(){
+        return fxmlDocument;
+    }
+    public String setFXML(String newFXML){
+        this.fxmlDocument = newFXML;
+        return fxmlDocument;
+    }
   }

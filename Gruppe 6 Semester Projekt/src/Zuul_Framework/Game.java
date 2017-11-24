@@ -17,7 +17,7 @@ public class Game {
     private Parser parser;  //declares a parser objekt, so the game can read inputs
     public Room currentRoom;   // initialises a starting room
     public Player player = new Player(100, 100);
-    private int inventorySpace = 3;
+    public int inventorySpace = 3;
 
     public Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
     private Immovable counter, device, table, weaponCabinet, bookcase, 

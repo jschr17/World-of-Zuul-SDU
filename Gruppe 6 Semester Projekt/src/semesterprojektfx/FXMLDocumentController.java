@@ -9,14 +9,23 @@ import Zuul_Framework.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import static java.util.Optional.empty;
 import java.util.logging.*;
 import javafx.beans.property.*;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 /**
  *
@@ -30,6 +39,9 @@ public class FXMLDocumentController implements Initializable {
     private Command command;
     
     private int flag = 0;
+    
+    SemesterProjektFX starter = new SemesterProjektFX();
+    Stage stage;
     
     @FXML
     TextArea textOutArea;
@@ -68,16 +80,48 @@ public class FXMLDocumentController implements Initializable {
     private Button takeButton;
     @FXML
     private Button dropButton;
+    @FXML
+    private ImageView medkit;
+    @FXML
+    private ImageView oxygen;
+    @FXML
+    private ImageView mainMap1;
+    @FXML
+    private ImageView playerImg1;
+    @FXML
+    private ImageView monster;
+    @FXML
+    private ImageView eastDoor;
+    @FXML
+    private ImageView northDoor1;
+    @FXML
+    private ImageView southDoor;
+    @FXML
+    private Pane medbay;
+    @FXML
+    private AnchorPane mainPane;
+    @FXML
+    private StackPane sceneStackPane;
+    @FXML
+    private ImageView playerImg;
+    @FXML
+    private ImageView tableImg;
+    @FXML
+    private ImageView northDoor;
+    @FXML
+    private Pane keyRoom;
     
     //This method controlls the functions of the player movement buttons, and the
     //help button.
     @FXML
-    private void handleButtonAction(ActionEvent event) {
+    private void handleButtonAction(ActionEvent event) throws Exception {
         String toAppend = "";
+        roomInventory.getItems().clear(); 
         if (event.getSource() == northButton) {
             textOutArea.clear();
             command.setSecondWord("north");          
             toAppend = game.goRoom(command);
+//            roomChange(event);
         }
         else if (event.getSource() == eastButton) {
             textOutArea.clear();
@@ -119,37 +163,43 @@ public class FXMLDocumentController implements Initializable {
             }
             listProperty1.set(FXCollections.observableList(roomInv));
             roomInventory.itemsProperty().bind(listProperty1);    
-//            if (game.player.getInventory() != null) {
-//                for (Item i : game.player.getInventory()) {
-//                        playerInv.add(i.getName());
-//                }               
-//            }
-//            else System.out.println("Nothing here.");
-//            listProperty2.set(FXCollections.observableList(playerInv));
-//            playerInventory.itemsProperty().bind(listProperty2);
+            for (Item i : game.currentRoom.getItemList()){
+                if (i != null) {
+                    roomInv.add(i.getName());
+                }
+            }
         }
         else if (event.getSource() == inspectButton) {
            String immovableName = roomInventory.getSelectionModel().getSelectedItem();
         }
     }
     
+    //This method controlls the take buttons actions, on how to deal with the items
+    //in the room and player inventory.
     @FXML
     private void takeInventoryAction(ActionEvent event){
         String itemName = roomInventory.getSelectionModel().getSelectedItem();
         if (event.getSource() == takeButton) {
-//            for (Immovable i : game.currentRoom.getInteractList()){
-//               game.player.addToInventory(i.getItemWithName(itemName));
-//            } 
                 if (itemName == null) {
-                    System.out.println("Is null");
+                    return;
                 }
-                else{
+                else if (playerInv.size() < game.inventorySpace) {
                     playerInv.add(itemName);
                     command.setSecondWord(itemName);
                     game.addInventory(command);
+                    roomInventory.getItems().remove(itemName);
+                    textOutArea.appendText("\nYou have added " + itemName + " to your inventory.");
+                    if (itemName.equalsIgnoreCase(medkit.getId())) {
+                        medkit.setVisible(false);
+                    }
+                    else if (itemName.equalsIgnoreCase(oxygen.getId())) {
+                        oxygen.setVisible(false);
+                    }
+                }
+                else if (playerInv.size() >= game.inventorySpace) {
+                    textOutArea.appendText("\nNo more space in your inventoy.");
                 }
             }
-            roomInventory.getItems().remove(itemName);
             listProperty2.set(FXCollections.observableList(playerInv));
             playerInventory.itemsProperty().bind(listProperty2);
         }
@@ -176,10 +226,12 @@ public class FXMLDocumentController implements Initializable {
         }
         parser = new Parser();
         command = parser.getCommand();        
+        stage = new Stage();
+        medbay.toFront();
     } 
+    
     //Reconsider this method later!!!! Function is to print the welcome text when
     //the mouse enters the application area.
-    @FXML
     private void mouseEnter(MouseEvent event) {
         if (flag == 0) {
             textOutArea.appendText(game.printWelcome());
@@ -199,5 +251,39 @@ public class FXMLDocumentController implements Initializable {
         roomInv.add(itemName);
         listProperty1.set(FXCollections.observableList(roomInv));
         roomInventory.itemsProperty().bind(listProperty1);  
+        
+        if (itemName.equalsIgnoreCase(medkit.getId())) {
+            medkit.setVisible(true);
+        }
+        else if (itemName.equalsIgnoreCase(oxygen.getId())){
+            oxygen.setVisible(true);
+        }
+    }
+    
+    @FXML
+    private void roomChange(ActionEvent event) throws IOException{
+//        String _roomName = "FXML" + roomName + ".fxml";
+//        System.out.println(_roomName);
+//        if (!starter.getFXML().equalsIgnoreCase(_roomName)) {   
+//            System.out.println("test1");
+//            starter.setFXML(_roomName);
+//            starter.start(stage);
+//            System.out.println("test2");
+//        }
+//        System.out.println("Test 1");
+//        if (game.currentRoom.getName().equalsIgnoreCase("keyRoom")) {
+//            System.out.println("Test 2");
+//            
+//            Parent root2 = FXMLLoader.load(getClass().getResource("FXMLkeyRoom.fxml"));   
+//            System.out.println("test 3");
+//            Scene scene2 = new Scene(root2);
+//            Stage newStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//            newStage.setScene(scene2);
+//            newStage.show();            
+//            System.out.println("Test 4");
+//        }
+        
+        
+
     }
 }
