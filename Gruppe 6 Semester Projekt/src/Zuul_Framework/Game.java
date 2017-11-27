@@ -297,7 +297,7 @@ public class Game {
     }
 
     //Returns the description of the word after the commandWord.
-    private void getItemDescription(Command command) {
+    public void getItemDescription(Command command) {
         if (!command.hasSecondWord()) {
             //Hvis der ikke er to ord, understående bliver printet og man
             //bliver bedt om at prøve igen.

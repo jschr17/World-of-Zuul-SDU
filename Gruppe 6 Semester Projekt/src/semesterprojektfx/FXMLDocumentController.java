@@ -153,9 +153,6 @@ public class FXMLDocumentController implements Initializable {
             textOutArea.clear();
             toAppend = helpText();
         }
-        else if (event.getSource() == inspectButton) {
-            
-        }
         toAppend += System.lineSeparator();
         textOutArea.appendText(toAppend);
     }
@@ -167,13 +164,13 @@ public class FXMLDocumentController implements Initializable {
     private void listAction(ActionEvent event){
         if (event.getSource() == searchButton){
             roomInv.clear();
+            listProperty1.set(FXCollections.observableList(roomInv));
+            roomInventory.itemsProperty().bind(listProperty1);  
             for (Immovable i : game.currentRoom.getInteractList()){
                 if (i.getItems() != null) {
                     roomInv.add(i.getItems().getName());   
                 }
-            }
-            listProperty1.set(FXCollections.observableList(roomInv));
-            roomInventory.itemsProperty().bind(listProperty1);    
+            }  
             for (Item i : game.currentRoom.getItemList()){
                 if (i != null) {
                     roomInv.add(i.getName());
@@ -181,7 +178,10 @@ public class FXMLDocumentController implements Initializable {
             }
         }
         else if (event.getSource() == inspectButton) {
-           String immovableName = roomInventory.getSelectionModel().getSelectedItem();
+           String itemName = roomInventory.getSelectionModel().getSelectedItem();
+           textOutArea.clear();
+           command.setSecondWord(itemName);
+           inspectText(command);
         }
     }
     
@@ -226,6 +226,10 @@ public class FXMLDocumentController implements Initializable {
         return game.printHelp();
     }
     
+    private void inspectText(Command command){
+        game.getItemDescription(command);
+    }
+    
     //This method initializes all the relevant classes that are needed by the GUI
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -258,14 +262,19 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void dropButtonAction(ActionEvent event) {        
-        String itemName = playerInventory.getSelectionModel().getSelectedItem();
-        command.setSecondWord(itemName);
-        game.removeFromInventory(command);
-        playerInventory.getItems().remove(itemName);
-        roomInv.add(itemName);
+    private void dropButtonAction(ActionEvent event) {
+        String itemName = "";
+        if (playerInventory.getSelectionModel().getSelectedItem() != null) {
+            itemName = playerInventory.getSelectionModel().getSelectedItem();
+        }
         listProperty1.set(FXCollections.observableList(roomInv));
-        roomInventory.itemsProperty().bind(listProperty1);  
+        roomInventory.itemsProperty().bind(listProperty1);
+        if (itemName != null) {
+            command.setSecondWord(itemName);
+            game.removeFromInventory(command);
+            playerInventory.getItems().remove(itemName);
+            roomInv.add(itemName);
+        }
         
         if (itemName.equalsIgnoreCase(medkit.getId())) {
             medkit.setVisible(true);
