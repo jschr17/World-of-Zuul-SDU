@@ -14,7 +14,7 @@ import javafx.stage.Stage;
  * @author goope
  */
 public class SemesterProjektFX extends Application {
-    private String fxmlDocument = "FXMLmedbay.fxml";
+    private String fxmlDocument = "FXMLDocument.fxml";
     @Override
     public void start(Stage stage) throws Exception {
 
