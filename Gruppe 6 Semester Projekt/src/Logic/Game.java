@@ -12,7 +12,8 @@ import java.util.Scanner;
  */
 // the Class that contains the specifics in the game and assigns values to the initialized constructors
 public class Game {
-
+    private SaveFile save;
+    
     InputHashmap text = new InputHashmap();
     private Parser parser;  //declares a parser objekt, so the game can read inputs
     private Room currentRoom;   // initialises a starting room
@@ -265,9 +266,13 @@ public class Game {
             else if (currentRoom.getNPC("monster") == null){
                 System.out.println("No monster here.");
             }
+            
             else {
                 combat();
             }
+        }
+        else if(commandWord == CommandWord.SAVE){
+            save();
         }
 
         return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
@@ -897,4 +902,11 @@ public class Game {
     
         // end of method.
     }
+
+    private void save() {
+        save = new SaveFile(this, this.player);
+        save.SaveString();
+        
+    }
 }
+   

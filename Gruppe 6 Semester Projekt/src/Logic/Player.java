@@ -23,7 +23,7 @@ public class Player {
     
     /* By Mads */
     public static String playerName = "Mads"; // Non-negotiable
-    public volatile int maxHP = hp;    
+    public int maxHP = hp;    
     // public int currentHP = maxHP;
     public int maxOxygen = air;
     // public int currentOxygen = maxOxygen; 

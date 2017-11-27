@@ -18,7 +18,7 @@ public enum CommandWord
     LOOK("look"), BREAK("break"), CHECKBAG("check-bag"), 
     UNLOCK("unlock"),STATUS("status"),TAKEDMG("takedmg"),ACTIVATE("activate"), 
 
-    FLEE("flee"), ATTACK("attack"), TALK("talk");
+    FLEE("flee"), ATTACK("attack"), TALK("talk"), SAVE("save");
 
     
     private String commandString;   // all the above constants refers back to this variable
