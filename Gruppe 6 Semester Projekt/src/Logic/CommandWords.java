@@ -1,4 +1,4 @@
-package Zuul_Framework;
+    package Logic;
 
 import java.util.HashMap;
 
@@ -41,16 +41,9 @@ public class CommandWords
     public String showAll() 
     {
         String words = " ";
-//        int i = 0;
-//        for(String command : validCommands.keySet()) {  // for-each loop that prints each command value in the HashMap
-//            System.out.print(command + "  ");
-//        }
-//        System.out.println();
             for(String command : validCommands.keySet()) {  // for-each loop that prints each command value in the HashMap
-                //System.out.print(command + "  ");
                 words += command + " ";
             }
-        //System.out.println();
         return words;
     }
 }

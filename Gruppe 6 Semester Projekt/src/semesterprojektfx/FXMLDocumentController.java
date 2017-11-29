@@ -5,7 +5,7 @@
  */
 package semesterprojektfx;
 
-import Zuul_Framework.*;
+import Logic.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -135,7 +135,6 @@ public class FXMLDocumentController implements Initializable {
             textOutArea.clear();
             command.setSecondWord("north");          
             toAppend = game.goRoom(command);
-//            System.out.println(game.currentRoom.getName());
             roomChange();
         }
         else if (event.getSource() == eastButton) {
@@ -225,7 +224,7 @@ public class FXMLDocumentController implements Initializable {
     //A test method for the functionality of the main viewport
     @FXML
     private void mouseClickAction(MouseEvent event) {
-        textOutArea.setText("You clicked!");
+        textOutArea.setText("You clicked me, how naughty!");
     } 
     
     //Gets the help text string from the game class, so it can be used by the GUI
@@ -245,24 +244,12 @@ public class FXMLDocumentController implements Initializable {
         parser = new Parser();
         command = parser.getCommand(); 
         
+        textOutArea.appendText("\n");
         textOutArea.appendText(game.printWelcome());
         textOutArea.appendText("\n");
-        textOutArea.appendText("\n");            
-        textOutArea.appendText(game.currentRoom.getLongDescription());
+        textOutArea.appendText("\n");                      
         flag = 1;
     } 
-    
-    //Reconsider this method later!!!! Function is to print the welcome text when
-    //the mouse enters the application area.
-    private void mouseEnter(MouseEvent event) {
-        if (flag == 0) {
-            textOutArea.appendText(game.printWelcome());
-            textOutArea.appendText("\n");
-            textOutArea.appendText("\n");            
-            textOutArea.appendText(game.currentRoom.getLongDescription());
-            flag = 1;
-        }
-    }
 
     @FXML
     private void dropButtonAction(ActionEvent event) {        
@@ -283,26 +270,6 @@ public class FXMLDocumentController implements Initializable {
     }
     
     private void roomChange() throws IOException{
-//        String _roomName = "FXML" + roomName + ".fxml";
-//        System.out.println(_roomName);
-//        if (!starter.getFXML().equalsIgnoreCase(_roomName)) {   
-//            System.out.println("test1");
-//            starter.setFXML(_roomName);
-//            starter.start(stage);
-//            System.out.println("test2");
-//        }
-//        System.out.println("Test 1");
-//        if (game.currentRoom.getName().equalsIgnoreCase("keyRoom")) {
-//            System.out.println("Test 2");
-//            
-//            Parent root2 = FXMLLoader.load(getClass().getResource("FXMLkeyRoom.fxml"));   
-//            System.out.println("test 3");
-//            Scene scene2 = new Scene(root2);
-//            Stage newStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//            newStage.setScene(scene2);
-//            newStage.show();            
-//            System.out.println("Test 4");
-//        }
         String roomName = game.currentRoom.getName();
         if (roomName.equalsIgnoreCase("medbay")) {
             armory.setVisible(false);
@@ -347,6 +314,9 @@ public class FXMLDocumentController implements Initializable {
             airlock.setVisible(false);  
             communicationRoom.setVisible(true);
         }
-
+    }
+    @FXML
+    private void attackFunction(){
+        
     }
 }

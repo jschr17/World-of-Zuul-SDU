@@ -1,4 +1,4 @@
-package Zuul_Framework;
+package Logic;
 
 /** 
  * @author  Michael Kolling and David J. Barnes
@@ -29,9 +29,6 @@ public class Command
     {
         return secondWord;
     }
-    public void setSecondWord(String word){
-        this.secondWord = word;
-    }
     //Method for validating if a received commanWord corresponds to the commandwords defined in the CommandWord Class
     public boolean isUnknown()
     {
@@ -41,6 +38,9 @@ public class Command
     public boolean hasSecondWord()
     {
         return (secondWord != null);
+    }
+    public void setSecondWord(String newWord){
+        this.secondWord = newWord;
     }
 }
 
