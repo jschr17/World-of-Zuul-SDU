@@ -297,41 +297,41 @@ public class Game {
     }
 
     //Returns the description of the word after the commandWord.
-    public void getItemDescription(Command command) {
-        if (!command.hasSecondWord()) {
+    public String getItemDescription(Command command) {
+        String inspectString = "";
+        if (command.hasSecondWord()) {
+            String item = command.getSecondWord();
+            for (Item i : player.getInventory()) {
+                if (i.getName().equals(item)) {
+                   //System.out.println(i.getDescription());
+                    inspectString = i.getDescription();
+                } 
+            }
+            for (Immovable i : currentRoom.getInteractList()) {
+                if (i.getName().equals(item)) {
+                    //System.out.println(i.getDescription());
+                   inspectString = i.getDescription();
+                }
+            }
+            for (NPC n : currentRoom.getNPCList()) {
+                if (n.getName().equals(item)) {
+                    //System.out.println(n.getDescription());
+                    inspectString = n.getDescription();
+                } 
+            }
+            // These lines mess up the inspect button in the GUI
+            /*if (item != currentRoom.getInteractList().toString() && item != player.getInventory().toString()) {
+                //System.out.println("You can't inspect that!");
+                inspectString = "You can't inspect that!";
+            }*/
+            }
+        else {
             //Hvis der ikke er to ord, understående bliver printet og man
             //bliver bedt om at prøve igen.
-            System.out.println("Which item?");
-            return;
+            //System.out.println("Which item?");
+            inspectString = "Which item?";
         }
-        String item = command.getSecondWord();
-        for (Item i : player.getInventory()) {
-            if (i.getName().equals(item)) {
-                System.out.println(i.getDescription());
-                return;
-            } else if (i.getName() != item) {
-                continue;
-            }
-        }
-        for (Immovable i : currentRoom.getInteractList()) {
-            if (i.getName().equals(item)) {
-                System.out.println(i.getDescription());
-                return;
-            } else if (i.getName() != item) {
-                continue;
-            }
-        }
-        for (NPC n : currentRoom.getNPCList()) {
-            if (n.getName().equals(item)) {
-                System.out.println(n.getDescription());
-                return;
-            } else {
-                continue;
-            }
-        }
-        if (item != currentRoom.getInteractList().toString() && item != player.getInventory().toString()) {
-            System.out.println("You can't inspect that!");
-        }
+        return inspectString;
     }
 
     //Breaks the specified object by running the breakTable method

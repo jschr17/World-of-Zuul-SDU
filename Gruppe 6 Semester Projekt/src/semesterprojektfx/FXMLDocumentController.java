@@ -169,19 +169,34 @@ public class FXMLDocumentController implements Initializable {
             for (Immovable i : game.currentRoom.getInteractList()){
                 if (i.getItems() != null) {
                     roomInv.add(i.getItems().getName());   
-                }
-            }  
-            for (Item i : game.currentRoom.getItemList()){
-                if (i != null) {
-                    roomInv.add(i.getName());
+                    roomInv.add(i.getName());   
                 }
             }
+            for (NPC n : game.currentRoom.getNPCList()){
+                if (!game.currentRoom.getNPCList().isEmpty()){
+                    roomInv.add(n.getName());
+                }  
+            }
         }
-        else if (event.getSource() == inspectButton) {
-           String itemName = roomInventory.getSelectionModel().getSelectedItem();
-           textOutArea.clear();
-           command.setSecondWord(itemName);
-           inspectText(command);
+    }
+    
+    /*
+    *   This method deals with the inspect button.
+    */
+    @FXML
+    private void inspectSelectionAction(ActionEvent event){
+        String selectName = "selectName empty";
+        if (event.getSource() == inspectButton) {
+            // if, else if statements check which inventory the item is selected from.
+            if (!roomInventory.getSelectionModel().isEmpty()){
+                selectName = roomInventory.getSelectionModel().getSelectedItem();
+            } else if (!playerInventory.getSelectionModel().isEmpty()) {
+                selectName = playerInventory.getSelectionModel().getSelectedItem();
+            }
+            //textOutArea.clear();
+            command.setSecondWord(selectName);
+            //System.out.println(inspectText(command));
+            textOutArea.appendText("\n" + inspectText(command) + ".");
         }
     }
     
@@ -210,10 +225,12 @@ public class FXMLDocumentController implements Initializable {
                 else if (playerInv.size() >= game.inventorySpace) {
                     textOutArea.appendText("\nNo more space in your inventoy.");
                 }
-            }
-            listProperty2.set(FXCollections.observableList(playerInv));
-            playerInventory.itemsProperty().bind(listProperty2);
+                
         }
+        listProperty2.set(FXCollections.observableList(playerInv));
+        playerInventory.itemsProperty().bind(listProperty2);
+    }
+        
     
     //A test method for the functionality of the main viewport
     @FXML
@@ -226,8 +243,8 @@ public class FXMLDocumentController implements Initializable {
         return game.printHelp();
     }
     
-    private void inspectText(Command command){
-        game.getItemDescription(command);
+    private String inspectText(Command command){
+        return game.getItemDescription(command);
     }
     
     //This method initializes all the relevant classes that are needed by the GUI
