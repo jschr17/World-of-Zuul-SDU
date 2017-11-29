@@ -11,82 +11,198 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.StackPane?>
 
 <AnchorPane fx:id="mainPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="semesterprojektfx.FXMLDocumentController">
    <children>
-      <StackPane fx:id="sceneStackPane" prefHeight="332.0" prefWidth="395.0">
+      <Pane fx:id="communicationRoom" prefHeight="332.0" prefWidth="395.0" visible="false">
          <children>
-            <Pane fx:id="medbay" prefHeight="329.0" prefWidth="395.0">
-               <children>
-                  <ImageView fx:id="mainMap" fitHeight="328.0" fitWidth="395.0" layoutY="2.0" onMouseClicked="#mouseClickAction" pickOnBounds="true">
-                     <image>
-                        <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/medbay%20tiles.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="playerImg" fitHeight="72.0" fitWidth="70.0" layoutX="163.0" layoutY="198.0" pickOnBounds="true">
-                     <image>
-                        <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/Character%20-%20mads.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="tableImg" fitHeight="70.0" fitWidth="86.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/bord.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="medkit" fitHeight="150.0" fitWidth="20.0" layoutX="25.0" layoutY="159.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/medkit.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="oxygen" fitHeight="150.0" fitWidth="50.0" layoutX="345.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/oxegen%20tank.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="northDoor" fitHeight="150.0" fitWidth="100.0" layoutX="148.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/NorthDoor.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
-            <Pane fx:id="keyRoom" opacity="0.0" prefHeight="328.0" prefWidth="395.0">
-               <children>
-                  <ImageView fx:id="mainMap1" fitHeight="328.0" fitWidth="395.0" onMouseClicked="#mouseClickAction" pickOnBounds="true">
-                     <image>
-                        <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/hallway%20floor.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="playerImg1" fitHeight="72.0" fitWidth="70.0" layoutX="163.0" layoutY="142.0" pickOnBounds="true">
-                     <image>
-                        <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/Character%20-%20mads.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="monster" fitHeight="70.0" fitWidth="86.0" layoutX="14.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/monster%20char.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="eastDoor" fitHeight="150.0" fitWidth="100.0" layoutX="295.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/EastDoor.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="northDoor1" fitHeight="150.0" fitWidth="100.0" layoutX="148.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/NorthDoor.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="southDoor" fitHeight="150.0" fitWidth="100.0" layoutX="148.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/SouthDoor.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
+            <ImageView fitHeight="332.0" fitWidth="395.0" pickOnBounds="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/hallway%20floor.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="87.0" fitWidth="85.0" layoutX="155.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/PC_Radio.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="-8.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/WestDoor.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="148.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true" rotate="180.0">
+               <image>
+                  <Image url="@../../GUI_pics/SecretOpenDoor.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="72.0" fitWidth="70.0" layoutX="240.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/britney%20char1%20(1).png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="72.0" fitWidth="70.0" layoutX="85.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/Character%20-%20mads.png" />
+               </image>
+            </ImageView>
          </children>
-      </StackPane>
+      </Pane>
+      <Pane fx:id="airlock" prefHeight="332.0" prefWidth="395.0" visible="false">
+         <children>
+            <ImageView fitHeight="332.0" fitWidth="395.0" pickOnBounds="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/airlock%20floor.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="148.0" layoutY="245.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/SouthDoor.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="72.0" fitWidth="70.0" layoutX="163.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/Character%20-%20mads.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="hallway" layoutX="1.0" prefHeight="332.0" prefWidth="395.0" visible="false">
+         <children>
+            <ImageView fitHeight="332.0" fitWidth="395.0" pickOnBounds="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/hallway%20floor.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="302.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/EastDoor.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="148.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/NorthDoor.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="148.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/SouthDoor.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="72.0" fitWidth="70.0" layoutX="163.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/Character%20-%20mads.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="armory" prefHeight="332.0" prefWidth="395.0" visible="false">
+         <children>
+            <ImageView fitHeight="332.0" fitWidth="395.0" pickOnBounds="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/hallway%20floor.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="-6.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/WestDoor.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="secretDoor" fitHeight="150.0" fitWidth="100.0" layoutX="148.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/SecretClosedDoor.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="breakableTable" fitHeight="70.0" fitWidth="86.0" layoutX="163.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/bord.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="72.0" fitWidth="70.0" layoutX="163.0" layoutY="181.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/Character%20-%20mads.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="rifleImg" fitHeight="63.0" fitWidth="50.0" layoutX="331.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/rifle%20v1.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="noteImg" fitHeight="37.0" fitWidth="43.0" layoutX="180.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/note%20zuul.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="medbay" prefHeight="329.0" prefWidth="395.0">
+         <children>
+            <ImageView fx:id="mainMap" fitHeight="328.0" fitWidth="395.0" layoutY="2.0" onMouseClicked="#mouseClickAction" pickOnBounds="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/medbay%20tiles.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="playerImg" fitHeight="72.0" fitWidth="70.0" layoutX="163.0" layoutY="198.0" pickOnBounds="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/Character%20-%20mads.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="tableImg" fitHeight="70.0" fitWidth="86.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/bord.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="medkit" fitHeight="150.0" fitWidth="20.0" layoutX="25.0" layoutY="159.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/medkit.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="oxygen" fitHeight="150.0" fitWidth="50.0" layoutX="345.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/oxegen%20tank.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="northDoor" fitHeight="150.0" fitWidth="100.0" layoutX="148.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/NorthDoor.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="keyRoom" prefHeight="328.0" prefWidth="395.0" visible="false">
+         <children>
+            <ImageView fx:id="mainMap1" fitHeight="328.0" fitWidth="395.0" onMouseClicked="#mouseClickAction" pickOnBounds="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/hallway%20floor.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="playerImg1" fitHeight="72.0" fitWidth="70.0" layoutX="163.0" layoutY="142.0" pickOnBounds="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/Character%20-%20mads.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="monster" fitHeight="70.0" fitWidth="86.0" layoutX="14.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/monster%20char.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="eastDoor" fitHeight="150.0" fitWidth="100.0" layoutX="295.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/EastDoor.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="northDoor1" fitHeight="150.0" fitWidth="100.0" layoutX="148.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/NorthDoor.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="southDoor" fitHeight="150.0" fitWidth="100.0" layoutX="148.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/SouthDoor.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
       <Group layoutX="339.0" layoutY="199.0">
          <children>
             <Button fx:id="eastButton" layoutX="165.0" layoutY="189.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="50.0" text="East" />

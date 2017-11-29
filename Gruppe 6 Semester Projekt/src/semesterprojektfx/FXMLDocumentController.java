@@ -122,6 +122,8 @@ public class FXMLDocumentController implements Initializable {
     private Pane hallway;
     @FXML
     private Pane airlock;
+    @FXML
+    private Pane communicationRoom;
     
     //This method controlls the functions of the player movement buttons, and the
     //help button.
@@ -338,7 +340,12 @@ public class FXMLDocumentController implements Initializable {
             airlock.setVisible(true);
         }
         else if (roomName.equalsIgnoreCase("communicationRoom")) {
-            
+            armory.setVisible(false);
+            keyRoom.setVisible(false);
+            medbay.setVisible(false); 
+            hallway.setVisible(false);
+            airlock.setVisible(false);  
+            communicationRoom.setVisible(true);
         }
 
     }
