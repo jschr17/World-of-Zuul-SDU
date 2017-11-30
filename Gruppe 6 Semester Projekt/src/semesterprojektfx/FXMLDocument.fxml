@@ -203,20 +203,23 @@
             </ImageView>
          </children>
       </Pane>
-      <Group layoutX="339.0" layoutY="199.0">
+      <Group layoutX="338.0" layoutY="185.0">
          <children>
             <Button fx:id="eastButton" layoutX="165.0" layoutY="189.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="50.0" text="East" />
             <Button fx:id="southButton" layoutX="116.0" layoutY="204.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="50.0" text="South" />
             <Button fx:id="northButton" layoutX="116.0" layoutY="175.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="50.0" text="North" />
             <Button fx:id="westButton" layoutX="68.0" layoutY="189.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="50.0" text="West" />
             <Button fx:id="helpButton" layoutX="117.0" layoutY="233.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="50.0" text="Help" />
-            <Button fx:id="searchButton" layoutX="82.0" layoutY="262.0" mnemonicParsing="false" onAction="#listAction" prefHeight="29.0" prefWidth="58.0" text="Search" />
-            <Button fx:id="inspectButton" layoutX="145.0" layoutY="262.0" mnemonicParsing="false" onAction="#listAction" prefHeight="29.0" prefWidth="58.0" text="Inspect" />
+            <Button fx:id="searchButton" layoutX="63.0" layoutY="262.0" mnemonicParsing="false" onAction="#listAction" prefHeight="29.0" prefWidth="58.0" text="Search" />
+            <Button fx:id="inspectButton" layoutX="161.0" layoutY="262.0" mnemonicParsing="false" onAction="#listAction" prefHeight="29.0" prefWidth="58.0" text="Inspect" />
             <Button fx:id="takeButton" layoutX="67.0" layoutY="233.0" mnemonicParsing="false" onAction="#takeInventoryAction" prefHeight="29.0" prefWidth="50.0" text="Take" />
             <Button fx:id="dropButton" layoutX="165.0" layoutY="233.0" mnemonicParsing="false" onAction="#dropButtonAction" prefHeight="29.0" prefWidth="50.0" text="Drop" />
+            <Button fx:id="attackButton" layoutX="116.0" layoutY="291.0" mnemonicParsing="false" onAction="#attackFunction" prefHeight="29.0" prefWidth="50.0" text="Attack" />
+            <Button fx:id="useButton" layoutX="121.0" layoutY="262.0" mnemonicParsing="false" onAction="#useAction" prefHeight="29.0" prefWidth="40.0" text="Use" />
+            <Button fx:id="statusButton" layoutX="67.0" layoutY="291.0" mnemonicParsing="false" onAction="#statusButtonAction" prefHeight="29.0" prefWidth="50.0" text="Status" />
          </children>
       </Group>
-      <TextArea fx:id="textOutArea" editable="false" layoutX="1.0" layoutY="337.0" prefHeight="191.0" prefWidth="395.0" wrapText="true">
+      <TextArea fx:id="textOutArea" editable="false" layoutX="1.0" layoutY="337.0" prefHeight="177.0" prefWidth="395.0" wrapText="true">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -246,7 +249,10 @@
       </Group>
       <Group layoutX="558.0" layoutY="344.0" pickOnBounds="true">
          <children>
-            <ListView fx:id="playerInventory" editable="true" fixedCellSize="20.0" layoutY="17.0" prefHeight="160.0" prefWidth="200.0" />
+            <ListView fx:id="playerInventory" editable="true" fixedCellSize="20.0" layoutY="17.0" prefHeight="160.0" prefWidth="200.0">
+               <padding>
+                  <Insets bottom="5.0" />
+               </padding></ListView>
             <Label text="Player inventory" />
          </children>
       </Group>

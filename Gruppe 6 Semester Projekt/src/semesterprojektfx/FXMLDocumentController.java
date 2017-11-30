@@ -26,6 +26,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.concurrent.Task;
 
 /**
  *
@@ -36,7 +37,9 @@ public class FXMLDocumentController implements Initializable {
     Game game;
     Player player;
     private Parser parser;
-    private Command command;
+    public Command command;
+    private CommandWord commandWord;
+    private Task task;
     
     private int flag = 0;
     
@@ -124,6 +127,12 @@ public class FXMLDocumentController implements Initializable {
     private Pane airlock;
     @FXML
     private Pane communicationRoom;
+    @FXML
+    private Button attackButton;
+    @FXML
+    private Button useButton;
+    @FXML
+    private Button statusButton;
     
     //This method controlls the functions of the player movement buttons, and the
     //help button.
@@ -243,12 +252,21 @@ public class FXMLDocumentController implements Initializable {
         }
         parser = new Parser();
         command = parser.getCommand(); 
+        task = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        };
         
         textOutArea.appendText("\n");
         textOutArea.appendText(game.printWelcome());
         textOutArea.appendText("\n");
         textOutArea.appendText("\n");                      
         flag = 1;
+        
+        hpBarAction();
+        AirBarAction();
     } 
 
     @FXML
@@ -315,8 +333,57 @@ public class FXMLDocumentController implements Initializable {
             communicationRoom.setVisible(true);
         }
     }
+    
     @FXML
-    private void attackFunction(){
-        
+    private void useAction(ActionEvent event){
+        String newWord = playerInventory.getSelectionModel().getSelectedItem();
+        if (!playerInv.isEmpty() && newWord != "rifle") {
+            command.setSecondWord(newWord);
+            textOutArea.appendText("\n" + game.useItem(command));
+            game.useItem(command);  
+            playerInventory.getItems().remove(newWord);
+        }
+        else {
+            textOutArea.appendText("\nYou can't do that.");
+        }
+    }
+    
+    @FXML
+    private void attackFunction(ActionEvent event){
+        if (game.currentRoom.getNPCList().contains(game.keyMonster)) {
+            command.setSecondWord("monster");
+            game.combat(command);
+            if (playerInv.contains("rifle")) {
+                command.setCommandWord(commandWord.USE);
+                command.setSecondWord("rifle");
+                game.combat(command);
+                hpBarAction();
+                String appendText;
+            }
+            else {
+                textOutArea.appendText("\nNo rifle.");
+            }
+        }
+        else if (!game.currentRoom.getNPCList().contains(game.keyMonster)) {
+            textOutArea.appendText("\nNo monster here.");
+        }
+        else {
+            textOutArea.appendText("\nYou can't do that.");
+        }
+    }
+    
+    private void hpBarAction(){
+        double hpProgress = game.player.getCurrentHP() / 100.0;
+        HPbar.setProgress(hpProgress);
+    }
+    private void AirBarAction(){
+        double airProgress = game.player.getCurrentOxygen() / 100.0;
+        AirBar.setProgress(airProgress);
+//        AirBar.setProgress(task.progressProperty().doubleValue());
+    }
+    @FXML
+    private void statusButtonAction(){
+        hpBarAction();
+        AirBarAction();
     }
 }

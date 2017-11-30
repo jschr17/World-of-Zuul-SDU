@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import java.awt.Desktop;
 import java.util.Scanner;
+import semesterprojektfx.FXMLDocumentController;
 
 /**
  * @author Michael Kolling and David J. Barnes
@@ -16,17 +17,20 @@ public class Game {
     InputHashmap text = new InputHashmap();
     private Parser parser;  //declares a parser objekt, so the game can read inputs
     public Room currentRoom;   // initialises a starting room
-    private Player player = new Player(100, 100);
+    public Player player = new Player(100, 100);
     public int inventorySpace = 2;
 
     private Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
     private Immovable counter, device, table, weaponCabinet, bookcase, 
             hiddenpanel, closet, lockedDoor, glassCabinet, airlockPanel, 
             doorLockPanel, radioArray;
-    private NPC britney, keyMonster;
+    public NPC britney, keyMonster;
     private Item sword, medkit, oxygen, gun, rifle, tableleg, key;
     private int enterRoomCounter1, enterRoomCounter2 = 0;
 
+    //private Command command = parser.getCommand();
+    FXMLDocumentController controller = new FXMLDocumentController();
+    
     // constructor for the game class    
     public Game() throws IOException {
         createRooms();
@@ -267,7 +271,7 @@ public class Game {
                 System.out.println("No monster here.");
             }
             else {
-                combat();
+                combat(command);
             }
         }
 
@@ -561,7 +565,7 @@ public class Game {
     }
 
     // This method, handles using ones items, that are in the players inventory
-    private void useItem(Command command) {
+    public String useItem(Command command) {
         String object = command.getSecondWord();
         int air = player.getAir();
         int HP = player.getHp();
@@ -570,7 +574,7 @@ public class Game {
 
         if (!command.hasSecondWord()) {
             System.out.println("Use what?");
-            return;
+            return "Use what?";
         }
         // it checks for the items in the inventory
         for (Item i : player.getInventory()) {
@@ -579,7 +583,7 @@ public class Game {
                     radioArray.setFlag(true);
                     player.removeFromInventory(i);
                     System.out.println("You take the keymodule and slot it into the radio, as soon as the module clicks in place the radio come to life with a static buzz.");
-                    return;
+                    return "You take the keymodule and slot it into the radio, as soon as the module clicks in place the radio come to life with a static buzz.";
             }
             if (i.getName().equalsIgnoreCase(object)){
                 //here it checks an statement, that checks for either the 
@@ -590,12 +594,12 @@ public class Game {
                     System.out.println("You used the " + object + ". It gave you " + i.getAir() + " air.");
                     player.setAir(air + i.getAir());
                     player.removeFromInventory(i);
-                    return;
+                    return "You used the " + object + ". It gave you " + i.getAir() + " air.";
                 } else if (HP < 60 && i.getName().equalsIgnoreCase(medkit)) {
                     System.out.println("You used the " + object + ". It gave you " + i.getHP() + " HP.");
                     player.setHp(HP + i.getHP());
                     player.removeFromInventory(i);
-                    return;
+                    return "You used the " + object + ". It gave you " + i.getHP() + " HP.";
                 }        
                 //these two, makes sure that, when the player uses a medkit/
                 // oxygen, that the players air/HP cant go over 100
@@ -604,29 +608,29 @@ public class Game {
                         System.out.println("You used the: " + object);
                         player.setHp(100);
                         player.removeFromInventory(i);
-                        return;
+//                        return "You used the: " + object;
+                        return "You used the " + object + ". It gave you " + i.getHP() + " HP.";
                     }
                     if (i.getName().equalsIgnoreCase(oxygen)) {
                         System.out.println("You used the:: " + object);
                         player.setAir(100);
                         player.removeFromInventory(i);
-                        return;
+//                        return "You used the: " + object;
+                        return "You used the " + object + ". It gave you " + i.getAir() + " air.";
                     }
-
                 }
                 //Here it checks, if the players hp or air is already full, 
                 // that the player cant use the medkits or oxygen tanks.
                 else if(air >= 100 && i.getName().equalsIgnoreCase(oxygen)){
                         System.out.println("Your oxygen-tank is already full");
-                        return;
+                        return "Your oxygen-tank is already full";
                 }
                 else if(HP >= 100 && i.getName().equalsIgnoreCase(medkit)){
                         System.out.println("Your HP is already full");
-                        return;
+                        return "Your HP is already full";
                 }
                 // use the key at the radio to get it to be able to call help. 
                 // And removes the key from inventory.
-                
             }
         }
         // usikker på om jeg stadig har brug for denne failsafe
@@ -634,12 +638,12 @@ public class Game {
         for (Item i : player.getInventory()) {
             if (!object.equalsIgnoreCase(i.getName())) {
                 System.out.println("Use what??");
-                return;
+                return "Use what??";
             }
-
         }
         // usikker på om jeg har brug for denne failsafe, eller den lige over
         System.out.println("That item isnt in your inventory"); 
+        return "That item isnt in your inventory";
     }
 
     // a test command, to let the player take some dmg
@@ -713,14 +717,13 @@ public class Game {
         }
     }
 
-    public void combat() {
+    public void combat(Command command) {
         if (currentRoom.getNPC("monster") == keyMonster) {
             System.out.println("You are attacked by the monster!");
             CommandWord commandWord;
             String secondWord;
             boolean yourTurn = true;
             while (true) {
-                Command command = parser.getCommand();
                 commandWord = command.getCommandWord();
                 secondWord = command.getSecondWord();
                 if (commandWord == CommandWord.FLEE && yourTurn == true) {
@@ -729,9 +732,11 @@ public class Game {
                     player.setAir(player.getAir() - 40);
                     currentRoom.removeNPC(keyMonster);
                     break;
-                } else if (commandWord == CommandWord.STATUS && yourTurn == true) {
+                }
+                else if (commandWord == CommandWord.STATUS && yourTurn == true) {
                     checkStatus();
-                } else if (commandWord == CommandWord.USE && yourTurn == true) {
+                }
+                else if (commandWord == CommandWord.USE && yourTurn == true) {
                     if (!command.hasSecondWord()) {
                         System.out.println("What weapon?");
                     } else {
@@ -742,6 +747,7 @@ public class Game {
                                         + i.getName() + " and damaged it for "
                                         + i.getDmg());
                                 yourTurn = false;
+                                break;
                             }
                         }
                     }
@@ -765,6 +771,7 @@ public class Game {
                     }
                 } else {
                     System.out.println("You cant do that");
+                    break;
                 }
                 if (yourTurn == false) {
                     player.setHp(player.getHp() - keyMonster.getDamage());
@@ -816,7 +823,7 @@ public class Game {
         if (currentRoom.getNPCList().contains(keyMonster)) {
             System.out.println("There is a monster in this room.");
             if (keyMonster.getHostility() && keyMonster.getDefeated()) {
-                combat();
+                combat(controller.command);
             }
         }
         

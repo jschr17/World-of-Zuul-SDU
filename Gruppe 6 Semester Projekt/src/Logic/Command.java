@@ -42,5 +42,8 @@ public class Command
     public void setSecondWord(String newWord){
         this.secondWord = newWord;
     }
+    public void setCommandWord(CommandWord newWord){
+        this.commandWord = newWord;
+    }
 }
 
