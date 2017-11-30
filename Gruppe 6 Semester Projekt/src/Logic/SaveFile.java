@@ -8,6 +8,8 @@ package Logic;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,13 +28,13 @@ public class SaveFile {
         this.player = player;
 
     }
-//    public Game getGame(){
-//        return game;
-//    }
-//    
-//    public void setGame(Game game){
-//        this.game = game;
-//    }
+    public Game getGame(){
+        return game;
+    }
+    
+    public void setGame(Game game){
+        this.game = game;
+    }
     
     public Player getPlayer() {
         return player;
@@ -42,12 +44,15 @@ public class SaveFile {
         this.player = player;
     }
 
-    public void SaveString(){
+    public void SaveString() throws IOException{
         ObjectMapper mapper = new ObjectMapper();
-//        SimpleModule module = new SimpleModule();
-//        module.addSerializer(SaveFile.class, new SaveSerializer());
-//        mapper.registerModule(module);
+        
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(SaveFile.class, new SaveSerializer());
+        mapper.registerModule(module);
+        
         try {
+//            mapper.writeValue(new File("files/SaveFile.json"), Savestring);
             Savestring = mapper.writeValueAsString(this);
             System.out.println(Savestring);
         } catch (JsonProcessingException ex) {
@@ -56,5 +61,18 @@ public class SaveFile {
         
     }
     
+//    public void LoadSaveString(){
+//        ObjectMapper mapper = new ObjectMapper();
+//        SimpleModule module = new SimpleModule();
+//        module.addDeserializer(SaveFile.class, new SaveDeserializer());
+//        mapper.registerModule(module);
+//        
+//        
+//    
+//    }
+    public void loadSaveString(){
+    
+    
+    }
     
 }

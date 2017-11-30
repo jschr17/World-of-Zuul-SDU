@@ -147,7 +147,7 @@ public class Game {
     }
 
     // the method that starts the game
-    public void play() {
+    public void play() throws IOException {
         printWelcome(); //prints the welcome message    
         int i = 0;
         int monsterTurnWait = 2;
@@ -206,7 +206,7 @@ public class Game {
 
     // this boolean method is actualy what carries most of the ingame logic, and is the main component of the game loop
     // any new game commands must be assigned a opperator here!
-    private boolean processCommand(Command command) {
+    private boolean processCommand(Command command) throws IOException {
         boolean wantToQuit = false; // here the want to quit boolean is initialized
         // a command object is created form the first word recognized from the Parser
         CommandWord commandWord = command.getCommandWord();
@@ -903,10 +903,40 @@ public class Game {
         // end of method.
     }
 
-    private void save() {
+    private void save() throws IOException {
         save = new SaveFile(this, this.player);
         save.SaveString();
         
     }
+    public Room getCurrentRoom(){
+        return currentRoom;
+       
+    }
+
+    public Room getMedbay() {
+        return medbay;
+    }
+
+    public Room getKeyRoom() {
+        return keyRoom;
+    }
+
+    public Room getArmoury() {
+        return armoury;
+    }
+
+    public Room getHallway() {
+        return hallway;
+    }
+
+    public Room getCommunicationRoom() {
+        return communicationRoom;
+    }
+
+    public Room getAirlock() {
+        return airlock;
+    }
+    
+    
 }
    

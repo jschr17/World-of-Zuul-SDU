@@ -15,7 +15,7 @@ import java.util.TimerTask;
  * @author Nick, Jonas
  */
 public class Player {
-    private volatile int hp;
+    private int hp;
     private int air;
     private ArrayList<Item> inventory;
     private boolean hasCalledHelp = false;
@@ -110,6 +110,11 @@ public class Player {
     public void setMaxOxygen(int modifier){
         this.maxOxygen = maxOxygen + modifier;
     }
+
+    public int getTotalTimePlayed() {
+        return totalTimePlayed;
+    }
+
     
     
     /* 
