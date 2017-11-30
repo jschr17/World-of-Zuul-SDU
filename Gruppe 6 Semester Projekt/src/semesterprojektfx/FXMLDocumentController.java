@@ -26,7 +26,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.concurrent.Task;
 
 /**
  *
@@ -39,7 +38,6 @@ public class FXMLDocumentController implements Initializable {
     private Parser parser;
     public Command command;
     private CommandWord commandWord;
-    private Task task;
     
     private int flag = 0;
     
@@ -252,12 +250,6 @@ public class FXMLDocumentController implements Initializable {
         }
         parser = new Parser();
         command = parser.getCommand(); 
-        task = new Task() {
-            @Override
-            protected Object call() throws Exception {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        };
         
         textOutArea.appendText("\n");
         textOutArea.appendText(game.printWelcome());
@@ -379,7 +371,6 @@ public class FXMLDocumentController implements Initializable {
     private void AirBarAction(){
         double airProgress = game.player.getCurrentOxygen() / 100.0;
         AirBar.setProgress(airProgress);
-//        AirBar.setProgress(task.progressProperty().doubleValue());
     }
     @FXML
     private void statusButtonAction(){
