@@ -230,17 +230,23 @@ public class FXMLDocumentController implements Initializable {
                     return;
                 }
                 else if (playerInv.size() < game.inventorySpace) {
-                    playerInv.add(itemName);
-                    command.setSecondWord(itemName);
-                    game.addInventory(command);
-                    roomInventory.getItems().remove(itemName);
-                    textOutArea.appendText("\nYou have added " + itemName + " to your inventory.");
-                    if (itemName.equalsIgnoreCase(medkit.getId())) {
-                        medkit.setVisible(false);
+                    if (!itemName.equalsIgnoreCase("monster") && !itemName.equalsIgnoreCase("counter") && !itemName.equalsIgnoreCase("device")) {
+                        playerInv.add(itemName);
+                        command.setSecondWord(itemName);
+                        game.addInventory(command);
+                        roomInventory.getItems().remove(itemName);
+                        textOutArea.appendText("\nYou have added " + itemName + " to your inventory.");
+                        if (itemName.equalsIgnoreCase(medkit.getId())) {
+                            medkit.setVisible(false);
+                        }
+                        else if (itemName.equalsIgnoreCase(oxygen.getId())) {
+                            oxygen.setVisible(false);
+                        }
                     }
-                    else if (itemName.equalsIgnoreCase(oxygen.getId())) {
-                        oxygen.setVisible(false);
+                    else {
+                        textOutArea.appendText("Can't take that.");
                     }
+
                 }
                 else if (playerInv.size() >= game.inventorySpace) {
                     textOutArea.appendText("\nNo more space in your inventoy.");
@@ -250,13 +256,6 @@ public class FXMLDocumentController implements Initializable {
         listProperty2.set(FXCollections.observableList(playerInv));
         playerInventory.itemsProperty().bind(listProperty2);
     }
-        
-    
-    //A test method for the functionality of the main viewport
-    @FXML
-    private void mouseClickAction(MouseEvent event) {
-        textOutArea.setText("You clicked me, how naughty!");
-    } 
     
     //Gets the help text string from the game class, so it can be used by the GUI
     private String helpText(){
@@ -388,9 +387,13 @@ public class FXMLDocumentController implements Initializable {
                 command.setSecondWord("rifle");
                 game.combat(command);
                 hpBarAction();
-                textOutArea.appendText(game.combat(command));
+                textOutArea.appendText("\nYou attacked the monster with your rifle for 40 damage.");
+                textOutArea.appendText("\n" + game.combat(command));
+                if (game.keyMonster.getDefeated() == true) {
+                    monster.setVisible(false);
+                }
                 control = true;
-                return;
+                //return;
             }
             else {
                 textOutArea.appendText("\nNo rifle.");
@@ -415,5 +418,9 @@ public class FXMLDocumentController implements Initializable {
     private void statusButtonAction(){
         hpBarAction();
         AirBarAction();
+    }
+    
+    private void splashScreenAction(ActionEvent event){
+        
     }
 }
