@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package semesterprojektfx;
 
 import Logic.*;
@@ -81,6 +76,8 @@ public class FXMLDocumentController implements Initializable {
     private Button takeButton;
     @FXML
     private Button dropButton;
+    @FXML 
+    private Button talkButton;
     @FXML
     private ImageView medkit;
     @FXML
@@ -166,9 +163,6 @@ public class FXMLDocumentController implements Initializable {
             textOutArea.clear();
             toAppend = helpText();
         }
-        else if (event.getSource() == inspectButton) {
-            
-        }
         toAppend += System.lineSeparator();
         textOutArea.appendText(toAppend);
     }
@@ -183,18 +177,46 @@ public class FXMLDocumentController implements Initializable {
             for (Immovable i : game.currentRoom.getInteractList()){
                 if (i.getItems() != null) {
                     roomInv.add(i.getItems().getName());   
+                    roomInv.add(i.getName());   
                 }
-            }   
-            for (Item i : game.currentRoom.getItemList()){
-                if (i != null) {
-                    roomInv.add(i.getName());
-                }
+            }
+            for (NPC n : game.currentRoom.getNPCList()){
+                if (!game.currentRoom.getNPCList().isEmpty()){
+                    roomInv.add(n.getName());
+                }  
             }
             listProperty1.set(FXCollections.observableList(roomInv));
             roomInventory.itemsProperty().bind(listProperty1); 
         }
-        else if (event.getSource() == inspectButton) {
-           String immovableName = roomInventory.getSelectionModel().getSelectedItem();
+    }
+    
+    @FXML
+    private void talkButtonAction(ActionEvent event) {
+        String talkTarget = "";
+        if (event.getSource() == talkButton) {
+            talkTarget = roomInventory.getSelectionModel().getSelectedItem();
+            command.setSecondWord(talkTarget);
+            textOutArea.appendText("\n" + talkText(command));
+        }
+    }
+    
+    /*
+    *   This method deals with the inspect button.
+    */
+    @FXML
+    private void inspectSelectionAction(ActionEvent event){
+        String selectName = "selectName empty";
+        if (event.getSource() == inspectButton) {
+            // if, else if statements check which inventory the item is selected from.
+            if (!roomInventory.getSelectionModel().isEmpty()){
+                selectName = roomInventory.getSelectionModel().getSelectedItem();
+            } else if (!playerInventory.getSelectionModel().isEmpty()) {
+                selectName = playerInventory.getSelectionModel().getSelectedItem();
+            }
+            //textOutArea.clear();
+            command.setSecondWord(selectName);
+            //System.out.println(inspectText(command));
+            textOutArea.appendText("\n" + inspectText(command) + ".");
         }
     }
     
@@ -223,10 +245,12 @@ public class FXMLDocumentController implements Initializable {
                 else if (playerInv.size() >= game.inventorySpace) {
                     textOutArea.appendText("\nNo more space in your inventoy.");
                 }
-            }
-            listProperty2.set(FXCollections.observableList(playerInv));
-            playerInventory.itemsProperty().bind(listProperty2);
+                
         }
+        listProperty2.set(FXCollections.observableList(playerInv));
+        playerInventory.itemsProperty().bind(listProperty2);
+    }
+        
     
     //A test method for the functionality of the main viewport
     @FXML
@@ -237,6 +261,14 @@ public class FXMLDocumentController implements Initializable {
     //Gets the help text string from the game class, so it can be used by the GUI
     private String helpText(){
         return game.printHelp();
+    }
+    
+    private String inspectText(Command command){
+        return game.getItemDescription(command);
+    }
+    
+    private String talkText(Command command) {
+        return game.talk(command);
     }
     
     //This method initializes all the relevant classes that are needed by the GUI
@@ -262,14 +294,19 @@ public class FXMLDocumentController implements Initializable {
     } 
 
     @FXML
-    private void dropButtonAction(ActionEvent event) {        
-        String itemName = playerInventory.getSelectionModel().getSelectedItem();
-        command.setSecondWord(itemName);
-        game.removeFromInventory(command);
-        playerInventory.getItems().remove(itemName);
-        roomInv.add(itemName);
+    private void dropButtonAction(ActionEvent event) {
+        String itemName = "";
+        if (playerInventory.getSelectionModel().getSelectedItem() != null) {
+            itemName = playerInventory.getSelectionModel().getSelectedItem();
+        }
         listProperty1.set(FXCollections.observableList(roomInv));
-        roomInventory.itemsProperty().bind(listProperty1);  
+        roomInventory.itemsProperty().bind(listProperty1);
+        if (itemName != "") {
+            command.setSecondWord(itemName);
+            game.removeFromInventory(command);
+            playerInventory.getItems().remove(itemName);
+            roomInv.add(itemName);
+        }
         
         if (itemName.equalsIgnoreCase(medkit.getId())) {
             medkit.setVisible(true);

@@ -14,40 +14,6 @@
 
 <AnchorPane fx:id="mainPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="semesterprojektfx.FXMLDocumentController">
    <children>
-      <Pane fx:id="communicationRoom" layoutX="10.0" layoutY="10.0" prefHeight="332.0" prefWidth="395.0" visible="false">
-         <children>
-            <ImageView fitHeight="332.0" fitWidth="395.0" pickOnBounds="true">
-               <image>
-                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/hallway%20floor.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="87.0" fitWidth="85.0" layoutX="155.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/PC_Radio.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="-8.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/WestDoor.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="148.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true" rotate="180.0">
-               <image>
-                  <Image url="@../../GUI_pics/SecretOpenDoor.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="72.0" fitWidth="70.0" layoutX="240.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/britney%20char1%20(1).png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="72.0" fitWidth="70.0" layoutX="85.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="file:/C:/Users/goope/Documents/NetBeansProjects/World-of-Zuul-SDU/Gruppe%206%20Semester%20Projekt/GUI_pics/Character%20-%20mads.png" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
       <Pane fx:id="airlock" prefHeight="332.0" prefWidth="395.0" visible="false">
          <children>
             <ImageView fitHeight="332.0" fitWidth="395.0" pickOnBounds="true">
@@ -203,7 +169,7 @@
             </ImageView>
          </children>
       </Pane>
-      <Group layoutX="338.0" layoutY="185.0">
+      <Group layoutX="339.0" layoutY="199.0">
          <children>
             <Button fx:id="eastButton" layoutX="165.0" layoutY="189.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="50.0" text="East" />
             <Button fx:id="southButton" layoutX="116.0" layoutY="204.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="50.0" text="South" />
@@ -211,16 +177,12 @@
             <Button fx:id="westButton" layoutX="68.0" layoutY="189.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="50.0" text="West" />
             <Button fx:id="helpButton" layoutX="117.0" layoutY="233.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="50.0" text="Help" />
             <Button fx:id="searchButton" layoutX="82.0" layoutY="262.0" mnemonicParsing="false" onAction="#listAction" prefHeight="29.0" prefWidth="58.0" text="Search" />
-            <Button fx:id="inspectButton" layoutX="145.0" layoutY="262.0" mnemonicParsing="false" onAction="#inspectSelectionAction" prefHeight="29.0" prefWidth="58.0" text="Inspect" />
+            <Button fx:id="inspectButton" layoutX="145.0" layoutY="262.0" mnemonicParsing="false" onAction="#listAction" prefHeight="29.0" prefWidth="58.0" text="Inspect" />
             <Button fx:id="takeButton" layoutX="67.0" layoutY="233.0" mnemonicParsing="false" onAction="#takeInventoryAction" prefHeight="29.0" prefWidth="50.0" text="Take" />
             <Button fx:id="dropButton" layoutX="165.0" layoutY="233.0" mnemonicParsing="false" onAction="#dropButtonAction" prefHeight="29.0" prefWidth="50.0" text="Drop" />
-            <Button fx:id="talkButton" layoutX="67.0" layoutY="30.0" mnemonicParsing="false" onAction="#talkButtonAction" prefHeight="29.0" prefWidth="50.0" text="Talk" />
-            <Button fx:id="attackButton" layoutX="116.0" layoutY="291.0" mnemonicParsing="false" onAction="#attackFunction" prefHeight="29.0" prefWidth="50.0" text="Attack" />
-            <Button fx:id="useButton" layoutX="121.0" layoutY="262.0" mnemonicParsing="false" onAction="#useAction" prefHeight="29.0" prefWidth="40.0" text="Use" />
-            <Button fx:id="statusButton" layoutX="67.0" layoutY="291.0" mnemonicParsing="false" onAction="#statusButtonAction" prefHeight="29.0" prefWidth="50.0" text="Status" />
          </children>
       </Group>
-      <TextArea fx:id="textOutArea" editable="false" layoutX="1.0" layoutY="337.0" prefHeight="177.0" prefWidth="395.0" wrapText="true">
+      <TextArea fx:id="textOutArea" editable="false" layoutX="1.0" layoutY="337.0" prefHeight="191.0" prefWidth="395.0" wrapText="true">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -250,10 +212,7 @@
       </Group>
       <Group layoutX="558.0" layoutY="344.0" pickOnBounds="true">
          <children>
-            <ListView fx:id="playerInventory" editable="true" fixedCellSize="20.0" layoutY="17.0" prefHeight="160.0" prefWidth="200.0">
-               <padding>
-                  <Insets bottom="5.0" />
-               </padding></ListView>
+            <ListView fx:id="playerInventory" editable="true" fixedCellSize="20.0" layoutY="17.0" prefHeight="160.0" prefWidth="200.0" />
             <Label text="Player inventory" />
          </children>
       </Group>

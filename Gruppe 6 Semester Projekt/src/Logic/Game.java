@@ -323,43 +323,43 @@ public class Game {
     }
 
     //Returns the description of the word after the commandWord.
-    private void getItemDescription(Command command) {
-        if (!command.hasSecondWord()) {
+    public String getItemDescription(Command command) {
+        String inspectString = "";
+        if (command.hasSecondWord()) {
+            String item = command.getSecondWord();
+            for (Item i : player.getInventory()) {
+                if (i.getName().equals(item)) {
+                   //System.out.println(i.getDescription());
+                    inspectString = i.getDescription();
+                } 
+            }
+            for (Immovable i : currentRoom.getInteractList()) {
+                if (i.getName().equals(item)) {
+                    //System.out.println(i.getDescription());
+                   inspectString = i.getDescription();
+                }
+            }
+            for (NPC n : currentRoom.getNPCList()) {
+                if (n.getName().equals(item)) {
+                    //System.out.println(n.getDescription());
+                    inspectString = n.getDescription();
+                } 
+            }
+            // These lines mess up the inspect button in the GUI
+            /*if (item != currentRoom.getInteractList().toString() && item != player.getInventory().toString()) {
+                //System.out.println("You can't inspect that!");
+                inspectString = "You can't inspect that!";
+            }*/
+            }
+        else {
             //Hvis der ikke er to ord, understående bliver printet og man
             //bliver bedt om at prøve igen.
-            System.out.println("Which item?");
-            return;
+            //System.out.println("Which item?");
+            inspectString = "Which item?";
         }
-        String item = command.getSecondWord();
-        for (Item i : player.getInventory()) {
-            if (i.getName().equals(item)) {
-                System.out.println(i.getDescription());
-                return;
-            } else if (i.getName() != item) {
-                continue;
-            }
-        }
-        for (Immovable i : currentRoom.getInteractList()) {
-            if (i.getName().equals(item)) {
-                System.out.println(i.getDescription());
-                return;
-            } else if (i.getName() != item) {
-                continue;
-            }
-        }
-        for (NPC n : currentRoom.getNPCList()) {
-            if (n.getName().equals(item)) {
-                System.out.println(n.getDescription());
-                return;
-            } else {
-                continue;
-            }
-        }
-        if (item != currentRoom.getInteractList().toString() && item != player.getInventory().toString()) {
-            System.out.println("You can't inspect that!");
-        }
+        return inspectString;
     }
-
+    
     //Breaks the specified object by running the breakTable method
     private void breakObject(Command command) {
         if (!command.hasSecondWord()) {
@@ -789,31 +789,31 @@ public class Game {
         }
       return "test";
     }
+    
     // method for the commandword talk
-    private void talk(Command command) {
+    public String talk(Command command) {
+        String talkString = "";
         if (!command.hasSecondWord()) {                         //What hapends if no second word is given
-            System.out.println(text.getText("talkNoArgument"));
-            return;
-
+            talkString = text.getText("talkNoArgument");
             // logic for how britneay responds
             // maby current room argument can be omittet? 
         } else if (command.getSecondWord().equalsIgnoreCase("britney") && currentRoom.getNPC("britney") == britney) {
             if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == false) { //responds befor radi is fixed
-                System.out.println(text.getText("britney1"));
+                talkString = text.getText("britney1");
             } else if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == true && player.hasCalledHelp() == false) { //respons after radi is fixed
-                System.out.println(text.getText("britney2"));
+                talkString = text.getText("britney2");
             } else if (currentRoom == communicationRoom && player.hasCalledHelp()) {    //responds after help is called sets evacuate boolean true
-                System.out.println(text.getText("britney3"));
+                talkString = text.getText("britney3");
                 britney.setToldToEvacuate(Boolean.TRUE);
             } else if (currentRoom == airlock) {    // response in airlock
-                System.out.println(text.getText("britney4"));
+                talkString = text.getText("britney4");
             } else{
-                System.out.println("Britney isn't here.");
+                talkString = "Britney isn't here.";
             }
         } else {    // respans for all other posible second words (EVERYTHIN THAT IS INPUTTET INTO THE CONSOLE AS SECONDWORD)
-            System.out.println("You are trying to talk to something that can't response. Maybe the lack of oxygen is affecting your brain.");
+            talkString = "You are trying to talk to something that can't response. Maybe the lack of oxygen is affecting your brain.";
         }
-
+        return talkString;
     }
     
     
