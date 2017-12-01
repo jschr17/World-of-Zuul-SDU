@@ -33,11 +33,9 @@ public class FXMLDocumentController implements Initializable {
     private Parser parser;
     public Command command;
     private CommandWord commandWord;
-    
-    private int flag = 0;
+    private SemesterProjektFX scene = new SemesterProjektFX();
     
     SemesterProjektFX starter = new SemesterProjektFX();
-    Stage stage;
     
     @FXML
     TextArea textOutArea;
@@ -128,6 +126,16 @@ public class FXMLDocumentController implements Initializable {
     private Button useButton;
     @FXML
     private Button statusButton;
+    @FXML
+    private Pane splashScreen;
+    @FXML
+    private Label enterNameLabel;
+    @FXML
+    private TextField playerNameEnterField;
+    @FXML
+    private Button startButton;
+    @FXML
+    private Label warningLabel;
     
     //This method controlls the functions of the player movement buttons, and the
     //help button.
@@ -286,7 +294,6 @@ public class FXMLDocumentController implements Initializable {
         textOutArea.appendText(game.printWelcome());
         textOutArea.appendText("\n");
         textOutArea.appendText("\n");                      
-        flag = 1;
         
         hpBarAction();
         AirBarAction();
@@ -420,7 +427,18 @@ public class FXMLDocumentController implements Initializable {
         AirBarAction();
     }
     
+    @FXML
     private void splashScreenAction(ActionEvent event){
-        
+        String playerName = playerNameEnterField.getText();
+        if (!playerName.equalsIgnoreCase("") && !playerName.equalsIgnoreCase(null)) {
+            game.player.setName(playerName);
+            splashScreen.setVisible(false);
+            medbay.setVisible(true);            
+        }
+        else {
+            warningLabel.setVisible(true);
+            warningLabel.setText("You need to input a name");
+        }
+
     }
 }

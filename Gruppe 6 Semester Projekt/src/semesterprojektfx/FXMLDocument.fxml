@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -257,13 +258,17 @@
             <Label text="Player inventory" />
          </children>
       </Group>
-      <Pane fx:id="splashScreen" prefHeight="521.0" prefWidth="758.0" visible="false">
+      <Pane fx:id="splashScreen" prefHeight="521.0" prefWidth="758.0">
          <children>
-            <ImageView fitHeight="521.0" fitWidth="758.0" pickOnBounds="true" visible="false">
+            <ImageView fitHeight="521.0" fitWidth="758.0" pickOnBounds="true">
                <image>
                   <Image url="@PNG/SplashScren.png" />
                </image>
             </ImageView>
+            <Label fx:id="enterNameLabel" layoutX="305.0" layoutY="164.0" text="Enter name:" />
+            <TextField fx:id="playerNameEnterField" layoutX="305.0" layoutY="181.0" />
+            <Button fx:id="startButton" layoutX="342.0" layoutY="297.0" mnemonicParsing="false" onAction="#splashScreenAction" prefHeight="28.0" prefWidth="50.0" text="Start" />
+            <Label fx:id="warningLabel" layoutX="297.0" layoutY="244.0" text="Label" visible="false" />
          </children>
       </Pane>
    </children>
