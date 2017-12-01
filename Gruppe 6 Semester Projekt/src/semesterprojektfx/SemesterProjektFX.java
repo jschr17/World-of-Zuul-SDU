@@ -9,11 +9,10 @@ import javafx.stage.Stage;
  * @author goope
  */
 public class SemesterProjektFX extends Application {
-    private String fxmlDocument = "FXMLDocument.fxml";
     @Override
     public void start(Stage stage) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource(fxmlDocument));    
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));    
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -26,12 +25,5 @@ public class SemesterProjektFX extends Application {
         launch(args);
         //Closes the rest of the program, after you have exited the GUI.
         System.exit(0);
-    }
-    public String getFXML(){
-        return fxmlDocument;
-    }
-    public String setFXML(String newFXML){
-        this.fxmlDocument = newFXML;
-        return fxmlDocument;
     }
   }
