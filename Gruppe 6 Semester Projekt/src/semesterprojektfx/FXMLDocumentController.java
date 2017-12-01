@@ -79,6 +79,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML 
     private Button talkButton;
     @FXML
+    private Button saveButton;
+    @FXML
     private ImageView medkit;
     @FXML
     private ImageView oxygen;

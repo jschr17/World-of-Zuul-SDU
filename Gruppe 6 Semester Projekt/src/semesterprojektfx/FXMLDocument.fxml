@@ -257,5 +257,6 @@
             <Label text="Player inventory" />
          </children>
       </Group>
+      <Button fx:id="saveButton" layoutX="403.0" layoutY="20.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Save" />
    </children>
 </AnchorPane>
