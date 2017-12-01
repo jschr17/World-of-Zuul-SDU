@@ -31,6 +31,6 @@ public interface ILogic {
     public ArrayList getCurrentRoomInteractList();
     public ArrayList getCurrentRoomNPCList();
     public void goRoom(String secondWord);                  //command.setSecondWord(secondWord)
-    
+    public void saveGame();
     
 }

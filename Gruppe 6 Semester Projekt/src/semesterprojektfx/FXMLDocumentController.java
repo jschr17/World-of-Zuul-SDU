@@ -418,4 +418,8 @@ public class FXMLDocumentController implements Initializable {
         hpBarAction();
         AirBarAction();
     }
+    @FXML
+    private void saveGameAction(ActionEvent event) {
+        //logic.saveGame();
+    }
 }
