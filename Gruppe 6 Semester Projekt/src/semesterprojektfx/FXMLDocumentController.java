@@ -33,11 +33,9 @@ public class FXMLDocumentController implements Initializable {
     private Parser parser;
     public Command command;
     private CommandWord commandWord;
-    
-    private int flag = 0;
+    private SemesterProjektFX scene = new SemesterProjektFX();
     
     SemesterProjektFX starter = new SemesterProjektFX();
-    Stage stage;
     
     @FXML
     TextArea textOutArea;
@@ -70,8 +68,13 @@ public class FXMLDocumentController implements Initializable {
     private ListView<String> playerInventory = new ListView<>();
     private ObservableList<String> playerInv = FXCollections.observableArrayList();
     
+    @FXML
+    private ListView<String> highScoreList = new ListView<>();
+    private ObservableList<String> highScoreView = FXCollections.observableArrayList();
+    
     ListProperty<String> listProperty1 = new SimpleListProperty<>();
     ListProperty<String> listProperty2 = new SimpleListProperty<>();    
+    ListProperty<String> listProperty3 = new SimpleListProperty<>();    
     @FXML
     private Button takeButton;
     @FXML
@@ -130,6 +133,21 @@ public class FXMLDocumentController implements Initializable {
     private Button useButton;
     @FXML
     private Button statusButton;
+    @FXML
+    private Pane splashScreen;
+    @FXML
+    private Label enterNameLabel;
+    @FXML
+    private TextField playerNameEnterField;
+    @FXML
+    private Button startButton;
+    @FXML
+    private Label warningLabel;
+    @FXML
+    private Button highScoreButton;
+    @FXML
+    private Button loadButton;
+
     
     //This method controlls the functions of the player movement buttons, and the
     //help button.
@@ -232,17 +250,23 @@ public class FXMLDocumentController implements Initializable {
                     return;
                 }
                 else if (playerInv.size() < game.inventorySpace) {
-                    playerInv.add(itemName);
-                    command.setSecondWord(itemName);
-                    game.addInventory(command);
-                    roomInventory.getItems().remove(itemName);
-                    textOutArea.appendText("\nYou have added " + itemName + " to your inventory.");
-                    if (itemName.equalsIgnoreCase(medkit.getId())) {
-                        medkit.setVisible(false);
+                    if (!itemName.equalsIgnoreCase("monster") && !itemName.equalsIgnoreCase("counter") && !itemName.equalsIgnoreCase("device")) {
+                        playerInv.add(itemName);
+                        command.setSecondWord(itemName);
+                        game.addInventory(command);
+                        roomInventory.getItems().remove(itemName);
+                        textOutArea.appendText("\nYou have added " + itemName + " to your inventory.");
+                        if (itemName.equalsIgnoreCase(medkit.getId())) {
+                            medkit.setVisible(false);
+                        }
+                        else if (itemName.equalsIgnoreCase(oxygen.getId())) {
+                            oxygen.setVisible(false);
+                        }
                     }
-                    else if (itemName.equalsIgnoreCase(oxygen.getId())) {
-                        oxygen.setVisible(false);
+                    else {
+                        textOutArea.appendText("Can't take that.");
                     }
+
                 }
                 else if (playerInv.size() >= game.inventorySpace) {
                     textOutArea.appendText("\nNo more space in your inventoy.");
@@ -252,13 +276,6 @@ public class FXMLDocumentController implements Initializable {
         listProperty2.set(FXCollections.observableList(playerInv));
         playerInventory.itemsProperty().bind(listProperty2);
     }
-        
-    
-    //A test method for the functionality of the main viewport
-    @FXML
-    private void mouseClickAction(MouseEvent event) {
-        textOutArea.setText("You clicked me, how naughty!");
-    } 
     
     //Gets the help text string from the game class, so it can be used by the GUI
     private String helpText(){
@@ -289,7 +306,6 @@ public class FXMLDocumentController implements Initializable {
         textOutArea.appendText(game.printWelcome());
         textOutArea.appendText("\n");
         textOutArea.appendText("\n");                      
-        flag = 1;
         
         hpBarAction();
         AirBarAction();
@@ -390,9 +406,13 @@ public class FXMLDocumentController implements Initializable {
                 command.setSecondWord("rifle");
                 game.combat(command);
                 hpBarAction();
-                textOutArea.appendText(game.combat(command));
+                textOutArea.appendText("\nYou attacked the monster with your rifle for 40 damage.");
+                textOutArea.appendText("\n" + game.combat(command));
+                if (game.keyMonster.getDefeated() == true) {
+                    monster.setVisible(false);
+                }
                 control = true;
-                return;
+                //return;
             }
             else {
                 textOutArea.appendText("\nNo rifle.");
@@ -421,5 +441,33 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void saveGameAction(ActionEvent event) {
         //logic.saveGame();
+    }
+    
+    @FXML
+    private void splashScreenAction(ActionEvent event){
+        String playerName = playerNameEnterField.getText();
+        if (!playerName.equalsIgnoreCase("") && !playerName.equalsIgnoreCase(null)) {
+            game.player.setPlayerName(playerName);
+            splashScreen.setVisible(false);
+            medbay.setVisible(true);   
+            game.player.setAir(100);
+        }
+        else {
+            warningLabel.setVisible(true);
+            warningLabel.setText("You need to input a name");
+        }
+    }
+
+    @FXML
+    private void highScoreLoad(ActionEvent event) {
+        
+        
+        listProperty3.set(FXCollections.observableList(highScoreView));
+        highScoreList.itemsProperty().bind(listProperty3);
+    }
+    
+    @FXML   
+    private void miniMapAction(){
+        
     }
 }

@@ -17,7 +17,8 @@ public class Game {
     public Room currentRoom;   // initialises a starting room
     public Player player = new Player(100, 100);
     public int inventorySpace = 2;
-
+    private String dmgText;
+    
     private Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
     private Immovable counter, device, table, weaponCabinet, bookcase, 
             hiddenpanel, closet, lockedDoor, glassCabinet, airlockPanel, 
@@ -714,7 +715,7 @@ public class Game {
         }
     }
 
-    public String combat(Command command) {
+public String combat(Command command) {
         if (currentRoom.getNPC("monster") == keyMonster) {
             System.out.println("You are attacked by the monster!");
             CommandWord commandWord;
@@ -734,17 +735,32 @@ public class Game {
                     checkStatus();
                 }
                 else if (commandWord == CommandWord.USE && yourTurn == true) {
+                    System.out.println("Test 1");
                     if (!command.hasSecondWord()) {
+                        System.out.println("Test 2");
                         System.out.println("What weapon?");
                     } else {
+                        System.out.println("Test 3");
                         for (Item i : player.getInventory()) {
+                            System.out.println("Test 4");
                             if (secondWord.equals(i.getName())) {
+                                System.out.println("Test 5");
                                 keyMonster.setHealth(keyMonster.getHealth() - i.getDmg());
+                                System.out.println("Test 6");
                                 System.out.println("You attacked the monster with "
                                         + i.getName() + " and damaged it for "
                                         + i.getDmg());
+                                System.out.println("Test 7");
                                 yourTurn = false;
-                                //break;
+                                System.out.println("Test 8");
+                                dmgText = "You attacked the monster with "
+                                        + i.getName() + " and damaged it for "
+                                        + i.getDmg();
+                                break;
+//                                return dmgText;
+                            }
+                            else {
+                                return null;
                             }
                         }
                     }
@@ -785,7 +801,13 @@ public class Game {
                 }
             }
         }
-      return "test";
+        if (keyMonster.getDefeated() == true) {
+            return "\nThe monster is defeated! \nA key drops from the monsters corpse"
+            + " and unto the floor";            
+        }
+        else{
+            return dmgText;
+        }
     }
     
     // method for the commandword talk
