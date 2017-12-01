@@ -8,7 +8,7 @@ package GlueCode;
 import Acquaintance.IData;
 import Acquaintance.ILogic;
 import Logic.Game;
-import Logic.LogicFasade;
+import Logic.LogicFacade;
 import Persistens.PersistenceFasade;
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ public class Starter {
     
     public static void main(String[] args) {
         IData data = new PersistenceFasade();
-        ILogic logic = new LogicFasade();
+        ILogic logic = new LogicFacade();
         logic.InjectData(data);
         logic.loadHighscore();
         System.out.println("Ready to launch");
