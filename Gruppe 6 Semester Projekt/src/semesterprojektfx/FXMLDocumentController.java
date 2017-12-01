@@ -116,6 +116,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private ImageView secretDoor;
     @FXML
+    private ImageView secretDoor1;
+    @FXML
     private ImageView breakableTable;
     @FXML
     private ImageView rifleImg;
@@ -148,6 +150,11 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button loadButton;
 
+    private TextField password;
+    @FXML
+    private Button passwordButton;
+    @FXML
+    private Pane passwordPane;
     
     //This method controlls the functions of the player movement buttons, and the
     //help button.
@@ -195,9 +202,14 @@ public class FXMLDocumentController implements Initializable {
         if (event.getSource() == searchButton){
             roomInv.clear();
             for (Immovable i : game.currentRoom.getInteractList()){
-                if (i.getItems() != null) {
-                    roomInv.add(i.getItems().getName());   
-                    roomInv.add(i.getName());   
+                if(i.getFlag()==true){
+                    roomInv.add(i.getName()); 
+                    if (i.getItems() != null) {
+                        if(i.getItems().getFlag()==true){
+                            roomInv.add(i.getItems().getName());
+                        }
+                             
+                }
                 }
             }
             for (NPC n : game.currentRoom.getNPCList()){
@@ -384,20 +396,59 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void useAction(ActionEvent event){
         String newWord = playerInventory.getSelectionModel().getSelectedItem();
+        String newWord2 = roomInventory.getSelectionModel().getSelectedItem();
         if (!playerInv.isEmpty() && newWord != "rifle") {
             command.setSecondWord(newWord);
             textOutArea.appendText("\n" + game.useItem(command));
             game.useItem(command);  
             playerInventory.getItems().remove(newWord);
+        } else if(newWord2=="panel"){
+            textOutArea.appendText("\nYou go down to the small keypad"
+                    + "\nPlease type in the password\n3 attemps remaining");
+            passwordPane.setVisible(true);
+           
         }
         else {
             textOutArea.appendText("\nYou can't do that.");
+        }
+    }
+    @FXML
+    private void submitPassword(ActionEvent event){
+        int pass = 0;
+        if(password.getText()!=null && !password.getText().isEmpty()){
+            pass = Integer.parseInt(password.getText());
+        } 
+        if(pass!=28374){
+            textOutArea.appendText("\nAccess Denied");
+        } else if(pass==28374){
+            textOutArea.appendText("\nAccess Granted");
+            textOutArea.appendText("\nThe door slides open, leaving a opening to another room");
+            secretDoor1.setVisible(true);
+            game.currentRoom.setExit("north", game.currentRoom.getSecretDestination("notes"));
+            passwordPane.setVisible(false);
         }
     }
     
     @FXML
     private void attackFunction(ActionEvent event){
         boolean control = false;
+        String newWord = roomInventory.getSelectionModel().getSelectedItem();
+        listProperty1.set(FXCollections.observableList(roomInv));
+        roomInventory.itemsProperty().bind(listProperty1);
+        if(newWord.equals("table")){
+            Immovable table = game.currentRoom.getImmovable("table");
+            if (table.getDestructible() == true) {
+            textOutArea.appendText("\nYou break the leg off the table \nA bunch of "
+                    + "notes fall on the floor.");
+            table.setDestructable(false); // since the immovable is broken, it can't be broken more.
+            table.getItems().setFlag(true);
+            roomInv.add(table.getItems().getName());
+            return;
+            } else if(table.getDestructible()==false) {
+                textOutArea.appendText("\nThe table is destroyed");
+                return;
+            }
+        }
         if (game.currentRoom.getNPCList().contains(game.keyMonster)) {
             command.setSecondWord("monster");
             game.combat(command);

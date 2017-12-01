@@ -19,7 +19,7 @@
          <children>
             <ImageView fitHeight="332.0" fitWidth="395.0" pickOnBounds="true">
                <image>
-                  <Image url="@PNG/hallway%20floor.png" />
+                  <Image url="@PNG/airlock%20floor.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="87.0" fitWidth="85.0" layoutX="155.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
@@ -97,7 +97,7 @@
             </ImageView>
          </children>
       </Pane>
-      <Pane fx:id="armory" prefHeight="332.0" prefWidth="395.0" visible="false">
+      <Pane fx:id="armory" prefHeight="332.0" prefWidth="395.0">
          <children>
             <ImageView fitHeight="332.0" fitWidth="395.0" pickOnBounds="true">
                <image>
@@ -109,7 +109,7 @@
                   <Image url="@PNG/WestDoor.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="secretDoor" fitHeight="150.0" fitWidth="100.0" layoutX="148.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="secretDoor" fitHeight="150.0" fitWidth="100.0" layoutX="148.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@PNG/SecretClosedDoor.png" />
                </image>
@@ -129,14 +129,19 @@
                   <Image url="@PNG/rifle%20v1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="noteImg" fitHeight="37.0" fitWidth="43.0" layoutX="180.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="noteImg" fitHeight="61.0" fitWidth="30.0" layoutX="118.0" layoutY="258.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@PNG/note%20zuul.png" />
                </image>
             </ImageView>
+            <ImageView fx:id="secretDoor1" fitHeight="150.0" fitWidth="100.0" layoutX="148.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@PNG/SecretOpenDoor.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
-      <Pane fx:id="medbay" prefHeight="329.0" prefWidth="395.0">
+      <Pane fx:id="medbay" prefHeight="329.0" prefWidth="395.0" visible="false">
          <children>
             <ImageView fx:id="mainMap" fitHeight="328.0" fitWidth="395.0" layoutY="2.0" pickOnBounds="true">
                <image>
