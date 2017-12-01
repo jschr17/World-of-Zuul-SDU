@@ -68,8 +68,13 @@ public class FXMLDocumentController implements Initializable {
     private ListView<String> playerInventory = new ListView<>();
     private ObservableList<String> playerInv = FXCollections.observableArrayList();
     
+    @FXML
+    private ListView<String> highScoreList = new ListView<>();
+    private ObservableList<String> highScoreView = FXCollections.observableArrayList();
+    
     ListProperty<String> listProperty1 = new SimpleListProperty<>();
     ListProperty<String> listProperty2 = new SimpleListProperty<>();    
+    ListProperty<String> listProperty3 = new SimpleListProperty<>();    
     @FXML
     private Button takeButton;
     @FXML
@@ -136,6 +141,13 @@ public class FXMLDocumentController implements Initializable {
     private Button startButton;
     @FXML
     private Label warningLabel;
+    @FXML
+    private Button saveButton;
+    @FXML
+    private Button highScoreButton;
+    @FXML
+    private Button loadButton;
+
     
     //This method controlls the functions of the player movement buttons, and the
     //help button.
@@ -431,7 +443,7 @@ public class FXMLDocumentController implements Initializable {
     private void splashScreenAction(ActionEvent event){
         String playerName = playerNameEnterField.getText();
         if (!playerName.equalsIgnoreCase("") && !playerName.equalsIgnoreCase(null)) {
-            game.player.setName(playerName);
+            game.player.setPlayerName(playerName);
             splashScreen.setVisible(false);
             medbay.setVisible(true);            
         }
@@ -439,6 +451,18 @@ public class FXMLDocumentController implements Initializable {
             warningLabel.setVisible(true);
             warningLabel.setText("You need to input a name");
         }
+    }
 
+    @FXML
+    private void highScoreLoad(ActionEvent event) {
+        
+        
+        listProperty3.set(FXCollections.observableList(highScoreView));
+        highScoreList.itemsProperty().bind(listProperty3);
+    }
+    
+    @FXML   
+    private void miniMapAction(){
+        
     }
 }

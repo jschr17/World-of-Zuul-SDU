@@ -215,10 +215,11 @@
             <Button fx:id="inspectButton" layoutX="161.0" layoutY="262.0" mnemonicParsing="false" onAction="#inspectSelectionAction" prefHeight="29.0" prefWidth="58.0" text="Inspect" />
             <Button fx:id="takeButton" layoutX="67.0" layoutY="233.0" mnemonicParsing="false" onAction="#takeInventoryAction" prefHeight="29.0" prefWidth="50.0" text="Take" />
             <Button fx:id="dropButton" layoutX="165.0" layoutY="233.0" mnemonicParsing="false" onAction="#dropButtonAction" prefHeight="29.0" prefWidth="50.0" text="Drop" />
-            <Button fx:id="talkButton" layoutX="67.0" layoutY="30.0" mnemonicParsing="false" onAction="#talkButtonAction" prefHeight="29.0" prefWidth="50.0" text="Talk" />
+            <Button fx:id="talkButton" layoutX="116.0" layoutY="98.0" mnemonicParsing="false" onAction="#talkButtonAction" prefHeight="29.0" prefWidth="50.0" text="Talk" />
             <Button fx:id="attackButton" layoutX="116.0" layoutY="291.0" mnemonicParsing="false" onAction="#attackFunction" prefHeight="29.0" prefWidth="50.0" text="Attack" />
             <Button fx:id="useButton" layoutX="121.0" layoutY="262.0" mnemonicParsing="false" onAction="#useAction" prefHeight="29.0" prefWidth="40.0" text="Use" />
             <Button fx:id="statusButton" layoutX="67.0" layoutY="291.0" mnemonicParsing="false" onAction="#statusButtonAction" prefHeight="29.0" prefWidth="50.0" text="Status" />
+            <Button fx:id="saveButton" layoutX="104.0" layoutY="138.0" mnemonicParsing="false" prefHeight="29.0" text="Save game" />
          </children>
       </Group>
       <TextArea fx:id="textOutArea" editable="false" layoutX="1.0" layoutY="337.0" prefHeight="177.0" prefWidth="395.0" wrapText="true">
@@ -265,10 +266,17 @@
                   <Image url="@PNG/SplashScren.png" />
                </image>
             </ImageView>
-            <Label fx:id="enterNameLabel" layoutX="305.0" layoutY="164.0" text="Enter name:" />
-            <TextField fx:id="playerNameEnterField" layoutX="305.0" layoutY="181.0" />
-            <Button fx:id="startButton" layoutX="342.0" layoutY="297.0" mnemonicParsing="false" onAction="#splashScreenAction" prefHeight="28.0" prefWidth="50.0" text="Start" />
-            <Label fx:id="warningLabel" layoutX="297.0" layoutY="244.0" text="Label" visible="false" />
+            <Label fx:id="enterNameLabel" layoutX="299.0" layoutY="129.0" text="Enter name:" />
+            <TextField fx:id="playerNameEnterField" layoutX="294.0" layoutY="146.0" />
+            <Group layoutX="330.0" layoutY="209.0">
+               <children>
+                  <Button fx:id="startButton" layoutX="12.0" mnemonicParsing="false" onAction="#splashScreenAction" prefHeight="28.0" prefWidth="50.0" text="Start" />
+                  <Button fx:id="highScoreButton" layoutX="1.0" layoutY="38.0" mnemonicParsing="false" onAction="#highScoreLoad" text="High score" />
+                  <Button fx:id="loadButton" layoutY="72.0" mnemonicParsing="false" text="Load game" />
+               </children>
+            </Group>
+            <Label fx:id="warningLabel" layoutX="303.0" layoutY="185.0" text="Label" visible="false" />
+            <ListView fx:id="highScoreList" layoutX="268.0" layoutY="312.0" prefHeight="200.0" prefWidth="200.0" />
          </children>
       </Pane>
    </children>

@@ -110,7 +110,7 @@ public class Player {
     public void setMaxOxygen(int modifier){
         this.maxOxygen = maxOxygen + modifier;
     }
-    public void setName(String newName){
+    public void setPlayerName(String newName){
         this.playerName = newName;
     }
     
