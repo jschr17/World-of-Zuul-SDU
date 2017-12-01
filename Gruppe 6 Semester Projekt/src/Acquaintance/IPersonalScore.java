@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Acquaintance;
 
 /**
- *
- * @author Rasmus
+ *interface used to move a personalscore objekt betwen logic and persistence
  */
 public interface IPersonalScore {
     
