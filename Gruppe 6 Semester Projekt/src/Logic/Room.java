@@ -15,8 +15,8 @@ public class Room {
     private String name, description;             //a string that will carry the description of the room
     private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
     private HashMap<String, Room> secretExits;
-    private ArrayList<Immovable> interactList; // list of the immovables in the room
-    private ArrayList<Item> itemList;
+     ArrayList<Immovable> interactList; // list of the immovables in the room
+     ArrayList<Item> itemList;
     private ArrayList<NPC> npcList;             // list of NPCs in the room
     private boolean firstTimeEntered;           
     

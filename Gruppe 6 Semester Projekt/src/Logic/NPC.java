@@ -100,7 +100,7 @@ public class NPC {
         this.toldToEvacuate = evacuate;
     }
     
-    public Boolean toldToEvacuate() {
+    public Boolean gettoldToEvacuate() {
         return this.toldToEvacuate;
     }
     

@@ -17,6 +17,6 @@ public interface IData {
 
     public ArrayList loadHighscore();
     
-    
+    public void saveGame();
 
 }

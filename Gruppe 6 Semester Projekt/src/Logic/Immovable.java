@@ -55,7 +55,15 @@ public class Immovable implements Interactables{
     }
 
     public String getItemDescription(){
+        
+        
+        if(item == null){
+        return "null";
+        }
+        else {
         return item.getDescription();
+        }
+        
     }
 
         

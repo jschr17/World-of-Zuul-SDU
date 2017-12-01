@@ -34,15 +34,10 @@ import java.io.IOException;
 //    @Override
 //    public SaveFile deserialize(JsonParser jp, DeserializationContext dc) throws IOException, JsonProcessingException {
 //        JsonNode node = jp.getCodec().readTree(jp);
-//        int HP = (Integer) ((IntNode) node.get("HP")).numberValue();
-//        int AIR = (Integer) ((IntNode) node.get("AIR")).numberValue();
-//        int awesomePoints = (Integer) ((IntNode) node.get("awesomePoints")).numberValue();
-//        boolean CalledHelp = node.get("CalledHelp").booleanValue();
-//        int timePlayed = (Integer) ((IntNode) node.get("timePlayed")).numberValue();
-//        String inventory = node.get("inventory").textValue();
+//        node
 //        
-//        
-//        return new SaveFile();
+//        Player player =
+//        return player;
 //    }
 //    
 //}

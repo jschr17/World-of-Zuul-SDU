@@ -18,6 +18,7 @@ import Acquaintance.IData;
 public class LogicFasade implements ILogic {
     IData data;
     Highscore score;
+    SaveFile Savestring;
 
     @Override
     public void InjectData(IData persistenceLayer) {
@@ -40,6 +41,11 @@ public class LogicFasade implements ILogic {
     @Override
     public ArrayList getHighscore(){
         return score.getHighscore();
+    }
+
+    @Override
+    public String getSaveFile() {
+        return Savestring.getSaveFile();
     }
     
     

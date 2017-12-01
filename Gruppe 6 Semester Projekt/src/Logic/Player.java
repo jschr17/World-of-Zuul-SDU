@@ -29,8 +29,14 @@ public class Player {
     // public int currentOxygen = maxOxygen; 
     public int awesomePoints = 0;
     public int totalTimePlayed = 0;
+
+    Player() {
+    }
     
-    public Player(int newHP, int newAir) {
+    
+    
+    
+     public Player(int newHP, int newAir) {
         this.hp = newHP;
         this.air = newAir;
         inventory = new ArrayList<>();
@@ -40,6 +46,10 @@ public class Player {
     
     public String getName() {
         return this.playerName;
+    }
+
+    public static void setPlayerName(String playerName) {
+        Player.playerName = playerName;
     }
     
     //Return the players remaining air.
@@ -61,6 +71,12 @@ public class Player {
     public ArrayList<Item> getInventory(){
     return inventory;
     }
+
+    public void setInventory(ArrayList<Item> inventory) {
+        this.inventory = inventory;
+    }
+    
+    
     public void addToInventory(Item newItem){
             inventory.add(newItem);          
     }
@@ -71,14 +87,19 @@ public class Player {
     public void setCallHelp(boolean hasCalledHelp){
         this.hasCalledHelp = hasCalledHelp;
     }
-    public boolean hasCalledHelp(){
+    public boolean getHasCalledHelp(){
         return hasCalledHelp;
     }
+
+    public void setHasCalledHelp(boolean hasCalledHelp) {
+        this.hasCalledHelp = hasCalledHelp;
+    }
+    
     
     void setWonGame(boolean b) {
         this.wonGame = true;
     }
-    boolean hasWonGame(){
+    boolean gethasWonGame(){
         return this.wonGame;
     }
     
@@ -86,6 +107,7 @@ public class Player {
     public int getCurrentHP(){
         return hp;
     }
+    
     public void setCurrentHP(int add, int sub){
         this.hp = hp + add - sub;
     }
@@ -115,6 +137,10 @@ public class Player {
         return totalTimePlayed;
     }
 
+    public void setTotalTimePlayed(int totalTimePlayed) {
+        this.totalTimePlayed = totalTimePlayed;
+    }
+    
     
     
     /* 
@@ -128,6 +154,16 @@ public class Player {
     public boolean terminateThreads = false;
     private volatile boolean stopThreadOxygen = false;
     private volatile boolean stopThreadHP = false;
+
+    public boolean isTerminateThreads() {
+        return terminateThreads;
+    }
+
+    public void setTerminateThreads(boolean terminateThreads) {
+        this.terminateThreads = terminateThreads;
+    }
+    
+    
     
     public void terminateAllPlayerThreads() {
         stopThreadHP = true;
@@ -255,6 +291,11 @@ public class Player {
 
         return awesomePoints;
     }
+
+    public void setAwesomePoints(int awesomePoints) {
+        this.awesomePoints = awesomePoints;
+    }
+    
     
     /* Kills of threads */
     public void terminateAllPlayerTimers(){

@@ -7,23 +7,29 @@ package Persistens;
 import java.io.IOException;
 import java.util.ArrayList;
 import Acquaintance.IData;
-
+import Acquaintance.ILogic;
 /**
  *
  * @author Rasmus Jensen
  */
 public class PersistenceFasade implements IData{
     DataHighscore dataHs = new DataHighscore();
-    
-    
+    String test;
+    ILogic logic;
     
     @Override
     public boolean saveHighscore(ArrayList list){
         return dataHs.saveHigscore(list);
+        
     }
     
     @Override
     public ArrayList loadHighscore(){
         return dataHs.loadHighscore();
+    }
+
+    @Override
+    public void saveGame() {
+       test = logic.getSaveFile();
     }
 }

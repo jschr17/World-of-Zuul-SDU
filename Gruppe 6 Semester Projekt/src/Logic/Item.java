@@ -13,7 +13,8 @@ package Logic;
 //This is where the pickupable item objects is created.
 public class Item implements Interactables {
     //Name, description, and use description is defined.
-    private String itemName, itemDescription, useDescription;
+    private String itemName, useDescription;
+    String itemDescription = null; 
     private boolean flag;
     private final boolean isPickupable = true;
     private int dmg, HP, air; 
