@@ -75,6 +75,8 @@ public class FXMLDocumentController implements Initializable {
     private Button takeButton;
     @FXML
     private Button dropButton;
+    @FXML 
+    private Button talkButton;
     @FXML
     private ImageView medkit;
     @FXML
@@ -164,8 +166,6 @@ public class FXMLDocumentController implements Initializable {
     private void listAction(ActionEvent event){
         if (event.getSource() == searchButton){
             roomInv.clear();
-            listProperty1.set(FXCollections.observableList(roomInv));
-            roomInventory.itemsProperty().bind(listProperty1);  
             for (Immovable i : game.currentRoom.getInteractList()){
                 if (i.getItems() != null) {
                     roomInv.add(i.getItems().getName());   
@@ -177,6 +177,18 @@ public class FXMLDocumentController implements Initializable {
                     roomInv.add(n.getName());
                 }  
             }
+            listProperty1.set(FXCollections.observableList(roomInv));
+            roomInventory.itemsProperty().bind(listProperty1); 
+        }
+    }
+    
+    @FXML
+    private void talkButtonAction(ActionEvent event) {
+        String talkTarget = "";
+        if (event.getSource() == talkButton) {
+            talkTarget = roomInventory.getSelectionModel().getSelectedItem();
+            command.setSecondWord(talkTarget);
+            textOutArea.appendText("\n" + talkText(command));
         }
     }
     
@@ -247,6 +259,10 @@ public class FXMLDocumentController implements Initializable {
         return game.getItemDescription(command);
     }
     
+    private String talkText(Command command) {
+        return game.talk(command);
+    }
+    
     //This method initializes all the relevant classes that are needed by the GUI
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -286,7 +302,7 @@ public class FXMLDocumentController implements Initializable {
         }
         listProperty1.set(FXCollections.observableList(roomInv));
         roomInventory.itemsProperty().bind(listProperty1);
-        if (itemName != null) {
+        if (itemName != "") {
             command.setSecondWord(itemName);
             game.removeFromInventory(command);
             playerInventory.getItems().remove(itemName);
