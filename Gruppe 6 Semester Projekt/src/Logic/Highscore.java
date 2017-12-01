@@ -32,11 +32,7 @@ public class Highscore {
     static ArrayList saveHighscore() {
         return highscoreList;
     }
-    
-    static ArrayList getHighscore(){
-        return highscoreList;
-    }
-    
+      
     static boolean addNewScore(String name, int score){
         highscoreList.add(new PersonalScore(name, score));
         highscoreList.sort(null);

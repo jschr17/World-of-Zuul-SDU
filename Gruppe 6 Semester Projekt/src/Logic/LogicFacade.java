@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import Acquaintance.ILogic;
 import Acquaintance.IData;
+import GlueCode.Starter;
 
 /**
  *
@@ -18,6 +19,8 @@ import Acquaintance.IData;
 public class LogicFacade implements ILogic {
     static IData data;
     Highscore score;
+    Game game;
+    Command command;
 
     @Override
     public void InjectData(IData persistenceLayer) {
@@ -39,7 +42,7 @@ public class LogicFacade implements ILogic {
     }
     @Override
     public ArrayList getHighscore(){
-        return score.getHighscore();
+        return score.getHighscoreString();
     }
     
     static public String getDescriptionText(String key){
@@ -48,22 +51,24 @@ public class LogicFacade implements ILogic {
 
     @Override
     public String getItemDescription(String secondWord) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        command.setSecondWord(secondWord);
+        return game.getItemDescription(command);
     }
 
     @Override
     public String talk(String secondWord) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        command.setSecondWord(secondWord);
+        return game.talk(command);
     }
 
     @Override
     public String getHelpText() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return game.printHelp();
     }
 
     @Override
     public void getCurrentOxygen() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return game.player.getCurrentOxygen();
     }
 
     @Override
