@@ -12,7 +12,7 @@ import Acquaintance.IData;
  *
  * @author Rasmus Jensen
  */
-public class PersistenceFasade implements IData{
+public class PersistenceFacade implements IData{
     DataHighscore dataHs = new DataHighscore();
     
     

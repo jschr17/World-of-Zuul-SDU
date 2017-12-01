@@ -9,7 +9,7 @@ import Acquaintance.IData;
 import Acquaintance.ILogic;
 import Logic.Game;
 import Logic.LogicFacade;
-import Persistens.PersistenceFasade;
+import Persistens.PersistenceFacade;
 import java.io.IOException;
 
 /**
@@ -19,7 +19,7 @@ import java.io.IOException;
 public class Starter {
     
     public static void main(String[] args) {
-        IData data = new PersistenceFasade();
+        IData data = new PersistenceFacade();
         ILogic logic = new LogicFacade();
         logic.InjectData(data);
         logic.loadHighscore();
