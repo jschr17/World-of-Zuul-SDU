@@ -18,4 +18,19 @@ public interface ILogic {
     public boolean saveHighscore();
     public ArrayList getHighscore();
     public void loadHighscore();
+    public String getItemDescription(String secondWord);    //command.setSecondWord(secondWord)
+    public String talk(String secondWord);                  //command.setSecondWord(secondWord)
+    public String getHelpText();
+    public void getCurrentOxygen();
+    public void getCurrentHP();
+    public String useItem(String secondWord);               //command.setSecondWord(secondWord)
+    public String getCurrentRoomName();
+    public void setPlayerName(String name);
+    public void removeFromInventory(String secondWord);     //command.setSecondWord(secondWord)
+    public void addInventory(String secondWord);            //command.setSecondWord(secondWord)
+    public ArrayList getCurrentRoomInteractList();
+    public ArrayList getCurrentRoomNPCList();
+    public void goRoom(String secondWord);                  //command.setSecondWord(secondWord)
+    
+    
 }
