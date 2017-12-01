@@ -24,7 +24,7 @@ public class Immovable implements Interactables{
         this.description = description; 
         this.useDescription = useDescription; 
         this.destructible = destructible; 
-        this.flag = flag;
+        this.flag = true;
         this.itemDmg = 80;
     }
     
@@ -43,17 +43,8 @@ public class Immovable implements Interactables{
     
     //public method to break the table in the armoury
     public void breakTable(){
-        //check to see if table is destructible before running the rest
-        if (this.destructible == true) {
-            System.out.println("You break the leg off the table \n a bunch of "
-                    + "notes fall on the floor.");
-            this.destructible = false; // since the immovable is broken, it can't be broken more.
-            System.out.println("You pickup the notes and the tableleg"); 
-        }
-        else
-            System.out.println("You can't break this.");        
+    
     }
-
     public String getItemDescription(){
         return item.getDescription();
     }
@@ -123,5 +114,10 @@ public class Immovable implements Interactables{
     @Override
     public void setDescription(String string) {
         this.description = string;
+    }
+
+    @Override
+    public void setDestructable(Boolean destructable) {
+        this.destructible = destructable;
     }
 }

@@ -12,7 +12,7 @@ import semesterprojektfx.FXMLDocumentController;
  * @version 2006.03.30
  */
 // the Class that contains the specifics in the game and assigns values to the initialized constructors
-public class Game {
+public  class  Game {
 
     InputHashmap text = new InputHashmap();
     private Parser parser;  //declares a parser objekt, so the game can read inputs
@@ -25,7 +25,7 @@ public class Game {
             hiddenpanel, closet, lockedDoor, glassCabinet, airlockPanel, 
             doorLockPanel, radioArray;
     public NPC britney, keyMonster;
-    private Item sword, medkit, oxygen, gun, rifle, tableleg, key;
+    public Item sword, medkit, oxygen, gun, rifle, key, notes;
     private int enterRoomCounter1, enterRoomCounter2 = 0;
 
     //private Command command = parser.getCommand();
@@ -127,8 +127,8 @@ public class Game {
         oxygen = new Item("oxygen","An oxygen tank, that can refill the users own oxygen tank.",0,0,35);
         //gun = new Item("gun","A small gun. It deals 20 dmg.",20,0,0);
         rifle = new Item("rifle","A rifle. It does 40 dmg.",40,0,0);
-        tableleg = new Item("tableleg","A broken tableleg, from the table you just broke.",1,0,0);
         key = new Item("keymodule", "A small electronic device with keymodule printed on it", 0, 0, 0);
+        notes = new Item("notes", "The note reads: '...but if you want to get through the secret door, the password is 28374", 0, 0, 0);
         keyMonster.addItem(key);
 //      Items bliver sat i de forskellige immovables, i de forskellige rum:
 //      Medbay items
@@ -139,7 +139,8 @@ public class Game {
 //      Armoury items:
         weaponCabinet.setItems(rifle);
         bookcase.setItems(sword);
-
+        table.setItems(notes);
+        notes.setFlag(false);
 //      Hallway items:
 //      Communicationroom items:
 //      Airlock room items:
@@ -231,8 +232,6 @@ public class Game {
             getItemDescription(command);
         } else if (commandWord == CommandWord.SEARCH) {
             search(command);
-        } else if (commandWord == CommandWord.BREAK) {
-            breakObject(command);
         } else if (commandWord == CommandWord.CHECKBAG) {
             if (player.getInventory().isEmpty()) {
                 System.out.println("You have nothing in your inventory");
@@ -361,28 +360,13 @@ public class Game {
     }
     
     //Breaks the specified object by running the breakTable method
-    private void breakObject(Command command) {
-        if (!command.hasSecondWord()) {
-            System.out.println("break what?");
-            return;
-        }
-        String object = command.getSecondWord();
-        if (currentRoom.getImmovable(object) != null) {
-            if (currentRoom.getImmovable(object).getName().equals("table")
-                    && currentRoom.getImmovable(object).getDestructible() == true) {
-                Item tableleg = new Item("tableleg", "A broken off leg from a table. "
-                        + "Might be useful as a weapon", 5, 0, 0);
+    
+    public void breakObject() {
                 Item notes = new Item("notes", "The notes have a series of numbers written"
                         + " on it. The numbers are 28374. You should probably "
                         + "remember them.", 0, 0, 0);
-                player.addToInventory(notes);
-                player.addToInventory(tableleg);
-            }
-            currentRoom.getImmovable(object).breakTable();
-
-        } else {
-            System.out.println("There is no " + object + " in this room");
-        }
+                currentRoom.addItem(notes);
+                
     }
 
     //Adds the item comming after the commandWord to the players inventory.
