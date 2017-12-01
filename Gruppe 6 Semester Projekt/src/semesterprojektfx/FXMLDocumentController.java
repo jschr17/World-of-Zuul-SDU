@@ -184,14 +184,14 @@ public class FXMLDocumentController implements Initializable {
                 if (i.getItems() != null) {
                     roomInv.add(i.getItems().getName());   
                 }
-            }
-            listProperty1.set(FXCollections.observableList(roomInv));
-            roomInventory.itemsProperty().bind(listProperty1);    
+            }   
             for (Item i : game.currentRoom.getItemList()){
                 if (i != null) {
                     roomInv.add(i.getName());
                 }
             }
+            listProperty1.set(FXCollections.observableList(roomInv));
+            roomInventory.itemsProperty().bind(listProperty1); 
         }
         else if (event.getSource() == inspectButton) {
            String immovableName = roomInventory.getSelectionModel().getSelectedItem();
@@ -342,15 +342,18 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void attackFunction(ActionEvent event){
+        boolean control = false;
         if (game.currentRoom.getNPCList().contains(game.keyMonster)) {
             command.setSecondWord("monster");
             game.combat(command);
-            if (playerInv.contains("rifle")) {
+            if (playerInv.contains("rifle") && control == false) {
                 command.setCommandWord(commandWord.USE);
                 command.setSecondWord("rifle");
                 game.combat(command);
                 hpBarAction();
-                String appendText;
+                textOutArea.appendText(game.combat(command));
+                control = true;
+                return;
             }
             else {
                 textOutArea.appendText("\nNo rifle.");
@@ -363,7 +366,6 @@ public class FXMLDocumentController implements Initializable {
             textOutArea.appendText("\nYou can't do that.");
         }
     }
-    
     private void hpBarAction(){
         double hpProgress = game.player.getCurrentHP() / 100.0;
         HPbar.setProgress(hpProgress);

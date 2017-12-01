@@ -666,7 +666,6 @@ public class Game {
             } else {
                 currentRoom.removeNPC(monster);
             }
-
         }
     }
 
@@ -717,7 +716,7 @@ public class Game {
         }
     }
 
-    public void combat(Command command) {
+    public String combat(Command command) {
         if (currentRoom.getNPC("monster") == keyMonster) {
             System.out.println("You are attacked by the monster!");
             CommandWord commandWord;
@@ -747,7 +746,7 @@ public class Game {
                                         + i.getName() + " and damaged it for "
                                         + i.getDmg());
                                 yourTurn = false;
-                                break;
+                                //break;
                             }
                         }
                     }
@@ -762,7 +761,9 @@ public class Game {
                             + " and unto the floor");
                             currentRoom.addItem(keyMonster.getItem());
                             currentRoom.removeNPC(keyMonster);
-                            break;
+                            //break;
+                            return "\nThe monster is defeated! \nA key drops from the monsters corpse"
+                            + " and unto the floor";
                         }
                         else if (keyMonster.getDefeated()) {
                             currentRoom.removeNPC(keyMonster);
@@ -771,7 +772,8 @@ public class Game {
                     }
                 } else {
                     System.out.println("You cant do that");
-                    break;
+                    //break;
+                    return "You can't do that.";
                 }
                 if (yourTurn == false) {
                     player.setHp(player.getHp() - keyMonster.getDamage());
@@ -781,10 +783,11 @@ public class Game {
                     if (player.getCurrentHP() <= 0) {
                         break;
                     }
+                    return "The monster damages you for " + keyMonster.getDamage();
                 }
-
             }
         }
+      return "test";
     }
     // method for the commandword talk
     private void talk(Command command) {
