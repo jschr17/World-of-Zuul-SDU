@@ -82,6 +82,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML 
     private Button talkButton;
     @FXML
+    private Button saveButton;
+    @FXML
     private ImageView medkit;
     @FXML
     private ImageView oxygen;
@@ -141,8 +143,6 @@ public class FXMLDocumentController implements Initializable {
     private Button startButton;
     @FXML
     private Label warningLabel;
-    @FXML
-    private Button saveButton;
     @FXML
     private Button highScoreButton;
     @FXML
@@ -438,6 +438,10 @@ public class FXMLDocumentController implements Initializable {
         hpBarAction();
         AirBarAction();
     }
+    @FXML
+    private void saveGameAction(ActionEvent event) {
+        //logic.saveGame();
+    }
     
     @FXML
     private void splashScreenAction(ActionEvent event){
@@ -445,7 +449,8 @@ public class FXMLDocumentController implements Initializable {
         if (!playerName.equalsIgnoreCase("") && !playerName.equalsIgnoreCase(null)) {
             game.player.setPlayerName(playerName);
             splashScreen.setVisible(false);
-            medbay.setVisible(true);            
+            medbay.setVisible(true);   
+            game.player.setAir(100);
         }
         else {
             warningLabel.setVisible(true);

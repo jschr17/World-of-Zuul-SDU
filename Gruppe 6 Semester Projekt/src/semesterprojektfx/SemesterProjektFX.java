@@ -1,5 +1,9 @@
 package semesterprojektfx;
 
+import Acquaintance.IData;
+import Acquaintance.ILogic;
+import Logic.LogicFacade;
+import Persistens.PersistenceFacade;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
@@ -12,6 +16,10 @@ public class SemesterProjektFX extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         
+        IData data = new PersistenceFacade();
+        ILogic logic = new LogicFacade();
+        logic.InjectData(data);
+        logic.loadHighscore();
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));    
         Scene scene = new Scene(root);
         stage.setScene(scene);
