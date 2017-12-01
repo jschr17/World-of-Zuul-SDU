@@ -16,7 +16,7 @@ import Acquaintance.IData;
  * @author Rasmus Jensen
  */
 public class LogicFacade implements ILogic {
-    IData data;
+    static IData data;
     Highscore score;
 
     @Override
@@ -41,6 +41,10 @@ public class LogicFacade implements ILogic {
     public ArrayList getHighscore(){
         return score.getHighscore();
     }
+    
+    static public String getDescriptionText(String key){
+        return data.getDescriptionText(key);
+}
 
     @Override
     public String getItemDescription(String secondWord) {

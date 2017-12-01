@@ -17,6 +17,13 @@ public interface IData {
 
     public ArrayList loadHighscore();
     
+    /**
+     *
+     * @param key
+     * @return
+     */
+    public String getDescriptionText(String key);
+    
     
 
 }
