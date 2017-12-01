@@ -160,7 +160,7 @@ public class Room {
     public ArrayList<NPC> getNPCList(){
         return npcList;
     }
-    Room getSecretDestination(String notes) {
+    public Room getSecretDestination(String notes) {
         return secretExits.get(notes);
     }
     
