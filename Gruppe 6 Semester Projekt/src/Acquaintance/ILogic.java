@@ -18,4 +18,5 @@ public interface ILogic {
     public boolean saveHighscore();
     public ArrayList getHighscore();
     public void loadHighscore();
+    
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import java.awt.Desktop;
 import java.util.Scanner;
+import semesterprojektfx.FXMLDocumentController;
 
 /**
  * @author Michael Kolling and David J. Barnes
@@ -15,18 +16,21 @@ public class Game {
 
     InputHashmap text = new InputHashmap();
     private Parser parser;  //declares a parser objekt, so the game can read inputs
-    private Room currentRoom;   // initialises a starting room
-    private Player player = new Player(100, 100);
-    private int inventorySpace = 2;
+    public Room currentRoom;   // initialises a starting room
+    public Player player = new Player(100, 100);
+    public int inventorySpace = 2;
 
     private Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
     private Immovable counter, device, table, weaponCabinet, bookcase, 
             hiddenpanel, closet, lockedDoor, glassCabinet, airlockPanel, 
             doorLockPanel, radioArray;
-    private NPC britney, keyMonster;
+    public NPC britney, keyMonster;
     private Item sword, medkit, oxygen, gun, rifle, tableleg, key;
     private int enterRoomCounter1, enterRoomCounter2 = 0;
 
+    //private Command command = parser.getCommand();
+    FXMLDocumentController controller = new FXMLDocumentController();
+    
     // constructor for the game class    
     public Game() throws IOException {
         createRooms();
@@ -34,7 +38,7 @@ public class Game {
     }
 
     //initializing of the rooms objects needed in the game 
-    private void createRooms() {   //asigning the room objects
+    public void createRooms() {   //asigning the room objects
 
 
         // The initialication of the room objects
@@ -194,13 +198,14 @@ public class Game {
     }
 
     //Method that print the welcome + long description information when game is started
-    private void printWelcome() {
+    public String printWelcome() {
         System.out.println();
         System.out.println("Welcome to Mads Effect!");
         System.out.println("Mads Effect is a new, incredibly exciting space-adventure game.");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
+        return "Welcome to Mads Effect! Mads Effect is a new, incredibly exciting space-adventure game. \n Type '" + CommandWord.HELP + "' if you need help.\n\n" + currentRoom.getLongDescription() ;
     }
 
     // this boolean method is actualy what carries most of the ingame logic, and is the main component of the game loop
@@ -266,7 +271,7 @@ public class Game {
                 System.out.println("No monster here.");
             }
             else {
-                combat();
+                combat(command);
             }
         }
 
@@ -274,19 +279,20 @@ public class Game {
     }
 
     // method for printing help, 
-    private void printHelp() {
+    public String printHelp() {
         System.out.println("You are lost. You are alone. You wander");
         System.out.println("around an abandoned spaceship.");
         System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();
+        return "You are lost. You are alone. You wander around an abandoned spaceship.\n Your command words are: " + parser.showCommands();
     }
 
     //method for moving between rooms
-    private void goRoom(Command command) {
+    public String goRoom(Command command) {
         if (!command.hasSecondWord()) {      //if statement for determining if there is a second word returned from the Parser
             System.out.println("Go where?");// if no word is given this line is printed in the console
-            return;
+            return"Go where?";
         }
 
         String direction = command.getSecondWord(); //direction is sat to be the second word from the Parser
@@ -295,9 +301,11 @@ public class Game {
 
         if (nextRoom == null) {                     //if no roomobject is found in the exit HashMap
             System.out.println("There is no door!");// this line is printed
+            return "There is no door!";
         } else {
             currentRoom = nextRoom;                                // else the new room is sat to be currentRoom
             System.out.println(currentRoom.getLongDescription());   // and the long description is printed
+            return currentRoom.getLongDescription();
         }
     }
 
@@ -315,43 +323,43 @@ public class Game {
     }
 
     //Returns the description of the word after the commandWord.
-    private void getItemDescription(Command command) {
-        if (!command.hasSecondWord()) {
+    public String getItemDescription(Command command) {
+        String inspectString = "";
+        if (command.hasSecondWord()) {
+            String item = command.getSecondWord();
+            for (Item i : player.getInventory()) {
+                if (i.getName().equals(item)) {
+                   //System.out.println(i.getDescription());
+                    inspectString = i.getDescription();
+                } 
+            }
+            for (Immovable i : currentRoom.getInteractList()) {
+                if (i.getName().equals(item)) {
+                    //System.out.println(i.getDescription());
+                   inspectString = i.getDescription();
+                }
+            }
+            for (NPC n : currentRoom.getNPCList()) {
+                if (n.getName().equals(item)) {
+                    //System.out.println(n.getDescription());
+                    inspectString = n.getDescription();
+                } 
+            }
+            // These lines mess up the inspect button in the GUI
+            /*if (item != currentRoom.getInteractList().toString() && item != player.getInventory().toString()) {
+                //System.out.println("You can't inspect that!");
+                inspectString = "You can't inspect that!";
+            }*/
+            }
+        else {
             //Hvis der ikke er to ord, understående bliver printet og man
             //bliver bedt om at prøve igen.
-            System.out.println("Which item?");
-            return;
+            //System.out.println("Which item?");
+            inspectString = "Which item?";
         }
-        String item = command.getSecondWord();
-        for (Item i : player.getInventory()) {
-            if (i.getName().equals(item)) {
-                System.out.println(i.getDescription());
-                return;
-            } else if (i.getName() != item) {
-                continue;
-            }
-        }
-        for (Immovable i : currentRoom.getInteractList()) {
-            if (i.getName().equals(item)) {
-                System.out.println(i.getDescription());
-                return;
-            } else if (i.getName() != item) {
-                continue;
-            }
-        }
-        for (NPC n : currentRoom.getNPCList()) {
-            if (n.getName().equals(item)) {
-                System.out.println(n.getDescription());
-                return;
-            } else {
-                continue;
-            }
-        }
-        if (item != currentRoom.getInteractList().toString() && item != player.getInventory().toString()) {
-            System.out.println("You can't inspect that!");
-        }
+        return inspectString;
     }
-
+    
     //Breaks the specified object by running the breakTable method
     private void breakObject(Command command) {
         if (!command.hasSecondWord()) {
@@ -378,7 +386,7 @@ public class Game {
     }
 
     //Adds the item comming after the commandWord to the players inventory.
-    private void addInventory(Command command) {
+    public void addInventory(Command command) {
         String object = command.getSecondWord();
         if (!command.hasSecondWord()) {
             System.out.println("Take what?");
@@ -529,7 +537,7 @@ public class Game {
         }
     }
 
-    private void removeFromInventory(Command command) {
+    public void removeFromInventory(Command command) {
         String object = command.getSecondWord();
         if (!command.hasSecondWord()) {
             System.out.println("Drop what?");
@@ -557,7 +565,7 @@ public class Game {
     }
 
     // This method, handles using ones items, that are in the players inventory
-    private void useItem(Command command) {
+    public String useItem(Command command) {
         String object = command.getSecondWord();
         int air = player.getAir();
         int HP = player.getHp();
@@ -566,7 +574,7 @@ public class Game {
 
         if (!command.hasSecondWord()) {
             System.out.println("Use what?");
-            return;
+            return "Use what?";
         }
         // it checks for the items in the inventory
         for (Item i : player.getInventory()) {
@@ -575,7 +583,7 @@ public class Game {
                     radioArray.setFlag(true);
                     player.removeFromInventory(i);
                     System.out.println("You take the keymodule and slot it into the radio, as soon as the module clicks in place the radio come to life with a static buzz.");
-                    return;
+                    return "You take the keymodule and slot it into the radio, as soon as the module clicks in place the radio come to life with a static buzz.";
             }
             if (i.getName().equalsIgnoreCase(object)){
                 //here it checks an statement, that checks for either the 
@@ -586,12 +594,12 @@ public class Game {
                     System.out.println("You used the " + object + ". It gave you " + i.getAir() + " air.");
                     player.setAir(air + i.getAir());
                     player.removeFromInventory(i);
-                    return;
+                    return "You used the " + object + ". It gave you " + i.getAir() + " air.";
                 } else if (HP < 60 && i.getName().equalsIgnoreCase(medkit)) {
                     System.out.println("You used the " + object + ". It gave you " + i.getHP() + " HP.");
                     player.setHp(HP + i.getHP());
                     player.removeFromInventory(i);
-                    return;
+                    return "You used the " + object + ". It gave you " + i.getHP() + " HP.";
                 }        
                 //these two, makes sure that, when the player uses a medkit/
                 // oxygen, that the players air/HP cant go over 100
@@ -600,29 +608,29 @@ public class Game {
                         System.out.println("You used the: " + object);
                         player.setHp(100);
                         player.removeFromInventory(i);
-                        return;
+//                        return "You used the: " + object;
+                        return "You used the " + object + ". It gave you " + i.getHP() + " HP.";
                     }
                     if (i.getName().equalsIgnoreCase(oxygen)) {
                         System.out.println("You used the:: " + object);
                         player.setAir(100);
                         player.removeFromInventory(i);
-                        return;
+//                        return "You used the: " + object;
+                        return "You used the " + object + ". It gave you " + i.getAir() + " air.";
                     }
-
                 }
                 //Here it checks, if the players hp or air is already full, 
                 // that the player cant use the medkits or oxygen tanks.
                 else if(air >= 100 && i.getName().equalsIgnoreCase(oxygen)){
                         System.out.println("Your oxygen-tank is already full");
-                        return;
+                        return "Your oxygen-tank is already full";
                 }
                 else if(HP >= 100 && i.getName().equalsIgnoreCase(medkit)){
                         System.out.println("Your HP is already full");
-                        return;
+                        return "Your HP is already full";
                 }
                 // use the key at the radio to get it to be able to call help. 
                 // And removes the key from inventory.
-                
             }
         }
         // usikker på om jeg stadig har brug for denne failsafe
@@ -630,12 +638,12 @@ public class Game {
         for (Item i : player.getInventory()) {
             if (!object.equalsIgnoreCase(i.getName())) {
                 System.out.println("Use what??");
-                return;
+                return "Use what??";
             }
-
         }
         // usikker på om jeg har brug for denne failsafe, eller den lige over
         System.out.println("That item isnt in your inventory"); 
+        return "That item isnt in your inventory";
     }
 
     // a test command, to let the player take some dmg
@@ -658,7 +666,6 @@ public class Game {
             } else {
                 currentRoom.removeNPC(monster);
             }
-
         }
     }
 
@@ -709,14 +716,13 @@ public class Game {
         }
     }
 
-    public void combat() {
+    public String combat(Command command) {
         if (currentRoom.getNPC("monster") == keyMonster) {
             System.out.println("You are attacked by the monster!");
             CommandWord commandWord;
             String secondWord;
             boolean yourTurn = true;
             while (true) {
-                Command command = parser.getCommand();
                 commandWord = command.getCommandWord();
                 secondWord = command.getSecondWord();
                 if (commandWord == CommandWord.FLEE && yourTurn == true) {
@@ -725,9 +731,11 @@ public class Game {
                     player.setAir(player.getAir() - 40);
                     currentRoom.removeNPC(keyMonster);
                     break;
-                } else if (commandWord == CommandWord.STATUS && yourTurn == true) {
+                }
+                else if (commandWord == CommandWord.STATUS && yourTurn == true) {
                     checkStatus();
-                } else if (commandWord == CommandWord.USE && yourTurn == true) {
+                }
+                else if (commandWord == CommandWord.USE && yourTurn == true) {
                     if (!command.hasSecondWord()) {
                         System.out.println("What weapon?");
                     } else {
@@ -738,6 +746,7 @@ public class Game {
                                         + i.getName() + " and damaged it for "
                                         + i.getDmg());
                                 yourTurn = false;
+                                //break;
                             }
                         }
                     }
@@ -752,7 +761,9 @@ public class Game {
                             + " and unto the floor");
                             currentRoom.addItem(keyMonster.getItem());
                             currentRoom.removeNPC(keyMonster);
-                            break;
+                            //break;
+                            return "\nThe monster is defeated! \nA key drops from the monsters corpse"
+                            + " and unto the floor";
                         }
                         else if (keyMonster.getDefeated()) {
                             currentRoom.removeNPC(keyMonster);
@@ -761,6 +772,8 @@ public class Game {
                     }
                 } else {
                     System.out.println("You cant do that");
+                    //break;
+                    return "You can't do that.";
                 }
                 if (yourTurn == false) {
                     player.setHp(player.getHp() - keyMonster.getDamage());
@@ -770,36 +783,37 @@ public class Game {
                     if (player.getCurrentHP() <= 0) {
                         break;
                     }
+                    return "The monster damages you for " + keyMonster.getDamage();
                 }
-
             }
         }
+      return "test";
     }
+    
     // method for the commandword talk
-    private void talk(Command command) {
+    public String talk(Command command) {
+        String talkString = "";
         if (!command.hasSecondWord()) {                         //What hapends if no second word is given
-            System.out.println(text.getText("talkNoArgument"));
-            return;
-
+            talkString = text.getText("talkNoArgument");
             // logic for how britneay responds
             // maby current room argument can be omittet? 
         } else if (command.getSecondWord().equalsIgnoreCase("britney") && currentRoom.getNPC("britney") == britney) {
             if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == false) { //responds befor radi is fixed
-                System.out.println(text.getText("britney1"));
+                talkString = text.getText("britney1");
             } else if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == true && player.hasCalledHelp() == false) { //respons after radi is fixed
-                System.out.println(text.getText("britney2"));
+                talkString = text.getText("britney2");
             } else if (currentRoom == communicationRoom && player.hasCalledHelp()) {    //responds after help is called sets evacuate boolean true
-                System.out.println(text.getText("britney3"));
+                talkString = text.getText("britney3");
                 britney.setToldToEvacuate(Boolean.TRUE);
             } else if (currentRoom == airlock) {    // response in airlock
-                System.out.println(text.getText("britney4"));
+                talkString = text.getText("britney4");
             } else{
-                System.out.println("Britney isn't here.");
+                talkString = "Britney isn't here.";
             }
         } else {    // respans for all other posible second words (EVERYTHIN THAT IS INPUTTET INTO THE CONSOLE AS SECONDWORD)
-            System.out.println("You are trying to talk to something that can't response. Maybe the lack of oxygen is affecting your brain.");
+            talkString = "You are trying to talk to something that can't response. Maybe the lack of oxygen is affecting your brain.";
         }
-
+        return talkString;
     }
     
     
@@ -812,7 +826,7 @@ public class Game {
         if (currentRoom.getNPCList().contains(keyMonster)) {
             System.out.println("There is a monster in this room.");
             if (keyMonster.getHostility() && keyMonster.getDefeated()) {
-                combat();
+                combat(controller.command);
             }
         }
         
