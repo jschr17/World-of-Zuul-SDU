@@ -17,6 +17,7 @@ import GlueCode.Starter;
  * @author Rasmus Jensen
  */
 public class LogicFacade implements ILogic {
+
     static IData data;
     Highscore score;
     Game game;
@@ -24,30 +25,31 @@ public class LogicFacade implements ILogic {
 
     @Override
     public void InjectData(IData persistenceLayer) {
-       this.data = persistenceLayer; 
+        this.data = persistenceLayer;
     }
-    
-    public void loadHighscore(){
-        score = new  Highscore(data.loadHighscore());
+
+    public void loadHighscore() {
+        score = new Highscore(data.loadHighscore());
     }
-       
+
     @Override
-    public boolean saveHighscore(){
+    public boolean saveHighscore() {
         return data.saveHighscore(Highscore.saveHighscore());
     }
-    
+
     @Override
-    public boolean addNewScore(String name, int score){
-        return  this.score.addNewScore(name, score);
+    public boolean addNewScore(String name, int score) {
+        return this.score.addNewScore(name, score);
     }
+
     @Override
-    public ArrayList getHighscore(){
+    public ArrayList getHighscore() {
         return score.getHighscoreString();
     }
-    
-    static public String getDescriptionText(String key){
+
+    static public String getDescriptionText(String key) {
         return data.getDescriptionText(key);
-}
+    }
 
     @Override
     public String getItemDescription(String secondWord) {
@@ -67,55 +69,78 @@ public class LogicFacade implements ILogic {
     }
 
     @Override
-    public void getCurrentOxygen() {
+    public int getCurrentOxygen() {
         return game.player.getCurrentOxygen();
     }
 
     @Override
-    public void getCurrentHP() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getCurrentHP() {
+        return game.player.getCurrentHP();
     }
 
     @Override
     public String useItem(String secondWord) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        command.setSecondWord(secondWord);
+        return game.useItem(command);
     }
 
     @Override
     public String getCurrentRoomName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return game.currentRoom.getName();
     }
 
     @Override
     public void setPlayerName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        game.player.setPlayerName(name);
     }
 
     @Override
     public void removeFromInventory(String secondWord) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        command.setSecondWord(secondWord);
+        game.removeFromInventory(command);
     }
 
     @Override
     public void addInventory(String secondWord) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        command.setSecondWord(secondWord);
+        game.addInventory(command);
     }
 
     @Override
     public ArrayList getCurrentRoomInteractList() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return game.currentRoom.getInteractList();
     }
 
     @Override
     public ArrayList getCurrentRoomNPCList() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return game.currentRoom.getNPCList();
     }
 
     @Override
     public void goRoom(String secondWord) {
+        command.setSecondWord(secondWord);
+        game.goRoom(command);
+    }
+
+    @Override
+    public void saveGame() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-    
+
+    @Override
+    public String combat(String secondWord) {
+        command.setSecondWord(secondWord);
+        return game.combat(command);
+    }
+
+    @Override
+    public boolean getDefeated() {
+        return game.keyMonster.getDefeated();
+    }
+
+    @Override
+    public void setOxygen(int air) {
+        game.player.setAir(air);
+    }
+
 }

@@ -5,6 +5,8 @@
  */
 package Acquaintance;
 
+import Logic.Command;
+import Logic.CommandWord;
 import java.util.ArrayList;
 
 /**
@@ -21,8 +23,8 @@ public interface ILogic {
     public String getItemDescription(String secondWord);    //command.setSecondWord(secondWord)
     public String talk(String secondWord);                  //command.setSecondWord(secondWord)
     public String getHelpText();
-    public void getCurrentOxygen();
-    public void getCurrentHP();
+    public int getCurrentOxygen();
+    public int getCurrentHP();
     public String useItem(String secondWord);               //command.setSecondWord(secondWord)
     public String getCurrentRoomName();
     public void setPlayerName(String name);
@@ -31,6 +33,8 @@ public interface ILogic {
     public ArrayList getCurrentRoomInteractList();
     public ArrayList getCurrentRoomNPCList();
     public void goRoom(String secondWord);                  //command.setSecondWord(secondWord)
-    
-    
+    public void saveGame();
+   public String combat(String secondWord);
+    public boolean getDefeated();
+    public void setOxygen(int air);
 }
