@@ -9,7 +9,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -24,6 +26,7 @@ import java.util.logging.Logger;
 public class SaveFile {
 
     Player player;
+    Player player1 = new Player();
     private Game game;
     Room room;
     String Savestring;
@@ -60,7 +63,7 @@ public class SaveFile {
 //            Savestring = mapper.writeValueAsString(this);
             mapper.writeValue(new File("files/SaveFile.json"), this);
             
-            System.out.println(Savestring);
+            System.out.println("test");
         } catch (JsonProcessingException ex) {
             Logger.getLogger(SaveFile.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -70,28 +73,35 @@ public class SaveFile {
         return Savestring;
     }
     
+    
     public void LoadSaveString() throws IOException{
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
 //        module.addDeserializer(SaveFile.class, new SaveDeserializer());
         mapper.registerModule(module);
         
-        
+       // mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         
         String filePath = "files/SaveFile.json";
         
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         testfile = reader.readLine();
+        System.out.println("Stringen testfilen bliver printet: " + testfile);
+        player1 = mapper.readValue(testfile, Player.class);
+        System.out.println("Test 2: " + player1.toString());
         
-        //Player player = mapper.readValue(testfile, Player.class);
-        //Player player = mapper.readValue(testfile, Player.class);
-        //Player player2 = mapper.readValue(filePath, Player.class);
-        //Player player3 = mapper.readValue("files/SaveFile", Player.class);
-        Player player3 = mapper.readValue(new File("files/SaveFile.json"), Player.class);// io exception unrecognized token
-        Player player4 = mapper.readValue(testfile, Player.class);
-        game.setPlayer(player4);
         
-        System.out.println(testfile);
+        game.setPlayer(mapper.readValue(testfile, Player.class));
+
+        
+        
+       
+        
+        
+        
+        
+       
+        
         
     
     }

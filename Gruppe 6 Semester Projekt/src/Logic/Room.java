@@ -19,6 +19,10 @@ public class Room {
      ArrayList<Item> itemList;
     private ArrayList<NPC> npcList;             // list of NPCs in the room
     private boolean firstTimeEntered;           
+
+    public Room() {
+    }
+    
     
     
     //constructor that sets the rooms description

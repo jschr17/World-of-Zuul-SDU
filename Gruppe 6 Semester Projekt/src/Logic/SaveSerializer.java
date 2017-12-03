@@ -29,14 +29,14 @@ public class SaveSerializer extends StdSerializer<SaveFile> {
     @Override
     public void serialize(SaveFile t, JsonGenerator jg, SerializerProvider sp) throws IOException, JsonProcessingException {
         jg.writeStartObject();
-        jg.writeObjectField("Player", t.getPlayer());
-        jg.writeObjectField("Medbay", t.getGame().getMedbay());
-        jg.writeObjectField("Hallway", t.getGame().getHallway());
-        jg.writeObjectField("Keyroom", t.getGame().getKeyRoom());
-        jg.writeObjectField("Communication", t.getGame().getCommunicationRoom());
-        jg.writeObjectField("Armoury", t.getGame().getArmoury());
-        jg.writeObjectField("Airlock", t.getGame().getAirlock());
-        jg.writeObjectField("CurrentRoom", t.getGame().getCurrentRoom());
+        jg.writeObjectField("player", t.getPlayer());
+//        jg.writeObjectField("Medbay", t.getGame().getMedbay());
+//        jg.writeObjectField("Hallway", t.getGame().getHallway());
+//        jg.writeObjectField("Keyroom", t.getGame().getKeyRoom());
+//        jg.writeObjectField("Communication", t.getGame().getCommunicationRoom());
+//        jg.writeObjectField("Armoury", t.getGame().getArmoury());
+//        jg.writeObjectField("Airlock", t.getGame().getAirlock());
+//        jg.writeObjectField("CurrentRoom", t.getGame().getCurrentRoom());
        
         jg.writeEndObject();
     }

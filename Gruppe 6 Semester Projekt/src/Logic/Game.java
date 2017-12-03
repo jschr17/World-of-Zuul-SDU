@@ -13,7 +13,7 @@ import java.util.Scanner;
 // the Class that contains the specifics in the game and assigns values to the initialized constructors
 public class Game {
 
-    private SaveFile save;
+    private SaveFile save = new SaveFile(this, this.player);
 
     InputHashmap text = new InputHashmap();
     private Parser parser;  //declares a parser objekt, so the game can read inputs
@@ -668,7 +668,7 @@ public class Game {
 
             // logic for what hapends when switch is activated
             if (command.getSecondWord().equals("switch") && i.getName().equals("switch")) {
-                if (player.getHasCalledHelp() == true) {                                       // the call for help bool is changed when the radio in com-room is used
+                if (player.gethasCalledHelp() == true) {                                       // the call for help bool is changed when the radio in com-room is used
                     player.setWonGame(true);
                     System.out.println(text.getText("airlocksuccess"));
                     return true;
@@ -685,7 +685,7 @@ public class Game {
 
                 } else if (currentRoom.getImmovable("radio").getFlag() == true) {
                     System.out.println("You use the radio to call for help, a nerby spacecaft responds to your sos and wil be there to pick you up shortly.");
-                    player.setCallHelp(true);
+                    player.sethasCalledHelp(true);
                     return false;
                 }
                 return false;
@@ -760,7 +760,7 @@ public class Game {
                     System.out.println("The monster damages you for "
                             + keyMonster.getDamage());
                     yourTurn = true;
-                    if (player.getCurrentHP() <= 0) {
+                    if (player.getHp() <= 0) {
                         break;
                     }
                 }
@@ -781,9 +781,9 @@ public class Game {
         } else if (command.getSecondWord().equalsIgnoreCase("britney") && currentRoom.getNPC("britney") == britney) {
             if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == false) { //responds befor radi is fixed
                 System.out.println(text.getText("britney1"));
-            } else if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == true && player.getHasCalledHelp() == false) { //respons after radi is fixed
+            } else if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == true && player.gethasCalledHelp() == false) { //respons after radi is fixed
                 System.out.println(text.getText("britney2"));
-            } else if (currentRoom == communicationRoom && player.getHasCalledHelp()) {    //responds after help is called sets evacuate boolean true
+            } else if (currentRoom == communicationRoom && player.gethasCalledHelp()) {    //responds after help is called sets evacuate boolean true
                 System.out.println(text.getText("britney3"));
                 britney.setToldToEvacuate(Boolean.TRUE);
             } else if (currentRoom == airlock) {    // response in airlock
@@ -851,7 +851,7 @@ public class Game {
                         + "and fix this radio already!");
                 communicationRoom.setFirstTimeEntered(false);
             }
-            if (player.getHasCalledHelp() && britney.gettoldToEvacuate()
+            if (player.gethasCalledHelp() && britney.gettoldToEvacuate()
                     && currentRoom.getNPCList().contains(britney)) {
                 currentRoom.removeNPC(britney);
             }
@@ -867,7 +867,7 @@ public class Game {
 
         // airlock
         if (currentRoom == airlock) {
-            if (player.getHasCalledHelp()) {
+            if (player.gethasCalledHelp()) {
                 currentRoom.getImmovable("switch").setUseDescription("You press"
                         + " the switch. The light turns green");
                 // Message printed after help has been called
@@ -899,8 +899,9 @@ public class Game {
 
     }
     private void loadsave() throws IOException{
-    save.LoadSaveString();
-    
+        System.out.println(player.getHp());
+        save.LoadSaveString();
+        System.out.println("Sidste test: " + player.toString());
     }
 
     public Room getCurrentRoom() {
@@ -942,6 +943,7 @@ public class Game {
 
     public void setPlayer(Player player) {
         this.player = player;
+        
     }
 
     public void setMedbay(Room medbay) {
@@ -968,5 +970,8 @@ public class Game {
         this.airlock = airlock;
     }
     
-    
+    public int getPlayerHP(){
+        return player.getHp();
+    }
+
 }

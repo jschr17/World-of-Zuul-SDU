@@ -5,6 +5,7 @@
  */
 package Logic;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 import static java.lang.Math.E;
 import java.util.Timer;
@@ -14,6 +15,7 @@ import java.util.TimerTask;
  *
  * @author Nick, Jonas
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Player {
     private int hp;
     private int air;
@@ -23,15 +25,22 @@ public class Player {
     
     /* By Mads */
     public static String playerName = "Mads"; // Non-negotiable
-    public int maxHP = hp;    
+       
     // public int currentHP = maxHP;
-    public int maxOxygen = air;
+    
     // public int currentOxygen = maxOxygen; 
     public int awesomePoints = 0;
     public int totalTimePlayed = 0;
-
+    
+    
     Player() {
     }
+
+    @Override
+    public String toString() {
+        return "Player{" + "hp=" + hp + ", air=" + air + ", inventory=" + inventory + ", hasCalledHelp=" + hasCalledHelp + ", wonGame=" + wonGame + ", awesomePoints=" + awesomePoints + ", totalTimePlayed=" + totalTimePlayed + ", terminateThreads=" + terminateThreads + ", stopThreadOxygen=" + stopThreadOxygen + ", stopThreadHP=" + stopThreadHP + '}';
+    }
+
     
     
     
@@ -48,9 +57,10 @@ public class Player {
         return this.playerName;
     }
 
-    public static void setPlayerName(String playerName) {
-        Player.playerName = playerName;
+    public void setName(String playerName) {
+       Player.playerName = playerName;
     }
+    
     
     //Return the players remaining air.
     public int getAir(){
@@ -65,8 +75,8 @@ public class Player {
     return hp;
     }
     //Sets the players HP. Adding to it or reducing it.
-    public void setHp(int newHp){
-    hp = newHp;
+    public void setHp(int hp){
+    this.hp = hp;
     }
     public ArrayList<Item> getInventory(){
     return inventory;
@@ -84,54 +94,41 @@ public class Player {
     inventory.remove(newItem);
     }
 
-    public void setCallHelp(boolean hasCalledHelp){
-        this.hasCalledHelp = hasCalledHelp;
-    }
-    public boolean getHasCalledHelp(){
+    
+    public boolean gethasCalledHelp(){
         return hasCalledHelp;
     }
 
-    public void setHasCalledHelp(boolean hasCalledHelp) {
+    public void sethasCalledHelp(boolean hasCalledHelp) {
         this.hasCalledHelp = hasCalledHelp;
     }
     
     
-    void setWonGame(boolean b) {
-        this.wonGame = true;
-    }
+    
     boolean gethasWonGame(){
         return this.wonGame;
     }
+    void setWonGame(boolean b) {
+        this.wonGame = true;
+    }
     
     /* By Mads */
-    public int getCurrentHP(){
-        return hp;
-    }
+//    public int getCurrentHP(){
+//        return hp;
+//    }
     
     public void setCurrentHP(int add, int sub){
         this.hp = hp + add - sub;
     }
-    
-    public int getMaxHP(){
-        return maxHP;
-    }
-    public void setMaxHP(int modifier){
-        this.maxHP = maxHP + modifier;
-    }
-    
-    public int getCurrentOxygen(){
-        return air;
-    }
+
+//    public int getCurrentOxygen(){
+//        return air;
+//    }
     public void setCurrentOxygen(int add, int sub){
         this.air = air + add - sub;
     }
     
-    public int getMaxOxygen(){
-        return maxOxygen;
-    }
-    public void setMaxOxygen(int modifier){
-        this.maxOxygen = maxOxygen + modifier;
-    }
+   
 
     public int getTotalTimePlayed() {
         return totalTimePlayed;
@@ -139,6 +136,14 @@ public class Player {
 
     public void setTotalTimePlayed(int totalTimePlayed) {
         this.totalTimePlayed = totalTimePlayed;
+    }
+
+    public boolean isStopThreadOxygen() {
+        return stopThreadOxygen;
+    }
+
+    public boolean isStopThreadHP() {
+        return stopThreadHP;
     }
     
     
@@ -161,6 +166,11 @@ public class Player {
 
     public void setTerminateThreads(boolean terminateThreads) {
         this.terminateThreads = terminateThreads;
+    }
+    
+   
+    public boolean isWonGame() {
+        return wonGame;
     }
     
     
@@ -287,7 +297,7 @@ public class Player {
         int intTimePoints = ( (Double) Math.ceil( doubleTimePoints ) ).intValue() + bonus;
 
         // End game points 
-        int awesomePoints = getCurrentHP() + getCurrentOxygen() + intTimePoints;
+        int awesomePoints = hp + air + intTimePoints;
 
         return awesomePoints;
     }
