@@ -5,13 +5,15 @@
  */
 package Logic;
 
+import Acquaintance.IItem;
+
 /**
  *
  * @author bruger
  */
 //The item class.
 //This is where the pickupable item objects is created.
-public class Item implements Interactables {
+public class Item implements Interactables, IItem {
     //Name, description, and use description is defined.
     private String itemName, itemDescription, useDescription;
     private boolean flag;

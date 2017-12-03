@@ -1,5 +1,7 @@
 package semesterprojektfx;
 
+import Acquaintance.IImmovable;
+import Acquaintance.INPC;
 import Logic.*;
 import java.io.IOException;
 import java.net.URL;
@@ -194,13 +196,13 @@ public class FXMLDocumentController implements Initializable {
     private void listAction(ActionEvent event){
         if (event.getSource() == searchButton){
             roomInv.clear();
-            for (Immovable i : game.currentRoom.getInteractList()){
+            for (IImmovable i : game.currentRoom.getInteractList()){
                 if (i.getItems() != null) {
                     roomInv.add(i.getItems().getName());   
                     roomInv.add(i.getName());   
                 }
             }
-            for (NPC n : game.currentRoom.getNPCList()){
+            for (INPC n : game.currentRoom.getNPCList()){
                 if (!game.currentRoom.getNPCList().isEmpty()){
                     roomInv.add(n.getName());
                 }  

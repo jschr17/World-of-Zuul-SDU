@@ -5,10 +5,18 @@
  */
 package Acquaintance;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Rasmus Jensen
  */
 public interface IRoom {
-    
+    public String getName();
+    public String getShortDescription();
+    public String getLongDescription();
+    public IImmovable getImmovable(String immovable);
+    public void removeItem(IItem item);
+    public INPC getNPC(String npc);
+    public ArrayList<INPC> getNPCList();
 }

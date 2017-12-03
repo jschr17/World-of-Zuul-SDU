@@ -1,5 +1,8 @@
 package Logic;
 
+import Acquaintance.IImmovable;
+import Acquaintance.IItem;
+import Acquaintance.INPC;
 import java.io.IOException;
 
 import java.awt.Desktop;
@@ -332,13 +335,13 @@ public class Game {
                     inspectString = i.getDescription();
                 } 
             }
-            for (Immovable i : currentRoom.getInteractList()) {
+            for (IImmovable i : currentRoom.getInteractList()) {
                 if (i.getName().equals(item)) {
                     //System.out.println(i.getDescription());
                    inspectString = i.getDescription();
                 }
             }
-            for (NPC n : currentRoom.getNPCList()) {
+            for (INPC n : currentRoom.getNPCList()) {
                 if (n.getName().equals(item)) {
                     //System.out.println(n.getDescription());
                     inspectString = n.getDescription();
@@ -392,28 +395,28 @@ public class Game {
             return;
         }
 
-        for (Immovable i : currentRoom.getInteractList()) {
+        for (IImmovable i : currentRoom.getInteractList()) {
             if (player.getInventory().size() < inventorySpace) {
                 if (i.getItems() != null && i.getItems().getName().equals(object)) {
                     System.out.println("You have added " + i.getItems().getName() + " to your inventory.");
-                    player.addToInventory(i.getItems());
+                    player.addToInventory((Item) i.getItems());
                     i.takeItem();
                     return;
                 }
             }
         }
-        for (Immovable i : currentRoom.getInteractList()) {
+        for (IImmovable i : currentRoom.getInteractList()) {
             if (i.getItems() != null && player.getInventory().size() >= inventorySpace && i.getItems().getName().equals(object)) {
                 System.out.println("No more space in the inventory!");
                 return;
             }
         }
 
-        for (Item i : currentRoom.getItemList()) {
+        for (IItem i : currentRoom.getItemList()) {
             if (player.getInventory().size() < inventorySpace) {
                 if (currentRoom.getItem(i.getName()) != null && i.getName().equals(object)) {
                     System.out.println("You have added " + object + " to your inventory.");
-                    player.addToInventory(currentRoom.getItem(i.getName()));
+                    player.addToInventory((Item) currentRoom.getItem(i.getName()));
                     currentRoom.removeItem(i);
                     return;
                 }
@@ -433,7 +436,7 @@ public class Game {
         }
         String searchTarget = command.getSecondWord();
         
-        for(Immovable i : currentRoom.getInteractList()){
+        for(IImmovable i : currentRoom.getInteractList()){
             if(i.getName().equalsIgnoreCase(closet) && searchTarget.equalsIgnoreCase(closet)){
                 System.out.println(i.getDescription());
                 System.out.println(i.getUseDescription());
@@ -676,7 +679,7 @@ public class Game {
             return false;
         }
         // this for loop helps to only acces imovables that are in the current room
-        for (Immovable i : currentRoom.getInteractList()) {
+        for (IImmovable i : currentRoom.getInteractList()) {
 
             // logic for what hapends when switch is activated
             if (command.getSecondWord().equals("switch") && i.getName().equals("switch")) {
@@ -773,7 +776,7 @@ public String combat(Command command) {
                         if (keyMonster.getDefeated()) {
                             System.out.println("A key drops from the monsters corpse"
                             + " and unto the floor");
-                            currentRoom.addItem(keyMonster.getItem());
+                            currentRoom.addItem((Item) keyMonster.getItem());
                             currentRoom.removeNPC(keyMonster);
                             //break;
                             return "\nThe monster is defeated! \nA key drops from the monsters corpse"

@@ -7,8 +7,19 @@ package Acquaintance;
 
 /**
  *
- * @author Rasmus
+ * there ar more methods that is not included in the interface yet if they shuld be neseary
  */
 public interface INPC {
-    
+    String getName();
+    public void setDescription(String description);
+    public String getDescription();
+    public boolean getHostility();
+    public void setHostility(boolean hostile);
+    public boolean getMovability();        
+     public void setDamage(int dmg);
+     public int getDamage();
+     public void addItem(IItem item);
+     public IItem getItem();
+     public int getHealth();
+
 }

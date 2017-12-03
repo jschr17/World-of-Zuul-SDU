@@ -4,15 +4,17 @@ package Logic;
  * @author Wilde
  */
 
+import Acquaintance.IItem;
+import Acquaintance.INPC;
 import java.util.ArrayList;
 
-public class NPC {
+public class NPC implements INPC {
     private final String name;
     private String description;
     private boolean hostile, movable;
     private int health;
     private int baseDamage;
-    private ArrayList<Item> inventory;
+    private ArrayList<IItem> inventory;
     private Item item;
     private boolean toldToEvacuate;
     private boolean defeated;
@@ -68,11 +70,11 @@ public class NPC {
         return this.baseDamage;
     }
     
-    public void addItem(Item item) {
-        this.item = item;
+    public void addItem(IItem item) {
+        this.item = (Item) item;    // have to cast the IItem object into a Item object;
     }
     
-    public Item getItem() {
+    public IItem getItem() {
         return item;
     }
     

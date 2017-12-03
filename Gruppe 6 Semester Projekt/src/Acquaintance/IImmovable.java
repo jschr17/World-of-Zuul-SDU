@@ -7,17 +7,25 @@ package Acquaintance;
 
 /**
  *
- * @author Rasmus Jensen
+ * @author Rasmus
  */
-public interface IItem {
-    public int getDmg();
-    public int getHP();
-    public int getAir();
+public interface IImmovable {
     public String getName();
+    public int getItemDmg();
     public String getDescription();
     public String getUseDescription();
+    public IItem getItems();
+    public boolean getDestructible() ;
     public boolean isPickupable();
-    public void setFlag(Boolean flag);
+    public void breakTable();    
+public void openCabinet();
+    public IItem takeItem();
     public boolean getFlag();
+
+    public void setFlag(boolean b);
+
     public void setDescription(String string);
+
+    public void setUseDescription(String string);
+
 }

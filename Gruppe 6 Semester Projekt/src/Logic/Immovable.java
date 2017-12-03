@@ -1,5 +1,7 @@
 package Logic;
 
+import Acquaintance.IItem;
+
 /**
  *
  * @author Wilde
@@ -91,11 +93,11 @@ public class Immovable implements Interactables{
     public void setItems(Item item){
         this.item = item;
     }
-    public Item getItems(){
+    public IItem getItems(){
         return item;
     }
     
-    public Item takeItem(){
+    public IItem takeItem(){
         Item returnItem = this.item;
         this.item = null;
         return returnItem;

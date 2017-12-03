@@ -1,5 +1,9 @@
 package Logic;
 
+import Acquaintance.IImmovable;
+import Acquaintance.IItem;
+import Acquaintance.INPC;
+import Acquaintance.IRoom;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashMap;
@@ -11,13 +15,13 @@ import java.util.Iterator;
  * @version 2006.03.30
  */
 // this class is used for crating room objects for the player to transition between
-public class Room {
+public class Room implements IRoom{
     private String name, description;             //a string that will carry the description of the room
     private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
     private HashMap<String, Room> secretExits;
-    private ArrayList<Immovable> interactList; // list of the immovables in the room
-    private ArrayList<Item> itemList;
-    private ArrayList<NPC> npcList;             // list of NPCs in the room
+    private ArrayList<IImmovable> interactList; // list of the immovables in the room
+    private ArrayList<IItem> itemList;
+    private ArrayList<INPC> npcList;             // list of NPCs in the room
     private boolean firstTimeEntered;           
     
     
@@ -78,13 +82,13 @@ public class Room {
             System.out.println("There is nothing in the room");
         } else {
             System.out.println("You notice the following stuff in the room:");
-            for(Immovable i : this.interactList){
+            for(IImmovable i : this.interactList){
                 System.out.println(i.getName());
             }
-            for(NPC n : this.npcList){
+            for(INPC n : this.npcList){
                 System.out.println(n.getName());
             }
-            for(Item i : this.itemList){
+            for(IItem i : this.itemList){
                 System.out.println(i.getName());
             }
         }
@@ -92,12 +96,12 @@ public class Room {
 
     //This method adds a specified immovable to the arraylist interactlist.
     public void setImmovables(Immovable immovables){
-        this.interactList.add(immovables);
+        this.interactList.add((IImmovable)immovables);
     }
     //This method returns an immovable as an object, when given the correct name.
-    public Immovable getImmovable(String immovable) {
-        Immovable object = null;
-        for (Immovable i : this.interactList){
+    public IImmovable getImmovable(String immovable) {
+        IImmovable object = null;
+        for (IImmovable i : this.interactList){
             if (i!=null &&i.getName().equals(immovable)) {
                 object = i; 
             }
@@ -106,18 +110,18 @@ public class Room {
         return object; //object might not have been initialised, but this method is not used if the object isn't found
     }
    
-    public ArrayList<Immovable> getInteractList(){
+    public ArrayList<IImmovable> getInteractList(){
         return interactList;
     }
-    public ArrayList<Item> getItemList(){
+    public ArrayList<IItem> getItemList(){
         return itemList;
     }
     public void setItem(Item item){
         this.itemList.add(item);
     }
-    public Item getItem(String item){
-    Item object = null;
-        for (Item i : this.itemList){
+    public IItem getItem(String item){
+    IItem object = null;
+        for (IItem i : this.itemList){
             if (i.getName().equals(item)) {
                 object = i;   
             } 
@@ -129,12 +133,12 @@ public class Room {
     }
         return object;
 }
-    public void removeItem(Item item){
+    public void removeItem(IItem item){
         this.itemList.remove(item);
     }
-    public NPC getNPC(String npc) {
-        NPC object = null;
-        for (NPC n : this.npcList){
+    public INPC getNPC(String npc) {
+        INPC object = null;
+        for (INPC n : this.npcList){
             if (n.getName().equals(npc)) {
                 object = n;   
             } 
@@ -157,7 +161,7 @@ public class Room {
     public void removeNPC(NPC npc) {
         this.npcList.remove(npc);
     }
-    public ArrayList<NPC> getNPCList(){
+    public ArrayList<INPC> getNPCList(){
         return npcList;
     }
     Room getSecretDestination(String notes) {
