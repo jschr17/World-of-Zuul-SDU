@@ -18,7 +18,7 @@ public interface ILogic {
     void InjectData(IData datalayer);
     public boolean addNewScore(String name, int score);
     public boolean saveHighscore();
-    public ArrayList getHighscore();
+    public ArrayList<String> getHighscore();
     public void loadHighscore();
     public String getItemDescription(String secondWord);    //command.setSecondWord(secondWord)
     public String talk(String secondWord);                  //command.setSecondWord(secondWord)
@@ -30,14 +30,13 @@ public interface ILogic {
     public void setPlayerName(String name);
     public void removeFromInventory(String secondWord);     //command.setSecondWord(secondWord)
     public void addInventory(String secondWord);            //command.setSecondWord(secondWord)
-    public ArrayList getCurrentRoomInteractList();
+    public ArrayList<IImmovable> getCurrentRoomInteractList();
     public ArrayList<INPC> getCurrentRoomNPCList();
     public String goRoom(String secondWord);                  //command.setSecondWord(secondWord)
     public void saveGame();
     public String combat(String secondWord);
     public boolean getDefeated();
     public void setOxygen(int air);
-    public void setPlayerHP(int hp);
     public String gameWelcome();
-    
+    public int getInventorySpace();
 }

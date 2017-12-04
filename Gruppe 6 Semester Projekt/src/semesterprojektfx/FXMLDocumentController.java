@@ -191,16 +191,15 @@ public class FXMLDocumentController implements Initializable {
     private void listAction(ActionEvent event){
         if (event.getSource() == searchButton){
             roomInv.clear();
-            ArrayList<IImmovable> immov = gui.getLogic().getCurrentRoomInteractList();
-            Arra
-            for (IImmovable i : immov){
+            
+            for (IImmovable i : gui.logic.getCurrentRoomInteractList()){
                 if (i.getItems() != null) {
                     roomInv.add(i.getItems().getName());   
                     roomInv.add(i.getName());   
                 }
             }
-            for (INPC n : gui.getLogic().getCurrentRoomNPCList()){
-                if (!game.currentRoom.getNPCList().isEmpty()){
+            for(INPC n : gui.getLogic().getCurrentRoomNPCList()){
+                if (!gui.logic.getCurrentRoomNPCList().isEmpty()){
                     roomInv.add(n.getName());
                 }  
             }
@@ -214,8 +213,7 @@ public class FXMLDocumentController implements Initializable {
         String talkTarget = "";
         if (event.getSource() == talkButton) {
             talkTarget = roomInventory.getSelectionModel().getSelectedItem();
-            command.setSecondWord(talkTarget);
-            textOutArea.appendText("\n" + talkText(command));
+            textOutArea.appendText("\n" + talkText(talkTarget));
         }
     }
     
@@ -233,9 +231,8 @@ public class FXMLDocumentController implements Initializable {
                 selectName = playerInventory.getSelectionModel().getSelectedItem();
             }
             //textOutArea.clear();
-            command.setSecondWord(selectName);
             //System.out.println(inspectText(command));
-            textOutArea.appendText("\n" + inspectText(command) + "."); // inspect
+            textOutArea.appendText("\n" + inspectText(selectName) + "."); // inspect
         }
     }
     
@@ -248,11 +245,10 @@ public class FXMLDocumentController implements Initializable {
                 if (itemName == null) {
                     return;
                 }
-                else if (playerInv.size() < game.inventorySpace) { // int som checker listens størelse...
+                else if (playerInv.size() < gui.logic.getInventorySpace()) { // int som checker listens størelse...
                     if (!itemName.equalsIgnoreCase("monster") && !itemName.equalsIgnoreCase("counter") && !itemName.equalsIgnoreCase("device")) {
                         playerInv.add(itemName);
-                        command.setSecondWord(itemName);
-                        game.addInventory(command);
+                        gui.logic.addInventory(itemName);
                         roomInventory.getItems().remove(itemName);
                         textOutArea.appendText("\nYou have added " + itemName + " to your inventory.");
                         if (itemName.equalsIgnoreCase(medkit.getId())) {
@@ -267,7 +263,7 @@ public class FXMLDocumentController implements Initializable {
                     }
 
                 }
-                else if (playerInv.size() >= game.inventorySpace) {
+                else if (playerInv.size() >= gui.logic.getInventorySpace()) {
                     textOutArea.appendText("\nNo more space in your inventoy.");
                 }
                 
@@ -281,6 +277,7 @@ public class FXMLDocumentController implements Initializable {
         return gui.logic.getHelpText();
     }
     
+
     private String inspectText(String secondWord){
         return gui.logic.getItemDescription(secondWord);
     }
