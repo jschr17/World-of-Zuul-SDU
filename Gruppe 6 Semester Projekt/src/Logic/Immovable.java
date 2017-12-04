@@ -1,15 +1,23 @@
 package Logic;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  *
  * @author Wilde
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Immovable implements Interactables{
     private String name, description, useDescription;
     private boolean destructible, flag;
     private final boolean isPickupable = false;
     private Item item;
     private int itemDmg;
+
+    public Immovable() {
+    }
     
     /**
      *
@@ -19,6 +27,9 @@ public class Immovable implements Interactables{
      * @param destructible is the boolean that is true if the object can be the atarget of the "break" command.
      * @param flag is a boolean that is set to true, if the immovable is locked in some way.
      */
+    
+    
+    
     public Immovable(String name, String description, String useDescription, boolean destructible, boolean flag){
         this.name = name; 
         this.description = description; 
@@ -132,4 +143,27 @@ public class Immovable implements Interactables{
     public void setDescription(String string) {
         this.description = string;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDestructible(boolean destructible) {
+        this.destructible = destructible;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public void setItemDmg(int itemDmg) {
+        this.itemDmg = itemDmg;
+    }
+    
+    
+    
 }

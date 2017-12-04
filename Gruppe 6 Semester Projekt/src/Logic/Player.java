@@ -6,6 +6,8 @@
 package Logic;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import static java.lang.Math.E;
 import java.util.Timer;
@@ -16,34 +18,32 @@ import java.util.TimerTask;
  * @author Nick, Jonas
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Player {
     private int hp;
     private int air;
     private ArrayList<Item> inventory;
     private boolean hasCalledHelp = false;
     private boolean wonGame = false;
-    
-    /* By Mads */
-    public static String playerName = "Mads"; // Non-negotiable
-       
-    // public int currentHP = maxHP;
-    
-    // public int currentOxygen = maxOxygen; 
+    public String playerName = "Mads"; // Non-negotiable
     public int awesomePoints = 0;
     public int totalTimePlayed = 0;
     
+    // public int currentHP = maxHP;
     
-    Player() {
-    }
+    // public int currentOxygen = maxOxygen; 
+    
 
     @Override
     public String toString() {
-        return "Player{" + "hp=" + hp + ", air=" + air + ", inventory=" + inventory + ", hasCalledHelp=" + hasCalledHelp + ", wonGame=" + wonGame + ", awesomePoints=" + awesomePoints + ", totalTimePlayed=" + totalTimePlayed + ", terminateThreads=" + terminateThreads + ", stopThreadOxygen=" + stopThreadOxygen + ", stopThreadHP=" + stopThreadHP + '}';
+        return "Player{" + "hp=" + hp + ", air=" + air + ", inventory=" + inventory.toString() + ", hasCalledHelp=" + hasCalledHelp + ", wonGame=" + wonGame + ", awesomePoints=" + awesomePoints + ", totalTimePlayed=" + totalTimePlayed + ", terminateThreads=" + terminateThreads + ", stopThreadOxygen=" + stopThreadOxygen + ", stopThreadHP=" + stopThreadHP + '}';
     }
 
     
     
-    
+    public Player() {
+        
+    }
     
      public Player(int newHP, int newAir) {
         this.hp = newHP;
@@ -58,7 +58,7 @@ public class Player {
     }
 
     public void setName(String playerName) {
-       Player.playerName = playerName;
+       this.playerName = playerName;
     }
     
     
@@ -83,7 +83,9 @@ public class Player {
     }
 
     public void setInventory(ArrayList<Item> inventory) {
+        
         this.inventory = inventory;
+       
     }
     
     
@@ -113,17 +115,17 @@ public class Player {
     }
     
     /* By Mads */
-//    public int getCurrentHP(){
-//        return hp;
-//    }
+    public int getCurrentHP(){
+        return hp;
+    }
     
     public void setCurrentHP(int add, int sub){
         this.hp = hp + add - sub;
     }
 
-//    public int getCurrentOxygen(){
-//        return air;
-//    }
+    public int getCurrentOxygen(){
+        return air;
+    }
     public void setCurrentOxygen(int add, int sub){
         this.air = air + add - sub;
     }
@@ -156,6 +158,9 @@ public class Player {
     static Timer timerOxygen;
     static Timer timerHP;
     static Timer timePlayed;
+    
+    
+    
     public boolean terminateThreads = false;
     private volatile boolean stopThreadOxygen = false;
     private volatile boolean stopThreadHP = false;
@@ -172,7 +177,8 @@ public class Player {
     public boolean isWonGame() {
         return wonGame;
     }
-    
+
+       
     
     
     public void terminateAllPlayerThreads() {

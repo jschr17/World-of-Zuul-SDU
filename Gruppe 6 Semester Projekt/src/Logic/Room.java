@@ -1,9 +1,11 @@
 package Logic;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Map;
 
 
 /**
@@ -11,6 +13,8 @@ import java.util.Iterator;
  * @version 2006.03.30
  */
 // this class is used for crating room objects for the player to transition between
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Room {
     private String name, description;             //a string that will carry the description of the room
     private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
@@ -20,10 +24,11 @@ public class Room {
     private ArrayList<NPC> npcList;             // list of NPCs in the room
     private boolean firstTimeEntered;           
 
+    
+    
     public Room() {
     }
-    
-    
+       
     
     //constructor that sets the rooms description
     public Room(String name, String description) 
@@ -46,6 +51,9 @@ public class Room {
     {
         exits.put(direction, neighbor);
     }
+    
+    
+        
     public void addSecretExit(String key, Room destination){
         secretExits.put(key, destination);
     }
@@ -58,20 +66,25 @@ public class Room {
     // method for getting a rooms description and which exits it has.
     public String getLongDescription()
     {
-        return "You are " + description + ".\n" + getExitString();
+        return "You are " + description + ". " + getExit();
     }
+    
+    public void setLongDescription(String description){
+        this.description = description;
+    }
+    
         //private method that is used in here to descripe the exits based on the rooms exit HashMap 
-	private String getExitString()
+	private String getExit()
     {
         String returnString = "There are exits to the ";
         Set<String> keys = exits.keySet();
         for(String exit : keys) {
-            returnString += " " + exit;
+            returnString += "" + exit;
         }
         return returnString;
     }
         //method for getting the exits from a room
-    public Room getExit(String direction) 
+    public Room getRoomDirectionExit(String direction) 
     {
         return exits.get(direction);
     }
@@ -176,4 +189,54 @@ public class Room {
         this.firstTimeEntered = entered;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setExits(HashMap<String, Room> exits) {
+        this.exits = exits;
+    }
+
+    public void setSecretExits(HashMap<String, Room> secretExits) {
+        this.secretExits = secretExits;
+    }
+
+    public void setInteractList(ArrayList<Immovable> interactList) {
+        this.interactList = interactList;
+    }
+
+    public void setItemList(ArrayList<Item> itemList) {
+        this.itemList = itemList;
+    }
+
+    public void setNPCList(ArrayList<NPC> npcList) {
+        this.npcList = npcList;
+        
+    }
+
+    public void setFirstTimeEntered(boolean firstTimeEntered) {
+        this.firstTimeEntered = firstTimeEntered;
+    }
+
+    
+
+//    public Set<String> getSecretExits() {
+//        return secretExits.keySet();
+//    }
+
+    @Override
+    public String toString() {
+        return "Room{" + "name=" + name + ", description=" + description + ", exits=" + exits + ", secretExits=" + secretExits + ", interactList=" + interactList + ", itemList=" + itemList + ", npcList=" + npcList + ", firstTimeEntered=" + firstTimeEntered + '}';
+    }
+
+    
+    
+    
+
+    
+    
 }

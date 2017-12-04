@@ -5,32 +5,36 @@
  */
 package Logic;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
  * @author Nick
  */
+@JsonInclude(Include.NON_NULL)
 public class SaveFile {
 
     Player player;
-    Player player1 = new Player();
+    
     private Game game;
     Room room;
     String Savestring;
-    String testfile;
+    
     public SaveFile(Game game, Player player) {
         this.game = game;
         this.player = player;
@@ -74,36 +78,35 @@ public class SaveFile {
     }
     
     
-    public void LoadSaveString() throws IOException{
+    public void LoadSaveString() throws IOException, JSONException{
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
-//        module.addDeserializer(SaveFile.class, new SaveDeserializer());
+        
+        //module.addDeserializer(SaveFile.class, new SaveDeserializer());
         mapper.registerModule(module);
         
-       // mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         
         String filePath = "files/SaveFile.json";
-        
-        BufferedReader reader = new BufferedReader(new FileReader(filePath));
-        testfile = reader.readLine();
-        System.out.println("Stringen testfilen bliver printet: " + testfile);
-        player1 = mapper.readValue(testfile, Player.class);
-        System.out.println("Test 2: " + player1.toString());
-        
-        
-        game.setPlayer(mapper.readValue(testfile, Player.class));
 
+        byte[] encoded = Files.readAllBytes(Paths.get(filePath));
+        String testfile = new String(encoded, "utf-8");
         
+        JSONObject json = new JSONObject(testfile);
+        //Pick only the player part
+        String playerPart = json.getJSONObject("player").toString();
+        String medbayPart = json.getJSONObject("Medbay").toString();
         
-       
+        System.out.println("Stringen testfilen bliver printet: " + testfile);
+
+        Player player1 = mapper.readValue(playerPart, Player.class);
+        System.out.println("test 1");
         
+        Room medbay1 = mapper.readValue(medbayPart, Room.class);
+        System.out.println("Test 2: " + player1.toString());
+        System.out.println("Test Room medbay: " + medbay1.toString());
         
-        
-        
-       
-        
-        
-    
+        game.setPlayer(player1);
+        game.setMedbay(medbay1);
     }
     
     

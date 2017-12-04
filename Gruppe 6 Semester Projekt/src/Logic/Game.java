@@ -5,6 +5,9 @@ import java.io.IOException;
 
 import java.awt.Desktop;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONException;
 
 /**
  * @author Michael Kolling and David J. Barnes
@@ -124,7 +127,6 @@ public class Game {
         rifle = new Item("rifle", "A rifle. It does 40 dmg.", 40, 0, 0);
         tableleg = new Item("tableleg", "A broken tableleg, from the table you just broke.", 1, 0, 0);
         key = new Item("keymodule", "A small electronic device with keymodule printed on it", 0, 0, 0);
-        keyMonster.addItem(key);
 //      Items bliver sat i de forskellige immovables, i de forskellige rum:
 //      Medbay items
         counter.setItems(medkit);
@@ -289,7 +291,7 @@ public class Game {
 
         String direction = command.getSecondWord(); //direction is sat to be the second word from the Parser
 
-        Room nextRoom = currentRoom.getExit(direction);//initiates a new room object based on the Exit hashmap
+        Room nextRoom = currentRoom.getRoomDirectionExit(direction);//initiates a new room object based on the Exit hashmap
 
         if (nextRoom == null) {                     //if no roomobject is found in the exit HashMap
             System.out.println("There is no door!");// this line is printed
@@ -744,7 +746,7 @@ public class Game {
                         if (keyMonster.getDefeated()) {
                             System.out.println("A key drops from the monsters corpse"
                                     + " and unto the floor");
-                            currentRoom.addItem(keyMonster.getItem());
+                            currentRoom.addItem(key);
                             currentRoom.removeNPC(keyMonster);
                             break;
                         } else if (keyMonster.getDefeated()) {
@@ -899,9 +901,12 @@ public class Game {
 
     }
     private void loadsave() throws IOException{
-        System.out.println(player.getHp());
-        save.LoadSaveString();
-        System.out.println("Sidste test: " + player.toString());
+        try {
+            save.LoadSaveString();
+        } catch (JSONException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     public Room getCurrentRoom() {

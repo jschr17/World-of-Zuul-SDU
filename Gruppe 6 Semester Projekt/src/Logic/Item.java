@@ -5,12 +5,17 @@
  */
 package Logic;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  *
  * @author bruger
  */
 //The item class.
 //This is where the pickupable item objects is created.
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Item implements Interactables {
     //Name, description, and use description is defined.
     private String itemName, useDescription;
@@ -18,6 +23,11 @@ public class Item implements Interactables {
     private boolean flag;
     private final boolean isPickupable = true;
     private int dmg, HP, air; 
+
+    public Item() {
+    }
+    
+    
     
     //This is the method that created the item object.
     public Item(String itemName, String itemDescription, int dmg, int HP, int air) {
@@ -32,13 +42,27 @@ public class Item implements Interactables {
         return dmg;
     }
 
+    public void setDmg(int dmg) {
+        this.dmg = dmg;
+    }
+    
+
     public int getHP() {
         return HP;
     }
 
+    public void setHP(int HP) {
+        this.HP = HP;
+    }
+           
     public int getAir() {
         return air;
     }
+
+    public void setAir(int air) {
+        this.air = air;
+    }
+    
     
     
     //The following methods are the methods implemented from our interactables
@@ -49,17 +73,36 @@ public class Item implements Interactables {
         return itemName;
     }
 
+    public void setName(String itemName) {
+        this.itemName = itemName;
+    }
+    
+    
+
     @Override
     //returns the description of the object
     public String getDescription() {
         return itemDescription;
     }
 
+        
+     @Override
+    public void setDescription(String description) {
+        this.itemDescription = description;
+    }
+    
     @Override
     //returns the use description of the object
     public String getUseDescription() {
        return useDescription;
     }
+
+    public void setUseDescription(String useDescription) {
+        this.useDescription = useDescription;
+    }
+
+    
+    
 
     @Override
     //returns a 
@@ -67,18 +110,23 @@ public class Item implements Interactables {
        return this.isPickupable;
     }
     
+    
     @Override
     public void setFlag(Boolean flag){
         this.flag = flag;
     }
-
+    
     @Override
     public boolean getFlag() {
         return this.flag; //To change body of generated methods, choose Tools | Templates.
     }
 
+   
+
     @Override
-    public void setDescription(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String toString() {
+        return "Item{" + "itemName=" + itemName + ", useDescription=" + useDescription + ", itemDescription=" + itemDescription + ", flag=" + flag + ", isPickupable=" + isPickupable + ", dmg=" + dmg + ", HP=" + HP + ", air=" + air + '}';
     }
+    
+    
 }

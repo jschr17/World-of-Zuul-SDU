@@ -4,19 +4,25 @@ package Logic;
  * @author Wilde
  */
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class NPC {
-    private final String name;
-    private String description;
-    private boolean hostile, movable;
-    private int health;
-    private int baseDamage;
+    private String name = "";
+    private String description = "";
+    private boolean hostile = false; 
+    private boolean movable = false;
+    private int health = 100;
+    private int baseDamage = 100;
     private ArrayList<Item> inventory;
-    private Item item;
-    private boolean toldToEvacuate;
-    private boolean defeated;
     
+    private boolean toldToEvacuate = false;
+    private boolean defeated = false;
+    
+    
+     public NPC() {
+       
+        }
     /**
      *
      * @param name The name of the NPC, this is the name that will be written in commands to interact.
@@ -25,16 +31,50 @@ public class NPC {
      * @param movable If the NPC can move from the room.
      */
     public NPC(String name, String description, boolean hostile, boolean movable){
+        this.movable = false;
         this.name = name;
         this.description = description;
         this.hostile = hostile;
         this.movable = movable;
         this.health = 100;
         this.baseDamage = 0;
-        this.item = item;
+       
         this.toldToEvacuate = false;
         this.defeated = false;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setHostile(boolean hostile) {
+        this.hostile = hostile;
+    }
+
+    public void setMovable(boolean movable) {
+        this.movable = movable;
+    }
+
+    public void setBaseDamage(int baseDamage) {
+        this.baseDamage = baseDamage;
+    }
+
+    public void setToldToEvacuate(boolean toldToEvacuate) {
+        this.toldToEvacuate = toldToEvacuate;
+    }
+
+    public void setDefeated(boolean defeated) {
+        this.defeated = defeated;
+    }
+
+   
+
+    
+   
+
+    
+    
+    
     
     public String getName(){
         return this.name;
@@ -68,14 +108,7 @@ public class NPC {
         return this.baseDamage;
     }
     
-    public void addItem(Item item) {
-        this.item = item;
-    }
-    
-    public Item getItem() {
-        return item;
-    }
-    
+   
     public void setHealth(int hp){
         this.health = hp;
     }

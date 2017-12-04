@@ -5,6 +5,7 @@
  */
 package Logic;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -15,6 +16,7 @@ import java.io.IOException;
  *
  * @author Nick
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SaveSerializer extends StdSerializer<SaveFile> {
     
     public SaveSerializer(){
@@ -30,7 +32,8 @@ public class SaveSerializer extends StdSerializer<SaveFile> {
     public void serialize(SaveFile t, JsonGenerator jg, SerializerProvider sp) throws IOException, JsonProcessingException {
         jg.writeStartObject();
         jg.writeObjectField("player", t.getPlayer());
-//        jg.writeObjectField("Medbay", t.getGame().getMedbay());
+        
+        jg.writeObjectField("Medbay", t.getGame().getMedbay());
 //        jg.writeObjectField("Hallway", t.getGame().getHallway());
 //        jg.writeObjectField("Keyroom", t.getGame().getKeyRoom());
 //        jg.writeObjectField("Communication", t.getGame().getCommunicationRoom());
