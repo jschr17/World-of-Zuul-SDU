@@ -32,7 +32,7 @@ public interface ILogic {
     public void addInventory(String secondWord);            //command.setSecondWord(secondWord)
     public ArrayList getCurrentRoomInteractList();
     public ArrayList getCurrentRoomNPCList();
-    public void goRoom(String secondWord);                  //command.setSecondWord(secondWord)
+    public String goRoom(String secondWord);                  //command.setSecondWord(secondWord)
     public void saveGame();
    public String combat(String secondWord);
     public boolean getDefeated();

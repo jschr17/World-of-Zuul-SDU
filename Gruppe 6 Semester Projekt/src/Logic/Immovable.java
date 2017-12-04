@@ -1,12 +1,13 @@
 package Logic;
 
+import Acquaintance.IImmovable;
 import Acquaintance.IItem;
 
 /**
  *
  * @author Wilde
  */
-public class Immovable implements Interactables{
+public class Immovable implements Interactables, IImmovable{
     private String name, description, useDescription;
     private boolean destructible, flag;
     private final boolean isPickupable = false;
@@ -125,5 +126,10 @@ public class Immovable implements Interactables{
     @Override
     public void setDescription(String string) {
         this.description = string;
+    }
+
+    @Override
+    public void setFlag(boolean b) {
+        this.flag = b;
     }
 }

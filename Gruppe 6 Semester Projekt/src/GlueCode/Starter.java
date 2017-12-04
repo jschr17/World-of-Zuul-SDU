@@ -6,11 +6,13 @@
 package GlueCode;
 
 import Acquaintance.IData;
+import Acquaintance.IGUI;
 import Acquaintance.ILogic;
 import Logic.Game;
 import Logic.LogicFacade;
 import Persistens.PersistenceFacade;
 import java.io.IOException;
+import semesterprojektfx.GUIFacade;
 
 /**
  *
@@ -22,12 +24,12 @@ public class Starter {
         IData data = new PersistenceFacade();
         ILogic logic = new LogicFacade();
         logic.InjectData(data);
-        logic.loadHighscore();
+        IGUI gui = new GUIFacade();
+        gui.injectLogic(logic);
         System.out.println("Ready to launch");
        try {       // we are trying to catch the ioexeption trown from InputHasmap from persistens.
             Game game1 = new Game();
             game1.play();
-            logic.saveHighscore();
         } catch (IOException e) {       // this is the catch where if an error from reading from the file shuld occur we want an errormessage printed
                 System.err.println("Caught IOException: " + e.getMessage());    // the printline for the error messeage
 }  

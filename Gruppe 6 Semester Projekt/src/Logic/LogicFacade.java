@@ -107,7 +107,7 @@ public class LogicFacade implements ILogic {
     }
 
     @Override
-    public ArrayList getCurrentRoomInteractList() {
+    public ArrayLi getCurrentRoomInteractList() {
         return game.currentRoom.getInteractList();
     }
 
@@ -117,9 +117,9 @@ public class LogicFacade implements ILogic {
     }
 
     @Override
-    public void goRoom(String secondWord) {
+    public String goRoom(String secondWord) {
         command.setSecondWord(secondWord);
-        game.goRoom(command);
+        return game.goRoom(command);
     }
 
     @Override
