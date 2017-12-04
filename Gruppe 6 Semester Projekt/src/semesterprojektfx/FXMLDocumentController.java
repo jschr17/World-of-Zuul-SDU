@@ -2,7 +2,6 @@ package semesterprojektfx;
 
 import Acquaintance.IImmovable;
 import Acquaintance.INPC;
-import Logic.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -30,11 +29,7 @@ import javafx.stage.Stage;
  */
 public class FXMLDocumentController implements Initializable {
     
-    Game game;
-    Player player;
-    private Parser parser;
-    public Command command;
-    private CommandWord commandWord;
+
     private SemesterProjektFX scene = new SemesterProjektFX();
     
     SemesterProjektFX starter = new SemesterProjektFX();
@@ -159,8 +154,8 @@ public class FXMLDocumentController implements Initializable {
         roomInventory.getItems().clear(); 
         if (event.getSource() == northButton) {
             textOutArea.clear();
-            command.setSecondWord("north");          
-            toAppend = game.goRoom(command);
+            command.setSecondWord("north"); // string
+            toAppend = game.goRoom(command); // room description (hvad go room returner)
             roomChange();
         }
         else if (event.getSource() == eastButton) {
@@ -238,7 +233,7 @@ public class FXMLDocumentController implements Initializable {
             //textOutArea.clear();
             command.setSecondWord(selectName);
             //System.out.println(inspectText(command));
-            textOutArea.appendText("\n" + inspectText(command) + ".");
+            textOutArea.appendText("\n" + inspectText(command) + "."); // inspect
         }
     }
     
@@ -251,7 +246,7 @@ public class FXMLDocumentController implements Initializable {
                 if (itemName == null) {
                     return;
                 }
-                else if (playerInv.size() < game.inventorySpace) {
+                else if (playerInv.size() < game.inventorySpace) { // int som checker listens størelse...
                     if (!itemName.equalsIgnoreCase("monster") && !itemName.equalsIgnoreCase("counter") && !itemName.equalsIgnoreCase("device")) {
                         playerInv.add(itemName);
                         command.setSecondWord(itemName);
@@ -388,7 +383,7 @@ public class FXMLDocumentController implements Initializable {
         String newWord = playerInventory.getSelectionModel().getSelectedItem();
         if (!playerInv.isEmpty() && newWord != "rifle") {
             command.setSecondWord(newWord);
-            textOutArea.appendText("\n" + game.useItem(command));
+            textOutArea.appendText("\n" + game.useItem(command)); // check om er på fasaden
             game.useItem(command);  
             playerInventory.getItems().remove(newWord);
         }

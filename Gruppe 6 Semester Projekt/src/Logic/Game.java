@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import java.awt.Desktop;
 import java.util.Scanner;
-import semesterprojektfx.FXMLDocumentController;
 
 /**
  * @author Michael Kolling and David J. Barnes
@@ -31,7 +30,7 @@ public class Game {
     private int enterRoomCounter1, enterRoomCounter2 = 0;
 
     //private Command command = parser.getCommand();
-    FXMLDocumentController controller = new FXMLDocumentController();
+
     
     // constructor for the game class    
     public Game() throws IOException {
