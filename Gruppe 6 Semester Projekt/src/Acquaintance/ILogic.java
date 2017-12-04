@@ -31,10 +31,13 @@ public interface ILogic {
     public void removeFromInventory(String secondWord);     //command.setSecondWord(secondWord)
     public void addInventory(String secondWord);            //command.setSecondWord(secondWord)
     public ArrayList getCurrentRoomInteractList();
-    public ArrayList getCurrentRoomNPCList();
+    public ArrayList<INPC> getCurrentRoomNPCList();
     public String goRoom(String secondWord);                  //command.setSecondWord(secondWord)
     public void saveGame();
-   public String combat(String secondWord);
+    public String combat(String secondWord);
     public boolean getDefeated();
     public void setOxygen(int air);
+    public void setPlayerHP(int hp);
+    public String gameWelcome();
+    
 }
