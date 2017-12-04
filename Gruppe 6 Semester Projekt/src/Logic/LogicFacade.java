@@ -146,6 +146,9 @@ public class LogicFacade implements ILogic {
     }
 
     @Override
+    public String gameWelcome() {
+        return game.printWelcome();
+    @Override
     public int getInventorySpace() {
         return game.inventorySpace;
     }

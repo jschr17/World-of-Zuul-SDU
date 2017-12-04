@@ -10,7 +10,7 @@ package Acquaintance;
  * there ar more methods that is not included in the interface yet if they shuld be neseary
  */
 public interface INPC {
-    String getName();
+    public String getName();
     public void setDescription(String description);
     public String getDescription();
     public boolean getHostility();

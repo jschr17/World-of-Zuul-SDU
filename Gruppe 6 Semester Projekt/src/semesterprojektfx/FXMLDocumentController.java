@@ -29,7 +29,7 @@ import javafx.stage.Stage;
  */
 public class FXMLDocumentController implements Initializable {
     GUIFacade gui;
-
+    INPC keyMonster;
     private GUIFacade scene = new GUIFacade();
     
     GUIFacade starter = new GUIFacade();
@@ -274,10 +274,11 @@ public class FXMLDocumentController implements Initializable {
     
     //Gets the help text string from the game class, so it can be used by the GUI
     private String helpText(){
-        return game.printHelp();
+        return gui.logic.getHelpText();
     }
     
-    private String inspectText(String   secondWord){
+
+    private String inspectText(String secondWord){
         return gui.logic.getItemDescription(secondWord);
     }
     
@@ -287,18 +288,9 @@ public class FXMLDocumentController implements Initializable {
     
     //This method initializes all the relevant classes that are needed by the GUI
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        try {
-            game = new Game();
-            game.createRooms();
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        parser = new Parser();
-        command = parser.getCommand(); 
-        
+    public void initialize(URL url, ResourceBundle rb) {        
         textOutArea.appendText("\n");
-        textOutArea.appendText(game.printWelcome());
+        textOutArea.appendText(gui.logic.gameWelcome());
         textOutArea.appendText("\n");
         textOutArea.appendText("\n");                      
         
@@ -315,8 +307,7 @@ public class FXMLDocumentController implements Initializable {
         listProperty1.set(FXCollections.observableList(roomInv));
         roomInventory.itemsProperty().bind(listProperty1);
         if (itemName != "") {
-            command.setSecondWord(itemName);
-            game.removeFromInventory(command);
+            gui.logic.removeFromInventory(itemName);
             playerInventory.getItems().remove(itemName);
             roomInv.add(itemName);
         }
@@ -330,7 +321,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     private void roomChange() throws IOException{
-        String roomName = game.currentRoom.getName();
+        String roomName = gui.logic.getCurrentRoomName();
         if (roomName.equalsIgnoreCase("medbay")) {
             armory.setVisible(false);
             keyRoom.setVisible(false);
@@ -380,9 +371,8 @@ public class FXMLDocumentController implements Initializable {
     private void useAction(ActionEvent event){
         String newWord = playerInventory.getSelectionModel().getSelectedItem();
         if (!playerInv.isEmpty() && newWord != "rifle") {
-            command.setSecondWord(newWord);
-            textOutArea.appendText("\n" + game.useItem(command)); // check om er på fasaden
-            game.useItem(command);  
+            gui.logic.useItem(newWord);
+            textOutArea.appendText("\n" + gui.logic.useItem(newWord)); // check om er på fasaden
             playerInventory.getItems().remove(newWord);
         }
         else {
@@ -392,18 +382,21 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void attackFunction(ActionEvent event){
+        for (INPC npc : gui.logic.getCurrentRoomNPCList()) {
+            if (npc.getName().equalsIgnoreCase("monster")){
+                keyMonster = npc;
+            }      
+        }
         boolean control = false;
-        if (game.currentRoom.getNPCList().contains(game.keyMonster)) {
-            command.setSecondWord("monster");
-            game.combat(command);
+        if (gui.logic.getCurrentRoomNPCList().contains(keyMonster)) {
+            gui.logic.combat("monster");
             if (playerInv.contains("rifle") && control == false) {
-                command.setCommandWord(commandWord.USE);
-                command.setSecondWord("rifle");
-                game.combat(command);
+                gui.logic.useItem("rifle");
+                //game.combat(command); does this need to be here?
                 hpBarAction();
                 textOutArea.appendText("\nYou attacked the monster with your rifle for 40 damage.");
-                textOutArea.appendText("\n" + game.combat(command));
-                if (game.keyMonster.getDefeated() == true) {
+                textOutArea.appendText("\n" + gui.logic.combat("rifle") /*game.combat(command), don't know if this replacement works*/);
+                if (gui.logic.getDefeated() == true) {
                     monster.setVisible(false);
                 }
                 control = true;
@@ -412,8 +405,8 @@ public class FXMLDocumentController implements Initializable {
             else {
                 textOutArea.appendText("\nNo rifle.");
             }
-        }
-        else if (!game.currentRoom.getNPCList().contains(game.keyMonster)) {
+        } 
+        else if (!gui.logic.getCurrentRoomNPCList().contains(keyMonster)) {
             textOutArea.appendText("\nNo monster here.");
         }
         else {
@@ -421,11 +414,11 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     private void hpBarAction(){
-        double hpProgress = game.player.getCurrentHP() / 100.0;
+        double hpProgress = gui.logic.getCurrentHP() / 100.0;
         HPbar.setProgress(hpProgress);
     }
     private void AirBarAction(){
-        double airProgress = game.player.getCurrentOxygen() / 100.0;
+        double airProgress = gui.logic.getCurrentOxygen() / 100.0;
         AirBar.setProgress(airProgress);
     }
     @FXML
@@ -442,10 +435,10 @@ public class FXMLDocumentController implements Initializable {
     private void splashScreenAction(ActionEvent event){
         String playerName = playerNameEnterField.getText();
         if (!playerName.equalsIgnoreCase("") && !playerName.equalsIgnoreCase(null)) {
-            game.player.setPlayerName(playerName);
+            gui.logic.setPlayerName(playerName);
             splashScreen.setVisible(false);
-            medbay.setVisible(true);   
-            game.player.setAir(100);
+            medbay.setVisible(true);
+            gui.logic.setOxygen(100);
         }
         else {
             warningLabel.setVisible(true);

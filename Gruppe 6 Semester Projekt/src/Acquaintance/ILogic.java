@@ -34,8 +34,9 @@ public interface ILogic {
     public ArrayList<INPC> getCurrentRoomNPCList();
     public String goRoom(String secondWord);                  //command.setSecondWord(secondWord)
     public void saveGame();
-   public String combat(String secondWord);
+    public String combat(String secondWord);
     public boolean getDefeated();
     public void setOxygen(int air);
+    public String gameWelcome();
     public int getInventorySpace();
 }
