@@ -19,7 +19,7 @@
          <children>
             <ImageView fitHeight="332.0" fitWidth="395.0" pickOnBounds="true">
                <image>
-                  <Image url="@PNG/airlock%20floor.png" />
+                  <Image url="@PNG/hallway%20floor.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="87.0" fitWidth="85.0" layoutX="155.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
@@ -97,7 +97,7 @@
             </ImageView>
          </children>
       </Pane>
-      <Pane fx:id="armory" prefHeight="332.0" prefWidth="395.0">
+      <Pane fx:id="armory" prefHeight="332.0" prefWidth="395.0" visible="false">
          <children>
             <ImageView fitHeight="332.0" fitWidth="395.0" pickOnBounds="true">
                <image>
@@ -109,7 +109,7 @@
                   <Image url="@PNG/WestDoor.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="secretDoor" fitHeight="150.0" fitWidth="100.0" layoutX="148.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="secretDoor" fitHeight="150.0" fitWidth="100.0" layoutX="148.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@PNG/SecretClosedDoor.png" />
                </image>
@@ -129,19 +129,14 @@
                   <Image url="@PNG/rifle%20v1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="noteImg" fitHeight="61.0" fitWidth="30.0" layoutX="118.0" layoutY="258.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="noteImg" fitHeight="37.0" fitWidth="43.0" layoutX="180.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@PNG/note%20zuul.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="secretDoor1" fitHeight="150.0" fitWidth="100.0" layoutX="148.0" pickOnBounds="true" preserveRatio="true" visible="false">
-               <image>
-                  <Image url="@PNG/SecretOpenDoor.png" />
-               </image>
-            </ImageView>
          </children>
       </Pane>
-      <Pane fx:id="medbay" prefHeight="329.0" prefWidth="395.0" visible="false">
+      <Pane fx:id="medbay" prefHeight="329.0" prefWidth="395.0">
          <children>
             <ImageView fx:id="mainMap" fitHeight="328.0" fitWidth="395.0" layoutY="2.0" pickOnBounds="true">
                <image>
@@ -225,7 +220,6 @@
             <Button fx:id="useButton" layoutX="121.0" layoutY="262.0" mnemonicParsing="false" onAction="#useAction" prefHeight="29.0" prefWidth="40.0" text="Use" />
             <Button fx:id="statusButton" layoutX="67.0" layoutY="291.0" mnemonicParsing="false" onAction="#statusButtonAction" prefHeight="29.0" prefWidth="50.0" text="Status" />
             <Button fx:id="saveButton" layoutX="104.0" layoutY="138.0" mnemonicParsing="false" prefHeight="29.0" text="Save game" />
-            <Button fx:id="saveButton" layoutX="68.0" layoutY="28.0" mnemonicParsing="false" onAction="#saveGameAction" prefHeight="25.0" prefWidth="139.0" text="Save" />
          </children>
       </Group>
       <TextArea fx:id="textOutArea" editable="false" layoutX="1.0" layoutY="337.0" prefHeight="177.0" prefWidth="395.0" wrapText="true">
@@ -245,15 +239,30 @@
          <children>
             <ImageView fx:id="miniMap" fitHeight="192.0" fitWidth="191.0" layoutX="4.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../GUI_pics/Minimap_map.png" />
+                  <Image url="@PNG/minimap.png" />
                </image>
             </ImageView>
-            <ListView fx:id="roomInventory" editable="true" fixedCellSize="20.0" layoutY="219.0" prefHeight="134.0" prefWidth="199.0">
+            <ListView fx:id="roomInventory" editable="true" fixedCellSize="20.0" layoutY="227.0" prefHeight="134.0" prefWidth="199.0">
                <padding>
                   <Insets right="5.0" />
                </padding>
             </ListView>
-            <Label layoutX="4.0" layoutY="204.0" text="Room inventory" />
+            <Label layoutX="4.0" layoutY="212.0" text="Room inventory" />
+            <ImageView fx:id="playerDot" fitHeight="18.0" fitWidth="21.0" layoutX="68.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@PNG/green_dot.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="monsterDot" fitHeight="18.0" fitWidth="21.0" layoutX="59.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@PNG/red_Dot.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="britneyDot" fitHeight="18.0" fitWidth="21.0" layoutX="122.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@PNG/blue_dot.png" />
+               </image>
+            </ImageView>
          </children>
       </Group>
       <Group layoutX="558.0" layoutY="344.0" pickOnBounds="true">
@@ -265,7 +274,7 @@
             <Label text="Player inventory" />
          </children>
       </Group>
-      <Pane fx:id="splashScreen" prefHeight="521.0" prefWidth="758.0">
+      <Pane fx:id="splashScreen" prefHeight="521.0" prefWidth="758.0" visible="false">
          <children>
             <ImageView fitHeight="521.0" fitWidth="758.0" pickOnBounds="true">
                <image>

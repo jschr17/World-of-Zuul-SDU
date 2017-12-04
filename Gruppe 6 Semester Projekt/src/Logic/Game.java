@@ -19,8 +19,8 @@ public  class  Game {
     public int inventorySpace = 2;
     private String dmgText;
     
-    private Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
-    private Immovable counter, device, table, weaponCabinet, bookcase, 
+    public Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
+    public Immovable counter, device, table, weaponCabinet, bookcase, 
             hiddenpanel, closet, lockedDoor, glassCabinet, airlockPanel, 
             doorLockPanel, radioArray;
     public NPC britney, keyMonster;
@@ -637,8 +637,8 @@ public  class  Game {
 
     }
 
-    private void monsterTravel(NPC monster) {
-        if (monster.getMovability() && monster.getHostility()) {
+    public void monsterTravel(NPC monster) {
+        if (monster.getMovability() == true && monster.getHostility() == true) {
             String[] allowedRooms = {"airlock", "hallway", "keyRoom", "armoury", "medbay"};
             int rngRoom = (int) (4 * Math.random());
             if (currentRoom.getName().equals(allowedRooms[rngRoom])) {
@@ -692,14 +692,16 @@ public  class  Game {
         return false;
     }
 
-    public void awakenMonster() {
+    public String awakenMonster() {
         if (keyMonster.getMovability() == false && currentRoom.getName().equals("keyRoom")) {
             keyMonster.setMovability(true);
             System.out.println("The monster awakens and growls at you, but it doesn't attack..");
+            return "The monster awakens and growls at you, but it doesn't attack..";
         }
+        return"";
     }
 
-public String combat(Command command) {
+    public String combat(Command command) {
         if (currentRoom.getNPC("monster") == keyMonster) {
             System.out.println("You are attacked by the monster!");
             CommandWord commandWord;
@@ -719,24 +721,16 @@ public String combat(Command command) {
                     checkStatus();
                 }
                 else if (commandWord == CommandWord.USE && yourTurn == true) {
-                    System.out.println("Test 1");
                     if (!command.hasSecondWord()) {
-                        System.out.println("Test 2");
                         System.out.println("What weapon?");
                     } else {
-                        System.out.println("Test 3");
                         for (Item i : player.getInventory()) {
-                            System.out.println("Test 4");
                             if (secondWord.equals(i.getName())) {
-                                System.out.println("Test 5");
                                 keyMonster.setHealth(keyMonster.getHealth() - i.getDmg());
-                                System.out.println("Test 6");
                                 System.out.println("You attacked the monster with "
                                         + i.getName() + " and damaged it for "
                                         + i.getDmg());
-                                System.out.println("Test 7");
                                 yourTurn = false;
-                                System.out.println("Test 8");
                                 dmgText = "You attacked the monster with "
                                         + i.getName() + " and damaged it for "
                                         + i.getDmg();

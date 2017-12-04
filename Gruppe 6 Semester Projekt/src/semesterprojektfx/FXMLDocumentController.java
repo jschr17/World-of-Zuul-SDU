@@ -35,6 +35,8 @@ public class FXMLDocumentController implements Initializable {
     private CommandWord commandWord;
     private SemesterProjektFX scene = new SemesterProjektFX();
     
+    private boolean flagcheck = false;
+    
     SemesterProjektFX starter = new SemesterProjektFX();
     
     @FXML
@@ -115,7 +117,6 @@ public class FXMLDocumentController implements Initializable {
     private Pane armory;
     @FXML
     private ImageView secretDoor;
-    @FXML
     private ImageView secretDoor1;
     @FXML
     private ImageView breakableTable;
@@ -149,12 +150,14 @@ public class FXMLDocumentController implements Initializable {
     private Button highScoreButton;
     @FXML
     private Button loadButton;
-
     private TextField password;
-    @FXML
-    private Button passwordButton;
-    @FXML
     private Pane passwordPane;
+    @FXML
+    private ImageView playerDot;
+    @FXML
+    private ImageView monsterDot;
+    @FXML
+    private ImageView britneyDot;
     
     //This method controlls the functions of the player movement buttons, and the
     //help button.
@@ -167,24 +170,40 @@ public class FXMLDocumentController implements Initializable {
             command.setSecondWord("north");          
             toAppend = game.goRoom(command);
             roomChange();
+            minimapAction();
+//            if (game.keyMonster.getDefeated() == true) {
+            game.monsterTravel(game.keyMonster);
+//            }
         }
         else if (event.getSource() == eastButton) {
             textOutArea.clear();
             command.setSecondWord("east");
             toAppend = game.goRoom(command);
             roomChange();
+            minimapAction();
+//            if (game.keyMonster.getDefeated() == true) {
+            game.monsterTravel(game.keyMonster);
+//            }
         }
         else if (event.getSource() == westButton) {
             textOutArea.clear();
             command.setSecondWord("west");
             toAppend = game.goRoom(command);
             roomChange();
+            minimapAction();
+//            if (game.keyMonster.getDefeated() == true) {
+            game.monsterTravel(game.keyMonster);
+//            }
         }
         else if (event.getSource() == southButton) {
             textOutArea.clear();
             command.setSecondWord("south");
             toAppend = game.goRoom(command);
             roomChange();
+            minimapAction();
+//            if (game.keyMonster.getDefeated() == true) {
+            game.monsterTravel(game.keyMonster);
+//            }
         }
         else if (event.getSource() == helpButton){
             textOutArea.clear();
@@ -360,7 +379,12 @@ public class FXMLDocumentController implements Initializable {
             keyRoom.setVisible(true);
             medbay.setVisible(false);
             hallway.setVisible(false);
-            airlock.setVisible(false);            
+            airlock.setVisible(false);   
+            if (flagcheck == false) {
+                game.awakenMonster();
+                textOutArea.appendText("\n" + game.awakenMonster());
+                flagcheck = true;
+            }
         }
         else if (roomName.equalsIgnoreCase("armoury")) {
             armory.setVisible(true);
@@ -412,7 +436,6 @@ public class FXMLDocumentController implements Initializable {
             textOutArea.appendText("\nYou can't do that.");
         }
     }
-    @FXML
     private void submitPassword(ActionEvent event){
         int pass = 0;
         if(password.getText()!=null && !password.getText().isEmpty()){
@@ -433,22 +456,9 @@ public class FXMLDocumentController implements Initializable {
     private void attackFunction(ActionEvent event){
         boolean control = false;
         String newWord = roomInventory.getSelectionModel().getSelectedItem();
-        listProperty1.set(FXCollections.observableList(roomInv));
-        roomInventory.itemsProperty().bind(listProperty1);
-        if(newWord.equals("table")){
-            Immovable table = game.currentRoom.getImmovable("table");
-            if (table.getDestructible() == true) {
-            textOutArea.appendText("\nYou break the leg off the table \nA bunch of "
-                    + "notes fall on the floor.");
-            table.setDestructable(false); // since the immovable is broken, it can't be broken more.
-            table.getItems().setFlag(true);
-            roomInv.add(table.getItems().getName());
-            return;
-            } else if(table.getDestructible()==false) {
-                textOutArea.appendText("\nThe table is destroyed");
-                return;
-            }
-        }
+//        listProperty1.set(FXCollections.observableList(roomInv));
+//        roomInventory.itemsProperty().bind(listProperty1);
+
         if (game.currentRoom.getNPCList().contains(game.keyMonster)) {
             command.setSecondWord("monster");
             game.combat(command);
@@ -469,12 +479,27 @@ public class FXMLDocumentController implements Initializable {
                 textOutArea.appendText("\nNo rifle.");
             }
         }
+
+        if(/*newWord.equalsIgnoreCase("table")*/ game.currentRoom.getInteractList().contains(game.table)){
+            Immovable table = game.currentRoom.getImmovable("table");
+            if (table.getDestructible() == true) {
+            textOutArea.appendText("\nYou break the leg off the table \nA bunch of "
+                    + "notes fall on the floor.");
+            table.setDestructable(false); // since the immovable is broken, it can't be broken more.
+            table.getItems().setFlag(true);
+            roomInv.add(table.getItems().getName());
+            return;
+            } else if(table.getDestructible()==false) {
+                textOutArea.appendText("\nThe table is destroyed");
+                return;
+            }
+        }
         else if (!game.currentRoom.getNPCList().contains(game.keyMonster)) {
             textOutArea.appendText("\nNo monster here.");
         }
         else {
             textOutArea.appendText("\nYou can't do that.");
-        }
+        }        
     }
     private void hpBarAction(){
         double hpProgress = game.player.getCurrentHP() / 100.0;
@@ -488,10 +513,6 @@ public class FXMLDocumentController implements Initializable {
     private void statusButtonAction(){
         hpBarAction();
         AirBarAction();
-    }
-    @FXML
-    private void saveGameAction(ActionEvent event) {
-        //logic.saveGame();
     }
     
     @FXML
@@ -518,7 +539,51 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML   
-    private void miniMapAction(){
+    private void minimapAction(){
+        String roomName = game.currentRoom.getName();
+        if (roomName.equalsIgnoreCase("medbay")) {
+            playerDot.setLayoutX(68);
+            playerDot.setLayoutY(175);
+        }
+        else if (roomName.equalsIgnoreCase("keyRoom")) {
+            playerDot.setLayoutX(78);
+            playerDot.setLayoutY(129);
+        }
+        else if (roomName.equalsIgnoreCase("armoury")) {
+            playerDot.setLayoutX(120);
+            playerDot.setLayoutY(129);            
+        }
+        else if (roomName.equalsIgnoreCase("hallway")) {
+            playerDot.setLayoutX(79);
+            playerDot.setLayoutY(85);             
+        }
+        else if (roomName.equalsIgnoreCase("airlock")) {
+            playerDot.setLayoutX(79);
+            playerDot.setLayoutY(41);             
+        }
+        else if (roomName.equalsIgnoreCase("communicationRoom")) {
+            playerDot.setLayoutX(105);
+            playerDot.setLayoutY(86);             
+        }  
         
+        if (game.keyRoom.getNPCList().contains(game.keyMonster)) {
+        monsterDot.setLayoutX(59);
+        monsterDot.setLayoutY(129);
+        }
+        else if (game.armoury.getNPCList().contains(game.keyMonster)) {
+        monsterDot.setLayoutX(105);
+        monsterDot.setLayoutY(130);
+        }   
+        else if (game.hallway.getNPCList().contains(game.keyMonster)) {
+        monsterDot.setLayoutX(59);
+        monsterDot.setLayoutY(85);
+        }                
+        else if (game.airlock.getNPCList().contains(game.keyMonster)) {
+        monsterDot.setLayoutX(59);
+        monsterDot.setLayoutY(40);
+        }   
+        if (game.keyMonster.getDefeated() == true) {
+            monsterDot.setVisible(false);
+        }
     }
 }
