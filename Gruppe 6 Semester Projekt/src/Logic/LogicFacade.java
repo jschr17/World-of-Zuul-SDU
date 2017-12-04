@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import Acquaintance.ILogic;
 import Acquaintance.IData;
+import Acquaintance.IImmovable;
+import Acquaintance.INPC;
 import GlueCode.Starter;
 
 /**
@@ -43,7 +45,7 @@ public class LogicFacade implements ILogic {
     }
 
     @Override
-    public ArrayList getHighscore() {
+    public ArrayList<String> getHighscore() {
         return score.getHighscoreString();
     }
 
@@ -107,12 +109,12 @@ public class LogicFacade implements ILogic {
     }
 
     @Override
-    public ArrayLi getCurrentRoomInteractList() {
+    public ArrayList<IImmovable> getCurrentRoomInteractList() {
         return game.currentRoom.getInteractList();
     }
 
     @Override
-    public ArrayList getCurrentRoomNPCList() {
+    public ArrayList<INPC> getCurrentRoomNPCList() {
         return game.currentRoom.getNPCList();
     }
 
@@ -141,6 +143,11 @@ public class LogicFacade implements ILogic {
     @Override
     public void setOxygen(int air) {
         game.player.setAir(air);
+    }
+
+    @Override
+    public int getInventorySpace() {
+        return game.inventorySpace;
     }
 
 }
