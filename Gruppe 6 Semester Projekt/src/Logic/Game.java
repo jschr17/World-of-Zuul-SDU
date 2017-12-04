@@ -3,6 +3,7 @@ package Logic;
 import java.io.IOException;
 
 import java.awt.Desktop;
+import java.util.ArrayList;
 import java.util.Scanner;
 import semesterprojektfx.FXMLDocumentController;
 
@@ -165,13 +166,13 @@ public  class  Game {
             roomLogic();
             Command command = parser.getCommand(); // gets a command from the parser Class and processes it
             finished = processCommand(command);     // after each command is prosed the game checks if the finish command have been given,
-            if (i != monsterTurnWait) {
-                i++;
-            }
-            else if (!"communicationRoom".equals(currentRoom.getName())) {
-                monsterTravel(keyMonster);
-                i = 0;
-            }
+//            if (i != monsterTurnWait) {
+//                i++;
+//            }
+//            else if (!"communicationRoom".equals(currentRoom.getName())) {
+//                monsterTravel(keyMonster);
+//                i = 0;
+//            }
         }
         player.terminateAllPlayerThreads();
         player.terminateAllPlayerTimers();
@@ -638,17 +639,27 @@ public  class  Game {
     }
 
     public void monsterTravel(NPC monster) {
-        if (monster.getMovability() == true && monster.getHostility() == true) {
-            String[] allowedRooms = {"airlock", "hallway", "keyRoom", "armoury", "medbay"};
-            int rngRoom = (int) (4 * Math.random());
-            if (currentRoom.getName().equals(allowedRooms[rngRoom])) {
-                if (currentRoom.getNPC("monster") != keyMonster) {
-                    monster.setHealth(200);
-                    currentRoom.addNPC(monster);
-                }
-            } else {
-                currentRoom.removeNPC(monster);
+        if (monster.getMovability() && monster.getHostility()) {
+            ArrayList<Room> allowedRooms = new ArrayList<>();
+            allowedRooms.add(airlock);
+            allowedRooms.add(hallway);
+            allowedRooms.add(keyRoom);
+            allowedRooms.add(armoury);
+            allowedRooms.add(medbay);
+            //Room[] allowedRooms = {airlock, hallway, keyRoom, armoury, medbay};//{"airlock", "hallway", "keyRoom", "armoury", "medbay"};
+            for (Room r : allowedRooms) {
+                r.removeNPC(monster);
             }
+            int rngRoom = (int) (4 * Math.random());
+            allowedRooms.get(rngRoom).addNPC(monster);
+//            if (currentRoom.getName().equals(allowedRooms[rngRoom])) {
+//                if (currentRoom.getNPC("monster") != keyMonster) {
+//                    monster.setHealth(200);
+//                    currentRoom.addNPC(monster);
+//                }
+//            } else {
+//                currentRoom.removeNPC(monster);
+//            }
         }
     }
 
@@ -694,7 +705,7 @@ public  class  Game {
 
     public String awakenMonster() {
         if (keyMonster.getMovability() == false && currentRoom.getName().equals("keyRoom")) {
-            keyMonster.setMovability(true);
+            keyMonster.setMovability(false);
             System.out.println("The monster awakens and growls at you, but it doesn't attack..");
             return "The monster awakens and growls at you, but it doesn't attack..";
         }
@@ -748,7 +759,7 @@ public  class  Game {
                         keyMonster.setHostility(true);
                         keyMonster.setMovability(true);
                         keyMonster.setDefeated(true);
-                        if (keyMonster.getDefeated()) {
+                        if (keyMonster.getDefeated() && keyMonster.getItem().getName().equalsIgnoreCase("key")) {
                             System.out.println("A key drops from the monsters corpse"
                             + " and unto the floor");
                             currentRoom.addItem(keyMonster.getItem());
@@ -809,7 +820,7 @@ public  class  Game {
                 talkString = "Britney isn't here.";
             }
         } else {    // respans for all other posible second words (EVERYTHIN THAT IS INPUTTET INTO THE CONSOLE AS SECONDWORD)
-            talkString = "You are trying to talk to something that can't response. Maybe the lack of oxygen is affecting your brain.";
+            talkString = "You are trying to talk to something that can't respond. Maybe the lack of oxygen is affecting your brain.";
         }
         return talkString;
     }

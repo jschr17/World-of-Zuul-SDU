@@ -164,6 +164,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleButtonAction(ActionEvent event) throws Exception {
         String toAppend = "";
+        game.monsterTravel(game.keyMonster);
         roomInventory.getItems().clear(); 
         if (event.getSource() == northButton) {
             textOutArea.clear();
@@ -171,9 +172,6 @@ public class FXMLDocumentController implements Initializable {
             toAppend = game.goRoom(command);
             roomChange();
             minimapAction();
-//            if (game.keyMonster.getDefeated() == true) {
-            game.monsterTravel(game.keyMonster);
-//            }
         }
         else if (event.getSource() == eastButton) {
             textOutArea.clear();
@@ -181,9 +179,6 @@ public class FXMLDocumentController implements Initializable {
             toAppend = game.goRoom(command);
             roomChange();
             minimapAction();
-//            if (game.keyMonster.getDefeated() == true) {
-            game.monsterTravel(game.keyMonster);
-//            }
         }
         else if (event.getSource() == westButton) {
             textOutArea.clear();
@@ -191,9 +186,6 @@ public class FXMLDocumentController implements Initializable {
             toAppend = game.goRoom(command);
             roomChange();
             minimapAction();
-//            if (game.keyMonster.getDefeated() == true) {
-            game.monsterTravel(game.keyMonster);
-//            }
         }
         else if (event.getSource() == southButton) {
             textOutArea.clear();
@@ -201,9 +193,6 @@ public class FXMLDocumentController implements Initializable {
             toAppend = game.goRoom(command);
             roomChange();
             minimapAction();
-//            if (game.keyMonster.getDefeated() == true) {
-            game.monsterTravel(game.keyMonster);
-//            }
         }
         else if (event.getSource() == helpButton){
             textOutArea.clear();
@@ -340,6 +329,10 @@ public class FXMLDocumentController implements Initializable {
         
         hpBarAction();
         AirBarAction();
+        
+        splashScreen.setVisible(true);
+        System.out.println(game.keyMonster.getHostility());
+        System.out.println(game.keyMonster.getMovability());
     } 
 
     @FXML
@@ -540,6 +533,8 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML   
     private void minimapAction(){
+        System.out.println(game.keyMonster.getHostility());
+        System.out.println(game.keyMonster.getMovability());
         String roomName = game.currentRoom.getName();
         if (roomName.equalsIgnoreCase("medbay")) {
             playerDot.setLayoutX(68);
@@ -568,8 +563,8 @@ public class FXMLDocumentController implements Initializable {
         
         if (game.keyRoom.getNPCList().contains(game.keyMonster)) {
         monsterDot.setLayoutX(59);
-        monsterDot.setLayoutY(129);
-        }
+        monsterDot.setLayoutY(129); 
+       }
         else if (game.armoury.getNPCList().contains(game.keyMonster)) {
         monsterDot.setLayoutX(105);
         monsterDot.setLayoutY(130);
