@@ -533,20 +533,24 @@ public class FXMLDocumentController implements Initializable {
             textOutArea.appendText("\nYou can't do that.");
         }        
     }
+    //Controls how the player HP bar functions
     private void hpBarAction(){
         double hpProgress = game.player.getCurrentHP() / 100.0;
         HPbar.setProgress(hpProgress);
     }
+    //Controls how the players air bar functions
     private void AirBarAction(){
         double airProgress = game.player.getCurrentOxygen() / 100.0;
         AirBar.setProgress(airProgress);
     }
+    //Updates the players airbar and HPbar
     @FXML
     private void statusButtonAction(){
         hpBarAction();
         AirBarAction();
     }
-    
+    //Controls how the splashscreen functions, and how it should respond if the 
+    //player does something wrong
     @FXML
     private void splashScreenAction(ActionEvent event){
         String playerName = playerNameEnterField.getText();
@@ -561,18 +565,19 @@ public class FXMLDocumentController implements Initializable {
             warningLabel.setText("You need to input a name");
         }
     }
-
+    //NO FUNCTION YET !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! <----------------------------------------------------------------------------------------------
     @FXML
     private void highScoreLoad(ActionEvent event) {
-        
+        highScoreView.add("Jonas 123");
+        highScoreView.add("Jonass 1234");
+        highScoreView.add("Jonasss 1235");
         
         listProperty3.set(FXCollections.observableList(highScoreView));
         highScoreList.itemsProperty().bind(listProperty3);
     }
-    
-    private void minimapAction(){
-        System.out.println(game.keyMonster.getHostility());
-        System.out.println(game.keyMonster.getMovability());
+    //Displays and moves the different indicator on the games minimap, and controls
+    //where and when the monster image must be displayed
+    private void minimapAction() {
         String roomName = game.currentRoom.getName();
         
         if (game.keyMonster.getDefeated() == true) {
