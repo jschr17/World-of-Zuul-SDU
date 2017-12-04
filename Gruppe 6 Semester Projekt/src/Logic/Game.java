@@ -127,7 +127,7 @@ public  class  Game {
         oxygen = new Item("oxygen","An oxygen tank, that can refill the users own oxygen tank.",0,0,35);
         //gun = new Item("gun","A small gun. It deals 20 dmg.",20,0,0);
         rifle = new Item("rifle","A rifle. It does 40 dmg.",40,0,0);
-        key = new Item("keymodule", "A small electronic device with keymodule printed on it", 0, 0, 0);
+        key = new Item("key", "A small electronic device with keymodule printed on it", 0, 0, 0);
         notes = new Item("notes", "The note reads: '...but if you want to get through the secret door, the password is 28374", 0, 0, 0);
         keyMonster.addItem(key);
 //      Items bliver sat i de forskellige immovables, i de forskellige rum:

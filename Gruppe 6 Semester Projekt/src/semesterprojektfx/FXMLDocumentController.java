@@ -34,6 +34,7 @@ public class FXMLDocumentController implements Initializable {
     public Command command;
     private CommandWord commandWord;
     private SemesterProjektFX scene = new SemesterProjektFX();
+    private Room room;
     
     private boolean flagcheck = false;
     
@@ -74,7 +75,7 @@ public class FXMLDocumentController implements Initializable {
     private ListView<String> highScoreList = new ListView<>();
     private ObservableList<String> highScoreView = FXCollections.observableArrayList();
     
-    ListProperty<String> listProperty1 = new SimpleListProperty<>();
+    ListProperty<String> listPropertyRoom = new SimpleListProperty<>();
     ListProperty<String> listProperty2 = new SimpleListProperty<>();    
     ListProperty<String> listProperty3 = new SimpleListProperty<>();    
     @FXML
@@ -158,6 +159,18 @@ public class FXMLDocumentController implements Initializable {
     private ImageView monsterDot;
     @FXML
     private ImageView britneyDot;
+    @FXML
+    private ImageView keyImg;
+    @FXML
+    private ImageView airlockMonster;
+    @FXML
+    private ImageView hallwayMonster;
+    @FXML
+    private ImageView armouryMonster;
+    @FXML
+    private ImageView medbayMonster;
+    @FXML
+    private ImageView keyRoomMonster;
     
     //This method controlls the functions of the player movement buttons, and the
     //help button.
@@ -209,15 +222,17 @@ public class FXMLDocumentController implements Initializable {
     private void listAction(ActionEvent event){
         if (event.getSource() == searchButton){
             roomInv.clear();
+            for (Item i : game.currentRoom.getItemList()) {
+                roomInv.add(i.getName());
+            }
             for (Immovable i : game.currentRoom.getInteractList()){
                 if(i.getFlag()==true){
                     roomInv.add(i.getName()); 
                     if (i.getItems() != null) {
                         if(i.getItems().getFlag()==true){
                             roomInv.add(i.getItems().getName());
-                        }
-                             
-                }
+                        }        
+                    }
                 }
             }
             for (NPC n : game.currentRoom.getNPCList()){
@@ -225,8 +240,8 @@ public class FXMLDocumentController implements Initializable {
                     roomInv.add(n.getName());
                 }  
             }
-            listProperty1.set(FXCollections.observableList(roomInv));
-            roomInventory.itemsProperty().bind(listProperty1); 
+            listPropertyRoom.set(FXCollections.observableList(roomInv));
+            roomInventory.itemsProperty().bind(listPropertyRoom); 
         }
     }
     
@@ -270,7 +285,11 @@ public class FXMLDocumentController implements Initializable {
                     return;
                 }
                 else if (playerInv.size() < game.inventorySpace) {
-                    if (!itemName.equalsIgnoreCase("monster") && !itemName.equalsIgnoreCase("counter") && !itemName.equalsIgnoreCase("device")) {
+                    if (!itemName.equalsIgnoreCase("monster") && !itemName.equalsIgnoreCase("counter") && !itemName.equalsIgnoreCase("device") &&
+                        !itemName.equalsIgnoreCase("closet") && !itemName.equalsIgnoreCase("table") && !itemName.equalsIgnoreCase("bookcase") 
+                        && !itemName.equalsIgnoreCase("hiddenpanel") && !itemName.equalsIgnoreCase("lockedDoor") && !itemName.equalsIgnoreCase("airlockPanel") 
+                        && !itemName.equalsIgnoreCase("doorLockPanel") && !itemName.equalsIgnoreCase("radioArray") && !itemName.equalsIgnoreCase("panel") 
+                        && !itemName.equalsIgnoreCase("cabinet") && !itemName.equalsIgnoreCase("switch")) {
                         playerInv.add(itemName);
                         command.setSecondWord(itemName);
                         game.addInventory(command);
@@ -282,15 +301,24 @@ public class FXMLDocumentController implements Initializable {
                         else if (itemName.equalsIgnoreCase(oxygen.getId())) {
                             oxygen.setVisible(false);
                         }
+                        else if (itemName.equalsIgnoreCase("key")) {
+                            keyImg.setVisible(false);
+                        }
+                        listProperty2.set(FXCollections.observableList(playerInv));
+                        playerInventory.itemsProperty().bind(listProperty2);
+                        return;
                     }
                     else {
-                        textOutArea.appendText("Can't take that.");
+                        textOutArea.appendText("\nCan't take that.");
+                        return;
                     }
-
                 }
                 else if (playerInv.size() >= game.inventorySpace) {
                     textOutArea.appendText("\nNo more space in your inventoy.");
                 }
+//                else {
+//                    textOutArea.appendText("\nCan't take that.");
+//                }
                 
         }
         listProperty2.set(FXCollections.observableList(playerInv));
@@ -301,11 +329,12 @@ public class FXMLDocumentController implements Initializable {
     private String helpText(){
         return game.printHelp();
     }
-    
+    //Gets the item description of a specific item from the game class
     private String inspectText(Command command){
         return game.getItemDescription(command);
     }
-    
+    //Gets the different string responses from the game class, when you are 'talking'
+    //whith Britney
     private String talkText(Command command) {
         return game.talk(command);
     }
@@ -331,24 +360,27 @@ public class FXMLDocumentController implements Initializable {
         AirBarAction();
         
         splashScreen.setVisible(true);
-        System.out.println(game.keyMonster.getHostility());
-        System.out.println(game.keyMonster.getMovability());
+        keyRoomMonster.setVisible(false);
+        airlockMonster.setVisible(false);
+        armouryMonster.setVisible(false);
+        hallwayMonster.setVisible(false);
     } 
-
+    //This method controls the function of the 'drop' button. It takes and sets
+    //items in the two different lists.
     @FXML
     private void dropButtonAction(ActionEvent event) {
         String itemName = "";
         if (playerInventory.getSelectionModel().getSelectedItem() != null) {
             itemName = playerInventory.getSelectionModel().getSelectedItem();
         }
-        listProperty1.set(FXCollections.observableList(roomInv));
-        roomInventory.itemsProperty().bind(listProperty1);
         if (itemName != "") {
             command.setSecondWord(itemName);
             game.removeFromInventory(command);
             playerInventory.getItems().remove(itemName);
             roomInv.add(itemName);
         }
+        listPropertyRoom.set(FXCollections.observableList(roomInv));
+        roomInventory.itemsProperty().bind(listPropertyRoom);
         
         if (itemName.equalsIgnoreCase(medkit.getId())) {
             medkit.setVisible(true);
@@ -356,8 +388,13 @@ public class FXMLDocumentController implements Initializable {
         else if (itemName.equalsIgnoreCase(oxygen.getId())){
             oxygen.setVisible(true);
         }
+        else if (itemName.equalsIgnoreCase("rifle")){
+            rifleImg.setVisible(true);
+        }
     }
-    
+    //Controls which pane the GUI should show, based on where the player is.
+    //It also runs the method 'awakenMonster', which makes the monster move from
+    //room to room
     private void roomChange() throws IOException{
         String roomName = game.currentRoom.getName();
         if (roomName.equalsIgnoreCase("medbay")) {
@@ -409,7 +446,8 @@ public class FXMLDocumentController implements Initializable {
             communicationRoom.setVisible(true);
         }
     }
-    
+    //Controls what happens when the player thies to use different items and
+    //immovables (via the 'use' button). 
     @FXML
     private void useAction(ActionEvent event){
         String newWord = playerInventory.getSelectionModel().getSelectedItem();
@@ -444,15 +482,12 @@ public class FXMLDocumentController implements Initializable {
             passwordPane.setVisible(false);
         }
     }
-    
+    //
     @FXML
     private void attackFunction(ActionEvent event){
         boolean control = false;
         String newWord = roomInventory.getSelectionModel().getSelectedItem();
-//        listProperty1.set(FXCollections.observableList(roomInv));
-//        roomInventory.itemsProperty().bind(listProperty1);
-
-        if (game.currentRoom.getNPCList().contains(game.keyMonster)) {
+        if (game.currentRoom.getNPCList().contains(game.keyMonster) && newWord == "monster") {
             command.setSecondWord("monster");
             game.combat(command);
             if (playerInv.contains("rifle") && control == false) {
@@ -464,6 +499,8 @@ public class FXMLDocumentController implements Initializable {
                 textOutArea.appendText("\n" + game.combat(command));
                 if (game.keyMonster.getDefeated() == true) {
                     monster.setVisible(false);
+                    roomInv.add("key");
+                    keyImg.setVisible(true);
                 }
                 control = true;
                 //return;
@@ -471,6 +508,8 @@ public class FXMLDocumentController implements Initializable {
             else {
                 textOutArea.appendText("\nNo rifle.");
             }
+        listPropertyRoom.set(FXCollections.observableList(roomInv));
+        roomInventory.itemsProperty().bind(listPropertyRoom);
         }
 
         if(/*newWord.equalsIgnoreCase("table")*/ game.currentRoom.getInteractList().contains(game.table)){
@@ -531,11 +570,14 @@ public class FXMLDocumentController implements Initializable {
         highScoreList.itemsProperty().bind(listProperty3);
     }
     
-    @FXML   
     private void minimapAction(){
         System.out.println(game.keyMonster.getHostility());
         System.out.println(game.keyMonster.getMovability());
         String roomName = game.currentRoom.getName();
+        
+        if (game.keyMonster.getDefeated() == true) {
+            game.monsterTravel(game.keyMonster);
+        }
         if (roomName.equalsIgnoreCase("medbay")) {
             playerDot.setLayoutX(68);
             playerDot.setLayoutY(175);
@@ -564,21 +606,37 @@ public class FXMLDocumentController implements Initializable {
         if (game.keyRoom.getNPCList().contains(game.keyMonster)) {
         monsterDot.setLayoutX(59);
         monsterDot.setLayoutY(129); 
+            if (game.keyMonster.getDefeated() == true) {
+                keyRoomMonster.setVisible(true);
+            }
+        
        }
         else if (game.armoury.getNPCList().contains(game.keyMonster)) {
         monsterDot.setLayoutX(105);
         monsterDot.setLayoutY(130);
+        armouryMonster.setVisible(true);
         }   
         else if (game.hallway.getNPCList().contains(game.keyMonster)) {
         monsterDot.setLayoutX(59);
         monsterDot.setLayoutY(85);
+        hallwayMonster.setVisible(true);
         }                
         else if (game.airlock.getNPCList().contains(game.keyMonster)) {
         monsterDot.setLayoutX(59);
         monsterDot.setLayoutY(40);
-        }   
-        if (game.keyMonster.getDefeated() == true) {
-            monsterDot.setVisible(false);
+        airlockMonster.setVisible(true);
+        } 
+        if (!game.keyRoom.getNPCList().contains(game.keyMonster)) {
+            keyRoomMonster.setVisible(false);
+        }
+        if (!game.armoury.getNPCList().contains(game.keyMonster)) {
+            armouryMonster.setVisible(false);
+        }        
+        if (!game.hallway.getNPCList().contains(game.keyMonster)) {
+            hallwayMonster.setVisible(false);
+        }
+        if (!game.airlock.getNPCList().contains(game.keyMonster)) {
+            airlockMonster.setVisible(false);
         }
     }
 }
