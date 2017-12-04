@@ -28,11 +28,11 @@ import javafx.stage.Stage;
  * @author goope
  */
 public class FXMLDocumentController implements Initializable {
-    
+    GUIFacade gui;
 
-    private SemesterProjektFX scene = new SemesterProjektFX();
+    private GUIFacade scene = new GUIFacade();
     
-    SemesterProjektFX starter = new SemesterProjektFX();
+    GUIFacade starter = new GUIFacade();
     
     @FXML
     TextArea textOutArea;
@@ -154,26 +154,26 @@ public class FXMLDocumentController implements Initializable {
         roomInventory.getItems().clear(); 
         if (event.getSource() == northButton) {
             textOutArea.clear();
-            command.setSecondWord("north"); // string
-            toAppend = game.goRoom(command); // room description (hvad go room returner)
+            String secondWord = "north"; // string
+            toAppend = gui.getLogic().goRoom(secondWord); // room description (hvad go room returner)
             roomChange();
         }
         else if (event.getSource() == eastButton) {
             textOutArea.clear();
-            command.setSecondWord("east");
-            toAppend = game.goRoom(command);
+            String secondWord = "east";
+            toAppend = gui.getLogic().goRoom(secondWord);
             roomChange();
         }
         else if (event.getSource() == westButton) {
             textOutArea.clear();
-            command.setSecondWord("west");
-            toAppend = game.goRoom(command);
+            String secondWord = "west";
+            toAppend = gui.getLogic().goRoom(secondWord);
             roomChange();
         }
         else if (event.getSource() == southButton) {
             textOutArea.clear();
-            command.setSecondWord("south");
-            toAppend = game.goRoom(command);
+            String secondWord = "south";
+            toAppend = gui.getLogic().goRoom(secondWord);
             roomChange();
         }
         else if (event.getSource() == helpButton){
@@ -191,13 +191,15 @@ public class FXMLDocumentController implements Initializable {
     private void listAction(ActionEvent event){
         if (event.getSource() == searchButton){
             roomInv.clear();
-            for (IImmovable i : game.currentRoom.getInteractList()){
+            ArrayList<IImmovable> immov = gui.getLogic().getCurrentRoomInteractList();
+            Arra
+            for (IImmovable i : immov){
                 if (i.getItems() != null) {
                     roomInv.add(i.getItems().getName());   
                     roomInv.add(i.getName());   
                 }
             }
-            for (INPC n : game.currentRoom.getNPCList()){
+            for (INPC n : gui.getLogic().getCurrentRoomNPCList()){
                 if (!game.currentRoom.getNPCList().isEmpty()){
                     roomInv.add(n.getName());
                 }  
