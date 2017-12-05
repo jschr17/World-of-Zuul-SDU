@@ -23,8 +23,9 @@ public class GUIFacade extends Application implements IGUI {
         return gui;
     }
 
+    @Override
     public void injectLogic(ILogic logiclayer) {
-        logic = logiclayer;
+        this.logic = logiclayer;
     }
 
     ILogic getLogic() {
@@ -34,8 +35,8 @@ public class GUIFacade extends Application implements IGUI {
     @Override
     public void start(Stage stage) throws Exception {
         
-        logic.Play();
-        logic.loadHighscore();
+//        logic.Play();
+//        logic.loadHighscore();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
