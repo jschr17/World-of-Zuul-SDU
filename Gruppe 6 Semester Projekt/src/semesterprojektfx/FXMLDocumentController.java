@@ -163,19 +163,19 @@ public class FXMLDocumentController implements Initializable {
         else if (event.getSource() == eastButton) {
             textOutArea.clear();
             String secondWord = "east";
-            toAppend = gui.getLogic().goRoom(secondWord);
+            toAppend = logic.goRoom(secondWord);
             roomChange();
         }
         else if (event.getSource() == westButton) {
             textOutArea.clear();
             String secondWord = "west";
-            toAppend = gui.getLogic().goRoom(secondWord);
+            toAppend = logic.goRoom(secondWord);
             roomChange();
         }
         else if (event.getSource() == southButton) {
             textOutArea.clear();
             String secondWord = "south";
-            toAppend = gui.getLogic().goRoom(secondWord);
+            toAppend = logic.goRoom(secondWord);
             roomChange();
         }
         else if (event.getSource() == helpButton){
@@ -200,7 +200,7 @@ public class FXMLDocumentController implements Initializable {
                     roomInv.add(i.getName());   
                 }
             }
-            for(INPC n : gui.getLogic().getCurrentRoomNPCList()){
+            for(INPC n : logic.getCurrentRoomNPCList()){
                 if (!logic.getCurrentRoomNPCList().isEmpty()){
                     roomInv.add(n.getName());
                 }  
@@ -311,7 +311,7 @@ public class FXMLDocumentController implements Initializable {
         listProperty1.set(FXCollections.observableList(roomInv));
         roomInventory.itemsProperty().bind(listProperty1);
         if (itemName != "") {
-            gui.logic.removeFromInventory(itemName);
+            logic.removeFromInventory(itemName);
             playerInventory.getItems().remove(itemName);
             roomInv.add(itemName);
         }
@@ -325,7 +325,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     private void roomChange() throws IOException{
-        String roomName = gui.logic.getCurrentRoomName();
+        String roomName = logic.getCurrentRoomName();
         if (roomName.equalsIgnoreCase("medbay")) {
             armory.setVisible(false);
             keyRoom.setVisible(false);
@@ -375,8 +375,8 @@ public class FXMLDocumentController implements Initializable {
     private void useAction(ActionEvent event){
         String newWord = playerInventory.getSelectionModel().getSelectedItem();
         if (!playerInv.isEmpty() && newWord != "rifle") {
-            gui.logic.useItem(newWord);
-            textOutArea.appendText("\n" + gui.logic.useItem(newWord)); // check om er på fasaden
+            logic.useItem(newWord);
+            textOutArea.appendText("\n" + logic.useItem(newWord)); // check om er på fasaden
             playerInventory.getItems().remove(newWord);
         }
         else {
@@ -386,21 +386,21 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void attackFunction(ActionEvent event){
-        for (INPC npc : gui.logic.getCurrentRoomNPCList()) {
+        for (INPC npc : logic.getCurrentRoomNPCList()) {
             if (npc.getName().equalsIgnoreCase("monster")){
                 keyMonster = npc;
             }      
         }
         boolean control = false;
-        if (gui.logic.getCurrentRoomNPCList().contains(keyMonster)) {
-            gui.logic.combat("monster");
+        if (logic.getCurrentRoomNPCList().contains(keyMonster)) {
+            logic.combat("monster");
             if (playerInv.contains("rifle") && control == false) {
-                gui.logic.useItem("rifle");
+                logic.useItem("rifle");
                 //game.combat(command); does this need to be here?
                 hpBarAction();
                 textOutArea.appendText("\nYou attacked the monster with your rifle for 40 damage.");
-                textOutArea.appendText("\n" + gui.logic.combat("rifle") /*game.combat(command), don't know if this replacement works*/);
-                if (gui.logic.getDefeated() == true) {
+                textOutArea.appendText("\n" + logic.combat("rifle") /*game.combat(command), don't know if this replacement works*/);
+                if (logic.getDefeated() == true) {
                     monster.setVisible(false);
                 }
                 control = true;

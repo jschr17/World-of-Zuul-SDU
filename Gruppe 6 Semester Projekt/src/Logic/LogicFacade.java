@@ -124,8 +124,7 @@ public class LogicFacade implements ILogic {
 
     @Override
     public String goRoom(String secondWord) {
-        command.setSecondWord(secondWord);
-        return game.goRoom(command);
+                return game.goRoom(secondWord);
     }
 
     @Override

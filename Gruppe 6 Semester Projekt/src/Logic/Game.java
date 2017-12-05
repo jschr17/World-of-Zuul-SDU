@@ -217,7 +217,7 @@ public class Game {
         if (commandWord == CommandWord.HELP) {  // HELP results in caling the printHelp() method
             printHelp();
         } else if (commandWord == CommandWord.GO) {   // GO is assigned the goRoom(command) method
-            goRoom(command);
+            goRoom(secondWord);
         } else if (commandWord == CommandWord.QUIT) { // QUIT assigneds the wantToQuit variable the quit(command) method
             wantToQuit = quit(command);
         } else if (commandWord == CommandWord.INSPECT) {
@@ -280,13 +280,13 @@ public class Game {
     }
 
     //method for moving between rooms
-    public String goRoom(Command command) {
-        if (!command.hasSecondWord()) {      //if statement for determining if there is a second word returned from the Parser
-            System.out.println("Go where?");// if no word is given this line is printed in the console
-            return "Go where?";
-        }
+    public String goRoom(String secondWord) {
+//        if (!command.hasSecondWord()) {      //if statement for determining if there is a second word returned from the Parser
+//            System.out.println("Go where?");// if no word is given this line is printed in the console
+//            return "Go where?";
+//        }
 
-        String direction = command.getSecondWord(); //direction is sat to be the second word from the Parser
+        String direction = secondWord; //direction is sat to be the second word from the Parser
 
         Room nextRoom = currentRoom.getExit(direction);//initiates a new room object based on the Exit hashmap
 
