@@ -131,8 +131,7 @@ public class LogicFacade implements ILogic {
 
     @Override
     public String combat(String secondWord) {
-        command.setSecondWord(secondWord);
-        return game.combat(command);
+        return game.combat(secondWord);
     }
 
     @Override
@@ -148,6 +147,7 @@ public class LogicFacade implements ILogic {
     @Override
     public String gameWelcome() {
         return game.printWelcome();
+    }
     @Override
     public int getInventorySpace() {
         return game.inventorySpace;
