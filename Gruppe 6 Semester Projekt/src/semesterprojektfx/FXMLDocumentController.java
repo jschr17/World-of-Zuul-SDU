@@ -1,6 +1,7 @@
 package semesterprojektfx;
 
 import Acquaintance.IImmovable;
+import Acquaintance.ILogic;
 import Acquaintance.INPC;
 import java.io.IOException;
 import java.net.URL;
@@ -29,6 +30,7 @@ import javafx.stage.Stage;
  */
 public class FXMLDocumentController implements Initializable {
     GUIFacade gui;
+    ILogic logic;
     INPC keyMonster;
     private GUIFacade scene = new GUIFacade();
     
@@ -155,7 +157,7 @@ public class FXMLDocumentController implements Initializable {
         if (event.getSource() == northButton) {
             textOutArea.clear();
             String secondWord = "north"; // string
-            toAppend = gui.getLogic().goRoom(secondWord); // room description (hvad go room returner)
+            toAppend = logic.goRoom(secondWord); // room description (hvad go room returner)
             roomChange();
         }
         else if (event.getSource() == eastButton) {
@@ -192,14 +194,14 @@ public class FXMLDocumentController implements Initializable {
         if (event.getSource() == searchButton){
             roomInv.clear();
             
-            for (IImmovable i : gui.logic.getCurrentRoomInteractList()){
+            for (IImmovable i : logic.getCurrentRoomInteractList()){
                 if (i.getItems() != null) {
                     roomInv.add(i.getItems().getName());   
                     roomInv.add(i.getName());   
                 }
             }
             for(INPC n : gui.getLogic().getCurrentRoomNPCList()){
-                if (!gui.logic.getCurrentRoomNPCList().isEmpty()){
+                if (!logic.getCurrentRoomNPCList().isEmpty()){
                     roomInv.add(n.getName());
                 }  
             }
@@ -245,10 +247,10 @@ public class FXMLDocumentController implements Initializable {
                 if (itemName == null) {
                     return;
                 }
-                else if (playerInv.size() < gui.logic.getInventorySpace()) { // int som checker listens størelse...
+                else if (playerInv.size() < logic.getInventorySpace()) { // int som checker listens størelse...
                     if (!itemName.equalsIgnoreCase("monster") && !itemName.equalsIgnoreCase("counter") && !itemName.equalsIgnoreCase("device")) {
                         playerInv.add(itemName);
-                        gui.logic.addInventory(itemName);
+                        logic.addInventory(itemName);
                         roomInventory.getItems().remove(itemName);
                         textOutArea.appendText("\nYou have added " + itemName + " to your inventory.");
                         if (itemName.equalsIgnoreCase(medkit.getId())) {
@@ -263,7 +265,7 @@ public class FXMLDocumentController implements Initializable {
                     }
 
                 }
-                else if (playerInv.size() >= gui.logic.getInventorySpace()) {
+                else if (playerInv.size() >= logic.getInventorySpace()) {
                     textOutArea.appendText("\nNo more space in your inventoy.");
                 }
                 
@@ -274,23 +276,25 @@ public class FXMLDocumentController implements Initializable {
     
     //Gets the help text string from the game class, so it can be used by the GUI
     private String helpText(){
-        return gui.logic.getHelpText();
+        return logic.getHelpText();
     }
     
 
     private String inspectText(String secondWord){
-        return gui.logic.getItemDescription(secondWord);
+        return logic.getItemDescription(secondWord);
     }
     
     private String talkText(String secondWord) {
-        return gui.logic.talk(secondWord);
+        return logic.talk(secondWord);
     }
     
     //This method initializes all the relevant classes that are needed by the GUI
     @Override
-    public void initialize(URL url, ResourceBundle rb) {        
+    public void initialize(URL url, ResourceBundle rb) { 
+        logic = gui.getInstance().getLogic();
+        logic.loadHighscore();
         textOutArea.appendText("\n");
-        textOutArea.appendText(gui.logic.gameWelcome());
+        textOutArea.appendText(logic.gameWelcome());
         textOutArea.appendText("\n");
         textOutArea.appendText("\n");                      
         
@@ -406,7 +410,7 @@ public class FXMLDocumentController implements Initializable {
                 textOutArea.appendText("\nNo rifle.");
             }
         } 
-        else if (!gui.logic.getCurrentRoomNPCList().contains(keyMonster)) {
+        else if (!logic.getCurrentRoomNPCList().contains(keyMonster)) {
             textOutArea.appendText("\nNo monster here.");
         }
         else {
@@ -414,11 +418,11 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     private void hpBarAction(){
-        double hpProgress = gui.logic.getCurrentHP() / 100.0;
+        double hpProgress = logic.getCurrentHP() / 100.0;
         HPbar.setProgress(hpProgress);
     }
     private void AirBarAction(){
-        double airProgress = gui.logic.getCurrentOxygen() / 100.0;
+        double airProgress = logic.getCurrentOxygen() / 100.0;
         AirBar.setProgress(airProgress);
     }
     @FXML
@@ -435,10 +439,10 @@ public class FXMLDocumentController implements Initializable {
     private void splashScreenAction(ActionEvent event){
         String playerName = playerNameEnterField.getText();
         if (!playerName.equalsIgnoreCase("") && !playerName.equalsIgnoreCase(null)) {
-            gui.logic.setPlayerName(playerName);
+            logic.setPlayerName(playerName);
             splashScreen.setVisible(false);
             medbay.setVisible(true);
-            gui.logic.setOxygen(100);
+            logic.setOxygen(100);
         }
         else {
             warningLabel.setVisible(true);

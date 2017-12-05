@@ -36,7 +36,6 @@ public class GUIFacade extends Application implements IGUI {
     public void start(Stage stage) throws Exception {
         
 //        logic.Play();
-//        logic.loadHighscore();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
