@@ -19,7 +19,7 @@ import semesterprojektfx.GUIFacade;
  * @author Rasmus
  */
 public class Starter {
-    
+
     public static void main(String[] args) {
         IData data = new PersistenceFacade();
         ILogic logic = new LogicFacade();
@@ -27,13 +27,16 @@ public class Starter {
         IGUI gui = new GUIFacade();
         gui.injectLogic(logic);
         System.out.println("Ready to launch");
-       try {       // we are trying to catch the ioexeption trown from InputHasmap from persistens.
+        try {       // we are trying to catch the ioexeption trown from InputHasmap from persistens.
+
             Game game1 = new Game();
-            game1.play();
+            logic.InjectGame(game1);
+//            game1.play(); forsøgt flyttet til gui fasade.
+            gui.startApplication(args);
+            
         } catch (IOException e) {       // this is the catch where if an error from reading from the file shuld occur we want an errormessage printed
-                System.err.println("Caught IOException: " + e.getMessage());    // the printline for the error messeage
-}  
+            System.err.println("Caught IOException: " + e.getMessage());    // the printline for the error messeage
+        }
     }
-    
-    
+
 }

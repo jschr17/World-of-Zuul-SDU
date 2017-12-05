@@ -29,6 +29,10 @@ public class LogicFacade implements ILogic {
     public void InjectData(IData persistenceLayer) {
         this.data = persistenceLayer;
     }
+    @Override
+    public void InjectGame(Game game){
+        this.game = game;
+    }
 
     public void loadHighscore() {
         score = new Highscore(data.loadHighscore());
@@ -151,6 +155,10 @@ public class LogicFacade implements ILogic {
     @Override
     public int getInventorySpace() {
         return game.inventorySpace;
+    }
+    @Override
+    public void Play(){
+        game.play();
     }
 
 }

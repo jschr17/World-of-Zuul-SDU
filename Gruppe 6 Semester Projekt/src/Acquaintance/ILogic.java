@@ -7,6 +7,7 @@ package Acquaintance;
 
 import Logic.Command;
 import Logic.CommandWord;
+import Logic.Game;
 import java.util.ArrayList;
 
 /**
@@ -39,4 +40,7 @@ public interface ILogic {
     public void setOxygen(int air);
     public String gameWelcome();
     public int getInventorySpace();
+    public void Play();
+
+    public void InjectGame(Game game1);
 }

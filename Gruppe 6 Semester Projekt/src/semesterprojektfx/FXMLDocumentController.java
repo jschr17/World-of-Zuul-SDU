@@ -32,7 +32,7 @@ public class FXMLDocumentController implements Initializable {
     INPC keyMonster;
     private GUIFacade scene = new GUIFacade();
     
-    GUIFacade starter = new GUIFacade();
+//    GUIFacade starter = new GUIFacade();
     
     @FXML
     TextArea textOutArea;
