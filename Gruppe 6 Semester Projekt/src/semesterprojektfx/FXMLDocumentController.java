@@ -33,9 +33,7 @@ public class FXMLDocumentController implements Initializable {
     ILogic logic;
     INPC keyMonster;
     private GUIFacade scene = new GUIFacade();
-    
-//    GUIFacade starter = new GUIFacade();
-    
+      
     @FXML
     TextArea textOutArea;
     @FXML
@@ -291,8 +289,8 @@ public class FXMLDocumentController implements Initializable {
     //This method initializes all the relevant classes that are needed by the GUI
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
-        logic = gui.getInstance().getLogic();
-        logic.loadHighscore();
+        logic = gui.getInstance().getLogic();   // gives acces to caling method on the logic fasade throu a singletoon institiation of the guifacade 
+        logic.loadHighscore();                  // call that leads the highscore from its file into memory
         textOutArea.appendText("\n");
         textOutArea.appendText(logic.gameWelcome());
         textOutArea.appendText("\n");

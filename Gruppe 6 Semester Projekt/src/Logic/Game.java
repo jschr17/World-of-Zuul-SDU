@@ -15,7 +15,7 @@ import java.util.Scanner;
 // the Class that contains the specifics in the game and assigns values to the initialized constructors
 public class Game {
     
-    private String secondWord; 
+    private String secondWord;  // refractior of the youse of the second word, its now d´the command given from the gui, the word have not been changed due to legacy reasons, alot of the logig resoved aroud this word therefor it was kept
     private Parser parser;  //declares a parser objekt, so the game can read inputs
     public Room currentRoom;   // initialises a starting room
     public Player player = new Player(100, 100);
@@ -221,7 +221,7 @@ public class Game {
         } else if (commandWord == CommandWord.QUIT) { // QUIT assigneds the wantToQuit variable the quit(command) method
             wantToQuit = quit(command);
         } else if (commandWord == CommandWord.INSPECT) {
-            getItemDescription(command);
+            getItemDescription(secondWord);
         } else if (commandWord == CommandWord.SEARCH) {
             search(command);
         } else if (commandWord == CommandWord.BREAK) {
@@ -238,14 +238,14 @@ public class Game {
                 }
             }
         } else if (commandWord == CommandWord.TAKE) {
-            addInventory(command);
+            addInventory(secondWord);
         } else if (commandWord == CommandWord.DROP) {
-            removeFromInventory(command);
+            removeFromInventory(secondWord);
         } else if (commandWord == CommandWord.STATUS) {
             checkStatus();
         } else if (commandWord == CommandWord.USE) {
             if ("medkit".equals(command.getSecondWord()) || "oxygen".equals(command.getSecondWord()) || "keymodule".equals(command.getSecondWord())) {
-                useItem(command);
+                useItem(secondWord);
             } else if ("lockeddoor".equals(command.getSecondWord())) {
                 unlockDoor(command);
                 quizToOpenDoor(command);
@@ -255,7 +255,7 @@ public class Game {
         } else if (commandWord == CommandWord.TAKEDMG) {
             takeDMG(command);
         } else if (commandWord == CommandWord.TALK) {
-            talk(command);
+            talk(secondWord);
         } else if (commandWord == CommandWord.ATTACK) {
             if (!command.hasSecondWord()) {
                 System.out.println("Attack what?");
@@ -314,10 +314,9 @@ public class Game {
     }
 
     //Returns the description of the word after the commandWord.
-    public String getItemDescription(Command command) {
+    public String getItemDescription(String secondWord) {
         String inspectString = "";
-        if (command.hasSecondWord()) {
-            String item = command.getSecondWord();
+            String item = secondWord;
             for (Item i : player.getInventory()) {
                 if (i.getName().equals(item)) {
                     //System.out.println(i.getDescription());
@@ -336,17 +335,7 @@ public class Game {
                     inspectString = n.getDescription();
                 }
             }
-            // These lines mess up the inspect button in the GUI
-            /*if (item != currentRoom.getInteractList().toString() && item != player.getInventory().toString()) {
-                //System.out.println("You can't inspect that!");
-                inspectString = "You can't inspect that!";
-            }*/
-        } else {
-            //Hvis der ikke er to ord, understående bliver printet og man
-            //bliver bedt om at prøve igen.
-            //System.out.println("Which item?");
-            inspectString = "Which item?";
-        }
+
         return inspectString;
     }
 
@@ -376,9 +365,9 @@ public class Game {
     }
 
     //Adds the item comming after the commandWord to the players inventory.
-    public void addInventory(Command command) {
-        String object = command.getSecondWord();
-        if (!command.hasSecondWord()) {
+    public void addInventory(String secondWord) {
+        String object = secondWord;
+        if (secondWord.isEmpty()) {
             System.out.println("Take what?");
             return;
         }
@@ -526,24 +515,27 @@ public class Game {
         }
     }
 
-    public void removeFromInventory(Command command) {
-        String object = command.getSecondWord();
-        if (!command.hasSecondWord()) {
-            System.out.println("Drop what?");
-            return;
+    public String removeFromInventory(String secondWord) {
+        String object = secondWord;
+        String returnLn;
+        if (secondWord.isEmpty()) {
+            returnLn = "Drop what?";
+            return returnLn;
         }
 
         for (Item i : player.getInventory()) {
             if (i.getName().equalsIgnoreCase(object)) {
                 currentRoom.setItem(i);
-                System.out.println("You put " + i.getName() + " on the floor.");
+                returnLn = "You put " + i.getName() + " on the floor.";
                 player.removeFromInventory(i);
-                return;
+                return returnLn;
             }
         }
         if (object != player.getInventory().toString()) {
-            System.out.println("Can't drop that!");
+            returnLn = "Can't drop that!";
+            return returnLn;
         }
+        return null;
     }
 
     // a command that prints out the status, of the player
@@ -554,14 +546,14 @@ public class Game {
     }
 
     // This method, handles using ones items, that are in the players inventory
-    public String useItem(Command command) {
-        String object = command.getSecondWord();
+    public String useItem(String secondWord) {
+        String object = secondWord;
         int air = player.getAir();
         int HP = player.getHp();
         String medkit = "medkit";
         String oxygen = "oxygen";
 
-        if (!command.hasSecondWord()) {
+        if (secondWord.isEmpty()) {
             System.out.println("Use what?");
             return "Use what?";
         }
@@ -780,13 +772,13 @@ public class Game {
 }
 
 // method for the commandword talk
-public String talk(Command command) {
+public String talk(String secondWord) {
         String talkString = "";
-        if (!command.hasSecondWord()) {                         //What hapends if no second word is given
+        if (!secondWord.isEmpty()) {                         //What hapends if no second word is given
             talkString = LogicFacade.getDescriptionText("talkNoArgument");
             // logic for how britneay responds
             // maby current room argument can be omittet? 
-        } else if (command.getSecondWord().equalsIgnoreCase("britney") && currentRoom.getNPC("britney") == britney) {
+        } else if (secondWord.equalsIgnoreCase("britney") && currentRoom.getNPC("britney") == britney) {
             if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == false) { //responds befor radi is fixed
                 talkString = LogicFacade.getDescriptionText("britney1");
             } else if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == true && player.hasCalledHelp() == false) { //respons after radi is fixed

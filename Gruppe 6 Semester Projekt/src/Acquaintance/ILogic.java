@@ -29,7 +29,7 @@ public interface ILogic {
     public String useItem(String secondWord);               //command.setSecondWord(secondWord)
     public String getCurrentRoomName();
     public void setPlayerName(String name);
-    public void removeFromInventory(String secondWord);     //command.setSecondWord(secondWord)
+    public String removeFromInventory(String secondWord);     //command.setSecondWord(secondWord)
     public void addInventory(String secondWord);            //command.setSecondWord(secondWord)
     public ArrayList<IImmovable> getCurrentRoomInteractList();
     public ArrayList<INPC> getCurrentRoomNPCList();

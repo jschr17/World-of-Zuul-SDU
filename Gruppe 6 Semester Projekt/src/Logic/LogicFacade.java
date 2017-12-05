@@ -30,7 +30,7 @@ public class LogicFacade implements ILogic {
         this.data = persistenceLayer;
     }
     @Override
-    public void InjectGame(Game game){
+    public void InjectGame(Game game){  // the game is created in the starter class(gluecode) and is injected here so we can call methods on it.
         this.game = game;
     }
 
@@ -59,14 +59,12 @@ public class LogicFacade implements ILogic {
 
     @Override
     public String getItemDescription(String secondWord) {
-        command.setSecondWord(secondWord);
-        return game.getItemDescription(command);
+         return game.getItemDescription(secondWord);
     }
 
     @Override
     public String talk(String secondWord) {
-        command.setSecondWord(secondWord);
-        return game.talk(command);
+        return game.talk(secondWord);
     }
 
     @Override
@@ -86,8 +84,7 @@ public class LogicFacade implements ILogic {
 
     @Override
     public String useItem(String secondWord) {
-        command.setSecondWord(secondWord);
-        return game.useItem(command);
+        return game.useItem(secondWord);
     }
 
     @Override
@@ -101,15 +98,13 @@ public class LogicFacade implements ILogic {
     }
 
     @Override
-    public void removeFromInventory(String secondWord) {
-        command.setSecondWord(secondWord);
-        game.removeFromInventory(command);
+    public String removeFromInventory(String secondWord) {      // har endret returntype er muligvis ikke korrekt....
+        return game.removeFromInventory(secondWord);
     }
 
     @Override
     public void addInventory(String secondWord) {
-        command.setSecondWord(secondWord);
-        game.addInventory(command);
+        game.addInventory(secondWord);
     }
 
     @Override
@@ -124,7 +119,7 @@ public class LogicFacade implements ILogic {
 
     @Override
     public String goRoom(String secondWord) {
-                return game.goRoom(secondWord);
+        return game.goRoom(secondWord);
     }
 
     @Override
