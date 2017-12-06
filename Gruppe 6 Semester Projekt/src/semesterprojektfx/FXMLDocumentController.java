@@ -180,7 +180,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleButtonAction(ActionEvent event) throws Exception {
         String toAppend = "";
-        game.monsterTravel(game.keyMonster);
+        logic.monsterTravel();
         roomInventory.getItems().clear(); 
         if (event.getSource() == northButton) {
             textOutArea.clear();
@@ -582,10 +582,10 @@ public class FXMLDocumentController implements Initializable {
     //Displays and moves the different indicator on the games minimap, and controls
     //where and when the monster image must be displayed
     private void minimapAction() {
-        String roomName = game.currentRoom.getName();
+        String roomName = logic.getCurrentRoomName();
         
-        if (game.keyMonster.getDefeated() == true) {
-            game.monsterTravel(game.keyMonster);
+        if (logic.getDefeated() == true) {
+            logic.monsterTravel();
         }
         if (roomName.equalsIgnoreCase("medbay")) {
             playerDot.setLayoutX(68);
@@ -612,39 +612,39 @@ public class FXMLDocumentController implements Initializable {
             playerDot.setLayoutY(86);             
         }  
         
-        if (game.keyRoom.getNPCList().contains(game.keyMonster)) {
+        if (logic.getRoomNPCList("keyRoom").contains(keyMonster)) {
         monsterDot.setLayoutX(59);
         monsterDot.setLayoutY(129); 
-            if (game.keyMonster.getDefeated() == true) {
+            if (logic.getDefeated() == true) {
                 keyRoomMonster.setVisible(true);
             }
         
        }
-        else if (game.armoury.getNPCList().contains(game.keyMonster)) {
+        else if (logic.getRoomNPCList("armoury").contains(keyMonster)) {
         monsterDot.setLayoutX(105);
         monsterDot.setLayoutY(130);
         armouryMonster.setVisible(true);
         }   
-        else if (game.hallway.getNPCList().contains(game.keyMonster)) {
+        else if (logic.getRoomNPCList("hallway").contains(keyMonster)) {
         monsterDot.setLayoutX(59);
         monsterDot.setLayoutY(85);
         hallwayMonster.setVisible(true);
         }                
-        else if (game.airlock.getNPCList().contains(game.keyMonster)) {
+        else if (logic.getRoomNPCList("airlock").contains(keyMonster)) {
         monsterDot.setLayoutX(59);
         monsterDot.setLayoutY(40);
         airlockMonster.setVisible(true);
         } 
-        if (!game.keyRoom.getNPCList().contains(game.keyMonster)) {
+        if (!logic.getRoomNPCList("keyRoom").contains(keyMonster)) {
             keyRoomMonster.setVisible(false);
         }
-        if (!game.armoury.getNPCList().contains(game.keyMonster)) {
+        if (!logic.getRoomNPCList("armoury").contains(keyMonster)) {
             armouryMonster.setVisible(false);
         }        
-        if (!game.hallway.getNPCList().contains(game.keyMonster)) {
+        if (!logic.getRoomNPCList("hallway").contains(keyMonster)) {
             hallwayMonster.setVisible(false);
         }
-        if (!game.airlock.getNPCList().contains(game.keyMonster)) {
+        if (!logic.getRoomNPCList("airlock").contains(keyMonster)) {
             airlockMonster.setVisible(false);
         }
     }

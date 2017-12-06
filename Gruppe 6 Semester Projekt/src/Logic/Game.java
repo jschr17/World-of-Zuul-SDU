@@ -3,6 +3,7 @@ package Logic;
 import Acquaintance.IImmovable;
 import Acquaintance.IItem;
 import Acquaintance.INPC;
+import Acquaintance.IRoom;
 import java.io.IOException;
 
 import java.awt.Desktop;
@@ -18,17 +19,18 @@ public class Game {
     
     private String secondWord;  // refractior of the youse of the second word, its now d´the command given from the gui, the word have not been changed due to legacy reasons, alot of the logig resoved aroud this word therefor it was kept
     private Parser parser;  //declares a parser objekt, so the game can read inputs
-    public Room currentRoom;   // initialises a starting room
-    public Player player = new Player(100, 100);
-    public int inventorySpace = 2;
+    Room currentRoom;   // initialises a starting room
+    Player player = new Player(100, 100);
+    int inventorySpace = 2;
     private String dmgText;
     
-    public Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
-    public Immovable counter, device, table, weaponCabinet, bookcase, 
+    Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
+    ArrayList<Room> roomList;
+    Immovable counter, device, table, weaponCabinet, bookcase, 
             hiddenpanel, closet, lockedDoor, glassCabinet, airlockPanel, 
             doorLockPanel, radioArray;
-    public NPC britney, keyMonster;
-    public Item sword, medkit, oxygen, gun, rifle, key, notes;
+    NPC britney, keyMonster;
+    Item sword, medkit, oxygen, gun, rifle, key, notes;
     private int enterRoomCounter1, enterRoomCounter2 = 0;
 
     //private Command command = parser.getCommand();
@@ -48,7 +50,14 @@ public class Game {
         hallway = new Room("hallway", LogicFacade.getDescriptionText("hallway"));
         communicationRoom = new Room("communicationRoom", LogicFacade.getDescriptionText("communicationRoom"));
         airlock = new Room("airlock", LogicFacade.getDescriptionText("airlock"));
-
+        roomList.add(medbay);
+        roomList.add(keyRoom);
+        roomList.add(armoury);
+        roomList.add(hallway);
+        roomList.add(communicationRoom);
+        roomList.add(airlock);
+        
+        
         // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
         medbay.setExit("north", keyRoom);
 
@@ -618,8 +627,8 @@ public class Game {
 
     }
 
-    public void monsterTravel(NPC monster) {
-        if (monster.getMovability() && monster.getHostility()) {
+    public void monsterTravel() {
+        if (keyMonster.getMovability() && keyMonster.getHostility()) {
             ArrayList<Room> allowedRooms = new ArrayList<>();
             allowedRooms.add(airlock);
             allowedRooms.add(hallway);
@@ -628,10 +637,10 @@ public class Game {
             allowedRooms.add(medbay);
             //Room[] allowedRooms = {airlock, hallway, keyRoom, armoury, medbay};//{"airlock", "hallway", "keyRoom", "armoury", "medbay"};
             for (Room r : allowedRooms) {
-                r.removeNPC(monster);
+                r.removeNPC(keyMonster);
             }
             int rngRoom = (int) (4 * Math.random());
-            allowedRooms.get(rngRoom).addNPC(monster);
+            allowedRooms.get(rngRoom).addNPC(keyMonster);
 //            if (currentRoom.getName().equals(allowedRooms[rngRoom])) {
 //                if (currentRoom.getNPC("monster") != keyMonster) {
 //                    monster.setHealth(200);
@@ -758,18 +767,17 @@ public class Game {
             }
         }
     }
+//      all these seem to belong to the method above....
+//    if (keyMonster.getDefeated() == true) {
+//            return "\nThe monster is defeated! \nA key drops from the monsters corpse"
+//                + " and unto the floor";
+//    }
+//
+//    
+//        else{
+//            return dmgText;
+//    }
 
-    if (keyMonster.getDefeated () 
-        == true) {
-            return "\nThe monster is defeated! \nA key drops from the monsters corpse"
-                + " and unto the floor";
-    }
-
-    
-        else{
-            return dmgText;
-    }
-}
 
 // method for the commandword talk
 public String talk(String secondWord) {
@@ -891,5 +899,9 @@ public String talk(String secondWord) {
         }
     
         // end of method.
+    }
+    
+    ArrayList<Room> getRoomList(){
+        return roomList;
     }
 }

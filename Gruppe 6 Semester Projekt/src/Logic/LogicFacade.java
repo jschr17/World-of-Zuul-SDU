@@ -155,4 +155,20 @@ public class LogicFacade implements ILogic {
         game.play();
     }
 
+    @Override
+    public void monsterTravel() {
+        game.monsterTravel();
+    }
+
+    @Override
+    public ArrayList<INPC> getRoomNPCList(String roomName) {
+        ArrayList<INPC> npcList = new ArrayList<>();
+        for (Room r : game.getRoomList()){
+            if (r.getName().equals(roomName)){
+                npcList = r.getNPCList();
+            }     
+        }
+        return npcList;
+    }
+
 }
