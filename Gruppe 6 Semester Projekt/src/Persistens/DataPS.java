@@ -8,8 +8,8 @@ package Persistens;
 import Acquaintance.IPersonalScore;
 
 /**
- *
- * @author Rasmus Jensen
+ * Class used to assist in seriealising and deserializing IPersonalScore object with jackson the class hodls a name and a score variable with getter setter methods
+ * @author Rasmus
  */
 public class DataPS implements IPersonalScore{
     String name;

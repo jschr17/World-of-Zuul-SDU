@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.node.IntNode;
 import java.io.IOException;
 
 /**
- *
+ *Custom serializer used to desearialize a DataPS object which implements the interface IPersonScore
  * @author Rasmus
  */
 public class ScoreDeserializer extends StdDeserializer<DataPS>{
@@ -27,7 +27,7 @@ public class ScoreDeserializer extends StdDeserializer<DataPS>{
     super(vc);
     }
 
-    @Override
+    @Override       // This method is used to tell the deserializer what it needs to do with the variable and how it shuld return them as an object.
     public DataPS deserialize(JsonParser jp, DeserializationContext dc) throws IOException, JsonProcessingException {
         JsonNode node = jp.getCodec().readTree(jp);
         String name = node.get("name").asText();

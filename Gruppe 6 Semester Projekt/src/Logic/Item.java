@@ -27,6 +27,7 @@ public class Item implements Interactables, IItem {
         this.dmg = dmg;
         this.HP = HP;
         this.air = air;
+        this.flag = true;
     }
 
     public int getDmg() {
@@ -80,6 +81,11 @@ public class Item implements Interactables, IItem {
 
     @Override
     public void setDescription(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setDestructable(Boolean destructable) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

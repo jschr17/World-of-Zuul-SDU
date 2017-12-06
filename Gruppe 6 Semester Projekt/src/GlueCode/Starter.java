@@ -31,7 +31,6 @@ public class Starter {
 
             Game game1 = new Game();
             logic.InjectGame(game1);
-//            game1.play(); forsøgt flyttet til gui fasade.
             gui.startApplication(args);
             
         } catch (IOException e) {       // this is the catch where if an error from reading from the file shuld occur we want an errormessage printed

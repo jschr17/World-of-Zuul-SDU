@@ -164,7 +164,7 @@ public class Room implements IRoom{
     public ArrayList<INPC> getNPCList(){
         return npcList;
     }
-    Room getSecretDestination(String notes) {
+    public Room getSecretDestination(String notes) {
         return secretExits.get(notes);
     }
     
