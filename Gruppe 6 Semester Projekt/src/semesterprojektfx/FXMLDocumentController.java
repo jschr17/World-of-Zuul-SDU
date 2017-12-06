@@ -33,6 +33,7 @@ public class FXMLDocumentController implements Initializable {
     GUIFacade gui;
     ILogic logic;
     INPC keyMonster;
+    private IImmovable table;
     private GUIFacade scene = new GUIFacade();
     
     private boolean flagcheck = false;
@@ -174,7 +175,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleButtonAction(ActionEvent event) throws Exception {
         String toAppend = "";
-        game.monsterTravel(game.keyMonster);
+        logic.monsterTravel();
         roomInventory.getItems().clear(); 
         if (event.getSource() == northButton) {
             textOutArea.clear();
@@ -467,7 +468,7 @@ public class FXMLDocumentController implements Initializable {
             textOutArea.appendText("\nAccess Granted");
             textOutArea.appendText("\nThe door slides open, leaving a opening to another room");
             secretDoor1.setVisible(true);
-            game.currentRoom.setExit("north", game.currentRoom.getSecretDestination("notes"));
+            logic.setOpenSecretExit("north", "notes");
             passwordPane.setVisible(false);
         }
     }
@@ -479,13 +480,17 @@ public class FXMLDocumentController implements Initializable {
                 keyMonster = npc;
             }      
         }
+         for (IImmovable imov : logic.getCurrentRoomInteractList()) {
+            if (imov.getName().equalsIgnoreCase("table")){
+                table = imov;
+            }      
+        }
         boolean control = false;
         String newWord = roomInventory.getSelectionModel().getSelectedItem();
-        if (game.currentRoom.getNPCList().contains(game.keyMonster) && newWord == "monster") {
-            command.setSecondWord("monster");
-            game.combat(command);
-        if (logic.getCurrentRoomNPCList().contains(keyMonster)) {
-            logic.combat("monster");
+        if (logic.getCurrentRoomNPCList().contains(keyMonster) && newWord == "monster") {
+            String secondWord = "monster";
+            logic.combat(secondWord);
+
             if (playerInv.contains("rifle") && control == false) {
                 logic.useItem("rifle");
                 //game.combat(command); does this need to be here?
@@ -507,8 +512,7 @@ public class FXMLDocumentController implements Initializable {
         roomInventory.itemsProperty().bind(listPropertyRoom);
         }
 
-        if(/*newWord.equalsIgnoreCase("table")*/ game.currentRoom.getInteractList().contains(game.table)){
-            Immovable table = game.currentRoom.getImmovable("table");
+        if(/*newWord.equalsIgnoreCase("table")*/ logic.getCurrentRoomInteractList().contains(table)){
             if (table.getDestructible() == true) {
             textOutArea.appendText("\nYou break the leg off the table \nA bunch of "
                     + "notes fall on the floor.");
@@ -521,14 +525,14 @@ public class FXMLDocumentController implements Initializable {
                 return;
             }
         }
-        else if (!game.currentRoom.getNPCList().contains(game.keyMonster)) {
+        else if (!logic.getCurrentRoomNPCList().contains(keyMonster)) {
             textOutArea.appendText("\nNo monster here.");
         }
         else {
             textOutArea.appendText("\nYou can't do that.");
         }        
     }
-    }
+    
     //Controls how the player HP bar functions
     private void hpBarAction(){
         double hpProgress = logic.getCurrentHP() / 100.0;
@@ -574,10 +578,10 @@ public class FXMLDocumentController implements Initializable {
     //Displays and moves the different indicator on the games minimap, and controls
     //where and when the monster image must be displayed
     private void minimapAction() {
-        String roomName = game.currentRoom.getName();
+        String roomName = logic.getCurrentRoomName();
         
-        if (game.keyMonster.getDefeated() == true) {
-            game.monsterTravel(game.keyMonster);
+        if (logic.getDefeated() == true) {
+            logic.monsterTravel();
         }
         if (roomName.equalsIgnoreCase("medbay")) {
             playerDot.setLayoutX(68);
@@ -604,39 +608,39 @@ public class FXMLDocumentController implements Initializable {
             playerDot.setLayoutY(86);             
         }  
         
-        if (game.keyRoom.getNPCList().contains(game.keyMonster)) {
+        if (logic.getRoomNPCList("keyRoom").contains(keyMonster)) {
         monsterDot.setLayoutX(59);
         monsterDot.setLayoutY(129); 
-            if (game.keyMonster.getDefeated() == true) {
+            if (logic.getDefeated() == true) {
                 keyRoomMonster.setVisible(true);
             }
         
        }
-        else if (game.armoury.getNPCList().contains(game.keyMonster)) {
+        else if (logic.getRoomNPCList("armoury").contains(keyMonster)) {
         monsterDot.setLayoutX(105);
         monsterDot.setLayoutY(130);
         armouryMonster.setVisible(true);
         }   
-        else if (game.hallway.getNPCList().contains(game.keyMonster)) {
+        else if (logic.getRoomNPCList("hallway").contains(keyMonster)) {
         monsterDot.setLayoutX(59);
         monsterDot.setLayoutY(85);
         hallwayMonster.setVisible(true);
         }                
-        else if (game.airlock.getNPCList().contains(game.keyMonster)) {
+        else if (logic.getRoomNPCList("airlock").contains(keyMonster)) {
         monsterDot.setLayoutX(59);
         monsterDot.setLayoutY(40);
         airlockMonster.setVisible(true);
         } 
-        if (!game.keyRoom.getNPCList().contains(game.keyMonster)) {
+        if (!logic.getRoomNPCList("keyRoom").contains(keyMonster)) {
             keyRoomMonster.setVisible(false);
         }
-        if (!game.armoury.getNPCList().contains(game.keyMonster)) {
+        if (!logic.getRoomNPCList("armoury").contains(keyMonster)) {
             armouryMonster.setVisible(false);
         }        
-        if (!game.hallway.getNPCList().contains(game.keyMonster)) {
+        if (!logic.getRoomNPCList("hallway").contains(keyMonster)) {
             hallwayMonster.setVisible(false);
         }
-        if (!game.airlock.getNPCList().contains(game.keyMonster)) {
+        if (!logic.getRoomNPCList("airlock").contains(keyMonster)) {
             airlockMonster.setVisible(false);
         }
     }

@@ -13,6 +13,7 @@ import Acquaintance.IData;
 import Acquaintance.IImmovable;
 import Acquaintance.IItem;
 import Acquaintance.INPC;
+import Acquaintance.IRoom;
 import GlueCode.Starter;
 
 /**
@@ -162,8 +163,30 @@ public class LogicFacade implements ILogic {
     }
 
     @Override
+    public void monsterTravel() {
+        game.monsterTravel();
+    }
+
+    @Override
+    public ArrayList<INPC> getRoomNPCList(String roomName) {
+        ArrayList<INPC> npcList = new ArrayList<>();
+        for (IRoom r : game.getRoomList()){
+            if (r.getName().equals(roomName)){
+                npcList = r.getNPCList();
+            }     
+        }
+        return npcList;
+        
+    }
+    
+    @Override
     public String awakenMonster() {
         return game.awakenMonster();
+    }
+    
+    @Override
+    public void setOpenSecretExit(String direction, String opener){
+    game.currentRoom.setExit(direction, game.currentRoom.getSecretDestination(opener));
     }
 
 }
