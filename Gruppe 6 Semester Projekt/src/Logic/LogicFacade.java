@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import Acquaintance.ILogic;
 import Acquaintance.IData;
 import Acquaintance.IImmovable;
+import Acquaintance.IItem;
 import Acquaintance.INPC;
 import GlueCode.Starter;
 
@@ -117,6 +118,11 @@ public class LogicFacade implements ILogic {
         return game.currentRoom.getNPCList();
     }
 
+    @Override 
+    public ArrayList<IItem> getCurrentRoomItemList() {
+        return game.currentRoom.getItemList();
+    }
+
     @Override
     public String goRoom(String secondWord) {
         return game.goRoom(secondWord);
@@ -153,6 +159,11 @@ public class LogicFacade implements ILogic {
     @Override
     public void Play(){
         game.play();
+    }
+
+    @Override
+    public String awakenMonster() {
+        return game.awakenMonster();
     }
 
 }

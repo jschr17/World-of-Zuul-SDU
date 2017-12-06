@@ -27,5 +27,6 @@ public void openCabinet();
     public void setDescription(String string);
 
     public void setUseDescription(String string);
+    public void setDestructable(Boolean destructable);
 
 }

@@ -41,6 +41,8 @@ public interface ILogic {
     public String gameWelcome();
     public int getInventorySpace();
     public void Play();
+     public ArrayList<IItem> getCurrentRoomItemList();
+     public String awakenMonster();
 
     public void InjectGame(Game game1);
 }

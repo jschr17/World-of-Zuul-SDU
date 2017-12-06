@@ -154,7 +154,7 @@ public class Room implements IRoom{
     public void addNPC(NPC npc){
         this.npcList.add(npc);
     }
-    public void addItem(Item item){
+    public void addItem(IItem item){
         this.itemList.add(item);
     }
     

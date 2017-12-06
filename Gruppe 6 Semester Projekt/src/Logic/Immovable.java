@@ -122,6 +122,9 @@ public class Immovable implements Interactables, IImmovable{
     @Override
     public void setFlag(boolean b) {
         this.flag = b;
+    }
+        
+    @Override
     public void setDestructable(Boolean destructable) {
         this.destructible = destructable;
     }

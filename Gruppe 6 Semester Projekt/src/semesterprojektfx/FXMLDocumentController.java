@@ -1,6 +1,7 @@
 package semesterprojektfx;
 
 import Acquaintance.IImmovable;
+import Acquaintance.IItem;
 import Acquaintance.ILogic;
 import Acquaintance.INPC;
 import java.io.IOException;
@@ -33,15 +34,8 @@ public class FXMLDocumentController implements Initializable {
     ILogic logic;
     INPC keyMonster;
     private GUIFacade scene = new GUIFacade();
-      
-    
-    
-    private SemesterProjektFX scene = new SemesterProjektFX();
-
     
     private boolean flagcheck = false;
-    
-    SemesterProjektFX starter = new SemesterProjektFX();
     
     @FXML
     TextArea textOutArea;
@@ -225,10 +219,10 @@ public class FXMLDocumentController implements Initializable {
     private void listAction(ActionEvent event){
         if (event.getSource() == searchButton){
             roomInv.clear();
-            for (Item i : game.currentRoom.getItemList()) {
+            for (IItem i : logic.getCurrentRoomItemList()) {
                 roomInv.add(i.getName());
             }
-            for (Immovable i : game.currentRoom.getInteractList()){
+            for (IImmovable i : logic.getCurrentRoomInteractList()){
                 if(i.getFlag()==true){
                     roomInv.add(i.getName()); 
                     if (i.getItems() != null) {
@@ -285,7 +279,7 @@ public class FXMLDocumentController implements Initializable {
                 if (itemName == null) {
                     return;
                 }
-                else if (playerInv.size() < game.inventorySpace) {
+                else if (playerInv.size() < logic.getInventorySpace()) {
                     if (!itemName.equalsIgnoreCase("monster") && !itemName.equalsIgnoreCase("counter") && !itemName.equalsIgnoreCase("device") &&
                         !itemName.equalsIgnoreCase("closet") && !itemName.equalsIgnoreCase("table") && !itemName.equalsIgnoreCase("bookcase") 
                         && !itemName.equalsIgnoreCase("hiddenpanel") && !itemName.equalsIgnoreCase("lockedDoor") && !itemName.equalsIgnoreCase("airlockPanel") 
@@ -331,16 +325,13 @@ public class FXMLDocumentController implements Initializable {
     }
     
 
+
+    //Gets the item description of a specific item from the game class
     private String inspectText(String secondWord){
         return logic.getItemDescription(secondWord);
-    //Gets the item description of a specific item from the game class
-    private String inspectText(Command command){
-        return game.getItemDescription(command);
     }
     //Gets the different string responses from the game class, when you are 'talking'
     //whith Britney
-    private String talkText(Command command) {
-        return game.talk(command);
     
     private String talkText(String secondWord) {
         return logic.talk(secondWord);
@@ -410,8 +401,8 @@ public class FXMLDocumentController implements Initializable {
             hallway.setVisible(false);
             airlock.setVisible(false);   
             if (flagcheck == false) {
-                game.awakenMonster();
-                textOutArea.appendText("\n" + game.awakenMonster());
+                logic.awakenMonster();
+                textOutArea.appendText("\n" + logic.awakenMonster());
                 flagcheck = true;
             }
         }
@@ -536,6 +527,7 @@ public class FXMLDocumentController implements Initializable {
         else {
             textOutArea.appendText("\nYou can't do that.");
         }        
+    }
     }
     //Controls how the player HP bar functions
     private void hpBarAction(){
