@@ -720,28 +720,7 @@ public class Game {
                         }
                     }
                 }
-                else if (commandWord == CommandWord.USE && yourTurn == true) {
-                    if (!command.hasSecondWord()) {
-                        System.out.println("What weapon?");
-                    } else {
-                        for (Item i : player.getInventory()) {
-                            if (secondWord.equals(i.getName())) {
-                                keyMonster.setHealth(keyMonster.getHealth() - i.getDmg());
-                                System.out.println("You attacked the monster with "
-                                        + i.getName() + " and damaged it for "
-                                        + i.getDmg());
-                                yourTurn = false;
-                                dmgText = "You attacked the monster with "
-                                        + i.getName() + " and damaged it for "
-                                        + i.getDmg();
-                                break;
-//                                return dmgText;
-                            }
-                            else {
-                                return null;
-                            }
-                        }
-                    }
+               
                     
                     if(keyMonster.getHealth()<=0){
                         System.out.println("The monster is defeated");
