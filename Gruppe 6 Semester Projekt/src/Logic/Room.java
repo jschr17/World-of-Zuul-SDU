@@ -116,7 +116,7 @@ public class Room implements IRoom{
     public ArrayList<IItem> getItemList(){
         return itemList;
     }
-    public void setItem(Item item){
+    public void setItem(IItem item){
         this.itemList.add(item);
     }
     public IItem getItem(String item){

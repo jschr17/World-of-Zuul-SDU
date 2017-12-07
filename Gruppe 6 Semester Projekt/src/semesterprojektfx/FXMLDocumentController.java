@@ -4,6 +4,7 @@ import Acquaintance.IImmovable;
 import Acquaintance.IItem;
 import Acquaintance.ILogic;
 import Acquaintance.INPC;
+import Logic.Game;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -33,6 +34,7 @@ public class FXMLDocumentController implements Initializable {
     GUIFacade gui;
     ILogic logic;
     INPC keyMonster;
+    IItem rifle;
     private IImmovable table;
     private GUIFacade scene = new GUIFacade();
     
@@ -175,7 +177,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleButtonAction(ActionEvent event) throws Exception {
         String toAppend = "";
-        logic.monsterTravel();
+//        logic.monsterTravel();
         roomInventory.getItems().clear(); 
         if (event.getSource() == northButton) {
             textOutArea.clear();
@@ -495,7 +497,7 @@ public class FXMLDocumentController implements Initializable {
                 logic.useItem("rifle");
                 //game.combat(command); does this need to be here?
                 hpBarAction();
-                textOutArea.appendText("\nYou attacked the monster with your rifle for 40 damage.");
+//                textOutArea.appendText("\nYou attacked the monster with your rifle for 40 damage.");
                 textOutArea.appendText("\n" + logic.combat("rifle") /*game.combat(command), don't know if this replacement works*/);
                 if (logic.getDefeated() == true) {
                     monster.setVisible(false);

@@ -188,5 +188,10 @@ public class LogicFacade implements ILogic {
     public void setOpenSecretExit(String direction, String opener){
     game.currentRoom.setExit(direction, game.currentRoom.getSecretDestination(opener));
     }
+    
+    @Override
+    public ArrayList<IItem> getPlayerInventory(){
+        return game.player.getInventory();
+    }
 
 }
