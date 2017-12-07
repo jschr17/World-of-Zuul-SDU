@@ -189,4 +189,9 @@ public class LogicFacade implements ILogic {
     game.currentRoom.setExit(direction, game.currentRoom.getSecretDestination(opener));
     }
 
+    @Override
+    public String roomLogic() {
+        return game.roomLogic();
+    }
+
 }

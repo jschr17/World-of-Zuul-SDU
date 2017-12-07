@@ -387,6 +387,7 @@ public class FXMLDocumentController implements Initializable {
     //It also runs the method 'awakenMonster', which makes the monster move from
     //room to room
     private void roomChange() throws IOException{
+        logic.roomLogic();
         String roomName = logic.getCurrentRoomName();
         if (roomName.equalsIgnoreCase("medbay")) {
             armory.setVisible(false);
