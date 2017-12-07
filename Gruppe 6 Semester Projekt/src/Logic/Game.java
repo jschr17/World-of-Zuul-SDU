@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class Game {
 
     private String secondWord;  // refractior of the youse of the second word, its now d´the command given from the gui, the word have not been changed due to legacy reasons, alot of the logig resoved aroud this word therefor it was kept
-    private Parser parser;  //declares a parser objekt, so the game can read inputs
+//    private Parser parser;  //declares a parser objekt, so the game can read inputs
     Room currentRoom;   // initialises a starting room
     Player player = new Player(100, 100);
     int inventorySpace = 2;
@@ -37,7 +37,7 @@ public class Game {
     // constructor for the game class    
     public Game() throws IOException {
         createRooms();
-        parser = new Parser();
+//        parser = new Parser();
     }
 
     //initializing of the rooms objects needed in the game 
@@ -158,42 +158,42 @@ public class Game {
     }
 
     // the method that starts the game
-    public void play() {
-        printWelcome(); //prints the welcome message    
-        int i = 0;
-        int monsterTurnWait = 2;
-
-        boolean finished = false; //initiates a boolen to determine if the game is fi
-        while (!finished) {    // the main game loop, runs as long as boolean finished = false
-            if (loseCondition() == true) {
-                finished = true;
-                break;
-            }
-            roomLogic();
-            Command command = parser.getCommand(); // gets a command from the parser Class and processes it
-            finished = processCommand(command);     // after each command is prosed the game checks if the finish command have been given,
-//            if (i != monsterTurnWait) {
-//                i++;
+//    public void play() {
+//        printWelcome(); //prints the welcome message    
+//        int i = 0;
+//        int monsterTurnWait = 2;
+//
+//        boolean finished = false; //initiates a boolen to determine if the game is fi
+//        while (!finished) {    // the main game loop, runs as long as boolean finished = false
+//            if (loseCondition() == true) {
+//                finished = true;
+//                break;
 //            }
-//            else if (!"communicationRoom".equals(currentRoom.getName())) {
-//                monsterTravel(keyMonster);
-//                i = 0;
-//            }
-        }
-        player.terminateAllPlayerThreads();
-        player.terminateAllPlayerTimers();
-        if (player.hasWonGame() == true) {
-            Highscore.addNewScore(player.getName(), player.getAwesomePoint(britney.toldToEvacuate()));
-            System.out.println("Your total points is: " + player.getAwesomePoint(britney.toldToEvacuate()));
-        } else {
-            System.out.println("You have died!");
-        }
-        System.out.println("Highscore:");
-        for (Object hs : Highscore.getHighscoreString()) {
-            System.out.println(hs.toString());
-        }
-        System.out.println("Thank you for playing.  Good bye."); //prints this line if finished == true
-    }
+//            roomLogic();
+//            Command command = parser.getCommand(); // gets a command from the parser Class and processes it
+//            finished = processCommand(command);     // after each command is prosed the game checks if the finish command have been given,
+////            if (i != monsterTurnWait) {
+////                i++;
+////            }
+////            else if (!"communicationRoom".equals(currentRoom.getName())) {
+////                monsterTravel(keyMonster);
+////                i = 0;
+////            }
+//        }
+//        player.terminateAllPlayerThreads();
+//        player.terminateAllPlayerTimers();
+//        if (player.hasWonGame() == true) {
+//            Highscore.addNewScore(player.getName(), player.getAwesomePoint(britney.toldToEvacuate()));
+//            System.out.println("Your total points is: " + player.getAwesomePoint(britney.toldToEvacuate()));
+//        } else {
+//            System.out.println("You have died!");
+//        }
+//        System.out.println("Highscore:");
+//        for (Object hs : Highscore.getHighscoreString()) {
+//            System.out.println(hs.toString());
+//        }
+//        System.out.println("Thank you for playing.  Good bye."); //prints this line if finished == true
+//    }
 
     private boolean loseCondition() {
         if (player.getHp() <= 0) {
@@ -207,77 +207,77 @@ public class Game {
         System.out.println();
         System.out.println("Welcome to Mads Effect!");
         System.out.println("Mads Effect is a new, incredibly exciting space-adventure game.");
-        System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
+//        System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
-        return "Welcome to Mads Effect! Mads Effect is a new, incredibly exciting space-adventure game. \n Type '" + CommandWord.HELP + "' if you need help.\n\n" + currentRoom.getLongDescription();
+        return "Welcome to Mads Effect! Mads Effect is a new, incredibly exciting space-adventure game. \n"+ currentRoom.getLongDescription();
     }
 
     // this boolean method is actualy what carries most of the ingame logic, and is the main component of the game loop
     // any new game commands must be assigned a opperator here!
-    private boolean processCommand(Command command) {
-        boolean wantToQuit = false; // here the want to quit boolean is initialized
-        // a command object is created form the first word recognized from the Parser
-        CommandWord commandWord = command.getCommandWord();
-        //an if-statement for each of the enum objects defined in the CommandWord class
-        // here there is designated the response the statements procure
-        if (commandWord == CommandWord.UNKNOWN) {                // all strings that doesn't match any of the other enum statments
-            System.out.println("I don't know what you mean..."); //returns this line in the console
-            return false;
-        }
-        //if the input matches one other of the enum != UNKNOWN the response is determined there
-        if (commandWord == CommandWord.HELP) {  // HELP results in caling the printHelp() method
-            printHelp();
-        } else if (commandWord == CommandWord.GO) {   // GO is assigned the goRoom(command) method
-            goRoom(secondWord);
-        } else if (commandWord == CommandWord.QUIT) { // QUIT assigneds the wantToQuit variable the quit(command) method
-            wantToQuit = quit(command);
-        } else if (commandWord == CommandWord.INSPECT) {
-            getItemDescription(secondWord);
-        } else if (commandWord == CommandWord.SEARCH) {
-            search(command);
-        } else if (commandWord == CommandWord.CHECKBAG) {
-            if (player.getInventory().isEmpty()) {
-                System.out.println("You have nothing in your inventory");
-            } else {
-                System.out.println("You are carrying:");
-                for (Item i : player.getInventory()) {
-                    if (i != null) {
-                        System.out.println(i.getName());
-                    }
-                }
-            }
-        } else if (commandWord == CommandWord.TAKE) {
-            addInventory(secondWord);
-        } else if (commandWord == CommandWord.DROP) {
-            removeFromInventory(secondWord);
-        } else if (commandWord == CommandWord.STATUS) {
-            checkStatus();
-        } else if (commandWord == CommandWord.USE) {
-            if ("medkit".equals(command.getSecondWord()) || "oxygen".equals(command.getSecondWord()) || "keymodule".equals(command.getSecondWord())) {
-                useItem(secondWord);
-            } else if ("lockeddoor".equals(command.getSecondWord())) {
-                unlockDoor(command);
-                quizToOpenDoor(command);
-            } else if ("switch".equals(command.getSecondWord()) || "radio".equals(command.getSecondWord())) {
-                wantToQuit = activate(command);
-            }
-        } else if (commandWord == CommandWord.TAKEDMG) {
-            takeDMG(command);
-        } else if (commandWord == CommandWord.TALK) {
-            talk(secondWord);
-        } else if (commandWord == CommandWord.ATTACK) {
-            if (!command.hasSecondWord()) {
-                System.out.println("Attack what?");
-            } else if (currentRoom.getNPC("monster") == null) {
-                System.out.println("No monster here.");
-            } else {
-                combat(secondWord);
-            }
-        }
-
-        return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
-    }
+//    private boolean processCommand(Command command) {
+//        boolean wantToQuit = false; // here the want to quit boolean is initialized
+//        // a command object is created form the first word recognized from the Parser
+//        CommandWord commandWord = command.getCommandWord();
+//        //an if-statement for each of the enum objects defined in the CommandWord class
+//        // here there is designated the response the statements procure
+//        if (commandWord == CommandWord.UNKNOWN) {                // all strings that doesn't match any of the other enum statments
+//            System.out.println("I don't know what you mean..."); //returns this line in the console
+//            return false;
+//        }
+//        //if the input matches one other of the enum != UNKNOWN the response is determined there
+//        if (commandWord == CommandWord.HELP) {  // HELP results in caling the printHelp() method
+//            printHelp();
+//        } else if (commandWord == CommandWord.GO) {   // GO is assigned the goRoom(command) method
+//            goRoom(secondWord);
+//        } else if (commandWord == CommandWord.QUIT) { // QUIT assigneds the wantToQuit variable the quit(command) method
+//            wantToQuit = quit(command);
+//        } else if (commandWord == CommandWord.INSPECT) {
+//            getItemDescription(secondWord);
+//        } else if (commandWord == CommandWord.SEARCH) {
+//            search(command);
+//        } else if (commandWord == CommandWord.CHECKBAG) {
+//            if (player.getInventory().isEmpty()) {
+//                System.out.println("You have nothing in your inventory");
+//            } else {
+//                System.out.println("You are carrying:");
+//                for (Item i : player.getInventory()) {
+//                    if (i != null) {
+//                        System.out.println(i.getName());
+//                    }
+//                }
+//            }
+//        } else if (commandWord == CommandWord.TAKE) {
+//            addInventory(secondWord);
+//        } else if (commandWord == CommandWord.DROP) {
+//            removeFromInventory(secondWord);
+//        } else if (commandWord == CommandWord.STATUS) {
+//            checkStatus();
+//        } else if (commandWord == CommandWord.USE) {
+//            if ("medkit".equals(command.getSecondWord()) || "oxygen".equals(command.getSecondWord()) || "keymodule".equals(command.getSecondWord())) {
+//                useItem(secondWord);
+//            } else if ("lockeddoor".equals(command.getSecondWord())) {
+//                unlockDoor(command);
+//                quizToOpenDoor(command);
+//            } else if ("switch".equals(command.getSecondWord()) || "radio".equals(command.getSecondWord())) {
+//                wantToQuit = activate(command);
+//            }
+//        } else if (commandWord == CommandWord.TAKEDMG) {
+//            takeDMG(command);
+//        } else if (commandWord == CommandWord.TALK) {
+//            talk(secondWord);
+//        } else if (commandWord == CommandWord.ATTACK) {
+//            if (!command.hasSecondWord()) {
+//                System.out.println("Attack what?");
+//            } else if (currentRoom.getNPC("monster") == null) {
+//                System.out.println("No monster here.");
+//            } else {
+//                combat(secondWord);
+//            }
+//        }
+//
+//        return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
+//    }
 
     // method for printing help, 
     public String printHelp() {
@@ -285,8 +285,8 @@ public class Game {
         System.out.println("around an abandoned spaceship.");
         System.out.println();
         System.out.println("Your command words are:");
-        parser.showCommands();
-        return "You are lost. You are alone. You wander around an abandoned spaceship.\n Your command words are: " + parser.showCommands();
+//        parser.showCommands();
+        return "You are lost. You are alone. You wander around an abandoned spaceship.\n Your command words are: ";
     }
 
     //method for moving between rooms
@@ -311,17 +311,17 @@ public class Game {
     }
 
     // the quit method that returns wantToQuit true if quit has ben sent from the Parser
-    private boolean quit(Command command) {
-        if (command.hasSecondWord()) {           // if the Parser sends a second word along with quit
-            System.out.println("Quit what?");   //this line is printed and wantToQuit returns false
-            return false;
-
-        } else {
-            player.terminateAllPlayerThreads();
-            player.terminateAllPlayerTimers();
-            return true;
-        }
-    }
+//    private boolean quit(Command command) {
+//        if (command.hasSecondWord()) {           // if the Parser sends a second word along with quit
+//            System.out.println("Quit what?");   //this line is printed and wantToQuit returns false
+//            return false;
+//
+//        } else {
+//            player.terminateAllPlayerThreads();
+//            player.terminateAllPlayerTimers();
+//            return true;
+//        }
+//    }
 
     //Returns the description of the word after the commandWord.
     public String getItemDescription(String secondWord) {
@@ -396,118 +396,118 @@ public class Game {
         System.out.println("There is no " + object + " here");
     }
 
-    private void search(Command command) {
-        String closet = "closet";
-        if (!command.hasSecondWord()) {
-            //If there is only one word, this will be printed
-            currentRoom.searchRoom();
-            currentRoom.getItemList();
-            currentRoom.getNPCList();
-            return;
-        }
-        String searchTarget = command.getSecondWord();
+//    private void search(Command command) {
+//        String closet = "closet";
+//        if (!command.hasSecondWord()) {
+//            //If there is only one word, this will be printed
+//            currentRoom.searchRoom();
+//            currentRoom.getItemList();
+//            currentRoom.getNPCList();
+//            return;
+//        }
+//        String searchTarget = command.getSecondWord();
+//
+//        for (IImmovable i : currentRoom.getInteractList()) {
+//            if (i.getName().equalsIgnoreCase(closet) && searchTarget.equalsIgnoreCase(closet)) {
+//                System.out.println(i.getDescription());
+//                System.out.println(i.getUseDescription());
+//                player.setAir(player.getAir() - i.getItemDmg());
+//                return;
+//            } else if (i.getItems() != null && searchTarget.equals(i.getName())) {
+//                System.out.println("You search the " + i.getDescription());
+//                System.out.println("You found the following in the " + searchTarget);
+//                System.out.println(i.getItems().getName());
+//                return;
+//            }
+//        }
+//        System.out.println("You found nothing searching the " + searchTarget);
+//    }
 
-        for (IImmovable i : currentRoom.getInteractList()) {
-            if (i.getName().equalsIgnoreCase(closet) && searchTarget.equalsIgnoreCase(closet)) {
-                System.out.println(i.getDescription());
-                System.out.println(i.getUseDescription());
-                player.setAir(player.getAir() - i.getItemDmg());
-                return;
-            } else if (i.getItems() != null && searchTarget.equals(i.getName())) {
-                System.out.println("You search the " + i.getDescription());
-                System.out.println("You found the following in the " + searchTarget);
-                System.out.println(i.getItems().getName());
-                return;
-            }
-        }
-        System.out.println("You found nothing searching the " + searchTarget);
-    }
+//    private void unlockDoor(Command command) {
+//        if (!command.hasSecondWord()) {
+//            //Hvis der ikke er to ord, understående bliver printet og man
+//            //bliver bedt om at prøve igen.
+//            System.out.println("Unlock what?");
+//            return;
+//        }
+//        if (command.getSecondWord().equals("panel") && currentRoom.getImmovable("panel").getFlag() == true) {
+//            System.out.println("You go down to the small keypad");
+//            System.out.println("'Please type in the password'");
+//            System.out.println("'You have 3 attempts'");
+//            Scanner scanner = new Scanner(System.in);
+//            int code = 0;
+//            int attempts = 3;
+//            while (true) {
+//                code = scanner.nextInt();
+//                if (attempts > 0 && code == 28374) {
+//                    System.out.println("'Acces granted'");
+//                    System.out.println("The panel slides to the side, opening up");
+//                    currentRoom.getImmovable("panel").setFlag(false);
+//                    currentRoom.setExit("north", currentRoom.getSecretDestination("notes"));
+//                    currentRoom.getImmovable("panel").setDescription("Where the once was a panel, there now is a "
+//                            + "small opening to another room");
+//                    break;
+//                } else if (attempts == 0) {
+//                    System.out.println("'Out of attempts, the codelock will now"
+//                            + "self-destruct'");
+//                    currentRoom.getImmovable("panel").setFlag(false);
+//                    break;
+//                } else if (attempts > 0 && code != 28374) {
+//                    System.out.println("Wrong pin");
+//                    attempts--;
+//                    System.out.println("'You have " + attempts + " attempts left'");
+//                }
+//
+//            }
+//        } else if (command.getSecondWord().equals("panel") && currentRoom.getImmovable("panel").getFlag() == false) {
+//            System.out.println("The codelock is broken beyond repair...");
+//        }
+//    }
 
-    private void unlockDoor(Command command) {
-        if (!command.hasSecondWord()) {
-            //Hvis der ikke er to ord, understående bliver printet og man
-            //bliver bedt om at prøve igen.
-            System.out.println("Unlock what?");
-            return;
-        }
-        if (command.getSecondWord().equals("panel") && currentRoom.getImmovable("panel").getFlag() == true) {
-            System.out.println("You go down to the small keypad");
-            System.out.println("'Please type in the password'");
-            System.out.println("'You have 3 attempts'");
-            Scanner scanner = new Scanner(System.in);
-            int code = 0;
-            int attempts = 3;
-            while (true) {
-                code = scanner.nextInt();
-                if (attempts > 0 && code == 28374) {
-                    System.out.println("'Acces granted'");
-                    System.out.println("The panel slides to the side, opening up");
-                    currentRoom.getImmovable("panel").setFlag(false);
-                    currentRoom.setExit("north", currentRoom.getSecretDestination("notes"));
-                    currentRoom.getImmovable("panel").setDescription("Where the once was a panel, there now is a "
-                            + "small opening to another room");
-                    break;
-                } else if (attempts == 0) {
-                    System.out.println("'Out of attempts, the codelock will now"
-                            + "self-destruct'");
-                    currentRoom.getImmovable("panel").setFlag(false);
-                    break;
-                } else if (attempts > 0 && code != 28374) {
-                    System.out.println("Wrong pin");
-                    attempts--;
-                    System.out.println("'You have " + attempts + " attempts left'");
-                }
-
-            }
-        } else if (command.getSecondWord().equals("panel") && currentRoom.getImmovable("panel").getFlag() == false) {
-            System.out.println("The codelock is broken beyond repair...");
-        }
-    }
-
-    private void quizToOpenDoor(Command command) {
-        if (!command.hasSecondWord()) {
-            //Hvis der ikke er to ord, understående bliver printet og man
-            //bliver bedt om at prøve igen.
-            System.out.println("Unlock what?");
-            return;
-        }
-        if (command.getSecondWord().equals("lockeddoor") && currentRoom.getImmovable("lockeddoor").getFlag() == true) {
-            System.out.println("'What do you want?' A female voice questions");
-            System.out.println("'Listen i dont even know if you're human, so you have to answer my questions"
-                    + " correctly or you aint getting in here");
-            Scanner scanner = new Scanner(System.in);
-            String answer;
-            System.out.println("Do you even know how to speak english?");
-            answer = scanner.nextLine();
-            if (!answer.equals("yes")) {
-                System.out.println("Yea fuck off monster");
-                currentRoom.getImmovable("lockeddoor").setDescription("'No, you aint fooling me monster. Get out of here'");
-                currentRoom.getImmovable("lockeddoor").setFlag(Boolean.FALSE);
-                return;
-            }
-            System.out.println("What is 2 + 2?");
-            answer = scanner.nextLine();
-            if (!answer.equals("4")) {
-                System.out.println("Yea fuck off monster");
-                currentRoom.getImmovable("lockeddoor").setDescription("'No, you aint fooling me monster. Get out of here'");
-                currentRoom.getImmovable("lockeddoor").setFlag(Boolean.FALSE);
-                return;
-            }
-            System.out.println("What is our main objective?");
-            answer = scanner.nextLine();
-            if (!answer.equals("to survive")) {
-                System.out.println("Yea fuck off monster");
-                currentRoom.getImmovable("lockeddoor").setDescription("'No, you aint fooling me monster. Get out of here'");
-                currentRoom.getImmovable("lockeddoor").setFlag(Boolean.FALSE);
-                return;
-            }
-            System.out.println("'I guess you're alright. Get in fast'");
-            currentRoom.setExit("east", currentRoom.getSecretDestination("quiz"));
-            currentRoom.getImmovable("lockeddoor").setDescription("The door is now unlocked and open");
-        } else if (command.getSecondWord().equals("lockeddoor") && currentRoom.getImmovable("lockeddoor").getFlag() == false) {
-            System.out.println(currentRoom.getImmovable("lockeddoor").getDescription());
-        }
-    }
+//    private void quizToOpenDoor(Command command) {
+//        if (!command.hasSecondWord()) {
+//            //Hvis der ikke er to ord, understående bliver printet og man
+//            //bliver bedt om at prøve igen.
+//            System.out.println("Unlock what?");
+//            return;
+//        }
+//        if (command.getSecondWord().equals("lockeddoor") && currentRoom.getImmovable("lockeddoor").getFlag() == true) {
+//            System.out.println("'What do you want?' A female voice questions");
+//            System.out.println("'Listen i dont even know if you're human, so you have to answer my questions"
+//                    + " correctly or you aint getting in here");
+//            Scanner scanner = new Scanner(System.in);
+//            String answer;
+//            System.out.println("Do you even know how to speak english?");
+//            answer = scanner.nextLine();
+//            if (!answer.equals("yes")) {
+//                System.out.println("Yea fuck off monster");
+//                currentRoom.getImmovable("lockeddoor").setDescription("'No, you aint fooling me monster. Get out of here'");
+//                currentRoom.getImmovable("lockeddoor").setFlag(Boolean.FALSE);
+//                return;
+//            }
+//            System.out.println("What is 2 + 2?");
+//            answer = scanner.nextLine();
+//            if (!answer.equals("4")) {
+//                System.out.println("Yea fuck off monster");
+//                currentRoom.getImmovable("lockeddoor").setDescription("'No, you aint fooling me monster. Get out of here'");
+//                currentRoom.getImmovable("lockeddoor").setFlag(Boolean.FALSE);
+//                return;
+//            }
+//            System.out.println("What is our main objective?");
+//            answer = scanner.nextLine();
+//            if (!answer.equals("to survive")) {
+//                System.out.println("Yea fuck off monster");
+//                currentRoom.getImmovable("lockeddoor").setDescription("'No, you aint fooling me monster. Get out of here'");
+//                currentRoom.getImmovable("lockeddoor").setFlag(Boolean.FALSE);
+//                return;
+//            }
+//            System.out.println("'I guess you're alright. Get in fast'");
+//            currentRoom.setExit("east", currentRoom.getSecretDestination("quiz"));
+//            currentRoom.getImmovable("lockeddoor").setDescription("The door is now unlocked and open");
+//        } else if (command.getSecondWord().equals("lockeddoor") && currentRoom.getImmovable("lockeddoor").getFlag() == false) {
+//            System.out.println(currentRoom.getImmovable("lockeddoor").getDescription());
+//        }
+//    }
 
     public String removeFromInventory(String secondWord) {
         String object = secondWord;
@@ -619,12 +619,12 @@ public class Game {
     }
 
     // a test command, to let the player take some dmg
-    private void takeDMG(Command command) {
-
-        player.setHp(player.getHp() - 30);
-        player.setAir(player.getAir() - 30);
-
-    }
+//    private void takeDMG(Command command) {
+//
+//        player.setHp(player.getHp() - 30);
+//        player.setAir(player.getAir() - 30);
+//
+//    }
 
     public void monsterTravel() {
         if (keyMonster.getMovability() && keyMonster.getHostility()) {
@@ -651,45 +651,45 @@ public class Game {
         }
     }
 
-    private boolean activate(Command command) {
-        // failsafe for if there is no second word
-        String object = command.getSecondWord();
-        if (!command.hasSecondWord()) {
-            System.out.println("Activate what?");
-            return false;
-        }
-        // this for loop helps to only acces imovables that are in the current room
-        for (IImmovable i : currentRoom.getInteractList()) {
-
-            // logic for what hapends when switch is activated
-            if (command.getSecondWord().equals("switch") && i.getName().equals("switch")) {
-                if (player.hasCalledHelp() == true) {                                       // the call for help bool is changed when the radio in com-room is used
-                    player.setWonGame(true);
-                    System.out.println(LogicFacade.getDescriptionText("airlocksuccess"));
-                    return true;
-
-                } else {
-                    System.out.println(LogicFacade.getDescriptionText("airlockfail"));
-                    return true;
-
-                } //logic for what hapends when radio is activated
-            } else if (command.getSecondWord().equals("radio") && i.getName().equals("radio")) {
-                if (currentRoom.getImmovable("radio").getFlag() == false) {
-                    System.out.println(currentRoom.getImmovable("radio").getUseDescription());
-                    return false;
-
-                } else if (currentRoom.getImmovable("radio").getFlag() == true) {
-                    System.out.println("You use the radio to call for help, a nerby spacecaft responds to your sos and wil be there to pick you up shortly.");
-                    player.setCallHelp(true);
-                    return false;
-                }
-                return false;
-            }
-
-        }
-        System.out.println("there is no " + object + " here");
-        return false;
-    }
+//    private boolean activate(Command command) {
+//        // failsafe for if there is no second word
+//        String object = command.getSecondWord();
+//        if (!command.hasSecondWord()) {
+//            System.out.println("Activate what?");
+//            return false;
+//        }
+//        // this for loop helps to only acces imovables that are in the current room
+//        for (IImmovable i : currentRoom.getInteractList()) {
+//
+//            // logic for what hapends when switch is activated
+//            if (command.getSecondWord().equals("switch") && i.getName().equals("switch")) {
+//                if (player.hasCalledHelp() == true) {                                       // the call for help bool is changed when the radio in com-room is used
+//                    player.setWonGame(true);
+//                    System.out.println(LogicFacade.getDescriptionText("airlocksuccess"));
+//                    return true;
+//
+//                } else {
+//                    System.out.println(LogicFacade.getDescriptionText("airlockfail"));
+//                    return true;
+//
+//                } //logic for what hapends when radio is activated
+//            } else if (command.getSecondWord().equals("radio") && i.getName().equals("radio")) {
+//                if (currentRoom.getImmovable("radio").getFlag() == false) {
+//                    System.out.println(currentRoom.getImmovable("radio").getUseDescription());
+//                    return false;
+//
+//                } else if (currentRoom.getImmovable("radio").getFlag() == true) {
+//                    System.out.println("You use the radio to call for help, a nerby spacecaft responds to your sos and wil be there to pick you up shortly.");
+//                    player.setCallHelp(true);
+//                    return false;
+//                }
+//                return false;
+//            }
+//
+//        }
+//        System.out.println("there is no " + object + " here");
+//        return false;
+//    }
 
     public String awakenMonster() {
         if (keyMonster.getMovability() == false && currentRoom.getName().equals("keyRoom")) {

@@ -25,7 +25,7 @@ public class LogicFacade implements ILogic {
     static IData data;
     Highscore score;
     Game game;
-    Command command;
+
 
     @Override
     public void InjectData(IData persistenceLayer) {
@@ -157,10 +157,10 @@ public class LogicFacade implements ILogic {
     public int getInventorySpace() {
         return game.inventorySpace;
     }
-    @Override
-    public void Play(){
-        game.play();
-    }
+//    @Override
+//    public void Play(){
+//        game.play();
+//    }
 
     @Override
     public void monsterTravel() {
