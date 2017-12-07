@@ -332,15 +332,18 @@ public  class  Game {
                 } 
             }
             for (Immovable i : currentRoom.getInteractList()) {
-                if (i.getItems().getName().equals(item)) {
-                    inspectString = i.getItems().getDescription();
-                }                 
-            }
-            for (Immovable i : currentRoom.getInteractList()) {
                 if (i.getName().equals(item)) {
                    inspectString = i.getDescription();
                 }
+                else if (i.getItems().getName().equalsIgnoreCase(item)) {
+                    inspectString = i.getItems().getDescription();
+                }
             }
+//            for (Immovable i : currentRoom.getInteractList()) {
+//                if (i.getItems().getName().equalsIgnoreCase(item)) {
+//                    inspectString = i.getItems().getDescription();
+//                }                 
+//            }
             for (NPC n : currentRoom.getNPCList()) {
                 if (n.getName().equals(item)) {
                     inspectString = n.getDescription();
