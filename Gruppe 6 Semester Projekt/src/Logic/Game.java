@@ -24,6 +24,8 @@ public class Game {
     int inventorySpace = 2;
     private String dmgText;
     
+    
+    
     Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
     ArrayList<IRoom> roomList = new ArrayList<>();
     Immovable counter, device, table, weaponCabinet, bookcase, 
@@ -327,7 +329,7 @@ public class Game {
     public String getItemDescription(String secondWord) {
         String inspectString = "";
         String item = secondWord;
-        for (Item i : player.getInventory()) {
+        for (IItem i : player.getInventory()) {
             if (i.getName().equals(item)) {
                 //System.out.println(i.getDescription());
                 inspectString = i.getDescription();
@@ -517,7 +519,7 @@ public class Game {
             return returnLn;
         }
 
-        for (Item i : player.getInventory()) {
+        for (IItem i : player.getInventory()) {
             if (i.getName().equalsIgnoreCase(object)) {
                 currentRoom.setItem(i);
                 returnLn = "You put " + i.getName() + " on the floor.";
@@ -552,7 +554,7 @@ public class Game {
             return "Use what?";
         }
         // it checks for the items in the inventory
-        for (Item i : player.getInventory()) {
+        for (IItem i : player.getInventory()) {
             //here it checks if, an item is in the inventory
             if (object.equalsIgnoreCase("keymodule") && radioArray.getFlag() == false && currentRoom == communicationRoom) {
                 radioArray.setFlag(true);
@@ -607,7 +609,7 @@ public class Game {
         }
         // usikker på om jeg stadig har brug for denne failsafe
 
-        for (Item i : player.getInventory()) {
+        for (IItem i : player.getInventory()) {
             if (!object.equalsIgnoreCase(i.getName())) {
                 System.out.println("Use what??");
                 return "Use what??";
@@ -704,6 +706,7 @@ public class Game {
         if (currentRoom.getNPC("monster") == keyMonster) {
             System.out.println("You are attacked by the monster!");
             boolean yourTurn = true;
+            System.out.println(yourTurn);
             while (true) {
                 if (secondWord.equalsIgnoreCase("flee") && yourTurn == true) {
 //                    System.out.println("You fled from battle but lost a lot of oxygen");
@@ -711,24 +714,33 @@ public class Game {
                     player.setAir(player.getAir() - 40);
                     currentRoom.removeNPC(keyMonster);      //is it correct to remove the keaymonster when you flee?
                     return "You fled from battle but lost a lot of oxygen /n The monster moved to another room";
-                } else if (secondWord.equalsIgnoreCase("status") && yourTurn == true) {
+                } 
+                else if (secondWord.equalsIgnoreCase("status") && yourTurn == true) {
                     checkStatus();
-                } else if (player.getInventory().size() > 0) {
-                    for (Item i : player.getInventory()) {
-                        if (secondWord.equals(i.getName())) {
+                } 
+                else if (yourTurn == true) {
+                    System.out.println("Test 1");
+                    for (IItem i : player.getInventory()) {
+                        System.out.println("Test 2");
+                        if (secondWord.equalsIgnoreCase(i.getName())) {
+                            System.out.println("Test 3");
                             keyMonster.setHealth(keyMonster.getHealth() - i.getDmg());
 //                            System.out.println("You attacked the monster with "
 //                                    + i.getName() + " and damaged it for "
 //                                    + i.getDmg());
                             yourTurn = false;
+                            System.out.println(yourTurn);
                             dmgText = "You attacked the monster with "
                                     + i.getName() + " and damaged it for "
                                     + i.getDmg();
-                            return dmgText;
+//                            return dmgText;
+                            break;
+                        }
+                        else {
+                            return null;
                         }
                     }
                 }
-
                 if (keyMonster.getHealth() <= 0) {
                     System.out.println("The monster is defeated");
                     keyMonster.setHostility(true);
@@ -742,33 +754,40 @@ public class Game {
                         //break;
                         return "\nThe monster is defeated! \nA key drops from the monsters corpse"
                                 + " and unto the floor";
-                    } else if (keyMonster.getDefeated()) {
+                    } 
+                    else if (keyMonster.getDefeated()) {
                         currentRoom.removeNPC(keyMonster);
                         break;
                     }
-                } else {
-                    System.out.println("You cant do that");
-                    //break;
-                    return "You can't do that.";
-                }
+                } 
+//                else {
+//                    System.out.println("You cant do that");
+//                    //break;
+//                    return "";
+//                }
+                System.out.println(yourTurn);
                 if (yourTurn == false) {
+                    System.out.println("Test 4");
                     player.setHp(player.getHp() - keyMonster.getDamage());
+                    System.out.println("Test 5");
                     System.out.println("The monster damages you for "
                             + keyMonster.getDamage());
                     yourTurn = true;
+                    System.out.println("Test 6");
                     if (player.getCurrentHP() <= 0) {
                         break;
                     }
+                    System.out.println("Test 7");
                     return "The monster damages you for " + keyMonster.getDamage();
                 }
             }
         }
 
-        if (keyMonster.getDefeated()
-                == true) {
+        if (keyMonster.getDefeated() == true) {
             return "\nThe monster is defeated! \nA key drops from the monsters corpse"
                     + " and unto the floor";
-        } else {
+        } 
+        else {
             return dmgText;
         }
     }

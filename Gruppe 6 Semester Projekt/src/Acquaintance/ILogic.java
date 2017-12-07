@@ -47,4 +47,5 @@ public interface ILogic {
     public ArrayList<INPC> getRoomNPCList(String roomName);
      public void setOpenSecretExit(String direction, String opener);
      public String roomLogic();
+    public ArrayList<IItem> getPlayerInventory();
 }
