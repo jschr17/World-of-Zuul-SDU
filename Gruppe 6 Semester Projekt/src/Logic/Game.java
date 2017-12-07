@@ -706,6 +706,7 @@ public class Game {
         if (currentRoom.getNPC("monster") == keyMonster) {
             System.out.println("You are attacked by the monster!");
             boolean yourTurn = true;
+            System.out.println(yourTurn);
             while (true) {
                 if (secondWord.equalsIgnoreCase("flee") && yourTurn == true) {
 //                    System.out.println("You fled from battle but lost a lot of oxygen");
@@ -728,10 +729,15 @@ public class Game {
 //                                    + i.getName() + " and damaged it for "
 //                                    + i.getDmg());
                             yourTurn = false;
+                            System.out.println(yourTurn);
                             dmgText = "You attacked the monster with "
                                     + i.getName() + " and damaged it for "
                                     + i.getDmg();
-                            return dmgText;
+//                            return dmgText;
+                            break;
+                        }
+                        else {
+                            return null;
                         }
                     }
                 }
@@ -748,16 +754,18 @@ public class Game {
                         //break;
                         return "\nThe monster is defeated! \nA key drops from the monsters corpse"
                                 + " and unto the floor";
-                    } else if (keyMonster.getDefeated()) {
+                    } 
+                    else if (keyMonster.getDefeated()) {
                         currentRoom.removeNPC(keyMonster);
                         break;
                     }
                 } 
-                else {
-                    System.out.println("You cant do that");
-                    //break;
-                    return "";
-                }
+//                else {
+//                    System.out.println("You cant do that");
+//                    //break;
+//                    return "";
+//                }
+                System.out.println(yourTurn);
                 if (yourTurn == false) {
                     System.out.println("Test 4");
                     player.setHp(player.getHp() - keyMonster.getDamage());
@@ -778,7 +786,8 @@ public class Game {
         if (keyMonster.getDefeated() == true) {
             return "\nThe monster is defeated! \nA key drops from the monsters corpse"
                     + " and unto the floor";
-        } else {
+        } 
+        else {
             return dmgText;
         }
     }

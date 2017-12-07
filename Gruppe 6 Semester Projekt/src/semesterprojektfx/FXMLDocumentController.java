@@ -497,7 +497,7 @@ public class FXMLDocumentController implements Initializable {
                 logic.useItem("rifle");
                 //game.combat(command); does this need to be here?
                 hpBarAction();
-//                textOutArea.appendText("\nYou attacked the monster with your rifle for 40 damage.");
+                textOutArea.appendText("\nYou attacked the monster with your rifle for 40 damage.");
                 textOutArea.appendText("\n" + logic.combat("rifle") /*game.combat(command), don't know if this replacement works*/);
                 if (logic.getDefeated() == true) {
                     monster.setVisible(false);
