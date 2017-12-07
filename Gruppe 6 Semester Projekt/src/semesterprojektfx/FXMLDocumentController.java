@@ -571,9 +571,9 @@ public class FXMLDocumentController implements Initializable {
     //NO FUNCTION YET !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! <----------------------------------------------------------------------------------------------
     @FXML
     private void highScoreLoad(ActionEvent event) {
-        highScoreView.add("Jonas 123");
-        highScoreView.add("Jonass 1234");
-        highScoreView.add("Jonasss 1235");
+        for (String i: logic.getHighscore()){   // takes all elements of highscorelist and ads them to a the observable list "highScoreView"
+            highScoreView.add(i);
+        }
         
         listProperty3.set(FXCollections.observableList(highScoreView));
         highScoreList.itemsProperty().bind(listProperty3);
