@@ -37,6 +37,7 @@ public class FXMLDocumentController implements Initializable {
     private Room room;
     
     private boolean flagcheck = false;
+    private boolean monsterFlag = false;
     
     SemesterProjektFX starter = new SemesterProjektFX();
     
@@ -176,7 +177,11 @@ public class FXMLDocumentController implements Initializable {
     //help button.
     @FXML
     private void handleButtonAction(ActionEvent event) throws Exception {
+        System.out.println(game.keyMonster.getHealth());
         String toAppend = "";
+        hpBarAction();
+        AirBarAction();
+//        game.roomLogic(); //<-- Skal kigges på da det kan crashe spillet. --------------------------------------------------------------
         game.monsterTravel(game.keyMonster);
         roomInventory.getItems().clear(); 
         if (event.getSource() == northButton) {
@@ -255,7 +260,7 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
-    /*
+    /**
     *   This method deals with the inspect button.
     */
     @FXML
@@ -495,12 +500,17 @@ public class FXMLDocumentController implements Initializable {
                 command.setSecondWord("rifle");
                 game.combat(command);
                 hpBarAction();
-                textOutArea.appendText("\nYou attacked the monster with your rifle for 40 damage.");
+//                textOutArea.appendText("\nYou attacked the monster with your rifle for 40 damage.");
                 textOutArea.appendText("\n" + game.combat(command));
-                if (game.keyMonster.getDefeated() == true) {
+                System.out.println("Test 1");
+                if (game.keyMonster.getDefeated() == true && monsterFlag == false) {
+                    System.out.println("Test 2");
+//                    textOutArea.appendText("\n" + game.combat(command));
+                    System.out.println("Test 3");
                     monster.setVisible(false);
                     roomInv.add("key");
                     keyImg.setVisible(true);
+                    monsterFlag = true;
                 }
                 control = true;
                 //return;
@@ -508,6 +518,7 @@ public class FXMLDocumentController implements Initializable {
             else {
                 textOutArea.appendText("\nNo rifle.");
             }
+//        minimapAction();
         listPropertyRoom.set(FXCollections.observableList(roomInv));
         roomInventory.itemsProperty().bind(listPropertyRoom);
         }
@@ -568,7 +579,7 @@ public class FXMLDocumentController implements Initializable {
     //NO FUNCTION YET !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! <----------------------------------------------------------------------------------------------
     @FXML
     private void highScoreLoad(ActionEvent event) {
-        highScoreView.add("Jonas 123");
+        highScoreView.add(game.player.awesomePoints, game.player.getName());
         highScoreView.add("Jonass 1234");
         highScoreView.add("Jonasss 1235");
         
@@ -614,8 +625,7 @@ public class FXMLDocumentController implements Initializable {
             if (game.keyMonster.getDefeated() == true) {
                 keyRoomMonster.setVisible(true);
             }
-        
-       }
+        }
         else if (game.armoury.getNPCList().contains(game.keyMonster)) {
         monsterDot.setLayoutX(105);
         monsterDot.setLayoutY(130);

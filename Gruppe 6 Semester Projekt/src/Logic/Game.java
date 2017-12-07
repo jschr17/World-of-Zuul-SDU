@@ -19,6 +19,7 @@ public  class  Game {
     public Player player = new Player(100, 100);
     public int inventorySpace = 2;
     private String dmgText;
+    private boolean monsterOutFlag, monsterOutFlag2 = false;
     
     public Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
     public Immovable counter, device, table, weaponCabinet, bookcase, 
@@ -190,7 +191,6 @@ public  class  Game {
         System.out.println("Thank you for playing.  Good bye."); //prints this line if finished == true
     }
 
-
     private boolean loseCondition(){
         if(player.getHp() <= 0){    
         return true;  
@@ -328,19 +328,21 @@ public  class  Game {
             String item = command.getSecondWord();
             for (Item i : player.getInventory()) {
                 if (i.getName().equals(item)) {
-                   //System.out.println(i.getDescription());
                     inspectString = i.getDescription();
                 } 
             }
             for (Immovable i : currentRoom.getInteractList()) {
+                if (i.getItems().getName().equals(item)) {
+                    inspectString = i.getItems().getDescription();
+                }                 
+            }
+            for (Immovable i : currentRoom.getInteractList()) {
                 if (i.getName().equals(item)) {
-                    //System.out.println(i.getDescription());
                    inspectString = i.getDescription();
                 }
             }
             for (NPC n : currentRoom.getNPCList()) {
                 if (n.getName().equals(item)) {
-                    //System.out.println(n.getDescription());
                     inspectString = n.getDescription();
                 } 
             }
@@ -353,14 +355,12 @@ public  class  Game {
         else {
             //Hvis der ikke er to ord, understående bliver printet og man
             //bliver bedt om at prøve igen.
-            //System.out.println("Which item?");
             inspectString = "Which item?";
         }
         return inspectString;
     }
     
     //Breaks the specified object by running the breakTable method
-    
     public void breakObject() {
                 Item notes = new Item("notes", "The notes have a series of numbers written"
                         + " on it. The numbers are 28374. You should probably "
@@ -520,7 +520,8 @@ public  class  Game {
             System.out.println(currentRoom.getImmovable("lockeddoor").getDescription());
         }
     }
-
+    /**Controls what is removed from the players inventory based on what the player
+    has selected from their inventory.*/
     public void removeFromInventory(Command command) {
         String object = command.getSecondWord();
         if (!command.hasSecondWord()) {
@@ -541,7 +542,7 @@ public  class  Game {
         }
     }
 
-    // a command that prints out the status, of the player
+    // a command that prints out the status, of the player <----- Denne metode er sådan set useless---------------------------------
     private void checkStatus() {
         System.out.println("Your air tank is at: " + player.getAir() + "%");
         System.out.println("Your current HP is: " + player.getHp());
@@ -651,15 +652,8 @@ public  class  Game {
                 r.removeNPC(monster);
             }
             int rngRoom = (int) (4 * Math.random());
+            monster.setHealth(200);
             allowedRooms.get(rngRoom).addNPC(monster);
-//            if (currentRoom.getName().equals(allowedRooms[rngRoom])) {
-//                if (currentRoom.getNPC("monster") != keyMonster) {
-//                    monster.setHealth(200);
-//                    currentRoom.addNPC(monster);
-//                }
-//            } else {
-//                currentRoom.removeNPC(monster);
-//            }
         }
     }
 
@@ -759,38 +753,43 @@ public  class  Game {
                         keyMonster.setHostility(true);
                         keyMonster.setMovability(true);
                         keyMonster.setDefeated(true);
-                        if (keyMonster.getDefeated() && keyMonster.getItem().getName().equalsIgnoreCase("key")) {
-                            System.out.println("A key drops from the monsters corpse"
-                            + " and unto the floor");
+                        System.out.println("Test 3.5");
+                        if (keyMonster.getDefeated() == true && monsterOutFlag == false) {
+                            System.out.println("Test 3.75");
+//                            System.out.println("A key drops from the monsters corpse"
+//                            + " and unto the floor");
                             currentRoom.addItem(keyMonster.getItem());
                             currentRoom.removeNPC(keyMonster);
+                            monsterOutFlag = true;
                             //break;
-                            return "\nThe monster is defeated! \nA key drops from the monsters corpse"
-                            + " and unto the floor";
+                            System.out.println("Test 4");
+                            return "\nThe monster is defeated!";
                         }
-                        else if (keyMonster.getDefeated()) {
-                            currentRoom.removeNPC(keyMonster);
-                            break;
-                        } 
+//                        else if (keyMonster.getDefeated()) {
+//                            currentRoom.removeNPC(keyMonster);
+//                            break;
+//                        } 
                     }
                 } else {
-                    System.out.println("You cant do that");
-                    //break;
                     return "You can't do that.";
                 }
                 if (yourTurn == false) {
                     player.setHp(player.getHp() - keyMonster.getDamage());
-                    System.out.println("The monster damages you for "
-                            + keyMonster.getDamage());
+//                    System.out.println("The monster damages you for "
+//                            + keyMonster.getDamage());
                     yourTurn = true;
                     if (player.getCurrentHP() <= 0) {
                         break;
                     }
+                    System.out.println("Test 5");
                     return "The monster damages you for " + keyMonster.getDamage();
                 }
             }
         }
-        if (keyMonster.getDefeated() == true) {
+        if (keyMonster.getDefeated() == true && monsterOutFlag2 == false) {
+            System.out.println("Test 6");
+            monsterOutFlag2 = true;
+            currentRoom.removeNPC(keyMonster);
             return "\nThe monster is defeated! \nA key drops from the monsters corpse"
             + " and unto the floor";            
         }
