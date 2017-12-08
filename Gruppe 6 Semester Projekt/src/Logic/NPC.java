@@ -6,19 +6,27 @@ package Logic;
 
 import Acquaintance.IItem;
 import Acquaintance.INPC;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class NPC implements INPC {
-    private final String name;
-    private String description;
-    private boolean hostile, movable;
-    private int health;
-    private int baseDamage;
-    private ArrayList<IItem> inventory;
+
     private Item item;
-    private boolean toldToEvacuate;
-    private boolean defeated;
+    private String name = "";
+    private String description = "";
+    private boolean hostile = false; 
+    private boolean movable = false;
+    private int health = 100;
+    private int baseDamage = 100;
+    private ArrayList<Item> inventory;
     
+    private boolean toldToEvacuate = false;
+    private boolean defeated = false;
+    
+    
+     public NPC() {
+       
+        }
     /**
      *
      * @param name The name of the NPC, this is the name that will be written in commands to interact.
@@ -27,60 +35,96 @@ public class NPC implements INPC {
      * @param movable If the NPC can move from the room.
      */
     public NPC(String name, String description, boolean hostile, boolean movable){
+        this.movable = false;
         this.name = name;
         this.description = description;
         this.hostile = hostile;
         this.movable = movable;
         this.health = 100;
         this.baseDamage = 0;
-        this.item = item;
+       
         this.toldToEvacuate = false;
         this.defeated = false;
     }
-    
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setHostile(boolean hostile) {
+        this.hostile = hostile;
+    }
+
+    public void setMovable(boolean movable) {
+        this.movable = movable;
+    }
+
+    public void setBaseDamage(int baseDamage) {
+        this.baseDamage = baseDamage;
+    }
+
+    public void setToldToEvacuate(boolean toldToEvacuate) {
+        this.toldToEvacuate = toldToEvacuate;
+    }
+
+    public void setDefeated(boolean defeated) {
+        this.defeated = defeated;
+    }
+
+    @Override
     public String getName(){
         return this.name;
     }
     
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }
     
+    @Override
     public String getDescription() {
         return this.description;
     }
     
+    @Override
     public boolean getHostility(){
         return this.hostile;
     }
     
+    @Override
     public void setHostility(boolean hostile){
         this.hostile = hostile;
     }
     
+    @Override
     public boolean getMovability(){
         return this.movable;
     }
     
+    @Override
     public void setDamage(int dmg) {
         this.baseDamage = dmg;
     }
     
+    @Override
     public int getDamage() {
         return this.baseDamage;
     }
     
+    @Override
     public void addItem(IItem item) {
         this.item = (Item) item;    // have to cast the IItem object into a Item object;
     }
     
+    @Override
     public IItem getItem() {
-        return item;
+        return (IItem) item;
     }
     
     public void setHealth(int hp){
         this.health = hp;
     }
+    @Override
     public int getHealth(){
         return this.health;
     }
@@ -102,7 +146,7 @@ public class NPC implements INPC {
         this.toldToEvacuate = evacuate;
     }
     
-    public Boolean toldToEvacuate() {
+    public Boolean gettoldToEvacuate() {
         return this.toldToEvacuate;
     }
     

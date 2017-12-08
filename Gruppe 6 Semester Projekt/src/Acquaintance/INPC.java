@@ -21,5 +21,6 @@ public interface INPC {
      public void addItem(IItem item);
      public IItem getItem();
      public int getHealth();
+    public boolean getDefeated();
 
 }

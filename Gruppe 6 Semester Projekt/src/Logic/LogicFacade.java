@@ -25,17 +25,23 @@ public class LogicFacade implements ILogic {
     static IData data;
     Highscore score;
     Game game;
+    SaveFile save;
 
+    public LogicFacade() {
+
+    }
 
     @Override
     public void InjectData(IData persistenceLayer) {
         this.data = persistenceLayer;
     }
+
     @Override
-    public void InjectGame(Game game){  // the game is created in the starter class(gluecode) and is injected here so we can call methods on it.
+    public void InjectGame(Game game) {  // the game is created in the starter class(gluecode) and is injected here so we can call methods on it.
         this.game = game;
     }
 
+    @Override
     public void loadHighscore() {
         score = new Highscore(data.loadHighscore());
     }
@@ -61,7 +67,7 @@ public class LogicFacade implements ILogic {
 
     @Override
     public String getItemDescription(String secondWord) {
-         return game.getItemDescription(secondWord);
+        return game.getItemDescription(secondWord);
     }
 
     @Override
@@ -111,27 +117,35 @@ public class LogicFacade implements ILogic {
 
     @Override
     public ArrayList<IImmovable> getCurrentRoomInteractList() {
-        return game.currentRoom.getInteractList();
+        ArrayList<IImmovable> IList = new ArrayList();
+        for (Immovable i : game.currentRoom.getInteractList()) {
+            IList.add(i);
+        }
+        return IList;
+
     }
 
     @Override
     public ArrayList<INPC> getCurrentRoomNPCList() {
-        return game.currentRoom.getNPCList();
+        ArrayList<INPC> IList = new ArrayList();
+        for (NPC i : game.currentRoom.getNPCList()) {
+            IList.add(i);
+        }
+        return IList;
     }
 
-    @Override 
+    @Override
     public ArrayList<IItem> getCurrentRoomItemList() {
-        return game.currentRoom.getItemList();
+        ArrayList<IItem> IList = new ArrayList();
+        for (Item i : game.currentRoom.getItemList()) {
+            IList.add(i);
+        }
+        return IList;
     }
 
     @Override
     public String goRoom(String secondWord) {
         return game.goRoom(secondWord);
-    }
-
-    @Override
-    public void saveGame() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -153,14 +167,11 @@ public class LogicFacade implements ILogic {
     public String gameWelcome() {
         return game.printWelcome();
     }
+
     @Override
     public int getInventorySpace() {
         return game.inventorySpace;
     }
-//    @Override
-//    public void Play(){
-//        game.play();
-//    }
 
     @Override
     public void monsterTravel() {
@@ -170,28 +181,31 @@ public class LogicFacade implements ILogic {
     @Override
     public ArrayList<INPC> getRoomNPCList(String roomName) {
         ArrayList<INPC> npcList = new ArrayList<>();
-        for (IRoom r : game.getRoomList()){
+        for (IRoom r : game.roomList) {
             if (r.getName().equals(roomName)){
-                npcList = r.getNPCList();
-            }     
+                npcList = r.fetchINPCList();
+            }
         }
         return npcList;
-        
     }
-    
+
     @Override
     public String awakenMonster() {
         return game.awakenMonster();
     }
-    
+
     @Override
-    public void setOpenSecretExit(String direction, String opener){
-    game.currentRoom.setExit(direction, game.currentRoom.getSecretDestination(opener));
+    public void setOpenSecretExit(String direction, String opener) {
+        game.currentRoom.setExit(direction, game.currentRoom.getSecretDestination(opener));
     }
-    
+
     @Override
-    public ArrayList<IItem> getPlayerInventory(){
-        return game.player.getInventory();
+    public ArrayList<IItem> getPlayerInventory() {
+        ArrayList<IItem> IList = new ArrayList();
+        for (Item i : game.player.getInventory()) {
+            IList.add(i);
+        }
+        return IList;
     }
 
     @Override
@@ -199,4 +213,57 @@ public class LogicFacade implements ILogic {
         return game.roomLogic();
     }
 
+    @Override
+    public boolean saveGame() {
+        this.save = new SaveFile(game, game.player);
+        return data.saveGame(save.getSaveString());
+
+    }
+
+    @Override
+    public void loadGame() {
+        this.save = new SaveFile(game, game.player);
+        save.LoadSaveString(data.getLoadGame());
+
+    }
+
+    @Override
+    public INPC getCurrentRoomNPC(String npc) {
+        return game.currentRoom.getNPC(npc);
+    }
+
+    @Override
+    public IRoom getCurrentRoom() {
+        return game.currentRoom;
+    }
+
+    @Override
+    public boolean checkPlayerItems(String string) {
+        for(IItem i : game.player.getInventory()){
+            if(i.getName().equals(string)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean getPlayerCalledHelp() {
+        return game.player.gethasCalledHelp();
+    }
+
+    @Override
+    public void setPlayerCalledHelp(Boolean help) {
+        game.player.sethasCalledHelp(help);
+    }
+
+    @Override
+    public void setPlayerWonGame(Boolean won) {
+        game.player.setWonGame(won);
+    }
+
+    @Override
+    public String startQuiz(String string) {
+        return game.startQuiz(string);
+    }
 }

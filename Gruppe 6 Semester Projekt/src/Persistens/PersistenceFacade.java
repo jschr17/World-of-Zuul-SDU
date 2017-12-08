@@ -16,6 +16,7 @@ import Acquaintance.IData;
 public class PersistenceFacade implements IData{
     DataHighscore dataHs = new DataHighscore();
      InputHashmap textIn = new InputHashmap();
+     SaveGame save = new SaveGame();
     
     
     /**
@@ -36,5 +37,16 @@ public class PersistenceFacade implements IData{
     @Override
     public String getDescriptionText(String key){
         return InputHashmap.getText(key);
+    }
+
+    @Override
+    public boolean saveGame(String savestring) {
+        save.saveGame(savestring);
+        return true;
+    }
+    
+    @Override
+    public String getLoadGame(){
+        return save.loadString();
     }
 }

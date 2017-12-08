@@ -16,8 +16,8 @@ public interface Interactables {
     public abstract String getUseDescription();
     public abstract boolean isPickupable();
     public abstract boolean getFlag();
-    public abstract void setFlag(Boolean flag);
+    public abstract void setFlag(boolean flag);
     public abstract void setDescription(String string);
-    public abstract void setDestructable(Boolean destructable);
+    public abstract void setDestructible(boolean destructable);
     
 }

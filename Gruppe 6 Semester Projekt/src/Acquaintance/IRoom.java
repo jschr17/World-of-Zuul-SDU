@@ -18,5 +18,5 @@ public interface IRoom {
     public IImmovable getImmovable(String immovable);
     public void removeItem(IItem item);
     public INPC getNPC(String npc);
-    public ArrayList<INPC> getNPCList();
+    public ArrayList<INPC> fetchINPCList();
 }
