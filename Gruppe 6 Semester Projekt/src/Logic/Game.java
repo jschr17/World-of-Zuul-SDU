@@ -149,12 +149,7 @@ public class Game {
 
     // method for printing help, 
     public String printHelp() {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around an abandoned spaceship.");
-        System.out.println();
-        System.out.println("Your command words are:");
-//        parser.showCommands();
-        return "You are lost. You are alone. You wander around an abandoned spaceship.\n Your command words are: ";
+        return "You are lost. You are alone. You wander around an abandoned spaceship.\n If you want to do something with anything remember to click it in the list on the right. ";
     }
 
     //method for moving between rooms
