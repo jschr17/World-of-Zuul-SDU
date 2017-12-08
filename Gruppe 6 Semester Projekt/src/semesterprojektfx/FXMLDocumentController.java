@@ -503,9 +503,6 @@ public class FXMLDocumentController implements Initializable {
             logic.combat(secondWord);
 
             if (playerInv.contains("rifle") && control == false) {
-                logic.useItem("rifle");
-                //game.combat(command); does this need to be here?
-                hpBarAction();
                 textOutArea.appendText("\nYou attacked the monster with your rifle for 40 damage.");
                 textOutArea.appendText("\n" + logic.combat("rifle") /*game.combat(command), don't know if this replacement works*/);
                 if (logic.getDefeated() == true && monsterDefeatCheck == false) {
@@ -515,12 +512,14 @@ public class FXMLDocumentController implements Initializable {
                     monsterDefeatCheck = true;
                 }
                 control = true;
-                //return;
+                return;
             }
             else {
                 textOutArea.appendText("\nNo rifle.");
             }
         minimapAction();
+        hpBarAction();
+        AirBarAction();
         listPropertyRoom.set(FXCollections.observableList(roomInv));
         roomInventory.itemsProperty().bind(listPropertyRoom);
         }
