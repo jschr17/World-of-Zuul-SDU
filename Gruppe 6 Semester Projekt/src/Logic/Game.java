@@ -759,9 +759,10 @@ public class Game {
                                     + i.getDmg();
 //                            return dmgText;
                             break;
+//                            continue;
                         }
                         else {
-                            return null;
+                            return "You are using " + i.getName() + ". Not good.";
                         }
                     }
                 }

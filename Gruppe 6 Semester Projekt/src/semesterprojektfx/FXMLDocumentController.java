@@ -497,11 +497,13 @@ public class FXMLDocumentController implements Initializable {
         for (INPC npc : logic.getCurrentRoomNPCList()) {
             if (npc.getName().equalsIgnoreCase("monster")){
                 keyMonster = npc;
+                continue;
             }      
         }
          for (IImmovable imov : logic.getCurrentRoomInteractList()) {
             if (imov.getName().equalsIgnoreCase("table")){
                 table = imov;
+                continue;
             }      
         }
         boolean control = false;
