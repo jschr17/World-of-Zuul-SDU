@@ -179,9 +179,7 @@ public class FXMLDocumentController implements Initializable {
     private void handleButtonAction(ActionEvent event) throws Exception {
         System.out.println(game.keyMonster.getHealth());
         String toAppend = "";
-        hpBarAction();
-        AirBarAction();
-//        game.roomLogic(); //<-- Skal kigges på da det kan crashe spillet. --------------------------------------------------------------
+        
         game.monsterTravel(game.keyMonster);
         roomInventory.getItems().clear(); 
         if (event.getSource() == northButton) {
@@ -216,8 +214,12 @@ public class FXMLDocumentController implements Initializable {
             textOutArea.clear();
             toAppend = helpText();
         }
+        
+        hpBarAction();
+        AirBarAction();
         toAppend += System.lineSeparator();
         textOutArea.appendText(toAppend);
+        monsterAttack();
     }
     
     //This method is used by the search funktion in the game. It gets the items
@@ -355,7 +357,7 @@ public class FXMLDocumentController implements Initializable {
         }
         parser = new Parser();
         command = parser.getCommand(); 
-        
+//        game.roomLogic();
         textOutArea.appendText("\n");
         textOutArea.appendText(game.printWelcome());
         textOutArea.appendText("\n");
@@ -500,13 +502,10 @@ public class FXMLDocumentController implements Initializable {
                 command.setSecondWord("rifle");
                 game.combat(command);
                 hpBarAction();
-//                textOutArea.appendText("\nYou attacked the monster with your rifle for 40 damage.");
+                textOutArea.appendText("\nYou attacked the monster with your rifle for 40 damage.");
                 textOutArea.appendText("\n" + game.combat(command));
-                System.out.println("Test 1");
                 if (game.keyMonster.getDefeated() == true && monsterFlag == false) {
-                    System.out.println("Test 2");
 //                    textOutArea.appendText("\n" + game.combat(command));
-                    System.out.println("Test 3");
                     monster.setVisible(false);
                     roomInv.add("key");
                     keyImg.setVisible(true);
@@ -653,5 +652,16 @@ public class FXMLDocumentController implements Initializable {
         if (!game.airlock.getNPCList().contains(game.keyMonster)) {
             airlockMonster.setVisible(false);
         }
+    }
+    
+    private void monsterAttack () {
+            if (game.currentRoom.getNPCList().contains(game.keyMonster)) {
+                if (game.keyMonster.getHostility() && game.keyMonster.getDefeated()) {
+                    textOutArea.appendText("\nThe monster attacks you for 12 damage.");
+                    command.setCommandWord(commandWord.USE);
+                    command.setSecondWord("rifle");
+                    game.combat(command);
+            }
+        }        
     }
 }

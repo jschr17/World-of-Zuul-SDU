@@ -54,7 +54,7 @@ public class Room {
     // method for getting a rooms description and which exits it has.
     public String getLongDescription()
     {
-        return "You are " + description + ".\n" + getExitString();
+        return "\nYou are " + description + ".\n" + getExitString();
     }
         //private method that is used in here to descripe the exits based on the rooms exit HashMap 
 	private String getExitString()
