@@ -838,12 +838,12 @@ public class Game {
         
        String returnString = null;
         
-        if (currentRoom.getNPCList().contains(keyMonster)) {
-            returnString = "There is a monster in this room.";
-            if (keyMonster.getHostility() && keyMonster.getDefeated()) {
-                combat(secondWord);
-            }
-        }
+//        if (currentRoom.getNPCList().contains(keyMonster)) {
+//            returnString = "There is a monster in this room.";
+//            if (keyMonster.getHostility() && keyMonster.getDefeated()) {
+//                combat(secondWord);
+//            }
+//        }
 
         // medbay
         if (currentRoom == medbay) {

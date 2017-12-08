@@ -389,7 +389,6 @@ public class FXMLDocumentController implements Initializable {
     //It also runs the method 'awakenMonster', which makes the monster move from
     //room to room
     private void roomChange() throws IOException{
-        logic.roomLogic();
         String roomName = logic.getCurrentRoomName();
         if (roomName.equalsIgnoreCase("medbay")) {
             armory.setVisible(false);
@@ -439,6 +438,7 @@ public class FXMLDocumentController implements Initializable {
             airlock.setVisible(false);  
             communicationRoom.setVisible(true);
         }
+                logic.roomLogic();
     }
     //Controls what happens when the player thies to use different items and
     //immovables (via the 'use' button). 
