@@ -733,7 +733,6 @@ public class Game {
         if (currentRoom.getNPC("monster") == keyMonster) {
             System.out.println("You are attacked by the monster!");
             boolean yourTurn = true;
-            System.out.println(yourTurn);
             while (true) {
                 if (secondWord.equalsIgnoreCase("flee") && yourTurn == true) {
 //                    System.out.println("You fled from battle but lost a lot of oxygen");
@@ -753,7 +752,6 @@ public class Game {
 //                                    + i.getName() + " and damaged it for "
 //                                    + i.getDmg());
                             yourTurn = false;
-                            System.out.println(yourTurn);
                             dmgText = "You attacked the monster with "
                                     + i.getName() + " and damaged it for "
                                     + i.getDmg();
@@ -762,7 +760,8 @@ public class Game {
 //                            continue;
                         }
                         else {
-                            return "You are using " + i.getName() + ". Not good.";
+                            yourTurn = false;
+                            return "You are using " + i.getName();
                         }
                     }
                 }
@@ -791,7 +790,6 @@ public class Game {
 //                    //break;
 //                    return "";
 //                }
-                System.out.println(yourTurn);
                 if (yourTurn == false) {
                     player.setHp(player.getHp() - keyMonster.getDamage());
 //                    System.out.println("The monster damages you for "
@@ -806,8 +804,7 @@ public class Game {
         }
 
         if (keyMonster.getDefeated() == true) {
-            return "\nThe monster is defeated! \nA key drops from the monsters corpse"
-                    + " and unto the floor";
+            return "\nThe monster is defeated!";
         } 
         else {
             return dmgText;
@@ -828,7 +825,7 @@ public class Game {
 // method for the commandword talk
     public String talk(String secondWord) {
         String talkString = "";
-        if (!secondWord.isEmpty()) { //What hapends if no second word is given
+        if (!secondWord.isEmpty()) { //What happens if no second word is given
             talkString = LogicFacade.getDescriptionText("talkNoArgument");
             // logic for how britneay responds
             // maby current room argument can be omittet? 
