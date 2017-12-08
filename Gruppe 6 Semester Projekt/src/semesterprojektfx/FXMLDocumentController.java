@@ -649,7 +649,19 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void loadButtonAction(ActionEvent event) {
-         logic.loadGame();
+        try {
+            logic.loadGame();
+            for (IItem i : logic.getPlayerInventory()){
+                playerInv.add(i.getName());
+            }
+            listProperty2.set(FXCollections.observableList(playerInv));
+            playerInventory.itemsProperty().bind(listProperty2);
+            splashScreen.setVisible(false);
+            roomChange();
+            minimapAction();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @FXML

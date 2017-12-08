@@ -99,7 +99,7 @@ public class SaveFile {
             Player player1 = mapper.readValue(playerPart, Player.class);
             
             
-            Room medbay1 = mapper.readValue(medbayPart, Room.class);
+            Room medbay = mapper.readValue(medbayPart, Room.class);
             Room Hallway1 = mapper.readValue(Hallway, Room.class);
             Room Keyroom1 = mapper.readValue(Keyroom, Room.class);
             Room Communicationroom1 = mapper.readValue(Communicationroom, Room.class);
@@ -107,17 +107,16 @@ public class SaveFile {
             Room Airlock1 = mapper.readValue(Airlock, Room.class);
             Room Currentroom1 = mapper.readValue(Currentroom, Room.class);
             
-            System.out.println("Test 2: " + player1.toString());
-            System.out.println("Test Room medbay: " + medbay1.toString());
-            
             game.setPlayer(player1);
-            game.setMedbay(medbay1);
+            game.setMedbay(medbay);
             game.setHallway(Hallway1);
             game.setKeyRoom(Keyroom1);
             game.setCommunicationRoom(Communicationroom1);
             game.setArmoury(Armoury1);
             game.setAirlock(Airlock1);
             game.setCurrentRoom(Currentroom1);
+            game.setExits();
+            System.out.println("test5");
         } catch (JSONException ex) {
             Logger.getLogger(SaveFile.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

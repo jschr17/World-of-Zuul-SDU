@@ -18,7 +18,7 @@ public class NPC implements INPC {
     private boolean movable = false;
     private int health = 100;
     private int baseDamage = 100;
-    private ArrayList<IItem> inventory;
+    private ArrayList<Item> inventory;
     
     private boolean toldToEvacuate = false;
     private boolean defeated = false;

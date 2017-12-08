@@ -63,31 +63,7 @@ public class Game {
         roomList.add(airlock);
         
         
-        // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
-        medbay.setExit("north", keyRoom);
-
-        keyRoom.setExit("south", medbay);
-        keyRoom.setExit("east", armoury);
-        keyRoom.setExit("north", hallway);
-
-        //armoury.setExit("north", communicationRoom);  Can only be accessed after the secret passage is found
-        armoury.setExit("west", keyRoom);
-
-        //hallway.setExit("east", communicationRoom); Can only be accessed after getting quiz right, or unlocking from the inside
-        hallway.setExit("north", airlock);
-        hallway.setExit("south", keyRoom);
-
-        //communicationRoom.setExit("west", hallway); Can only be accessed after unlocking the door (lever)
-        communicationRoom.setExit("south", armoury);
-        communicationRoom.setExit("west", hallway);
-
-        airlock.setExit("south", hallway);
-        //creating immovables
-
-        //Exits and pathways that need to be unlocked
-        armoury.addSecretExit("notes", communicationRoom);
-        hallway.addSecretExit("quiz", communicationRoom);
-        communicationRoom.addSecretExit("lever", hallway);
+       setExits();
 
         /* Creating and setting immovables for all the rooms */
         counter = new Immovable("counter", "A medical counter. There's a medkit on the countertop.", "You can't use this.", false, false);
@@ -300,15 +276,18 @@ public class Game {
 //            System.out.println("Go where?");// if no word is given this line is printed in the console
 //            return "Go where?";
 //        }
-
+        setExits();
         String direction = secondWord; //direction is sat to be the second word from the Parser
+        System.out.println(" go: " + secondWord);
+        currentRoom.printHashmap();
 
         Room nextRoom = currentRoom.getRoomDirectionExit(direction);//initiates a new room object based on the Exit hashmap
-
+        
         if (nextRoom == null) {                     //if no roomobject is found in the exit HashMap
             System.out.println("There is no door!");// this line is printed
             return "There is no door!";
-        } else {
+        } 
+        else {
             currentRoom = nextRoom;                                // else the new room is sat to be currentRoom
             System.out.println(currentRoom.getLongDescription());   // and the long description is printed
             return currentRoom.getLongDescription();
@@ -1000,4 +979,31 @@ public class Game {
     public int getPlayerHP(){
         return player.getHp();
 }
+    void setExits(){
+         // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
+        medbay.setExit("north", keyRoom);
+
+        keyRoom.setExit("south", medbay);
+        keyRoom.setExit("east", armoury);
+        keyRoom.setExit("north", hallway);
+
+        //armoury.setExit("north", communicationRoom);  Can only be accessed after the secret passage is found
+        armoury.setExit("west", keyRoom);
+
+        //hallway.setExit("east", communicationRoom); Can only be accessed after getting quiz right, or unlocking from the inside
+        hallway.setExit("north", airlock);
+        hallway.setExit("south", keyRoom);
+
+        //communicationRoom.setExit("west", hallway); Can only be accessed after unlocking the door (lever)
+        communicationRoom.setExit("south", armoury);
+        communicationRoom.setExit("west", hallway);
+
+        airlock.setExit("south", hallway);
+        //creating immovables
+
+        //Exits and pathways that need to be unlocked
+        armoury.addSecretExit("notes", communicationRoom);
+        hallway.addSecretExit("quiz", communicationRoom);
+        communicationRoom.addSecretExit("lever", hallway);
+    }
 }
