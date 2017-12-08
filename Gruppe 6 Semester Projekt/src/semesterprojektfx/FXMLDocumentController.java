@@ -519,7 +519,7 @@ public class FXMLDocumentController implements Initializable {
             if (table.getDestructible() == true) {
             textOutArea.appendText("\nYou break the leg off the table \nA bunch of "
                     + "notes fall on the floor.");
-            table.setDestructable(false); // since the immovable is broken, it can't be broken more.
+            table.setDestructible(false); // since the immovable is broken, it can't be broken more.
             table.getItems().setFlag(true);
             roomInv.add(table.getItems().getName());
             return;

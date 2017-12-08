@@ -56,6 +56,7 @@ public class DataHighscore {
 
         try {
             scoreList = mapper.readValue(new File("files/highscore.json"), new TypeReference<ArrayList<DataPS>>(){});
+            
         } catch (IOException ex) {
             Logger.getLogger(DataHighscore.class.getName()).log(Level.SEVERE, null, ex);
         }

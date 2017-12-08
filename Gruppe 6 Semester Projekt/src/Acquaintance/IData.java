@@ -25,5 +25,6 @@ public interface IData {
     public String getDescriptionText(String key);
     
     
+    public void saveGame();
 
 }

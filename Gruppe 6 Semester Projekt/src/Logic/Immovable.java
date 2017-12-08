@@ -2,17 +2,24 @@ package Logic;
 
 import Acquaintance.IImmovable;
 import Acquaintance.IItem;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  *
  * @author Wilde
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Immovable implements Interactables, IImmovable{
     private String name, description, useDescription;
     private boolean destructible, flag;
     private final boolean isPickupable = false;
     private Item item;
     private int itemDmg;
+
+    public Immovable() {
+    }
     
     /**
      *
@@ -22,6 +29,9 @@ public class Immovable implements Interactables, IImmovable{
      * @param destructible is the boolean that is true if the object can be the atarget of the "break" command.
      * @param flag is a boolean that is set to true, if the immovable is locked in some way.
      */
+    
+    
+    
     public Immovable(String name, String description, String useDescription, boolean destructible, boolean flag){
         this.name = name; 
         this.description = description; 
@@ -32,6 +42,7 @@ public class Immovable implements Interactables, IImmovable{
     }
     
     //public method to open cabinets (amoury/ hallway/ airlock)
+    @Override
     public void openCabinet(){
         if (this.flag == true) {
             System.out.println("You can't open this. It's locked. ");
@@ -45,11 +56,20 @@ public class Immovable implements Interactables, IImmovable{
     }   
     
     //public method to break the table in the armoury
+    @Override
     public void breakTable(){
     
     }
     public String getItemDescription(){
+        
+        
+        if(item == null){
+        return "null";
+        }
+        else {
         return item.getDescription();
+        }
+        
     }
 
         
@@ -58,6 +78,7 @@ public class Immovable implements Interactables, IImmovable{
         return name;
     }
     
+    @Override
     public int getItemDmg() {
         return itemDmg;
     }
@@ -72,6 +93,7 @@ public class Immovable implements Interactables, IImmovable{
         return useDescription;
     }
     
+    @Override
     public void setUseDescription(String useDescription) {
         this.useDescription = useDescription;
     }
@@ -85,16 +107,19 @@ public class Immovable implements Interactables, IImmovable{
     public void setItems(Item item){
         this.item = item;
     }
+    @Override
     public IItem getItems(){
         return item;
     }
     
+    @Override
     public IItem takeItem(){
         Item returnItem = this.item;
         this.item = null;
         return returnItem;
     }
     
+    @Override
     public boolean getDestructible() {
         return this.destructible;
     }
@@ -110,7 +135,7 @@ public class Immovable implements Interactables, IImmovable{
     }
 
     @Override
-    public void setFlag(Boolean flag) {
+    public void setFlag(boolean flag) {
         this.flag = flag;
     }
 
@@ -119,13 +144,26 @@ public class Immovable implements Interactables, IImmovable{
         this.description = string;
     }
 
-    @Override
-    public void setFlag(boolean b) {
-        this.flag = b;
+    public void setName(String name) {
+        this.name = name;
     }
-        
+
     @Override
-    public void setDestructable(Boolean destructable) {
-        this.destructible = destructable;
+    public void setDestructible(boolean destructible) {
+        this.destructible = destructible;
     }
+
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public void setItemDmg(int itemDmg) {
+        this.itemDmg = itemDmg;
+    }
+
+ 
+    
+    
+    
 }

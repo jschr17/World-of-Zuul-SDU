@@ -6,9 +6,10 @@ import Acquaintance.INPC;
 import Acquaintance.IRoom;
 import java.io.IOException;
 
-import java.awt.Desktop;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONException;
 
 /**
  * @author Michael Kolling and David J. Barnes
@@ -23,6 +24,8 @@ public class Game {
     Player player = new Player(100, 100);
     int inventorySpace = 2;
     private String dmgText;
+    SaveFile save;
+    
     
     
     
@@ -300,7 +303,7 @@ public class Game {
 
         String direction = secondWord; //direction is sat to be the second word from the Parser
 
-        Room nextRoom = currentRoom.getExit(direction);//initiates a new room object based on the Exit hashmap
+        Room nextRoom = currentRoom.getRoomDirectionExit(direction);//initiates a new room object based on the Exit hashmap
 
         if (nextRoom == null) {                     //if no roomobject is found in the exit HashMap
             System.out.println("There is no door!");// this line is printed
@@ -813,9 +816,9 @@ public class Game {
         } else if (secondWord.equalsIgnoreCase("britney") && currentRoom.getNPC("britney") == britney) {
             if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == false) { //responds befor radi is fixed
                 talkString = LogicFacade.getDescriptionText("britney1");
-            } else if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == true && player.hasCalledHelp() == false) { //respons after radi is fixed
+            } else if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == true && player.gethasCalledHelp() == false) { //respons after radi is fixed
                 talkString = LogicFacade.getDescriptionText("britney2");
-            } else if (currentRoom == communicationRoom && player.hasCalledHelp()) {    //responds after help is called sets evacuate boolean true
+            } else if (currentRoom == communicationRoom && player.gethasCalledHelp()) {    //responds after help is called sets evacuate boolean true
                 talkString = LogicFacade.getDescriptionText("britney3");
                 britney.setToldToEvacuate(Boolean.TRUE);
             } else if (currentRoom == airlock) {    // response in airlock
@@ -886,7 +889,7 @@ public class Game {
                         + "and fix this radio already!";
                 communicationRoom.setFirstTimeEntered(false);
             }
-            if (player.hasCalledHelp() && britney.toldToEvacuate()
+            if (player.gethasCalledHelp() && britney.gettoldToEvacuate()
                     && currentRoom.getNPCList().contains(britney)) {
                 currentRoom.removeNPC(britney);
             }
@@ -902,11 +905,11 @@ public class Game {
 
         // airlock
         if (currentRoom == airlock) {
-            if (player.hasCalledHelp()) {
+            if (player.gethasCalledHelp()) {
                 currentRoom.getImmovable("switch").setUseDescription("You press"
                         + " the switch. The light turns green");
                 // Message printed after help has been called
-                if (!britney.toldToEvacuate()) {
+                if (!britney.gettoldToEvacuate()) {
                     for (; enterRoomCounter1 < 1; enterRoomCounter1++) {
                         returnString = "Another ship has been attached to the "
                                 + "airlock";
@@ -928,4 +931,93 @@ public class Game {
     ArrayList<IRoom> getRoomList(){
         return roomList;
     }
+    private void save() throws IOException {
+        save = new SaveFile(this, this.player);
+        save.SaveString();
+
+    }
+    private void loadsave() {
+
+        try {
+            try {
+                save.LoadSaveString();
+            } catch (JSONException ex) {
+                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }
+
+    public Room getCurrentRoom() {
+        return currentRoom;
+
+    }
+
+    Room getMedbay() {
+        return medbay;
+    }
+
+    public Room getKeyRoom() {
+        return keyRoom;
+    }
+
+    public Room getArmoury() {
+        return armoury;
+    }
+
+    public Room getHallway() {
+        return hallway;
+    }
+
+    public Room getCommunicationRoom() {
+        return communicationRoom;
+    }
+
+    public Room getAirlock() {
+        return airlock;
+    }
+    
+    public Room getRoomPos(){
+        return currentRoom;
+    }
+
+    public void setCurrentRoom(Room currentRoom) {
+        this.currentRoom = currentRoom;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+        
+    }
+
+    public void setMedbay(Room medbay) {
+        this.medbay = medbay;
+    }
+
+    public void setKeyRoom(Room keyRoom) {
+        this.keyRoom = keyRoom;
+    }
+
+    public void setArmoury(Room armoury) {
+        this.armoury = armoury;
+    }
+
+    public void setHallway(Room hallway) {
+        this.hallway = hallway;
+    }
+
+    public void setCommunicationRoom(Room communicationRoom) {
+        this.communicationRoom = communicationRoom;
+    }
+
+    public void setAirlock(Room airlock) {
+        this.airlock = airlock;
+    }
+    
+    public int getPlayerHP(){
+        return player.getHp();
+}
 }

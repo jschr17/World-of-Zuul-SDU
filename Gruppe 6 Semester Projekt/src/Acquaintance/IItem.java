@@ -17,7 +17,7 @@ public interface IItem {
     public String getDescription();
     public String getUseDescription();
     public boolean isPickupable();
-    public void setFlag(Boolean flag);
+    public void setFlag(boolean flag);
     public boolean getFlag();
     public void setDescription(String string);
 }

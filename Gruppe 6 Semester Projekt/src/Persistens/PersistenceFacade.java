@@ -37,4 +37,9 @@ public class PersistenceFacade implements IData{
     public String getDescriptionText(String key){
         return InputHashmap.getText(key);
     }
+
+    @Override
+    public void saveGame() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
