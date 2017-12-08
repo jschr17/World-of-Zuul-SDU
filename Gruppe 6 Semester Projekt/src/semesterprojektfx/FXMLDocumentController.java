@@ -193,12 +193,13 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleButtonAction(ActionEvent event) throws Exception {
         String toAppend = "";
-        logic.monsterTravel();
+        
         roomInventory.getItems().clear(); 
         if (event.getSource() == northButton) {
             textOutArea.clear();
             String secondWord = "north"; // string
             toAppend = logic.goRoom(secondWord); // room description (hvad go room returner)
+            logic.monsterTravel();
             roomChange();
             minimapAction();
         }
@@ -206,6 +207,7 @@ public class FXMLDocumentController implements Initializable {
             textOutArea.clear();
             String secondWord = "east";
             toAppend = logic.goRoom(secondWord);
+            logic.monsterTravel();
             roomChange();
             minimapAction();
         }
@@ -213,6 +215,7 @@ public class FXMLDocumentController implements Initializable {
             textOutArea.clear();
             String secondWord = "west";
             toAppend = logic.goRoom(secondWord);
+            logic.monsterTravel();
             roomChange();
             minimapAction();
         }
@@ -220,6 +223,7 @@ public class FXMLDocumentController implements Initializable {
             textOutArea.clear();
             String secondWord = "south";
             toAppend = logic.goRoom(secondWord);
+            logic.monsterTravel();
             roomChange();
             minimapAction();
         }
@@ -227,8 +231,6 @@ public class FXMLDocumentController implements Initializable {
             textOutArea.clear();
             toAppend = helpText();
         }
-        
-
         toAppend += System.lineSeparator();
         textOutArea.appendText(toAppend);
         monsterAttack();
@@ -349,11 +351,20 @@ public class FXMLDocumentController implements Initializable {
     
     //Gets the help text string from the game class, so it can be used by the GUI
     private String helpText(){
-        return logic.getHelpText();
+        return "Attacking: "
+                + "\nTo attack the monster you need to have the rifel in your "
+                + "inventory. Then, you need to click the monster and press "
+                + "the 'attack' button."
+                + "\nUsing items: \n"
+                + "To use an item, you need to first click on the item, then click use. "
+                + "Some items you need to have in your inventory to use eg. medkit."
+                + "\nInspecting objects: \n"
+                + "To inspect an object, you need to click the object, and then"
+                + " click the 'use' button."
+                + "\nTaking items: \n"
+                + "To take an item, you need to search the room you are in, click "
+                + "the item you want to take, and click the 'take' button.";
     }
-    
-
-
     //Gets the item description of a specific item from the game class
     private String inspectText(String secondWord){
         return logic.getItemDescription(secondWord);
@@ -582,6 +593,8 @@ public class FXMLDocumentController implements Initializable {
                 control = true;
                 hpBarAction();
                 AirBarAction();
+                listPropertyRoom.set(FXCollections.observableList(roomInv));
+                roomInventory.itemsProperty().bind(listPropertyRoom);
                 return;
             }
             else {
@@ -687,28 +700,27 @@ public class FXMLDocumentController implements Initializable {
             playerDot.setLayoutX(105);
             playerDot.setLayoutY(86);             
         }  
-        
         if (logic.getRoomNPCList("keyRoom").contains(keyMonster)) {
-        monsterDot.setLayoutX(59);
-        monsterDot.setLayoutY(129); 
-            if (logic.getDefeated() == true) {
-                keyRoomMonster.setVisible(true);
-            }
+            monsterDot.setLayoutX(59);
+            monsterDot.setLayoutY(129); 
+                if (monsterDefeatCheck == true) {
+                    keyRoomMonster.setVisible(true);
+                }
        }
         else if (logic.getRoomNPCList("armoury").contains(keyMonster)) {
-        monsterDot.setLayoutX(105);
-        monsterDot.setLayoutY(130);
-        armouryMonster.setVisible(true);
+            monsterDot.setLayoutX(105);
+            monsterDot.setLayoutY(130);
+            armouryMonster.setVisible(true);
         }   
         else if (logic.getRoomNPCList("hallway").contains(keyMonster)) {
-        monsterDot.setLayoutX(59);
-        monsterDot.setLayoutY(85);
-        hallwayMonster.setVisible(true);
+            monsterDot.setLayoutX(59);
+            monsterDot.setLayoutY(85);
+            hallwayMonster.setVisible(true);
         }                
         else if (logic.getRoomNPCList("airlock").contains(keyMonster)) {
-        monsterDot.setLayoutX(59);
-        monsterDot.setLayoutY(40);
-        airlockMonster.setVisible(true);
+            monsterDot.setLayoutX(59);
+            monsterDot.setLayoutY(40);
+            airlockMonster.setVisible(true);
         } 
         if (!logic.getRoomNPCList("keyRoom").contains(keyMonster)) {
             keyRoomMonster.setVisible(false);
