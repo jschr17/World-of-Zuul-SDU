@@ -42,8 +42,8 @@ public class Room implements IRoom {
         secretExits = new HashMap<>();
         firstTimeEntered = true;
     }
-
-    public String getName() {
+    @Override
+    public String getName(){
         return this.name;
     }
 
@@ -57,13 +57,17 @@ public class Room implements IRoom {
     }
 
     //method for returning a rooms description
-    public String getShortDescription() {
+    @Override
+    public String getShortDescription()
+    {
         return description;
     }
 
     // method for getting a rooms description and which exits it has.
-    public String getLongDescription() {
-        return "You are " + description + ". "/* + getExit()*/;
+    @Override
+    public String getLongDescription()
+    {
+        return "\nYou are " + description + ".\n" + getExit();
     }
 
     public void setLongDescription(String description) {
@@ -111,6 +115,7 @@ public class Room implements IRoom {
     }
 
     //This method returns an immovable as an object, when given the correct name.
+    @Override
     public Immovable getImmovable(String immovable) {
         Immovable object = null;
         for (Immovable i : this.interactList) {

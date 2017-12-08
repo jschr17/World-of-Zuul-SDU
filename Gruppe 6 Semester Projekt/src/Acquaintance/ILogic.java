@@ -40,13 +40,19 @@ public interface ILogic {
     public int getInventorySpace();
 //    public void Play();
     public void monsterTravel(); 
-     public ArrayList<IItem> getCurrentRoomItemList();
-     public String awakenMonster();
-
+    public ArrayList<IItem> getCurrentRoomItemList();
+    public String awakenMonster();
+    public INPC getCurrentRoomNPC(String npc);
     public void InjectGame(Game game1);
     public ArrayList<INPC> getRoomNPCList(String roomName);
-     public void setOpenSecretExit(String direction, String opener);
-     public String roomLogic();
+    public void setOpenSecretExit(String direction, String opener);
+    public String roomLogic();
     public ArrayList<IItem> getPlayerInventory();
      public void loadGame();
+    public IRoom getCurrentRoom();
+    public boolean checkPlayerItems(String string);
+    public Boolean getPlayerCalledHelp();
+    public void setPlayerCalledHelp(Boolean help);
+    public void setPlayerWonGame(Boolean won);
+    public String startQuiz(String string);
 }
