@@ -512,14 +512,14 @@ public class FXMLDocumentController implements Initializable {
                     monsterDefeatCheck = true;
                 }
                 control = true;
+                hpBarAction();
+                AirBarAction();
                 return;
             }
             else {
                 textOutArea.appendText("\nNo rifle.");
             }
         minimapAction();
-        hpBarAction();
-        AirBarAction();
         listPropertyRoom.set(FXCollections.observableList(roomInv));
         roomInventory.itemsProperty().bind(listPropertyRoom);
         }
