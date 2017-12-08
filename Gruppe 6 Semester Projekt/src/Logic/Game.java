@@ -32,7 +32,7 @@ public class Game {
             hiddenpanel, closet, lockedDoor, glassCabinet, airlockPanel, 
             doorLockPanel, radioArray;
     NPC britney, keyMonster;
-    Item sword, medkit, oxygen, gun, rifle, key, notes;
+    Item medkit, oxygen, gun, rifle, key, notes;
     private int enterRoomCounter1, enterRoomCounter2 = 0;
 
     //private Command command = parser.getCommand();
@@ -131,7 +131,7 @@ public class Game {
         keyMonster.setDamage(12);
 
 //      Items bliver initialiseret
-        sword = new Item("sword", "This is a fucking sword.", 10, 0, 0);
+//        sword = new Item("sword", "This is a fucking sword.", 10, 0, 0);
         medkit = new Item("medkit", "A medkit that can heal the user upon use.", 0, 40, 0);
         oxygen = new Item("oxygen", "An oxygen tank, that can refill the users own oxygen tank.", 0, 0, 35);
         //gun = new Item("gun","A small gun. It deals 20 dmg.",20,0,0);
@@ -147,7 +147,7 @@ public class Game {
 //      keyroom items:
 //      Armoury items:
         weaponCabinet.setItems(rifle);
-        bookcase.setItems(sword);
+//        bookcase.setItems(sword);
         table.setItems(notes);
         notes.setFlag(false);
 //      Hallway items:
@@ -823,18 +823,21 @@ public class Game {
         return talkString;
     }
 
-    public void roomLogic() {
+    public String roomLogic() {
         /* This method is meant to hold all the logic that should be checked for
         ** each command cycle. These checks will run without needing any user 
         ** input
          */
         // All rooms
-        if (currentRoom.getNPCList().contains(keyMonster)) {
-            System.out.println("There is a monster in this room.");
-            if (keyMonster.getHostility() && keyMonster.getDefeated()) {
-                combat(secondWord);
-            }
-        }
+        
+       String returnString = null;
+        
+//        if (currentRoom.getNPCList().contains(keyMonster)) {
+//            returnString = "There is a monster in this room.";
+//            if (keyMonster.getHostility() && keyMonster.getDefeated()) {
+//                combat(secondWord);
+//            }
+//        }
 
         // medbay
         if (currentRoom == medbay) {
@@ -865,16 +868,16 @@ public class Game {
         if (currentRoom == communicationRoom) {
             // Positive NPC response
             if (!doorLockPanel.getFlag() && currentRoom.getFirstTimeEntered()) {
-                System.out.println("Britney: Hi " + player.getName() + ", so "
+                returnString = "Britney: Hi " + player.getName() + ", so "
                         + "great to see you're alright. Can you help me with "
-                        + "this radio? we need a key for it to call for help.");
+                        + "this radio? we need a key for it to call for help.";
                 communicationRoom.setFirstTimeEntered(false);
             } // Negative NPC response
             else if (currentRoom.getImmovable("panel").getFlag()
                     && currentRoom.getFirstTimeEntered()) {
-                System.out.println("Britney: Oh my god, " + player.getName()
+                returnString = "Britney: Oh my god, " + player.getName()
                         + " i almost shot you! Do something useful for a change "
-                        + "and fix this radio already!");
+                        + "and fix this radio already!";
                 communicationRoom.setFirstTimeEntered(false);
             }
             if (player.hasCalledHelp() && britney.toldToEvacuate()
@@ -899,22 +902,22 @@ public class Game {
                 // Message printed after help has been called
                 if (!britney.toldToEvacuate()) {
                     for (; enterRoomCounter1 < 1; enterRoomCounter1++) {
-                        System.out.println("Another ship has been attached to the "
-                                + "airlock");
+                        returnString = "Another ship has been attached to the "
+                                + "airlock";
                     }
                 } else {
                     for (; enterRoomCounter2 < 1; enterRoomCounter2++) {
                         currentRoom.addNPC(britney);
-                        System.out.println("Britney: There you are! The help has "
-                                + "already arrived, now let's get off this ship!");
+                        returnString = "Britney: There you are! The help has "
+                                + "already arrived, now let's get off this ship!";
                     }
                 }
 
             }
         }
-
+        return returnString;
         // end of method.
-    }
+    } 
     
     ArrayList<IRoom> getRoomList(){
         return roomList;

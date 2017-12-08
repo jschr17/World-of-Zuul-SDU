@@ -177,7 +177,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleButtonAction(ActionEvent event) throws Exception {
         String toAppend = "";
-//        logic.monsterTravel();
+        
         roomInventory.getItems().clear(); 
         if (event.getSource() == northButton) {
             textOutArea.clear();
@@ -213,6 +213,7 @@ public class FXMLDocumentController implements Initializable {
         }
         toAppend += System.lineSeparator();
         textOutArea.appendText(toAppend);
+        logic.monsterTravel();
         monsterAttack();
     }
     
@@ -236,9 +237,13 @@ public class FXMLDocumentController implements Initializable {
                     }
                 }
             }
+            System.out.println("Test 6");
             for(INPC n : logic.getCurrentRoomNPCList()){
+                System.out.println("Test 7");
                 if (!logic.getCurrentRoomNPCList().isEmpty()){
+                    System.out.println("Test 8");
                     roomInv.add(n.getName());
+                    System.out.println("Test 9");
                 }  
             }
             listPropertyRoom.set(FXCollections.observableList(roomInv));
@@ -439,6 +444,7 @@ public class FXMLDocumentController implements Initializable {
             airlock.setVisible(false);  
             communicationRoom.setVisible(true);
         }
+                logic.roomLogic();
     }
     //Controls what happens when the player thies to use different items and
     //immovables (via the 'use' button). 
@@ -446,7 +452,7 @@ public class FXMLDocumentController implements Initializable {
     private void useAction(ActionEvent event){
         String newWord = playerInventory.getSelectionModel().getSelectedItem();
         String newWord2 = roomInventory.getSelectionModel().getSelectedItem();
-        if (!playerInv.isEmpty() && newWord != "rifle") {
+        if (!playerInv.isEmpty() && newWord != "rifle" && newWord2 != "monster") {
             logic.useItem(newWord);
             textOutArea.appendText("\n" + logic.useItem(newWord)); // check om er på fasaden
             playerInventory.getItems().remove(newWord);
@@ -569,12 +575,11 @@ public class FXMLDocumentController implements Initializable {
             warningLabel.setText("You need to input a name");
         }
     }
-    //NO FUNCTION YET !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! <----------------------------------------------------------------------------------------------
-    @FXML
+      @FXML
     private void highScoreLoad(ActionEvent event) {
-        highScoreView.add("Jonas 123");
-        highScoreView.add("Jonass 1234");
-        highScoreView.add("Jonasss 1235");
+        for (String i: logic.getHighscore()){   // takes all elements of highscorelist and ads them to a the observable list "highScoreView"
+            highScoreView.add(i);
+        }
         
         listProperty3.set(FXCollections.observableList(highScoreView));
         highScoreList.itemsProperty().bind(listProperty3);
@@ -670,7 +675,5 @@ public class FXMLDocumentController implements Initializable {
 //                    game.combat(command);
 //            }
 //        }        
-    }
-
-    
+    }   
 }

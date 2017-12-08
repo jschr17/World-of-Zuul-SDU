@@ -193,8 +193,14 @@ public class LogicFacade implements ILogic {
     public ArrayList<IItem> getPlayerInventory(){
         return game.player.getInventory();
     }
+
     @Override
-    public INPC getCurrentRoomNPC(String npc){
+    public String roomLogic() {
+        return game.roomLogic();
+    }
+
+    @Override
+    public INPC getCurrentRoomNPC(String npc) {
         return game.currentRoom.getNPC(npc);
     }
 
