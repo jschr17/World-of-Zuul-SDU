@@ -3,21 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Logic;
+package Acquaintance;
 
 /**
  *
- * @author SteamyBlizzard
+ * @author Rasmus Jensen
  */
-//An interface with the set methods our interactable objects use.
-public interface Interactables {
-    public abstract String getName();
+public interface IInteractables {
+        public abstract String getName();
     public abstract String getDescription();
     public abstract String getUseDescription();
     public abstract boolean isPickupable();
     public abstract boolean getFlag();
     public abstract void setFlag(Boolean flag);
     public abstract void setDescription(String string);
-    public abstract void setDestructable(Boolean destructable);
-    
 }

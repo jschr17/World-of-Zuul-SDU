@@ -5,8 +5,7 @@
  */
 package Acquaintance;
 
-import Logic.Command;
-import Logic.CommandWord;
+import Logic.Game;
 import java.util.ArrayList;
 
 /**
@@ -18,7 +17,7 @@ public interface ILogic {
     void InjectData(IData datalayer);
     public boolean addNewScore(String name, int score);
     public boolean saveHighscore();
-    public ArrayList getHighscore();
+    public ArrayList<String> getHighscore();
     public void loadHighscore();
     public String getItemDescription(String secondWord);    //command.setSecondWord(secondWord)
     public String talk(String secondWord);                  //command.setSecondWord(secondWord)
@@ -28,13 +27,25 @@ public interface ILogic {
     public String useItem(String secondWord);               //command.setSecondWord(secondWord)
     public String getCurrentRoomName();
     public void setPlayerName(String name);
-    public void removeFromInventory(String secondWord);     //command.setSecondWord(secondWord)
+    public String removeFromInventory(String secondWord);     //command.setSecondWord(secondWord)
     public void addInventory(String secondWord);            //command.setSecondWord(secondWord)
-    public ArrayList getCurrentRoomInteractList();
-    public ArrayList getCurrentRoomNPCList();
-    public void goRoom(String secondWord);                  //command.setSecondWord(secondWord)
+    public ArrayList<IImmovable> getCurrentRoomInteractList();
+    public ArrayList<INPC> getCurrentRoomNPCList();
+    public String goRoom(String secondWord);                  //command.setSecondWord(secondWord)
     public void saveGame();
-    public String combat(Command command);
+    public String combat(String secondWord);
     public boolean getDefeated();
     public void setOxygen(int air);
+    public String gameWelcome();
+    public int getInventorySpace();
+//    public void Play();
+    public void monsterTravel(); 
+     public ArrayList<IItem> getCurrentRoomItemList();
+     public String awakenMonster();
+
+    public void InjectGame(Game game1);
+    public ArrayList<INPC> getRoomNPCList(String roomName);
+     public void setOpenSecretExit(String direction, String opener);
+     public String roomLogic();
+    public ArrayList<IItem> getPlayerInventory();
 }

@@ -9,15 +9,20 @@ import java.util.ArrayList;
 import Acquaintance.IData;
 
 /**
- *
+ *facade on the peasistence package used to fasilitate comunication to other packages
  * @author Rasmus Jensen
  */
+
 public class PersistenceFacade implements IData{
     DataHighscore dataHs = new DataHighscore();
      InputHashmap textIn = new InputHashmap();
     
     
-    
+    /**
+     * method that other pacages can call to save a highscore list
+     * @param list takes an arraylist of IPersonalScores   
+     * @return a boolean that can be used too confim that the method has completed
+     */
     @Override
     public boolean saveHighscore(ArrayList list){
         return dataHs.saveHigscore(list);

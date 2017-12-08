@@ -5,13 +5,15 @@
  */
 package Logic;
 
+import Acquaintance.IItem;
+
 /**
  *
  * @author bruger
  */
 //The item class.
 //This is where the pickupable item objects is created.
-public class Item implements Interactables {
+public class Item implements Interactables, IItem {
     //Name, description, and use description is defined.
     private String itemName, itemDescription, useDescription;
     private boolean flag;
@@ -25,6 +27,7 @@ public class Item implements Interactables {
         this.dmg = dmg;
         this.HP = HP;
         this.air = air;
+        this.flag = true;
     }
 
     public int getDmg() {
@@ -78,6 +81,11 @@ public class Item implements Interactables {
 
     @Override
     public void setDescription(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setDestructable(Boolean destructable) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

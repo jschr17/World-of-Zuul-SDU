@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Persistens;
 
 import Acquaintance.IPersonalScore;
@@ -18,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ *Class used for handling the actions of transforming arraylists of IpersonalScore object into and back from files.
  * @author Rasmus Jensen
  */
 public class DataHighscore {
@@ -28,7 +23,12 @@ public class DataHighscore {
     public DataHighscore() {
 
     }
-
+/**
+ * Method that recives an arraylist of IPersonalScore objects and useses the Jackson mappper to write it into a json file.
+ * @param highscoreList an arraylist og Ipersonalscore objects 
+ * @return returns a boolean in the case one wishes to confirm the operation have succeded.
+ * @author Rasmus
+ */
     boolean saveHigscore(ArrayList highscoreList){
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule("ScoreSerializer", new Version(1, 0, 0, null, null, null));
@@ -43,7 +43,10 @@ public class DataHighscore {
 
         return true;
     }
-
+/**
+ * method that uses a Jackson mapper to read a json file and tun it into an arraylist of IPersonalScore objects
+ * @return an arraylist of IPersonalScore objects.
+ */
     ArrayList loadHighscore() {
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule("ScoreSerializer", new Version(1, 0, 0, null, null, null));

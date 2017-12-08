@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
 
 /**
- *
+ *Custom serializer for the DataPS object which implements the interface IPersonScore, it it used to tell how the objecct shuld be serialized into json.
  * @author Rasmus
  */
 public class ScoreSerializer extends StdSerializer<DataPS> {
@@ -24,7 +24,7 @@ public class ScoreSerializer extends StdSerializer<DataPS> {
         super(t);
     }
 
-    @Override
+    @Override   // the method that tells the serializer what each variable shuld be serialized as.
     public void serialize(DataPS t, JsonGenerator jg, SerializerProvider sp) throws IOException {
         jg.writeStartObject();
         jg.writeStringField("name", t.getName());

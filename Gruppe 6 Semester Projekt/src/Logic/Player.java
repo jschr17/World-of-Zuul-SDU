@@ -5,6 +5,7 @@
  */
 package Logic;
 
+import Acquaintance.IItem;
 import java.util.ArrayList;
 import static java.lang.Math.E;
 import java.util.Timer;
@@ -17,7 +18,7 @@ import java.util.TimerTask;
 public class Player {
     private volatile int hp;
     private int air;
-    private ArrayList<Item> inventory;
+    private ArrayList<IItem> inventory;
     private boolean hasCalledHelp = false;
     private boolean wonGame = false;
     
@@ -58,13 +59,13 @@ public class Player {
     public void setHp(int newHp){
     hp = newHp;
     }
-    public ArrayList<Item> getInventory(){
+    public ArrayList<IItem> getInventory(){
     return inventory;
     }
     public void addToInventory(Item newItem){
             inventory.add(newItem);          
     }
-    public void removeFromInventory(Item newItem){
+    public void removeFromInventory(IItem newItem){
     inventory.remove(newItem);
     }
 
