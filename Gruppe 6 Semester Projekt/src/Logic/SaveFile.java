@@ -105,7 +105,7 @@ public class SaveFile {
             Room Communicationroom1 = mapper.readValue(Communicationroom, Room.class);
             Room Armoury1 = mapper.readValue(Armoury, Room.class);
             Room Airlock1 = mapper.readValue(Airlock, Room.class);
-            Room Currentroom1 = mapper.readValue(Currentroom, Room.class);
+            String Currentroom1 = mapper.readValue(Currentroom, Room.class).getName();
             
             game.setPlayer(player1);
             game.setMedbay(medbay);
@@ -115,11 +115,9 @@ public class SaveFile {
             game.setArmoury(Armoury1);
             game.setAirlock(Airlock1);
             game.setCurrentRoom(Currentroom1);
-            game.setExits();
-            System.out.println("test5");
-        } catch (JSONException ex) {
-            Logger.getLogger(SaveFile.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+//            game.setExits();
+            System.out.println("test5" + Currentroom1);
+        } catch (JSONException | IOException ex) {
             Logger.getLogger(SaveFile.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

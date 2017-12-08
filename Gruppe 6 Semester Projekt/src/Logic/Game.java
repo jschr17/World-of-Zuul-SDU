@@ -276,7 +276,7 @@ public class Game {
 //            System.out.println("Go where?");// if no word is given this line is printed in the console
 //            return "Go where?";
 //        }
-        setExits();
+
         String direction = secondWord; //direction is sat to be the second word from the Parser
         System.out.println(" go: " + secondWord);
         currentRoom.printHashmap();
@@ -943,8 +943,12 @@ public class Game {
         return currentRoom;
     }
 
-    public void setCurrentRoom(Room currentRoom) {
-        this.currentRoom = currentRoom;
+    public void setCurrentRoom(String currentRoom) {
+        for (IRoom r: roomList){
+            if (r.getName().equalsIgnoreCase(currentRoom)){
+                this.currentRoom = (Room) r;
+            }
+    }
     }
 
     public void setPlayer(Player player) {

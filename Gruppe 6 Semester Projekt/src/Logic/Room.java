@@ -21,8 +21,8 @@ import java.util.Map;
 public class Room implements IRoom {
 
     private String name, description;             //a string that will carry the description of the room
-    private HashMap<String, Room> exits = new HashMap<>();    // HashMap that carrys each exit from the room and which room it leads to
-    private HashMap<String, Room> secretExits = new HashMap<>();
+    private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
+    private HashMap<String, Room> secretExits;
     private ArrayList<Immovable> interactList; // list of the immovables in the room
     private ArrayList<Item> itemList;
     private ArrayList<NPC> npcList;             // list of NPCs in the room
@@ -35,11 +35,11 @@ public class Room implements IRoom {
     public Room(String name, String description) {
         this.name = name;
         this.description = description;
-        //exits = new HashMap<>();    // a new exit HashMap is crated for each instance of room
+        exits = new HashMap<>();    // a new exit HashMap is crated for each instance of room
         interactList = new ArrayList<>();
         itemList = new ArrayList<>();
         npcList = new ArrayList<>();
-        //secretExits = new HashMap<>();
+        secretExits = new HashMap<>();
         firstTimeEntered = true;
     }
 

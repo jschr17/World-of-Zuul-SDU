@@ -40,6 +40,7 @@ public class SaveSerializer extends StdSerializer<SaveFile> {
         jg.writeObjectField("Armoury", t.getGame().getArmoury());
         jg.writeObjectField("Airlock", t.getGame().getAirlock());
         jg.writeObjectField("Currentroom", t.getGame().getCurrentRoom());
+//        jg.writeStringField("Currentroom", t.getGame().getCurrentRoom().getName());
        
         jg.writeEndObject();
     }
