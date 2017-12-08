@@ -25,6 +25,11 @@ public class LogicFacade implements ILogic {
     static IData data;
     Highscore score;
     Game game;
+    SaveFile save;
+
+    public LogicFacade() {
+
+    }
 
 
     @Override
@@ -111,7 +116,12 @@ public class LogicFacade implements ILogic {
 
     @Override
     public ArrayList<IImmovable> getCurrentRoomInteractList() {
-        return game.currentRoom.getInteractList();
+          ArrayList<IImmovable> IList = new ArrayList();
+        for (Immovable i:game.currentRoom.getInteractList()){
+            IList.add(i);
+        }
+        return IList;
+       
     }
 
     @Override
@@ -129,11 +139,7 @@ public class LogicFacade implements ILogic {
         return game.goRoom(secondWord);
     }
 
-    @Override
-    public void saveGame() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+   
     @Override
     public String combat(String secondWord) {
         return game.combat(secondWord);
@@ -191,7 +197,11 @@ public class LogicFacade implements ILogic {
     
     @Override
     public ArrayList<IItem> getPlayerInventory(){
-        return game.player.getInventory();
+        ArrayList<IItem> IList = new ArrayList();
+        for (Item i:game.player.getInventory()){
+            IList.add(i);
+        }
+        return IList;
     }
 
     @Override
@@ -199,4 +209,16 @@ public class LogicFacade implements ILogic {
         return game.roomLogic();
     }
 
+    @Override
+    public boolean saveGame(){
+                this.save = new SaveFile(game, game.player);
+                return data.saveGame(save.getSaveString());
+        
+    }
+    
+    public void loadGame(){
+        this.save = new SaveFile(game, game.player);
+        save.LoadSaveString(data.getLoadGame());
+        
+    }
 }

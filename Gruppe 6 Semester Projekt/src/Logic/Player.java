@@ -23,7 +23,7 @@ import java.util.TimerTask;
 public class Player {
     private int hp;
     private int air;
-    private ArrayList<IItem> inventory;
+    private ArrayList<Item> inventory;
     private boolean hasCalledHelp = false;
     private boolean wonGame = false;
     public String playerName = "Mads"; // Non-negotiable
@@ -79,11 +79,11 @@ public class Player {
     public void setHp(int hp){
     this.hp = hp;
     }
-    public ArrayList<IItem> getInventory(){
+    public ArrayList<Item> getInventory(){
     return inventory;
     }
 
-    public void setInventory(ArrayList<IItem> inventory) {
+    public void setInventory(ArrayList<Item> inventory) {
         
         this.inventory = inventory;
        

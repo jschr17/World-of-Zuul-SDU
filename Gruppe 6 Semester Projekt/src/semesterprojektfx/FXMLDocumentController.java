@@ -646,4 +646,17 @@ public class FXMLDocumentController implements Initializable {
             airlockMonster.setVisible(false);
         }
     }
+    
+    @FXML
+    private void loadButtonAction(ActionEvent event) {
+         logic.loadGame();
+    }
+    
+    @FXML
+    private void saveButtonAction(ActionEvent event) {
+        logic.saveGame();
+        if (logic.saveGame()) {
+            textOutArea.appendText("\nGame saved successfully.");
+        }
+    }
 }

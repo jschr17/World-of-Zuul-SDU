@@ -30,10 +30,10 @@ import org.json.JSONObject;
 public class SaveFile {
 
     Player player;
-    
     private Game game;
     Room room;
     String Savestring;
+    String loadString;
     
     public SaveFile(Game game, Player player) {
         this.game = game;
@@ -56,7 +56,7 @@ public class SaveFile {
         this.player = player;
     }
 
-    public void SaveString() throws IOException{
+    public String getSaveString() {
         ObjectMapper mapper = new ObjectMapper();
         
         SimpleModule module = new SimpleModule();
@@ -64,67 +64,65 @@ public class SaveFile {
         mapper.registerModule(module);
         
         try {
-//            Savestring = mapper.writeValueAsString(this);
-            mapper.writeValue(new File("files/SaveFile.json"), this);
+            Savestring = mapper.writeValueAsString(this);
+//            mapper.writeValue(new File("files/SaveFile.json"), this);
             
             System.out.println("test");
         } catch (JsonProcessingException ex) {
             Logger.getLogger(SaveFile.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    }
-    public String getSaveFile(){
         return Savestring;
     }
+ 
     
     
-    public void LoadSaveString() throws IOException, JSONException{
-        ObjectMapper mapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        
-        //module.addDeserializer(SaveFile.class, new SaveDeserializer());
-        mapper.registerModule(module);
-        
-        
-        String filePath = "files/SaveFile.json";
-
-        byte[] encoded = Files.readAllBytes(Paths.get(filePath));
-        String testfile = new String(encoded, "utf-8");
-        
-        JSONObject json = new JSONObject(testfile);
-        //Pick only the player part
-        String playerPart = json.getJSONObject("player").toString();
-        String medbayPart = json.getJSONObject("Medbay").toString();
-        String Hallway = json.getJSONObject("Hallway").toString();
-        String Keyroom = json.getJSONObject("Keyroom").toString();
-        String Communicationroom = json.getJSONObject("Communicationroom").toString();
-        String Armoury = json.getJSONObject("Armoury").toString();
-        String Airlock = json.getJSONObject("Airlock").toString();
-        String Currentroom = json.getJSONObject("Currentroom").toString();
-        
-        
-        Player player1 = mapper.readValue(playerPart, Player.class);
-       
-        
-        Room medbay1 = mapper.readValue(medbayPart, Room.class);
-        Room Hallway1 = mapper.readValue(Hallway, Room.class);
-        Room Keyroom1 = mapper.readValue(Keyroom, Room.class);
-        Room Communicationroom1 = mapper.readValue(Communicationroom, Room.class);
-        Room Armoury1 = mapper.readValue(Armoury, Room.class);
-        Room Airlock1 = mapper.readValue(Airlock, Room.class);
-        Room Currentroom1 = mapper.readValue(Currentroom, Room.class);
-        
-        System.out.println("Test 2: " + player1.toString());
-        System.out.println("Test Room medbay: " + medbay1.toString());
-        
-        game.setPlayer(player1);
-        game.setMedbay(medbay1);
-        game.setHallway(Hallway1);
-        game.setKeyRoom(Keyroom1);
-        game.setCommunicationRoom(Communicationroom1);
-        game.setArmoury(Armoury1);
-        game.setAirlock(Airlock1);
-        game.setCurrentRoom(Currentroom1);
+    public void LoadSaveString(String loadString) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            SimpleModule module = new SimpleModule();
+            this.loadString = loadString;
+            //module.addDeserializer(SaveFile.class, new SaveDeserializer());
+            mapper.registerModule(module);
+            
+            JSONObject json = new JSONObject(loadString);
+            //Pick only the player part
+            String playerPart = json.getJSONObject("player").toString();
+            String medbayPart = json.getJSONObject("Medbay").toString();
+            String Hallway = json.getJSONObject("Hallway").toString();
+            String Keyroom = json.getJSONObject("Keyroom").toString();
+            String Communicationroom = json.getJSONObject("Communicationroom").toString();
+            String Armoury = json.getJSONObject("Armoury").toString();
+            String Airlock = json.getJSONObject("Airlock").toString();
+            String Currentroom = json.getJSONObject("Currentroom").toString();
+            
+            
+            Player player1 = mapper.readValue(playerPart, Player.class);
+            
+            
+            Room medbay1 = mapper.readValue(medbayPart, Room.class);
+            Room Hallway1 = mapper.readValue(Hallway, Room.class);
+            Room Keyroom1 = mapper.readValue(Keyroom, Room.class);
+            Room Communicationroom1 = mapper.readValue(Communicationroom, Room.class);
+            Room Armoury1 = mapper.readValue(Armoury, Room.class);
+            Room Airlock1 = mapper.readValue(Airlock, Room.class);
+            Room Currentroom1 = mapper.readValue(Currentroom, Room.class);
+            
+            System.out.println("Test 2: " + player1.toString());
+            System.out.println("Test Room medbay: " + medbay1.toString());
+            
+            game.setPlayer(player1);
+            game.setMedbay(medbay1);
+            game.setHallway(Hallway1);
+            game.setKeyRoom(Keyroom1);
+            game.setCommunicationRoom(Communicationroom1);
+            game.setArmoury(Armoury1);
+            game.setAirlock(Airlock1);
+            game.setCurrentRoom(Currentroom1);
+        } catch (JSONException ex) {
+            Logger.getLogger(SaveFile.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SaveFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     

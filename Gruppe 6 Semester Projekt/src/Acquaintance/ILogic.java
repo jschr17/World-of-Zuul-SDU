@@ -32,7 +32,7 @@ public interface ILogic {
     public ArrayList<IImmovable> getCurrentRoomInteractList();
     public ArrayList<INPC> getCurrentRoomNPCList();
     public String goRoom(String secondWord);                  //command.setSecondWord(secondWord)
-    public void saveGame();
+    public boolean saveGame();
     public String combat(String secondWord);
     public boolean getDefeated();
     public void setOxygen(int air);
@@ -48,4 +48,5 @@ public interface ILogic {
      public void setOpenSecretExit(String direction, String opener);
      public String roomLogic();
     public ArrayList<IItem> getPlayerInventory();
+     public void loadGame();
 }

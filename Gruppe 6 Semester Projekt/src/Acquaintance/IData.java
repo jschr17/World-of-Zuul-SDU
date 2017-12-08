@@ -13,18 +13,15 @@ import java.util.ArrayList;
  */
 public interface IData {
 
-    public boolean saveHighscore(ArrayList list) ;
-
+    public boolean saveHighscore(ArrayList list);
     public ArrayList loadHighscore();
-    
     /**
      *
      * @param key
      * @return
      */
     public String getDescriptionText(String key);
-    
-    
-    public void saveGame();
+    public boolean saveGame(String savestring);
+    public String getLoadGame();
 
 }

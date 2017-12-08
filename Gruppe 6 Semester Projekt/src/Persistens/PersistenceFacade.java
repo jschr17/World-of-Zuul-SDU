@@ -16,6 +16,7 @@ import Acquaintance.IData;
 public class PersistenceFacade implements IData{
     DataHighscore dataHs = new DataHighscore();
      InputHashmap textIn = new InputHashmap();
+     SaveGame save = new SaveGame();
     
     
     /**
@@ -39,7 +40,13 @@ public class PersistenceFacade implements IData{
     }
 
     @Override
-    public void saveGame() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean saveGame(String savestring) {
+        save.saveGame(savestring);
+        return true;
+    }
+    
+    @Override
+    public String getLoadGame(){
+        return save.loadString();
     }
 }

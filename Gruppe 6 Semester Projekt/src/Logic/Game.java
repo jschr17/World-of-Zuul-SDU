@@ -931,27 +931,7 @@ public class Game {
     ArrayList<IRoom> getRoomList(){
         return roomList;
     }
-    private void save() throws IOException {
-        save = new SaveFile(this, this.player);
-        save.SaveString();
-
-    }
-    private void loadsave() {
-
-        try {
-            try {
-                save.LoadSaveString();
-            } catch (JSONException ex) {
-                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-    }
-
-    public Room getCurrentRoom() {
+       public Room getCurrentRoom() {
         return currentRoom;
 
     }

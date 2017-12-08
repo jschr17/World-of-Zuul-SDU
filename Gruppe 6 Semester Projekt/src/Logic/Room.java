@@ -24,9 +24,9 @@ public class Room implements IRoom{
     private String name, description;             //a string that will carry the description of the room
     private HashMap<String, Room> exits;    // HashMap that carrys each exit from the room and which room it leads to
     private HashMap<String, Room> secretExits;
-    private ArrayList<IImmovable> interactList; // list of the immovables in the room
-    private ArrayList<IItem> itemList;
-    private ArrayList<INPC> npcList;             // list of NPCs in the room
+    private ArrayList<Immovable> interactList; // list of the immovables in the room
+    private ArrayList<Item> itemList;
+    private ArrayList<NPC> npcList;             // list of NPCs in the room
     private boolean firstTimeEntered;           
 
     
@@ -114,12 +114,12 @@ public class Room implements IRoom{
 
     //This method adds a specified immovable to the arraylist interactlist.
     public void setImmovables(Immovable immovables){
-        this.interactList.add((IImmovable)immovables);
+        this.interactList.add((Immovable)immovables);
     }
     //This method returns an immovable as an object, when given the correct name.
-    public IImmovable getImmovable(String immovable) {
-        IImmovable object = null;
-        for (IImmovable i : this.interactList){
+    public Immovable getImmovable(String immovable) {
+        Immovable object = null;
+        for (Immovable i : this.interactList){
             if (i!=null &&i.getName().equals(immovable)) {
                 object = i; 
             }
