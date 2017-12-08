@@ -19,7 +19,6 @@ import org.json.JSONException;
 public class Game {
 
     private String secondWord;  // refractior of the youse of the second word, its now d´the command given from the gui, the word have not been changed due to legacy reasons, alot of the logig resoved aroud this word therefor it was kept
-//    private Parser parser;  //declares a parser objekt, so the game can read inputs
     Room currentRoom;   // initialises a starting room
     Player player = new Player(100, 100);
     int inventorySpace = 2;
@@ -38,11 +37,9 @@ public class Game {
     Item sword, medkit, oxygen, gun, rifle, key, notes;
     private int enterRoomCounter1, enterRoomCounter2 = 0;
 
-    //private Command command = parser.getCommand();
     // constructor for the game class    
     public Game() throws IOException {
         createRooms();
-//        parser = new Parser();
     }
 
     //initializing of the rooms objects needed in the game 
@@ -110,10 +107,8 @@ public class Game {
         keyMonster.setDamage(12);
 
 //      Items bliver initialiseret
-        sword = new Item("sword", "This is a fucking sword.", 10, 0, 0);
         medkit = new Item("medkit", "A medkit that can heal the user upon use.", 0, 40, 0);
         oxygen = new Item("oxygen", "An oxygen tank, that can refill the users own oxygen tank.", 0, 0, 35);
-        //gun = new Item("gun","A small gun. It deals 20 dmg.",20,0,0);
         rifle = new Item("rifle", "A rifle. It does 40 dmg.", 40, 0, 0);
         key = new Item("key", "A small electronic device with keymodule printed on it", 0, 0, 0);
         notes = new Item("notes", "The note reads: '...but if you want to get through the secret door, the password is 28374", 0, 0, 0);
@@ -138,45 +133,7 @@ public class Game {
         currentRoom = medbay;
     }
 
-    // the method that starts the game
-//    public void play() {
-//        printWelcome(); //prints the welcome message    
-//        int i = 0;
-//        int monsterTurnWait = 2;
-//
-//        boolean finished = false; //initiates a boolen to determine if the game is fi
-//        while (!finished) {    // the main game loop, runs as long as boolean finished = false
-//            if (loseCondition() == true) {
-//                finished = true;
-//                break;
-//            }
-//            roomLogic();
-//            Command command = parser.getCommand(); // gets a command from the parser Class and processes it
-//            finished = processCommand(command);     // after each command is prosed the game checks if the finish command have been given,
-////            if (i != monsterTurnWait) {
-////                i++;
-////            }
-////            else if (!"communicationRoom".equals(currentRoom.getName())) {
-////                monsterTravel(keyMonster);
-////                i = 0;
-////            }
-//        }
-//        player.terminateAllPlayerThreads();
-//        player.terminateAllPlayerTimers();
-//        if (player.hasWonGame() == true) {
-//            Highscore.addNewScore(player.getName(), player.getAwesomePoint(britney.toldToEvacuate()));
-//            System.out.println("Your total points is: " + player.getAwesomePoint(britney.toldToEvacuate()));
-//        } else {
-//            System.out.println("You have died!");
-//        }
-//        System.out.println("Highscore:");
-//        for (Object hs : Highscore.getHighscoreString()) {
-//            System.out.println(hs.toString());
-//        }
-//        System.out.println("Thank you for playing.  Good bye."); //prints this line if finished == true
-//    }
-
-    private boolean loseCondition() {
+       private boolean loseCondition() {
         if (player.getHp() <= 0) {
             return true;
         }
@@ -185,80 +142,10 @@ public class Game {
 
     //Method that print the welcome + long description information when game is started
     public String printWelcome() {
-        System.out.println();
-        System.out.println("Welcome to Mads Effect!");
-        System.out.println("Mads Effect is a new, incredibly exciting space-adventure game.");
-//        System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
-        System.out.println();
-        System.out.println(currentRoom.getLongDescription());
         return "Welcome to Mads Effect! Mads Effect is a new, incredibly exciting space-adventure game. \n"+ currentRoom.getLongDescription();
     }
 
-    // this boolean method is actualy what carries most of the ingame logic, and is the main component of the game loop
-    // any new game commands must be assigned a opperator here!
-//    private boolean processCommand(Command command) {
-//        boolean wantToQuit = false; // here the want to quit boolean is initialized
-//        // a command object is created form the first word recognized from the Parser
-//        CommandWord commandWord = command.getCommandWord();
-//        //an if-statement for each of the enum objects defined in the CommandWord class
-//        // here there is designated the response the statements procure
-//        if (commandWord == CommandWord.UNKNOWN) {                // all strings that doesn't match any of the other enum statments
-//            System.out.println("I don't know what you mean..."); //returns this line in the console
-//            return false;
-//        }
-//        //if the input matches one other of the enum != UNKNOWN the response is determined there
-//        if (commandWord == CommandWord.HELP) {  // HELP results in caling the printHelp() method
-//            printHelp();
-//        } else if (commandWord == CommandWord.GO) {   // GO is assigned the goRoom(command) method
-//            goRoom(secondWord);
-//        } else if (commandWord == CommandWord.QUIT) { // QUIT assigneds the wantToQuit variable the quit(command) method
-//            wantToQuit = quit(command);
-//        } else if (commandWord == CommandWord.INSPECT) {
-//            getItemDescription(secondWord);
-//        } else if (commandWord == CommandWord.SEARCH) {
-//            search(command);
-//        } else if (commandWord == CommandWord.CHECKBAG) {
-//            if (player.getInventory().isEmpty()) {
-//                System.out.println("You have nothing in your inventory");
-//            } else {
-//                System.out.println("You are carrying:");
-//                for (Item i : player.getInventory()) {
-//                    if (i != null) {
-//                        System.out.println(i.getName());
-//                    }
-//                }
-//            }
-//        } else if (commandWord == CommandWord.TAKE) {
-//            addInventory(secondWord);
-//        } else if (commandWord == CommandWord.DROP) {
-//            removeFromInventory(secondWord);
-//        } else if (commandWord == CommandWord.STATUS) {
-//            checkStatus();
-//        } else if (commandWord == CommandWord.USE) {
-//            if ("medkit".equals(command.getSecondWord()) || "oxygen".equals(command.getSecondWord()) || "keymodule".equals(command.getSecondWord())) {
-//                useItem(secondWord);
-//            } else if ("lockeddoor".equals(command.getSecondWord())) {
-//                unlockDoor(command);
-//                quizToOpenDoor(command);
-//            } else if ("switch".equals(command.getSecondWord()) || "radio".equals(command.getSecondWord())) {
-//                wantToQuit = activate(command);
-//            }
-//        } else if (commandWord == CommandWord.TAKEDMG) {
-//            takeDMG(command);
-//        } else if (commandWord == CommandWord.TALK) {
-//            talk(secondWord);
-//        } else if (commandWord == CommandWord.ATTACK) {
-//            if (!command.hasSecondWord()) {
-//                System.out.println("Attack what?");
-//            } else if (currentRoom.getNPC("monster") == null) {
-//                System.out.println("No monster here.");
-//            } else {
-//                combat(secondWord);
-//            }
-//        }
-//
-//        return wantToQuit; // the proccesCommand() method returns the want to quit boolean back to the play() method
-//    }
+   
 
     // method for printing help, 
     public String printHelp() {
@@ -272,10 +159,6 @@ public class Game {
 
     //method for moving between rooms
     public String goRoom(String secondWord) {
-//        if (!command.hasSecondWord()) {      //if statement for determining if there is a second word returned from the Parser
-//            System.out.println("Go where?");// if no word is given this line is printed in the console
-//            return "Go where?";
-//        }
 
         String direction = secondWord; //direction is sat to be the second word from the Parser
         System.out.println(" go: " + secondWord);
@@ -602,15 +485,7 @@ public class Game {
         return "That item isnt in your inventory";
     }
 
-    // a test command, to let the player take some dmg
-//    private void takeDMG(Command command) {
-//
-//        player.setHp(player.getHp() - 30);
-//        player.setAir(player.getAir() - 30);
-//
-//    }
-
-    public void monsterTravel() {
+      public void monsterTravel() {
         if (keyMonster.getMovability() && keyMonster.getHostility()) {
             ArrayList<Room> allowedRooms = new ArrayList<>();
             allowedRooms.add(airlock);
@@ -618,22 +493,14 @@ public class Game {
             allowedRooms.add(keyRoom);
             allowedRooms.add(armoury);
             allowedRooms.add(medbay);
-            //Room[] allowedRooms = {airlock, hallway, keyRoom, armoury, medbay};//{"airlock", "hallway", "keyRoom", "armoury", "medbay"};
+            
             for (Room r : allowedRooms) {
                 r.removeNPC(keyMonster);
             }
             int rngRoom = (int) (4 * Math.random());
             allowedRooms.get(rngRoom).addNPC(keyMonster);
-//            if (currentRoom.getName().equals(allowedRooms[rngRoom])) {
-//                if (currentRoom.getNPC("monster") != keyMonster) {
-//                    monster.setHealth(200);
-//                    currentRoom.addNPC(monster);
-//                }
-//            } else {
-//                currentRoom.removeNPC(monster);
-//            }
         }
-    }
+      }
 
 //    private boolean activate(Command command) {
 //        // failsafe for if there is no second word
@@ -691,8 +558,6 @@ public class Game {
             System.out.println(yourTurn);
             while (true) {
                 if (secondWord.equalsIgnoreCase("flee") && yourTurn == true) {
-//                    System.out.println("You fled from battle but lost a lot of oxygen");
-//                    System.out.println("The monster moved to another room");
                     player.setAir(player.getAir() - 40);
                     currentRoom.removeNPC(keyMonster);      //is it correct to remove the keaymonster when you flee?
                     return "You fled from battle but lost a lot of oxygen /n The monster moved to another room";
@@ -707,15 +572,12 @@ public class Game {
                         if (secondWord.equalsIgnoreCase(i.getName())) {
                             System.out.println("Test 3");
                             keyMonster.setHealth(keyMonster.getHealth() - i.getDmg());
-//                            System.out.println("You attacked the monster with "
-//                                    + i.getName() + " and damaged it for "
-//                                    + i.getDmg());
+
                             yourTurn = false;
                             System.out.println(yourTurn);
                             dmgText = "You attacked the monster with "
                                     + i.getName() + " and damaged it for "
                                     + i.getDmg();
-//                            return dmgText;
                             break;
                         }
                         else {
@@ -742,11 +604,7 @@ public class Game {
                         break;
                     }
                 } 
-//                else {
-//                    System.out.println("You cant do that");
-//                    //break;
-//                    return "";
-//                }
+
                 System.out.println(yourTurn);
                 if (yourTurn == false) {
                     System.out.println("Test 4");
@@ -773,16 +631,6 @@ public class Game {
             return dmgText;
         }
     }
-//      all these seem to belong to the method above....
-//    if (keyMonster.getDefeated() == true) {
-//            return "\nThe monster is defeated! \nA key drops from the monsters corpse"
-//                + " and unto the floor";
-//    }
-//
-//    
-//        else{
-//            return dmgText;
-//    }
 
 
 // method for the commandword talk
@@ -820,13 +668,6 @@ public class Game {
         
        String returnString = null;
         
-//        if (currentRoom.getNPCList().contains(keyMonster)) {
-//            returnString = "There is a monster in this room.";
-//            if (keyMonster.getHostility() && keyMonster.getDefeated()) {
-//                combat(secondWord);
-//            }
-//        }
-
         // medbay
         if (currentRoom == medbay) {
             if (counter.getItems() == null) {
