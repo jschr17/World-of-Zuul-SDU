@@ -27,12 +27,14 @@ public class SaveSerializer extends StdSerializer<SaveFile> {
         super(t);
     
     }
-    
+    //This is the custom serializaer method
     @Override
     public void serialize(SaveFile t, JsonGenerator jg, SerializerProvider sp) throws IOException, JsonProcessingException {
+        //Here we starte the JsonGenerator for object
         jg.writeStartObject();
+        //Here the player gets serialized, where the key for the player is "player2, and we get the player object, from the SaveFile class getter method.
         jg.writeObjectField("player", t.getPlayer());
-        
+        //here we serialize the Room objects, with the rooms name as the key
         jg.writeObjectField("Medbay", t.getGame().getMedbay());
         jg.writeObjectField("Hallway", t.getGame().getHallway());
         jg.writeObjectField("Keyroom", t.getGame().getKeyRoom());
@@ -40,8 +42,8 @@ public class SaveSerializer extends StdSerializer<SaveFile> {
         jg.writeObjectField("Armoury", t.getGame().getArmoury());
         jg.writeObjectField("Airlock", t.getGame().getAirlock());
         jg.writeObjectField("Currentroom", t.getGame().getCurrentRoom());
-//        jg.writeStringField("Currentroom", t.getGame().getCurrentRoom().getName());
-       
+
+       //Here we end the output stream
         jg.writeEndObject();
     }
     

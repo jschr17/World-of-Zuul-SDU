@@ -55,37 +55,38 @@ public class SaveFile {
     public void setPlayer(Player player) {
         this.player = player;
     }
-
+    
+    //Here is the method, which gets the save string, that then, gets send to the Persistens layer
     public String getSaveString() {
         ObjectMapper mapper = new ObjectMapper();
         
         SimpleModule module = new SimpleModule();
+        //The custom serializer being added to the module
         module.addSerializer(SaveFile.class, new SaveSerializer());
         mapper.registerModule(module);
         
         try {
+            //The seriealized game object, where we defined the things we want serialized in the custom serializer, gets serialized into Savestring.
             Savestring = mapper.writeValueAsString(this);
-//            mapper.writeValue(new File("files/SaveFile.json"), this);
+
             
-            System.out.println("test");
-        } catch (JsonProcessingException ex) {
+           } catch (JsonProcessingException ex) {
             Logger.getLogger(SaveFile.class.getName()).log(Level.SEVERE, null, ex);
         }
         return Savestring;
     }
  
     
-    
+    //The method, that loads the save string, and inizialize the new game
     public void LoadSaveString(String loadString) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             SimpleModule module = new SimpleModule();
             this.loadString = loadString;
-            //module.addDeserializer(SaveFile.class, new SaveDeserializer());
             mapper.registerModule(module);
-            
+            //New instance of the JSONObject, being initialized, from the loadString
             JSONObject json = new JSONObject(loadString);
-            //Pick only the player part
+            //all the instances of rooms, and the player, which where serialized and saved in a file, gets read, as single objects, and their info, put into a string, containing only the that info
             String playerPart = json.getJSONObject("player").toString();
             String medbayPart = json.getJSONObject("Medbay").toString();
             String Hallway = json.getJSONObject("Hallway").toString();
@@ -95,10 +96,10 @@ public class SaveFile {
             String Airlock = json.getJSONObject("Airlock").toString();
             String Currentroom = json.getJSONObject("Currentroom").toString();
             
-            
+            //Here a new player1, gets initialized, from the string playerPart, and deserialized into a Player.class.
             Player player1 = mapper.readValue(playerPart, Player.class);
             
-            
+            //Here the Rooms get initialized from their respective strings, and deserialized, into the Room.class
             Room medbay = mapper.readValue(medbayPart, Room.class);
             Room Hallway1 = mapper.readValue(Hallway, Room.class);
             Room Keyroom1 = mapper.readValue(Keyroom, Room.class);
@@ -107,6 +108,7 @@ public class SaveFile {
             Room Airlock1 = mapper.readValue(Airlock, Room.class);
             String Currentroom1 = mapper.readValue(Currentroom, Room.class).getName();
             
+            //Here the deserialized player and rooms, get set into the game class, as the new player and rooms, with all the info, from when the user saved the game
             game.setPlayer(player1);
             game.setMedbay(medbay);
             game.setHallway(Hallway1);
