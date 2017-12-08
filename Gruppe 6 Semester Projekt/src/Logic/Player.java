@@ -19,7 +19,7 @@ public class Player {
     private volatile int hp;
     private int air;
     private ArrayList<IItem> inventory;
-    private boolean hasCalledHelp = false;
+    private boolean CalledHelp = false;
     private boolean wonGame = false;
     
     /* By Mads */
@@ -69,11 +69,13 @@ public class Player {
     inventory.remove(newItem);
     }
 
-    public void setCallHelp(boolean hasCalledHelp){
-        this.hasCalledHelp = hasCalledHelp;
+ 
+    
+    public boolean getCalledHelp(){
+        return CalledHelp;
     }
-    public boolean hasCalledHelp(){
-        return hasCalledHelp;
+    public void setCalledHelp(Boolean help){
+        CalledHelp = help;
     }
     
     void setWonGame(boolean b) {

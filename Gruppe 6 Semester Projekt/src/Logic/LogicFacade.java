@@ -203,5 +203,40 @@ public class LogicFacade implements ILogic {
     public INPC getCurrentRoomNPC(String npc) {
         return game.currentRoom.getNPC(npc);
     }
+    @Override
+    public IRoom getCurrentRoom(){
+        return game.currentRoom;
+    }
+    @Override
+    public boolean checkPlayerItems(String string){
+        for(IItem i : game.player.getInventory()){
+            if(i.getName().equals(string)){
+                return true;
+            }
+        }
+        return false;
+    }
+    @Override
+    public Boolean getPlayerCalledHelp(){
+        return game.player.getCalledHelp();
+    }
+
+    @Override
+    public void setPlayerCalledHelp(Boolean help) {
+        game.player.setCalledHelp(help);
+    }
+
+    @Override
+    public void setPlayerWonGame(Boolean won) {
+        game.player.setWonGame(won);
+    }
+
+    @Override
+    public String startQuiz(String string) {
+        return game.startQuiz(string);
+    }
+        
+        
+    
 
 }

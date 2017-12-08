@@ -174,6 +174,11 @@
                   <Image url="@PNG/tableleg.png" />
                </image>
             </ImageView>
+            <ImageView fx:id="secretDoor1" fitHeight="150.0" fitWidth="100.0" layoutX="149.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@PNG/SecretOpenDoor.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
       <Pane fx:id="medbay" prefHeight="329.0" prefWidth="395.0" visible="false">
@@ -329,6 +334,19 @@
             <Label text="Player inventory" />
          </children>
       </Group>
+      <Pane fx:id="endSplash" prefHeight="521.0" prefWidth="758.0" visible="false">
+         <children>
+            <ImageView fx:id="endSplashImage" fitHeight="521.0" fitWidth="758.0" pickOnBounds="true">
+               <image>
+                  <Image url="@PNG/duvandt.png" />
+               </image></ImageView>
+         </children></Pane>
+      <Pane fx:id="passwordPane" layoutX="395.0" layoutY="-2.0" prefHeight="134.0" prefWidth="156.0" visible="false">
+         <children>
+            <TextField fx:id="password" layoutX="4.0" layoutY="42.0" />
+            <Button fx:id="passwordSubmit" layoutX="47.0" layoutY="80.0" mnemonicParsing="false" onAction="#submitPassword" text="Submit" />
+         </children>
+      </Pane>
       <Pane fx:id="splashScreen" prefHeight="521.0" prefWidth="758.0" visible="false">
          <children>
             <ImageView fitHeight="521.0" fitWidth="758.0" pickOnBounds="true">

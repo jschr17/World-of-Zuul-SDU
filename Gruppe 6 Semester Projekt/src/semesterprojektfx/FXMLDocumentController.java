@@ -37,6 +37,7 @@ public class FXMLDocumentController implements Initializable {
     IItem rifle;
     private IImmovable table;
     private GUIFacade scene = new GUIFacade();
+    int attempts = 3;
     
     private boolean flagcheck, monsterDefeatCheck = false;
     
@@ -118,6 +119,7 @@ public class FXMLDocumentController implements Initializable {
     private Pane armory;
     @FXML
     private ImageView secretDoor;
+    @FXML
     private ImageView secretDoor1;
     @FXML
     private ImageView breakableTable;
@@ -151,7 +153,11 @@ public class FXMLDocumentController implements Initializable {
     private Button highScoreButton;
     @FXML
     private Button loadButton;
+    @FXML
     private TextField password;
+    @FXML
+    private Button passwordSubmit;
+    @FXML
     private Pane passwordPane;
     @FXML
     private ImageView playerDot;
@@ -177,6 +183,10 @@ public class FXMLDocumentController implements Initializable {
     private ImageView weaponCabinet;
     @FXML
     private ImageView tableLeg;
+    @FXML
+    private Pane endSplash;
+    @FXML
+    private ImageView endSplashImage;
     
     //This method controlls the functions of the player movement buttons, and the
     //help button.
@@ -461,34 +471,82 @@ public class FXMLDocumentController implements Initializable {
     private void useAction(ActionEvent event){
         String newWord = playerInventory.getSelectionModel().getSelectedItem();
         String newWord2 = roomInventory.getSelectionModel().getSelectedItem();
-        if (!playerInv.isEmpty() && newWord != "rifle" && newWord2 != "monster" && newWord2 != "closet" && newWord2 != "lockeddoor" && newWord2 != "device") {
+        if (!playerInv.isEmpty() && newWord == "medkit" || newWord == "oxygen") {
             textOutArea.appendText("\n" + logic.useItem(newWord));
             playerInventory.getItems().remove(newWord);
         } else if(newWord2=="panel"){
             textOutArea.appendText("\nYou go down to the small keypad"
                     + "\nPlease type in the password\n3 attemps remaining");
+            passwordPane.setVisible(true); 
+            return;
+        } else if(newWord2=="lockeddoor"){
+            textOutArea.appendText(logic.startQuiz(""));
             passwordPane.setVisible(true);
-           
+            return;
+        } else if(newWord2=="radio") {
+            if(logic.checkPlayerItems("key") && !playerInv.isEmpty()){
+                textOutArea.appendText("\nYou insert the keymodule into the radio"
+                        + "and the static is replaced by a beeping sound"
+                        + "\nAfter some time a voice is heard"
+                        + "\n'We have recieved your distress call'"
+                        + "\n'A rescue ship has been sent your way and will arrive shortly'");
+                        logic.setPlayerCalledHelp(true);
+                        
+            
+            } else if((!playerInv.isEmpty() && logic.checkPlayerItems("key") && playerInv.isEmpty())){
+                textOutArea.appendText("The radio seem to be missing some sort of key");
+            }
+        } else if(newWord2=="switch"){
+            if(logic.getPlayerCalledHelp()){
+                textOutArea.appendText(logic.getCurrentRoom().getImmovable("switch").getUseDescription());
+                endSplash.setVisible(true);
+                passwordPane.setVisible(false);
+                
+                //game.finished = true;
+            }
+        } else if(!playerInv.isEmpty() && newWord == "medkit" || newWord == "oxygen") {
+            textOutArea.appendText("\n" + logic.useItem(newWord));
+            logic.useItem(newWord);  
+            playerInventory.getItems().remove(newWord);
+            return;
         }
         else {
             textOutArea.appendText("\nYou can't do that.");
         }
+        
         hpBarAction();
         AirBarAction();
     }
+    @FXML
     private void submitPassword(ActionEvent event){
+        String answer = password.getText();
+        String door = "";
         int pass = 0;
-        if(password.getText()!=null && !password.getText().isEmpty()){
+        if(password.getText()!=null && !password.getText().isEmpty() && logic.getCurrentRoomName().equals("armoury")){
             pass = Integer.parseInt(password.getText());
-        } 
-        if(pass!=28374){
-            textOutArea.appendText("\nAccess Denied");
-        } else if(pass==28374){
-            textOutArea.appendText("\nAccess Granted");
-            textOutArea.appendText("\nThe door slides open, leaving a opening to another room");
-            secretDoor1.setVisible(true);
-            logic.setOpenSecretExit("north", "notes");
-            passwordPane.setVisible(false);
+            if(pass==28374 && attempts > 0){
+                textOutArea.appendText("\nAccess Granted");
+                textOutArea.appendText("\nThe door slides open, leaving a opening to another room");
+                secretDoor1.setVisible(true);
+                logic.setOpenSecretExit("north", "notes");
+                passwordPane.setVisible(false);
+                logic.getCurrentRoom().getImmovable("panel").setFlag(false);
+                searchButton.fire();
+            } else if (attempts == 0) {
+                textOutArea.appendText("\nAccess Denied"
+                        + "\nSelf-Destruct imminent");
+                logic.getCurrentRoom().getImmovable("panel").setFlag(false);
+                door = "\nThe keypad is beyond repair";
+                searchButton.fire();
+            } else if(pass!=28374 && attempts > 0){
+                textOutArea.appendText("\nAccess Denied"
+                        + "\n" + attempts + "attempts remaining");
+                attempts--;
+            }
+        }else if(password.getText()!=null && !password.getText().isEmpty()&&logic.getCurrentRoomName().equals("hallway") &&
+                logic.getCurrentRoom().getImmovable("lockeddoor").getFlag()==true){
+            textOutArea.appendText(logic.startQuiz(password.getText()));
+            
         }
     }
     //This method controls how the player can attack, and what the player can attack
