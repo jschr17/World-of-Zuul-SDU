@@ -23,7 +23,7 @@ public class Game {
     Player player = new Player(100, 100);
     int inventorySpace = 2;
     private String dmgText;
-    
+    private boolean monsterDefeatCheck = false;
     
     
     Room medbay, keyRoom, armoury, hallway, communicationRoom, airlock;
@@ -719,11 +719,8 @@ public class Game {
                     checkStatus();
                 } 
                 else if (yourTurn == true) {
-                    System.out.println("Test 1");
                     for (IItem i : player.getInventory()) {
-                        System.out.println("Test 2");
                         if (secondWord.equalsIgnoreCase(i.getName())) {
-                            System.out.println("Test 3");
                             keyMonster.setHealth(keyMonster.getHealth() - i.getDmg());
 //                            System.out.println("You attacked the monster with "
 //                                    + i.getName() + " and damaged it for "
@@ -746,12 +743,13 @@ public class Game {
                     keyMonster.setHostility(true);
                     keyMonster.setMovability(true);
                     keyMonster.setDefeated(true);
-                    if (keyMonster.getDefeated() && keyMonster.getItem().getName().equalsIgnoreCase("key")) {
+                    if (keyMonster.getDefeated() && keyMonster.getItem().getName().equalsIgnoreCase("key") && monsterDefeatCheck == false) {
                         System.out.println("A key drops from the monsters corpse"
                                 + " and unto the floor");
                         currentRoom.addItem(keyMonster.getItem());
                         currentRoom.removeNPC(keyMonster);
                         //break;
+                        monsterDefeatCheck = true;
                         return "\nThe monster is defeated! \nA key drops from the monsters corpse"
                                 + " and unto the floor";
                     } 
@@ -767,17 +765,13 @@ public class Game {
 //                }
                 System.out.println(yourTurn);
                 if (yourTurn == false) {
-                    System.out.println("Test 4");
                     player.setHp(player.getHp() - keyMonster.getDamage());
-                    System.out.println("Test 5");
                     System.out.println("The monster damages you for "
                             + keyMonster.getDamage());
                     yourTurn = true;
-                    System.out.println("Test 6");
                     if (player.getCurrentHP() <= 0) {
                         break;
                     }
-                    System.out.println("Test 7");
                     return "The monster damages you for " + keyMonster.getDamage();
                 }
             }

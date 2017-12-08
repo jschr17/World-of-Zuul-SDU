@@ -38,7 +38,7 @@ public class FXMLDocumentController implements Initializable {
     private IImmovable table;
     private GUIFacade scene = new GUIFacade();
     
-    private boolean flagcheck = false;
+    private boolean flagcheck, monsterDefeatCheck = false;
     
     @FXML
     TextArea textOutArea;
@@ -213,6 +213,7 @@ public class FXMLDocumentController implements Initializable {
         }
         toAppend += System.lineSeparator();
         textOutArea.appendText(toAppend);
+        monsterAttack();
     }
     
     //This method is used by the search funktion in the game. It gets the items
@@ -499,10 +500,11 @@ public class FXMLDocumentController implements Initializable {
                 hpBarAction();
                 textOutArea.appendText("\nYou attacked the monster with your rifle for 40 damage.");
                 textOutArea.appendText("\n" + logic.combat("rifle") /*game.combat(command), don't know if this replacement works*/);
-                if (logic.getDefeated() == true) {
+                if (logic.getDefeated() == true && monsterDefeatCheck == false) {
                     monster.setVisible(false);
                     roomInv.add("key");
                     keyImg.setVisible(true);
+                    monsterDefeatCheck = true;
                 }
                 control = true;
                 //return;
@@ -646,4 +648,29 @@ public class FXMLDocumentController implements Initializable {
             airlockMonster.setVisible(false);
         }
     }
+    
+    private void monsterAttack () {
+        System.out.println("Test 1");
+//        for (INPC npc : logic.getCurrentRoomNPCList()) {
+        if (logic.getCurrentRoomNPCList().contains(logic.getCurrentRoomNPC("monster"))) {
+            System.out.println("Test 2");
+            if (logic.getCurrentRoomNPC("monster").getHostility() && logic.getCurrentRoomNPC("monster").getDefeated()) {
+                System.out.println("Test 3");
+                    textOutArea.appendText("\nThe monster attacks you for 12 damage.");
+                    System.out.println("Test 4");
+                    logic.combat("rifle");
+                    System.out.println("Test 5");
+            }
+        }
+//            if (logic.getCurrentRoomNPCList().contains(logic.keyMonster)) {
+//                if (game.keyMonster.getHostility() && game.keyMonster.getDefeated()) {
+//                    textOutArea.appendText("\nThe monster attacks you for 12 damage.");
+//                    command.setCommandWord(commandWord.USE);
+//                    command.setSecondWord("rifle");
+//                    game.combat(command);
+//            }
+//        }        
+    }
+
+    
 }

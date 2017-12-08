@@ -37,43 +37,44 @@ public class NPC implements INPC {
         this.toldToEvacuate = false;
         this.defeated = false;
     }
-    
+    @Override
     public String getName(){
         return this.name;
     }
-    
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }
-    
+    @Override
     public String getDescription() {
         return this.description;
     }
-    
+    @Override
     public boolean getHostility(){
         return this.hostile;
     }
-    
+    @Override
     public void setHostility(boolean hostile){
         this.hostile = hostile;
     }
     
+    @Override
     public boolean getMovability(){
         return this.movable;
     }
-    
+    @Override
     public void setDamage(int dmg) {
         this.baseDamage = dmg;
     }
-    
+    @Override
     public int getDamage() {
         return this.baseDamage;
     }
-    
+    @Override
     public void addItem(IItem item) {
         this.item = (Item) item;    // have to cast the IItem object into a Item object;
     }
-    
+    @Override
     public IItem getItem() {
         return item;
     }
@@ -81,6 +82,7 @@ public class NPC implements INPC {
     public void setHealth(int hp){
         this.health = hp;
     }
+    @Override
     public int getHealth(){
         return this.health;
     }
@@ -105,7 +107,7 @@ public class NPC implements INPC {
     public Boolean toldToEvacuate() {
         return this.toldToEvacuate;
     }
-    
+    @Override
     public boolean getDefeated() {
         return this.defeated;
     }

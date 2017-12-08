@@ -42,7 +42,7 @@ public interface ILogic {
     public void monsterTravel(); 
      public ArrayList<IItem> getCurrentRoomItemList();
      public String awakenMonster();
-
+    public INPC getCurrentRoomNPC(String npc);
     public void InjectGame(Game game1);
     public ArrayList<INPC> getRoomNPCList(String roomName);
      public void setOpenSecretExit(String direction, String opener);
