@@ -453,7 +453,7 @@ public class FXMLDocumentController implements Initializable {
         String newWord = playerInventory.getSelectionModel().getSelectedItem();
         String newWord2 = roomInventory.getSelectionModel().getSelectedItem();
         if (!playerInv.isEmpty() && newWord != "rifle" && newWord2 != "monster" && newWord2 != "closet" && newWord2 != "lockeddoor" && newWord2 != "device") {
-            logic.useItem(newWord);
+//            logic.useItem(newWord);
             textOutArea.appendText("\n" + logic.useItem(newWord));
             playerInventory.getItems().remove(newWord);
         } else if(newWord2=="panel"){

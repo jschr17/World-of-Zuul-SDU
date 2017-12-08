@@ -593,8 +593,6 @@ public class Game {
         int HP = player.getHp();
         String medkit = "medkit";
         String oxygen = "oxygen";
-        String out = "";
-
         if (secondWord.isEmpty()) {
             System.out.println("Use what?");
             return "Use what?";
@@ -613,41 +611,39 @@ public class Game {
                 // players hp or air, for the item that the user wants to use, 
                 // and then uses the item, if the statement is fulfilled, and 
                 // removes the item from the users inventory
-                if (air < 65 && i.getName().equalsIgnoreCase("oxygen")) {
+                if (air < 65 && i.getName().equalsIgnoreCase(oxygen)) {
                     System.out.println("You used the " + object + ". It gave you " + i.getAir() + " air.");
                     player.setAir(air + i.getAir());
                     player.removeFromInventory(i);
                     return "You used the " + object + ". It gave you " + i.getAir() + " air.";
-                } else if (HP < 60 && i.getName().equalsIgnoreCase("medkit")) {
+                } 
+                if (HP < 60 && i.getName().equalsIgnoreCase(medkit)) {
                     System.out.println("You used the " + object + ". It gave you " + i.getHP() + " HP.");
                     player.setHp(HP + i.getHP());
                     player.removeFromInventory(i);
                     return "You used the " + object + ". It gave you " + i.getHP() + " HP.";
-                } //these two, makes sure that, when the player uses a medkit/
+                } 
+                //these two, makes sure that, when the player uses a medkit/
                 // oxygen, that the players air/HP cant go over 100
                 else if (air > 65 && air != 100 || HP > 60 && HP != 100) {
-                    if (i.getName().equalsIgnoreCase("medkit")) {
+                    if (i.getName().equalsIgnoreCase(medkit)) {
                         System.out.println("You used the: " + object);
                         player.setHp(100);
                         player.removeFromInventory(i);
-//                        return "You used the: " + object;
-                        out = "You used the " + object + ". It gave you " + i.getHP() + " HP.";
-//                        return "You used the " + object + ". It gave you " + i.getHP() + " HP.";
+                        return "You used the " + object + ". It gave you " + i.getHP() + " HP.";
                     }
-                    if (i.getName().equalsIgnoreCase("oxygen")) {
+                    else if (i.getName().equalsIgnoreCase(oxygen)) {
                         System.out.println("You used the: " + object);
                         player.setAir(100);
-                        player.removeFromInventory(i);
-//                        return "You used the: " + object;
-                        out = "You used the " + object + ". It gave you " + i.getAir() + " air.";
-//                        return "You used the " + object + ". It gave you " + i.getAir() + " air.";
+                        return "You used the " + object + ". It gave you " + i.getAir() + " air.";
                     }
-                } //Here it checks, if the players hp or air is already full, 
+                } 
+                //Here it checks, if the players hp or air is already full, 
                 // that the player cant use the medkits or oxygen tanks.
-                else if (air >= 100 && i.getName().equalsIgnoreCase("oxygen")) {
+                else if (air >= 100 && i.getName().equalsIgnoreCase(oxygen)) {
                     System.out.println("Your oxygen-tank is already full");
                     return "Your oxygen-tank is already full";
-                } else if (HP >= 100 && i.getName().equalsIgnoreCase("medkit")) {
+                } else if (HP >= 100 && i.getName().equalsIgnoreCase(medkit)) {
                     System.out.println("Your HP is already full");
                     return "Your HP is already full";
                 }
@@ -656,7 +652,6 @@ public class Game {
             }
         }
         // usikker på om jeg stadig har brug for denne failsafe
-
         for (IItem i : player.getInventory()) {
             if (!object.equalsIgnoreCase(i.getName())) {
                 System.out.println("Use what??");
@@ -665,7 +660,7 @@ public class Game {
         }
         // usikker på om jeg har brug for denne failsafe, eller den lige over
         System.out.println("That item isnt in your inventory");
-        return out;
+        return "That item isn't in your inventory!";
     }
 
     public void monsterTravel() {
