@@ -177,7 +177,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleButtonAction(ActionEvent event) throws Exception {
         String toAppend = "";
-        
+        logic.monsterTravel();
         roomInventory.getItems().clear(); 
         if (event.getSource() == northButton) {
             textOutArea.clear();
@@ -211,10 +211,13 @@ public class FXMLDocumentController implements Initializable {
             textOutArea.clear();
             toAppend = helpText();
         }
+        
+
         toAppend += System.lineSeparator();
         textOutArea.appendText(toAppend);
-        logic.monsterTravel();
         monsterAttack();
+        hpBarAction();
+        AirBarAction();
     }
     
     //This method is used by the search funktion in the game. It gets the items
@@ -237,15 +240,12 @@ public class FXMLDocumentController implements Initializable {
                     }
                 }
             }
-            System.out.println("Test 6");
             for(INPC n : logic.getCurrentRoomNPCList()){
-                System.out.println("Test 7");
                 if (!logic.getCurrentRoomNPCList().isEmpty()){
-                    System.out.println("Test 8");
                     roomInv.add(n.getName());
-                    System.out.println("Test 9");
                 }  
             }
+            minimapAction();
             listPropertyRoom.set(FXCollections.observableList(roomInv));
             roomInventory.itemsProperty().bind(listPropertyRoom); 
         }
@@ -260,7 +260,7 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
-    /*
+    /**
     *   This method deals with the inspect button.
     */
     @FXML
@@ -452,9 +452,9 @@ public class FXMLDocumentController implements Initializable {
     private void useAction(ActionEvent event){
         String newWord = playerInventory.getSelectionModel().getSelectedItem();
         String newWord2 = roomInventory.getSelectionModel().getSelectedItem();
-        if (!playerInv.isEmpty() && newWord != "rifle" && newWord2 != "monster") {
+        if (!playerInv.isEmpty() && newWord != "rifle" && newWord2 != "monster" && newWord2 != "closet" && newWord2 != "lockeddoor" && newWord2 != "device") {
             logic.useItem(newWord);
-            textOutArea.appendText("\n" + logic.useItem(newWord)); // check om er på fasaden
+            textOutArea.appendText("\n" + logic.useItem(newWord));
             playerInventory.getItems().remove(newWord);
         } else if(newWord2=="panel"){
             textOutArea.appendText("\nYou go down to the small keypad"
@@ -465,6 +465,8 @@ public class FXMLDocumentController implements Initializable {
         else {
             textOutArea.appendText("\nYou can't do that.");
         }
+        hpBarAction();
+        AirBarAction();
     }
     private void submitPassword(ActionEvent event){
         int pass = 0;
@@ -518,6 +520,7 @@ public class FXMLDocumentController implements Initializable {
             else {
                 textOutArea.appendText("\nNo rifle.");
             }
+        minimapAction();
         listPropertyRoom.set(FXCollections.observableList(roomInv));
         roomInventory.itemsProperty().bind(listPropertyRoom);
         }
@@ -588,10 +591,6 @@ public class FXMLDocumentController implements Initializable {
     //where and when the monster image must be displayed
     private void minimapAction() {
         String roomName = logic.getCurrentRoomName();
-        
-        if (logic.getDefeated() == true) {
-            logic.monsterTravel();
-        }
         if (roomName.equalsIgnoreCase("medbay")) {
             playerDot.setLayoutX(68);
             playerDot.setLayoutY(175);
@@ -623,7 +622,6 @@ public class FXMLDocumentController implements Initializable {
             if (logic.getDefeated() == true) {
                 keyRoomMonster.setVisible(true);
             }
-        
        }
         else if (logic.getRoomNPCList("armoury").contains(keyMonster)) {
         monsterDot.setLayoutX(105);
@@ -655,25 +653,11 @@ public class FXMLDocumentController implements Initializable {
     }
     
     private void monsterAttack () {
-        System.out.println("Test 1");
-//        for (INPC npc : logic.getCurrentRoomNPCList()) {
         if (logic.getCurrentRoomNPCList().contains(logic.getCurrentRoomNPC("monster"))) {
-            System.out.println("Test 2");
             if (logic.getCurrentRoomNPC("monster").getHostility() && logic.getCurrentRoomNPC("monster").getDefeated()) {
-                System.out.println("Test 3");
                     textOutArea.appendText("\nThe monster attacks you for 12 damage.");
-                    System.out.println("Test 4");
                     logic.combat("rifle");
-                    System.out.println("Test 5");
             }
-        }
-//            if (logic.getCurrentRoomNPCList().contains(logic.keyMonster)) {
-//                if (game.keyMonster.getHostility() && game.keyMonster.getDefeated()) {
-//                    textOutArea.appendText("\nThe monster attacks you for 12 damage.");
-//                    command.setCommandWord(commandWord.USE);
-//                    command.setSecondWord("rifle");
-//                    game.combat(command);
-//            }
-//        }        
+        }    
     }   
 }

@@ -304,7 +304,7 @@ public class Game {
 
         if (nextRoom == null) {                     //if no roomobject is found in the exit HashMap
             System.out.println("There is no door!");// this line is printed
-            return "There is no door!";
+            return "\nThere is no door!";
         } else {
             currentRoom = nextRoom;                                // else the new room is sat to be currentRoom
             System.out.println(currentRoom.getLongDescription());   // and the long description is printed
@@ -329,12 +329,54 @@ public class Game {
     public String getItemDescription(String secondWord) {
         String inspectString = "";
         String item = secondWord;
-        for (IItem i : player.getInventory()) {
-            if (i.getName().equals(item)) {
-                //System.out.println(i.getDescription());
-                inspectString = i.getDescription();
+//        if (command.hasSecondWord()) {
+            if (item.equalsIgnoreCase("medkit")) {
+                inspectString = medkit.getDescription();
             }
-        }
+            else if (item.equalsIgnoreCase("oxygen")) {
+                inspectString = oxygen.getDescription();
+            }
+            else if (item.equalsIgnoreCase("rifle")) {
+                inspectString = rifle.getDescription();
+            }
+            else if (item.equalsIgnoreCase("key")) {
+                inspectString = key.getDescription();
+            }
+            else if (item.equalsIgnoreCase("notes")) {
+                inspectString = notes.getDescription();
+            }
+//            else if (item.equalsIgnoreCase("sword")) {
+//                inspectString = sword.getDescription();
+//            }
+            for (IItem i : player.getInventory()) {
+                if (i.getName().equals(item)) {
+                    inspectString = i.getDescription();
+                } 
+            }
+            for (IImmovable i : currentRoom.getInteractList()) {
+                if (i.getName().equals(item)) {
+                   inspectString = i.getDescription();
+                }
+//                else if (i.getItems().getName().equals(item)) {
+//                    inspectString = i.getItems().getDescription();
+//                }
+            }
+            for (INPC n : currentRoom.getNPCList()) {
+                if (n.getName().equals(item)) {
+                    inspectString = n.getDescription();
+                } 
+            }
+            // These lines mess up the inspect button in the GUI
+            /*if (item != currentRoom.getInteractList().toString() && item != player.getInventory().toString()) {
+                //System.out.println("You can't inspect that!");
+                inspectString = "You can't inspect that!";
+            }*/
+//            }
+//        else {
+//            //Hvis der ikke er to ord, understående bliver printet og man
+//            //bliver bedt om at prøve igen.
+//            inspectString = "Which item?";
+//        }
         for (IImmovable i : currentRoom.getInteractList()) {
             if (i.getName().equals(item)) {
                 //System.out.println(i.getDescription());
@@ -511,6 +553,9 @@ public class Game {
 //        }
 //    }
 
+    /**Controls what is removed from the players inventory based on what the player
+    has selected from their inventory.*/
+
     public String removeFromInventory(String secondWord) {
         String object = secondWord;
         String returnLn;
@@ -534,7 +579,7 @@ public class Game {
         return null;
     }
 
-    // a command that prints out the status, of the player
+    // a command that prints out the status, of the player <----- Denne metode er sådan set useless---------------------------------
     private void checkStatus() {
         System.out.println("Your air tank is at: " + player.getAir() + "%");
         System.out.println("Your current HP is: " + player.getHp());
@@ -548,6 +593,7 @@ public class Game {
         int HP = player.getHp();
         String medkit = "medkit";
         String oxygen = "oxygen";
+        String out = "";
 
         if (secondWord.isEmpty()) {
             System.out.println("Use what?");
@@ -567,12 +613,12 @@ public class Game {
                 // players hp or air, for the item that the user wants to use, 
                 // and then uses the item, if the statement is fulfilled, and 
                 // removes the item from the users inventory
-                if (air < 65 && i.getName().equalsIgnoreCase(oxygen)) {
+                if (air < 65 && i.getName().equalsIgnoreCase("oxygen")) {
                     System.out.println("You used the " + object + ". It gave you " + i.getAir() + " air.");
                     player.setAir(air + i.getAir());
                     player.removeFromInventory(i);
                     return "You used the " + object + ". It gave you " + i.getAir() + " air.";
-                } else if (HP < 60 && i.getName().equalsIgnoreCase(medkit)) {
+                } else if (HP < 60 && i.getName().equalsIgnoreCase("medkit")) {
                     System.out.println("You used the " + object + ". It gave you " + i.getHP() + " HP.");
                     player.setHp(HP + i.getHP());
                     player.removeFromInventory(i);
@@ -580,26 +626,28 @@ public class Game {
                 } //these two, makes sure that, when the player uses a medkit/
                 // oxygen, that the players air/HP cant go over 100
                 else if (air > 65 && air != 100 || HP > 60 && HP != 100) {
-                    if (i.getName().equalsIgnoreCase(medkit)) {
+                    if (i.getName().equalsIgnoreCase("medkit")) {
                         System.out.println("You used the: " + object);
                         player.setHp(100);
                         player.removeFromInventory(i);
 //                        return "You used the: " + object;
-                        return "You used the " + object + ". It gave you " + i.getHP() + " HP.";
+                        out = "You used the " + object + ". It gave you " + i.getHP() + " HP.";
+//                        return "You used the " + object + ". It gave you " + i.getHP() + " HP.";
                     }
-                    if (i.getName().equalsIgnoreCase(oxygen)) {
-                        System.out.println("You used the:: " + object);
+                    if (i.getName().equalsIgnoreCase("oxygen")) {
+                        System.out.println("You used the: " + object);
                         player.setAir(100);
                         player.removeFromInventory(i);
 //                        return "You used the: " + object;
-                        return "You used the " + object + ". It gave you " + i.getAir() + " air.";
+                        out = "You used the " + object + ". It gave you " + i.getAir() + " air.";
+//                        return "You used the " + object + ". It gave you " + i.getAir() + " air.";
                     }
                 } //Here it checks, if the players hp or air is already full, 
                 // that the player cant use the medkits or oxygen tanks.
-                else if (air >= 100 && i.getName().equalsIgnoreCase(oxygen)) {
+                else if (air >= 100 && i.getName().equalsIgnoreCase("oxygen")) {
                     System.out.println("Your oxygen-tank is already full");
                     return "Your oxygen-tank is already full";
-                } else if (HP >= 100 && i.getName().equalsIgnoreCase(medkit)) {
+                } else if (HP >= 100 && i.getName().equalsIgnoreCase("medkit")) {
                     System.out.println("Your HP is already full");
                     return "Your HP is already full";
                 }
@@ -612,23 +660,16 @@ public class Game {
         for (IItem i : player.getInventory()) {
             if (!object.equalsIgnoreCase(i.getName())) {
                 System.out.println("Use what??");
-                return "Use what??";
+                return "Use what?";
             }
         }
         // usikker på om jeg har brug for denne failsafe, eller den lige over
         System.out.println("That item isnt in your inventory");
-        return "That item isnt in your inventory";
+        return out;
     }
 
-    // a test command, to let the player take some dmg
-//    private void takeDMG(Command command) {
-//
-//        player.setHp(player.getHp() - 30);
-//        player.setAir(player.getAir() - 30);
-//
-//    }
-
     public void monsterTravel() {
+        int rngRoom = (int) (4 * Math.random());
         if (keyMonster.getMovability() && keyMonster.getHostility()) {
             ArrayList<Room> allowedRooms = new ArrayList<>();
             allowedRooms.add(airlock);
@@ -636,20 +677,11 @@ public class Game {
             allowedRooms.add(keyRoom);
             allowedRooms.add(armoury);
             allowedRooms.add(medbay);
-            //Room[] allowedRooms = {airlock, hallway, keyRoom, armoury, medbay};//{"airlock", "hallway", "keyRoom", "armoury", "medbay"};
             for (Room r : allowedRooms) {
                 r.removeNPC(keyMonster);
             }
-            int rngRoom = (int) (4 * Math.random());
+            keyMonster.setHealth(200);
             allowedRooms.get(rngRoom).addNPC(keyMonster);
-//            if (currentRoom.getName().equals(allowedRooms[rngRoom])) {
-//                if (currentRoom.getNPC("monster") != keyMonster) {
-//                    monster.setHealth(200);
-//                    currentRoom.addNPC(monster);
-//                }
-//            } else {
-//                currentRoom.removeNPC(monster);
-//            }
         }
     }
 
@@ -766,8 +798,8 @@ public class Game {
                 System.out.println(yourTurn);
                 if (yourTurn == false) {
                     player.setHp(player.getHp() - keyMonster.getDamage());
-                    System.out.println("The monster damages you for "
-                            + keyMonster.getDamage());
+//                    System.out.println("The monster damages you for "
+//                            + keyMonster.getDamage());
                     yourTurn = true;
                     if (player.getCurrentHP() <= 0) {
                         break;
@@ -800,7 +832,7 @@ public class Game {
 // method for the commandword talk
     public String talk(String secondWord) {
         String talkString = "";
-        if (!secondWord.isEmpty()) {                         //What hapends if no second word is given
+        if (!secondWord.isEmpty()) { //What hapends if no second word is given
             talkString = LogicFacade.getDescriptionText("talkNoArgument");
             // logic for how britneay responds
             // maby current room argument can be omittet? 
@@ -905,15 +937,15 @@ public class Game {
                         returnString = "Another ship has been attached to the "
                                 + "airlock";
                     }
-                } else {
-                    for (; enterRoomCounter2 < 1; enterRoomCounter2++) {
-                        currentRoom.addNPC(britney);
-                        returnString = "Britney: There you are! The help has "
-                                + "already arrived, now let's get off this ship!";
-                    }
                 }
-
-            }
+                else {
+                    for (;enterRoomCounter2 < 1; enterRoomCounter2++) {
+                        currentRoom.addNPC(britney);
+                        System.out.println("Britney: There you are! The help has "
+                            + "already arrived, now let's get off this ship!");
+                    }
+                }    
+            }            
         }
         return returnString;
         // end of method.
