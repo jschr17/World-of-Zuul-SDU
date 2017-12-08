@@ -33,6 +33,7 @@ public class Game {
             doorLockPanel, radioArray;
     NPC britney, keyMonster;
     Item medkit, oxygen, gun, rifle, key, notes;
+    Boolean question1 = false, question2 = false, question3 = false;
     private int enterRoomCounter1, enterRoomCounter2 = 0;
 
     //private Command command = parser.getCommand();
@@ -593,7 +594,7 @@ public class Game {
         int HP = player.getHp();
         String medkit = "medkit";
         String oxygen = "oxygen";
-        if (secondWord.isEmpty()) {
+        if (secondWord.isEmpty() && secondWord==null) {
             System.out.println("Use what?");
             return "Use what?";
         }
@@ -728,7 +729,33 @@ public class Game {
         }
         return "";
     }
-
+    public String startQuiz(String answer) {
+        String response = "";
+        if (currentRoom.getImmovable("lockeddoor").getFlag() == true && !question1) {
+            response = "'What do you want?' A female voice questions" + "\n'Listen i dont even know if you're human, "
+                    + "so you have to answer my questions"
+                    + " correctly or you aint getting in here"
+                    + "\nDo you even know how to speak english?"
+                    + "\nWhat is 2 + 2?\"";
+            question1 = true;
+        return response;
+        }
+        if (answer.equals("4") && question1 && !question2) {
+            response = "\nWhat do we need to do?";
+            question2 = true;
+            return response;
+        } else if (answer.equals("survive") && question1 && question2){
+            response = "\n'I guess you're alright. Get in fast'";
+            currentRoom.setExit("east", currentRoom.getSecretDestination("quiz"));
+            currentRoom.getImmovable("lockeddoor").setDescription("The door is now unlocked and open");
+            currentRoom.getImmovable("lockeddoor").setFlag(false);
+            
+        } else if (!answer.equals("4") || !answer.equals("survive"))
+            response="\nYea fuck off monster";
+            currentRoom.getImmovable("lockeddoor").setDescription("'No, you aint fooling me monster. Get out of here'");
+            currentRoom.getImmovable("lockeddoor").setFlag(Boolean.FALSE);
+            return response;
+        }
     public String combat(String secondWord) {
         if (currentRoom.getNPC("monster") == keyMonster) {
             System.out.println("You are attacked by the monster!");
@@ -832,9 +859,9 @@ public class Game {
         } else if (secondWord.equalsIgnoreCase("britney") && currentRoom.getNPC("britney") == britney) {
             if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == false) { //responds befor radi is fixed
                 talkString = LogicFacade.getDescriptionText("britney1");
-            } else if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == true && player.hasCalledHelp() == false) { //respons after radi is fixed
+            } else if (currentRoom == communicationRoom && currentRoom.getImmovable("radio").getFlag() == true && player.getCalledHelp() == false) { //respons after radi is fixed
                 talkString = LogicFacade.getDescriptionText("britney2");
-            } else if (currentRoom == communicationRoom && player.hasCalledHelp()) {    //responds after help is called sets evacuate boolean true
+            } else if (currentRoom == communicationRoom && player.getCalledHelp()) {    //responds after help is called sets evacuate boolean true
                 talkString = LogicFacade.getDescriptionText("britney3");
                 britney.setToldToEvacuate(Boolean.TRUE);
             } else if (currentRoom == airlock) {    // response in airlock
@@ -905,7 +932,7 @@ public class Game {
                         + "and fix this radio already!";
                 communicationRoom.setFirstTimeEntered(false);
             }
-            if (player.hasCalledHelp() && britney.toldToEvacuate()
+            if (player.getCalledHelp() && britney.toldToEvacuate()
                     && currentRoom.getNPCList().contains(britney)) {
                 currentRoom.removeNPC(britney);
             }
@@ -921,7 +948,7 @@ public class Game {
 
         // airlock
         if (currentRoom == airlock) {
-            if (player.hasCalledHelp()) {
+            if (player.getCalledHelp()) {
                 currentRoom.getImmovable("switch").setUseDescription("You press"
                         + " the switch. The light turns green");
                 // Message printed after help has been called
