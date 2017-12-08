@@ -524,7 +524,7 @@ public class Game {
 
         for (IItem i : player.getInventory()) {
             if (i.getName().equalsIgnoreCase(object)) {
-                currentRoom.setItem(i);
+                currentRoom.setItem((Item) i);
                 returnLn = "You put " + i.getName() + " on the floor.";
                 player.removeFromInventory(i);
                 return returnLn;
@@ -752,7 +752,7 @@ public class Game {
                     if (keyMonster.getDefeated() && keyMonster.getItem().getName().equalsIgnoreCase("key")) {
                         System.out.println("A key drops from the monsters corpse"
                                 + " and unto the floor");
-                        currentRoom.addItem(keyMonster.getItem());
+                        currentRoom.addItem((Item) keyMonster.getItem());
                         currentRoom.removeNPC(keyMonster);
                         //break;
                         return "\nThe monster is defeated! \nA key drops from the monsters corpse"
