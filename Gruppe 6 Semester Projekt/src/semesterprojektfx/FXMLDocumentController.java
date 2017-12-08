@@ -173,6 +173,10 @@ public class FXMLDocumentController implements Initializable {
     private ImageView keyRoomMonster;
     @FXML
     private ImageView brokenTable;
+    @FXML
+    private ImageView weaponCabinet;
+    @FXML
+    private ImageView tableLeg;
     
     //This method controlls the functions of the player movement buttons, and the
     //help button.
@@ -524,11 +528,9 @@ public class FXMLDocumentController implements Initializable {
                 textOutArea.appendText("\nNo rifle.");
             }
         minimapAction();
-        listPropertyRoom.set(FXCollections.observableList(roomInv));
-        roomInventory.itemsProperty().bind(listPropertyRoom);
         }
 
-        if(/*newWord.equalsIgnoreCase("table")*/ logic.getCurrentRoomInteractList().contains(table)){
+        if(newWord == "table" && logic.getCurrentRoomInteractList().contains(table)){
             if (table.getDestructible() == true) {
             textOutArea.appendText("\nYou break the leg off the table \nA bunch of "
                     + "notes fall on the floor.");
@@ -537,6 +539,7 @@ public class FXMLDocumentController implements Initializable {
             roomInv.add(table.getItems().getName());
             breakableTable.setVisible(false);
             brokenTable.setVisible(true);
+            tableLeg.setVisible(true);
             noteImg.setLayoutX(111);
             noteImg.setLayoutY(148);
             return;
@@ -550,7 +553,9 @@ public class FXMLDocumentController implements Initializable {
         }
         else {
             textOutArea.appendText("\nYou can't do that.");
-        }        
+        }     
+        listPropertyRoom.set(FXCollections.observableList(roomInv));
+        roomInventory.itemsProperty().bind(listPropertyRoom);
     }
     
     //Controls how the player HP bar functions

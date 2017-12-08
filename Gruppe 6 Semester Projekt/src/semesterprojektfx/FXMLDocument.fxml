@@ -164,6 +164,16 @@
                   <Image url="@PNG/monster%20char.png" />
                </image>
             </ImageView>
+            <ImageView fx:id="weaponCabinet" fitHeight="150.0" fitWidth="100.0" layoutX="319.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@PNG/cabinet.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="tableLeg" fitHeight="150.0" fitWidth="25.0" layoutX="208.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+               <image>
+                  <Image url="@PNG/tableleg.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
       <Pane fx:id="medbay" prefHeight="329.0" prefWidth="395.0" visible="false">
