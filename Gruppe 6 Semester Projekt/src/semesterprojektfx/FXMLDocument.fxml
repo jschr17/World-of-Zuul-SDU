@@ -61,7 +61,7 @@
                   <Image url="@PNG/SouthDoor.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="72.0" fitWidth="70.0" layoutX="163.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="72.0" fitWidth="70.0" layoutX="163.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@PNG/Character%20-%20mads.png" />
                </image>
@@ -69,16 +69,6 @@
             <ImageView fx:id="airlockMonster" fitHeight="72.0" fitWidth="70.0" layoutX="259.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@PNG/monster%20char.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="25.0" layoutX="123.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@PNG/airlockSwitch(2).png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="120.0" layoutX="148.0" layoutY="-15.0" pickOnBounds="true" preserveRatio="true" rotate="180.0">
-               <image>
-                  <Image url="@PNG/airlock.png" />
                </image>
             </ImageView>
          </children>
@@ -92,7 +82,7 @@
             </ImageView>
             <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="302.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@PNG/LockedEastDoor.png" />
+                  <Image url="@PNG/EastDoor.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="148.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
@@ -115,9 +105,14 @@
                   <Image url="@PNG/monster%20char.png" />
                </image>
             </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="100.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@PNG/cabinet.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
-      <Pane fx:id="armory" prefHeight="332.0" prefWidth="395.0">
+      <Pane fx:id="armory" prefHeight="332.0" prefWidth="395.0" visible="false">
          <children>
             <ImageView fitHeight="332.0" fitWidth="395.0" pickOnBounds="true">
                <image>
@@ -132,11 +127,6 @@
             <ImageView fx:id="secretDoor" fitHeight="150.0" fitWidth="100.0" layoutX="148.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@PNG/SecretClosedDoor.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="brokenTable" fitHeight="70.0" fitWidth="86.0" layoutX="132.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true" visible="false">
-               <image>
-                  <Image url="@PNG/broken%20table.png" />
                </image>
             </ImageView>
             <ImageView fx:id="breakableTable" fitHeight="70.0" fitWidth="86.0" layoutX="163.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
@@ -162,16 +152,6 @@
             <ImageView fx:id="armouryMonster" fitHeight="72.0" fitWidth="70.0" layoutX="299.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@PNG/monster%20char.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="weaponCabinet" fitHeight="150.0" fitWidth="100.0" layoutX="319.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@PNG/cabinet.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="tableLeg" fitHeight="150.0" fitWidth="25.0" layoutX="208.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
-               <image>
-                  <Image url="@PNG/tableleg.png" />
                </image>
             </ImageView>
          </children>
