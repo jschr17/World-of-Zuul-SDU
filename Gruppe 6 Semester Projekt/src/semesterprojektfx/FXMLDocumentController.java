@@ -568,8 +568,7 @@ public class FXMLDocumentController implements Initializable {
             warningLabel.setText("You need to input a name");
         }
     }
-    //NO FUNCTION YET !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! <----------------------------------------------------------------------------------------------
-    @FXML
+      @FXML
     private void highScoreLoad(ActionEvent event) {
         for (String i: logic.getHighscore()){   // takes all elements of highscorelist and ads them to a the observable list "highScoreView"
             highScoreView.add(i);
