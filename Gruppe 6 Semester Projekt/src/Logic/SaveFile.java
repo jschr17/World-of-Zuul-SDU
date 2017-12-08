@@ -115,8 +115,7 @@ public class SaveFile {
             game.setArmoury(Armoury1);
             game.setAirlock(Airlock1);
             game.setCurrentRoom(Currentroom1);
-//            game.setExits();
-            System.out.println("test5" + Currentroom1);
+
         } catch (JSONException | IOException ex) {
             Logger.getLogger(SaveFile.class.getName()).log(Level.SEVERE, null, ex);
         }
