@@ -26,13 +26,17 @@ public class SaveGame {
     
     public SaveGame() {
     }
-    
+    //A method, which saves the saveString, into a txt file
   public boolean saveGame(String saveString){
+      //A printwriter called save being initialized
       PrintWriter save = null;
       boolean bool = false;
         try {
+            //New save printwriter, being initialized, which reads from and to the file SaveFile.txt
             save = new PrintWriter("files/SaveFile.txt");
+            //The save then prints the content from the string, into the file
             save.print(saveString);
+            //Sets the boolean bool to true
             bool = true;
             } catch (FileNotFoundException ex) {
             Logger.getLogger(SaveGame.class.getName()).log(Level.SEVERE, null, ex);
@@ -41,12 +45,14 @@ public class SaveGame {
         }
         return bool;
   }
-                  
+                  //The method which, reads the content, from the SaveFile.txt, into a string, and returns it
 public String loadString(){
         try {
-            String filePath = "files/SaveFile.txt";
             
+            String filePath = "files/SaveFile.txt";
+            //The content from the file, gets read, and encoded
             byte[] encoded = Files.readAllBytes(Paths.get(filePath));
+            //Then the contet, from the encoded byte, gets set into a string.
             loadfile = new String(encoded, "utf-8");
 
         } catch (IOException ex) {

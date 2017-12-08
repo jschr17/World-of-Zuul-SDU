@@ -982,7 +982,8 @@ public class Game {
     
     public int getPlayerHP(){
         return player.getHp();
-}
+    }
+    //A method, that sets alle the exits, to the room, with the corresponding key and value, in the hashmap
     void setExits(){
          // assigning the room exits by using the exits HashMap to couple a sting "direction" with a room object
         medbay.setExit("north", keyRoom);
