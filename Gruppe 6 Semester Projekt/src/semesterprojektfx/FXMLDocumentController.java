@@ -171,6 +171,8 @@ public class FXMLDocumentController implements Initializable {
     private ImageView medbayMonster;
     @FXML
     private ImageView keyRoomMonster;
+    @FXML
+    private ImageView brokenTable;
     
     //This method controlls the functions of the player movement buttons, and the
     //help button.
@@ -307,6 +309,9 @@ public class FXMLDocumentController implements Initializable {
                         else if (itemName.equalsIgnoreCase("key")) {
                             keyImg.setVisible(false);
                         }
+                        else if (itemName.equalsIgnoreCase("rifle")){
+                            rifleImg.setVisible(false);
+                        }
                         listProperty2.set(FXCollections.observableList(playerInv));
                         playerInventory.itemsProperty().bind(listProperty2);
                         return;
@@ -381,15 +386,15 @@ public class FXMLDocumentController implements Initializable {
         listPropertyRoom.set(FXCollections.observableList(roomInv));
         roomInventory.itemsProperty().bind(listPropertyRoom);
         
-        if (itemName.equalsIgnoreCase(medkit.getId())) {
-            medkit.setVisible(true);
-        }
-        else if (itemName.equalsIgnoreCase(oxygen.getId())){
-            oxygen.setVisible(true);
-        }
-        else if (itemName.equalsIgnoreCase("rifle")){
-            rifleImg.setVisible(true);
-        }
+//        if (itemName.equalsIgnoreCase(medkit.getId())) {
+//            medkit.setVisible(true);
+//        }
+//        else if (itemName.equalsIgnoreCase(oxygen.getId())){
+//            oxygen.setVisible(true);
+//        }
+//        else if (itemName.equalsIgnoreCase("rifle")){
+//            rifleImg.setVisible(true);
+//        }
     }
     //Controls which pane the GUI should show, based on where the player is.
     //It also runs the method 'awakenMonster', which makes the monster move from
@@ -453,7 +458,6 @@ public class FXMLDocumentController implements Initializable {
         String newWord = playerInventory.getSelectionModel().getSelectedItem();
         String newWord2 = roomInventory.getSelectionModel().getSelectedItem();
         if (!playerInv.isEmpty() && newWord != "rifle" && newWord2 != "monster" && newWord2 != "closet" && newWord2 != "lockeddoor" && newWord2 != "device") {
-//            logic.useItem(newWord);
             textOutArea.appendText("\n" + logic.useItem(newWord));
             playerInventory.getItems().remove(newWord);
         } else if(newWord2=="panel"){
@@ -483,7 +487,7 @@ public class FXMLDocumentController implements Initializable {
             passwordPane.setVisible(false);
         }
     }
-    //
+    //This method controls how the player can attack, and what the player can attack
     @FXML
     private void attackFunction(ActionEvent event){
         for (INPC npc : logic.getCurrentRoomNPCList()) {
@@ -531,6 +535,10 @@ public class FXMLDocumentController implements Initializable {
             table.setDestructable(false); // since the immovable is broken, it can't be broken more.
             table.getItems().setFlag(true);
             roomInv.add(table.getItems().getName());
+            breakableTable.setVisible(false);
+            brokenTable.setVisible(true);
+            noteImg.setLayoutX(111);
+            noteImg.setLayoutY(148);
             return;
             } else if(table.getDestructible()==false) {
                 textOutArea.appendText("\nThe table is destroyed");
@@ -577,7 +585,7 @@ public class FXMLDocumentController implements Initializable {
             warningLabel.setText("You need to input a name");
         }
     }
-      @FXML
+    @FXML
     private void highScoreLoad(ActionEvent event) {
         for (String i: logic.getHighscore()){   // takes all elements of highscorelist and ads them to a the observable list "highScoreView"
             highScoreView.add(i);
