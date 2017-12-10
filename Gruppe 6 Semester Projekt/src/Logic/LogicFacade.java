@@ -266,4 +266,12 @@ public class LogicFacade implements ILogic {
     public String startQuiz(String string) {
         return game.startQuiz(string);
     }
+    @Override
+    public String getPlayerName(){
+        return game.player.getName();
+    }
+    @Override
+    public int getPlayerScore(Boolean toldtoevacuate){
+        return game.player.getAwesomePoint(toldtoevacuate);
+    }
 }
