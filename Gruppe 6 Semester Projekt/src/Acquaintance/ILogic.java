@@ -55,4 +55,6 @@ public interface ILogic {
     public void setPlayerCalledHelp(Boolean help);
     public void setPlayerWonGame(Boolean won);
     public String startQuiz(String string);
+    public String getPlayerName();
+    public int getPlayerScore(Boolean toldtoevacuate);
 }

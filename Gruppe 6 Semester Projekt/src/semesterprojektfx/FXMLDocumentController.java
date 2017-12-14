@@ -511,6 +511,8 @@ public class FXMLDocumentController implements Initializable {
             if(logic.getPlayerCalledHelp()){
                 textOutArea.appendText(logic.getCurrentRoom().getImmovable("switch").getUseDescription());
                 endSplash.setVisible(true);
+                logic.addNewScore(logic.getPlayerName(), logic.getPlayerScore(true));
+                logic.saveHighscore();
                 passwordPane.setVisible(false);
                 
                 //game.finished = true;
